@@ -1,0 +1,11 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects } from '../../data/projects';
+import WatchTimeCalculator from '../../components/projects/how-long-to-watch/WatchTimeCalculator';
+
+const project = projects.find((p) => p.slug === 'howlongtowatch')!;
+---
+
+<ProjectLayout project={project}>
+  <WatchTimeCalculator client:load />
+</ProjectLayout>
