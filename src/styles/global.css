@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600&display=swap');
+
+:root {
+  --color-bg: #fef9e7;
+  --color-text: #3b2a1a;
+  --color-muted: #8c6d4f;
+  --color-surface: #fffdf5;
+  --color-border: #e4d4a0;
+  --color-accent: #c97b2e;
+  --color-accent-light: #f5e6c8;
+  --color-rich: #6b3a2e;
+  --color-rich-text: #fef5e4;
+  --font-display: 'Fredoka One', cursive;
+  --font-body: 'Nunito', sans-serif;
+  --radius: 14px;
+  --transition: 160ms ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}

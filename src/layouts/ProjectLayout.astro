@@ -1,0 +1,71 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout title={`${project.title} — tinywebplayground`}>
+  <div class="project-wrapper" style={`--accent: ${project.accentColor};`}>
+    <header class="project-header">
+      <a href="/" class="back-link" aria-label="Back to hub">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M12 4l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back
+      </a>
+      <span class="project-title">{project.title}</span>
+    </header>
+    <main class="project-content">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .project-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 2px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .back-link {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .project-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--color-muted);
+  }
+
+  .project-content {
+    flex: 1;
+    padding: 2rem 1.5rem;
+  }
+</style>

@@ -1,0 +1,37 @@
+---
+import type { Project } from '../data/projects';
+import styles from './ProjectCard.module.css';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<a
+  href={`/projects/${project.slug}`}
+  class={styles.card}
+  style={`--card-accent: ${project.accentColor};`}
+>
+  {project.image ? (
+    <img
+      src={project.image}
+      alt={project.title}
+      width="800"
+      height="600"
+      class={styles.image}
+    />
+  ) : (
+    <div class={styles.imagePlaceholder}>✦</div>
+  )}
+  <div class={styles.body}>
+    <h2 class={styles.title}>{project.title}</h2>
+  </div>
+</a>
+
+<style define:vars={{ cardAccent: project.accentColor }}>
+  a:hover {
+    border-color: var(--card-accent) !important;
+  }
+</style>
