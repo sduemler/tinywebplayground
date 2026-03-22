@@ -280,7 +280,7 @@
 
 .presetGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 0.5rem;
 }
 
@@ -779,23 +779,8 @@
     .rightPanel {
         order: -1;
     }
-
-    .presetGrid {
-        grid-template-columns: repeat(3, 1fr);
-    }
 }
 
-@media (max-width: 550px) {
-    .presetGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 360px) {
-    .presetGrid {
-        grid-template-columns: 1fr;
-    }
-}
 
 @media (max-width: 500px) {
     .dvdTitle {
