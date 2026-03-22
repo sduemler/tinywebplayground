@@ -11,7 +11,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: "howlongtowatch",
-    title: "HowLongToWatch.com",
+    title: "HowLongToWatch",
     description:
       "Search movies & TV shows, build a watchlist, see your total watch time.",
     image: "/images/projects/how-long-to-watch.webp",
