@@ -41,7 +41,7 @@
 
 .title {
   margin: 0 0 10px 0;
-  font-family: 'Permanent Marker', 'Fredoka One', cursive;
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
   font-size: 16px;
   color: rgba(240, 216, 120, 0.95);
   letter-spacing: 1px;
@@ -54,7 +54,7 @@
 }
 
 .artist {
-  font-family: 'Permanent Marker', 'Fredoka One', cursive;
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
   font-size: 13px;
   color: rgba(232, 228, 212, 0.85);
   padding: 3px 0;

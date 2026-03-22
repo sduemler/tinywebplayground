@@ -23,7 +23,7 @@ export const projects: Project[] = [
     title: "History of Rock",
     description:
       "An interactive diagram of rock music's evolution, inspired by School of Rock.",
-    image: "",
+    image: "/images/projects/history-of-rock.webp",
     accentColor: "#2d5a27",
     status: "live",
   },

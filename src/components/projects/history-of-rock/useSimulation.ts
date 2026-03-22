@@ -46,8 +46,8 @@ export function useSimulation(width: number, height: number) {
     const driftForce = () => {
       for (const node of nodesRef.current) {
         if (node.fx != null) continue; // skip dragged nodes
-        node.vx! += (Math.random() - 0.5) * 0.6;
-        node.vy! += (Math.random() - 0.5) * 0.6;
+        node.vx! += (Math.random() - 0.5) * 0.08;
+        node.vy! += (Math.random() - 0.5) * 0.08;
       }
     };
 
@@ -67,9 +67,9 @@ export function useSimulation(width: number, height: number) {
       .force('homeX', forceX<GenreNode>((d) => homePositions.get(d.id)!.x).strength(0.15))
       .force('homeY', forceY<GenreNode>((d) => homePositions.get(d.id)!.y).strength(0.15))
       .force('drift', driftForce as any)
-      .velocityDecay(0.65)
+      .velocityDecay(0.88)
       .alphaDecay(0)
-      .alphaTarget(0.005);
+      .alphaTarget(0.003);
 
     // Run initial ticks to settle near home positions
     for (let i = 0; i < 200; i++) sim.tick();

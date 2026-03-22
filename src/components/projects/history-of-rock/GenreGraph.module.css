@@ -16,7 +16,7 @@
 .connection {
   stroke: rgba(232, 228, 212, 0.25);
   stroke-width: 1.5;
-  stroke-dasharray: 6 4;
+  stroke-dasharray: none;
   transition: opacity 0.3s ease;
 }
 
@@ -31,7 +31,7 @@
 
 .bridgeLabel {
   fill: rgba(240, 216, 120, 0.7);
-  font-family: 'Permanent Marker', 'Fredoka One', cursive;
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
   font-size: 10px;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -79,7 +79,7 @@
 
 .label {
   fill: rgba(232, 228, 212, 0.9);
-  font-family: 'Permanent Marker', 'Fredoka One', cursive;
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
   font-size: 11px;
   pointer-events: none;
   user-select: none;

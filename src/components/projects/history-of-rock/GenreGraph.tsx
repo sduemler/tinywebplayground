@@ -17,6 +17,17 @@ interface Props {
   height: number;
 }
 
+// Returns the point on the edge of an ellipse (rx, ry) centered at (cx, cy)
+// in the direction of (dx, dy) from the center
+function ellipseEdge(cx: number, cy: number, rx: number, ry: number, dx: number, dy: number) {
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist === 0) return { x: cx, y: cy };
+  const ux = dx / dist;
+  const uy = dy / dist;
+  const t = 1 / Math.sqrt((ux * ux) / (rx * rx) + (uy * uy) / (ry * ry));
+  return { x: cx + ux * t, y: cy + uy * t };
+}
+
 function getConnectedIds(genreId: string): Set<string> {
   const connected = new Set<string>();
   connected.add(genreId);
@@ -198,14 +209,25 @@ export default function GenreGraph({
         </filter>
         <marker
           id="arrow"
-          viewBox="0 0 10 6"
+          viewBox="0 0 10 7"
           refX="10"
-          refY="3"
+          refY="3.5"
           markerWidth="8"
-          markerHeight="5"
+          markerHeight="6"
           orient="auto-start-reverse"
         >
-          <path d="M0,0 L10,3 L0,6" fill="none" stroke="rgba(232,228,212,0.3)" strokeWidth="1" />
+          <path d="M0,0 L10,3.5 L0,7 Z" fill="rgba(232,228,212,0.85)" />
+        </marker>
+        <marker
+          id="arrow-highlighted"
+          viewBox="0 0 10 7"
+          refX="10"
+          refY="3.5"
+          markerWidth="8"
+          markerHeight="6"
+          orient="auto-start-reverse"
+        >
+          <path d="M0,0 L10,3.5 L0,7 Z" fill="rgba(240,216,120,0.95)" />
         </marker>
       </defs>
 
@@ -221,17 +243,20 @@ export default function GenreGraph({
           const dimmed = activeGenre && !isConnectionRelated(link, activeGenre);
           const highlighted = activeGenre && isConnectionRelated(link, activeGenre);
 
-          // Offset the line to stop at the edge of the node circles
+          // Compute exact ellipse-edge endpoints using the same rx/ry as the rendered bubbles
           const dx = target.x! - source.x!;
           const dy = target.y! - source.y!;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist === 0) return null;
-          const sourceRadius = source.label.length * 3.5 + 20;
-          const targetRadius = target.label.length * 3.5 + 20;
-          const sx = source.x! + (dx / dist) * sourceRadius;
-          const sy = source.y! + (dy / dist) * sourceRadius;
-          const tx = target.x! - (dx / dist) * targetRadius;
-          const ty = target.y! - (dy / dist) * targetRadius;
+          const srcRx = source.label.length * 3 + 16;
+          const tgtRx = target.label.length * 3 + 16;
+          const bubbleRy = 18;
+          const srcEdge = ellipseEdge(source.x!, source.y!, srcRx, bubbleRy, dx, dy);
+          const tgtEdge = ellipseEdge(target.x!, target.y!, tgtRx, bubbleRy, -dx, -dy);
+          const sx = srcEdge.x;
+          const sy = srcEdge.y;
+          const tx = tgtEdge.x;
+          const ty = tgtEdge.y;
 
           const midX = (sx + tx) / 2;
           const midY = (sy + ty) / 2;
@@ -244,7 +269,7 @@ export default function GenreGraph({
                 x2={tx}
                 y2={ty}
                 className={`${styles.connection} ${dimmed ? styles.dimmed : ''} ${highlighted ? styles.highlighted : ''}`}
-                markerEnd="url(#arrow)"
+                markerEnd={highlighted ? 'url(#arrow-highlighted)' : 'url(#arrow)'}
               />
               {link.bridgeArtist && (
                 <text
