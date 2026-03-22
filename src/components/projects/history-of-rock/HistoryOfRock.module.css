@@ -1,0 +1,50 @@
+.chalkboard {
+  --chalk-bg: #2d5a27;
+  --chalk-bg-dark: #1e3d1a;
+
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 52px);
+  background: var(--chalk-bg);
+  background-image: radial-gradient(
+    ellipse at 30% 40%,
+    var(--chalk-bg) 0%,
+    var(--chalk-bg-dark) 100%
+  );
+  overflow: hidden;
+}
+
+.title {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Permanent Marker', 'Fredoka One', cursive;
+  font-size: 22px;
+  color: rgba(232, 228, 212, 0.5);
+  letter-spacing: 3px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.hint {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Permanent Marker', 'Fredoka One', cursive;
+  font-size: 12px;
+  color: rgba(232, 228, 212, 0.35);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+}

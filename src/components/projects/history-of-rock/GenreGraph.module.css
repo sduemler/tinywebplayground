@@ -1,0 +1,90 @@
+.svg {
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+.svg:active {
+  cursor: grabbing;
+}
+
+.background {
+  pointer-events: all;
+}
+
+/* Connection lines */
+.connection {
+  stroke: rgba(232, 228, 212, 0.25);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+  transition: opacity 0.3s ease;
+}
+
+.connection.highlighted {
+  stroke: rgba(232, 228, 212, 0.6);
+  stroke-width: 2;
+}
+
+.connection.dimmed {
+  opacity: 0.15;
+}
+
+.bridgeLabel {
+  fill: rgba(240, 216, 120, 0.7);
+  font-family: 'Permanent Marker', 'Fredoka One', cursive;
+  font-size: 10px;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.bridgeLabel.dimmed {
+  opacity: 0.15;
+}
+
+/* Genre nodes */
+.node {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  outline: none;
+}
+
+.node:focus-visible .bubble {
+  stroke: #f0d878;
+  stroke-width: 3;
+}
+
+.node.dimmed {
+  opacity: 0.2;
+}
+
+.bubble {
+  fill: rgba(232, 228, 212, 0.06);
+  stroke: rgba(232, 228, 212, 0.7);
+  stroke-width: 1.8;
+  transition: fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease;
+}
+
+.node:hover .bubble,
+.node.hovered .bubble {
+  fill: rgba(232, 228, 212, 0.12);
+  stroke: rgba(232, 228, 212, 0.9);
+}
+
+.node.selected .bubble {
+  fill: rgba(240, 216, 120, 0.15);
+  stroke: rgba(240, 216, 120, 0.9);
+  stroke-width: 2.5;
+  filter: url(#chalk-texture) drop-shadow(0 0 8px rgba(240, 216, 120, 0.3));
+}
+
+.label {
+  fill: rgba(232, 228, 212, 0.9);
+  font-family: 'Permanent Marker', 'Fredoka One', cursive;
+  font-size: 11px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.node.selected .label {
+  fill: rgba(240, 216, 120, 0.95);
+}

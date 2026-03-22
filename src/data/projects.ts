@@ -18,4 +18,13 @@ export const projects: Project[] = [
     accentColor: "#6b3a2e",
     status: "live",
   },
+  {
+    slug: "historyofrock",
+    title: "History of Rock",
+    description:
+      "An interactive diagram of rock music's evolution, inspired by School of Rock.",
+    image: "",
+    accentColor: "#2d5a27",
+    status: "live",
+  },
 ];

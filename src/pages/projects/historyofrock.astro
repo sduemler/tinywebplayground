@@ -1,0 +1,18 @@
+---
+export const prerender = true;
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects } from '../../data/projects';
+import HistoryOfRock from '../../components/projects/history-of-rock/HistoryOfRock';
+
+const project = projects.find((p) => p.slug === 'historyofrock')!;
+---
+
+<ProjectLayout project={project}>
+  <HistoryOfRock client:load />
+</ProjectLayout>
+
+<style>
+  :global(.project-content) {
+    padding: 0 !important;
+  }
+</style>
