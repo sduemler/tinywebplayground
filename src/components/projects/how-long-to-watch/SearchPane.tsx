@@ -1,38 +1,121 @@
-import { useState, useEffect, useRef } from 'react';
-import type { SearchResult, ShowDetails, MovieDetails } from './types';
-import { apiFetch, getPosterUrl, getDisplayTitle, getYear } from './utils';
-import { useWatchlist } from './store';
-import SeasonModal from './SeasonModal';
-import styles from './WatchTimeCalculator.module.css';
+import { useState, useEffect, useRef } from "react";
+import type { SearchResult, ShowDetails, MovieDetails, Preset } from "./types";
+import { PRESETS } from "./presets-data";
+import {
+  apiFetch,
+  getPosterUrl,
+  getDisplayTitle,
+  getYear,
+  formatTime,
+} from "./utils";
+import { useWatchlist } from "./store";
+import SeasonModal from "./SeasonModal";
+import styles from "./WatchTimeCalculator.module.css";
+
+function PresetCard({ preset }: { preset: Preset }) {
+  const [index, setIndex] = useState(0);
+  const [posterPaths, setPosterPaths] = useState<Record<number, string | null>>({});
+  const addItem = useWatchlist((s) => s.addItem);
+  const hasMedia = useWatchlist((s) => s.hasMedia);
+  const allAdded = preset.movies.every((m) => hasMedia(m.id));
+
+  const handleAdd = () => {
+    preset.movies.forEach((movie) => {
+      addItem({
+        mediaId: movie.id,
+        mediaType: "movie",
+        title: movie.title,
+        posterPath: posterPaths[movie.id] ?? null,
+        totalMinutes: movie.runtime,
+      });
+    });
+  };
+
+  useEffect(() => {
+    const ids = preset.movies.map((m) => m.id).join(',');
+    apiFetch<{ success: boolean; posters: { id: number; poster_path: string | null }[] }>(
+      `/api/posters?ids=${ids}`
+    )
+      .then((data) => {
+        const map: Record<number, string | null> = {};
+        data.posters.forEach((p) => { map[p.id] = p.poster_path; });
+        setPosterPaths(map);
+      })
+      .catch(() => {});
+  }, [preset.id]);
+
+  const posters = preset.movies.filter((m) => posterPaths[m.id]);
+
+  useEffect(() => {
+    if (posters.length <= 1) return;
+    const timer = setInterval(() => {
+      setIndex((i) => (i + 1) % posters.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [posters.length]);
+
+  return (
+    <div className={styles.dvdCard}>
+      <div className={styles.dvdPosters}>
+        {posters.map((movie, i) => (
+          <img
+            key={movie.id}
+            src={getPosterUrl(posterPaths[movie.id], "w342")}
+            alt={movie.title}
+            className={styles.dvdPoster}
+            style={{ opacity: i === index ? 1 : 0 }}
+          />
+        ))}
+        {posters.length === 0 && (
+          <div className={styles.dvdPosterPlaceholder}>🎬</div>
+        )}
+      </div>
+      <div className={styles.dvdOverlay}>
+        <h3 className={styles.dvdTitle}>{preset.title}</h3>
+        <p className={styles.dvdMeta}>
+          {preset.movies.length} films · {formatTime(preset.totalMinutes)}
+        </p>
+        <button
+          className={allAdded ? styles.dvdAddedBtn : styles.dvdAddBtn}
+          onClick={handleAdd}
+          disabled={allAdded}
+        >
+          {allAdded ? "✓ Added" : "Add All"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function SearchPane() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [pendingId, setPendingId] = useState<number | null>(null);
   const [seasonShow, setSeasonShow] = useState<ShowDetails | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const addItem = useWatchlist((s) => s.addItem);
-  const hasMedia = useWatchlist((s) => s.hasMedia);
+  const watchlistItems = useWatchlist((s) => s.items);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     if (query.trim().length < 2) {
       setResults([]);
-      setError('');
+      setError("");
       return;
     }
     debounceRef.current = setTimeout(async () => {
       setLoading(true);
-      setError('');
+      setError("");
       try {
-        const data = await apiFetch<{ success: boolean; results: SearchResult[] }>(
-          `/.netlify/functions/search?query=${encodeURIComponent(query)}`
-        );
+        const data = await apiFetch<{
+          success: boolean;
+          results: SearchResult[];
+        }>(`/api/search?query=${encodeURIComponent(query)}`);
         setResults(data.results);
       } catch {
-        setError('Search failed. Check your connection.');
+        setError("Search failed. Check your connection.");
         setResults([]);
       } finally {
         setLoading(false);
@@ -44,32 +127,34 @@ export default function SearchPane() {
   }, [query]);
 
   const handleAdd = async (item: SearchResult) => {
-    if (hasMedia(item.id)) return;
+    if (item.media_type === "movie" && watchlistItems.some((w) => w.mediaId === item.id)) return;
     setPendingId(item.id);
     try {
-      if (item.media_type === 'movie') {
+      if (item.media_type === "movie") {
         const details = await apiFetch<MovieDetails>(
-          `/.netlify/functions/details?id=${item.id}&type=movie`
+          `/api/details?id=${item.id}&type=movie`,
         );
         addItem({
           mediaId: item.id,
-          mediaType: 'movie',
+          mediaType: "movie",
           title: getDisplayTitle(item),
           posterPath: item.poster_path,
           totalMinutes: details.runtime,
         });
       } else {
         const details = await apiFetch<ShowDetails>(
-          `/.netlify/functions/details?id=${item.id}&type=tv`
+          `/api/details?id=${item.id}&type=tv`,
         );
         setSeasonShow(details);
       }
     } catch {
-      setError('Failed to fetch details. Try again.');
+      setError("Failed to fetch details. Try again.");
     } finally {
       setPendingId(null);
     }
   };
+
+  const isSearching = query.trim().length >= 2;
 
   return (
     <div className={styles.searchPane}>
@@ -88,16 +173,21 @@ export default function SearchPane() {
 
       {error && <p className={styles.errorMsg}>{error}</p>}
 
-      {results.length > 0 && (
+      {isSearching && results.length > 0 && (
         <ul className={styles.results}>
           {results.map((item) => {
             const title = getDisplayTitle(item);
             const year = getYear(item);
-            const already = hasMedia(item.id);
+            const already =
+              item.media_type === "movie" &&
+              watchlistItems.some((w) => w.mediaId === item.id);
             const pending = pendingId === item.id;
 
             return (
-              <li key={`${item.media_type}-${item.id}`} className={styles.resultCard}>
+              <li
+                key={`${item.media_type}-${item.id}`}
+                className={styles.resultCard}
+              >
                 {item.poster_path ? (
                   <img
                     src={getPosterUrl(item.poster_path)}
@@ -110,7 +200,8 @@ export default function SearchPane() {
                 <div className={styles.resultInfo}>
                   <span className={styles.resultTitle}>{title}</span>
                   <span className={styles.resultMeta}>
-                    {item.media_type === 'tv' ? 'TV Series' : 'Movie'} {year && `· ${year}`}
+                    {item.media_type === "tv" ? "TV Series" : "Movie"}{" "}
+                    {year && `· ${year}`}
                   </span>
                 </div>
                 <button
@@ -118,7 +209,7 @@ export default function SearchPane() {
                   onClick={() => handleAdd(item)}
                   disabled={already || pending}
                 >
-                  {pending ? '…' : already ? '✓' : '+'}
+                  {pending ? "…" : already ? "✓" : "+"}
                 </button>
               </li>
             );
@@ -126,8 +217,25 @@ export default function SearchPane() {
         </ul>
       )}
 
-      {query.trim().length >= 2 && !loading && results.length === 0 && !error && (
+      {isSearching && !loading && results.length === 0 && !error && (
         <p className={styles.noResults}>No results found.</p>
+      )}
+
+      {PRESETS.length > 0 && (
+        <div className={styles.presetDivider}>
+          <span>Or quick-add an entire popular series!</span>
+        </div>
+      )}
+
+      {PRESETS.length > 0 && (
+        <div className={styles.presetGrid}>
+          {PRESETS.map((preset) => (
+            <PresetCard
+              key={preset.id}
+              preset={preset}
+            />
+          ))}
+        </div>
       )}
 
       {seasonShow && (

@@ -1,38 +1,27 @@
-import { useState } from 'react';
 import SearchPane from './SearchPane';
-import PresetPane from './PresetPane';
 import WatchlistPane from './WatchlistPane';
 import styles from './WatchTimeCalculator.module.css';
 
-type Tab = 'search' | 'presets';
-
 export default function WatchTimeCalculator() {
-  const [tab, setTab] = useState<Tab>('search');
-
   return (
     <div className={styles.layout}>
       <div className={styles.leftPanel}>
-        <div className={styles.tabs}>
-          <button
-            className={tab === 'search' ? styles.activeTab : styles.tab}
-            onClick={() => setTab('search')}
-          >
-            Search
-          </button>
-          <button
-            className={tab === 'presets' ? styles.activeTab : styles.tab}
-            onClick={() => setTab('presets')}
-          >
-            Presets
-          </button>
-        </div>
         <div className={styles.tabContent}>
-          {tab === 'search' ? <SearchPane /> : <PresetPane />}
+          <SearchPane />
         </div>
       </div>
 
-      <div className={styles.rightPanel}>
-        <WatchlistPane />
+      <div className={styles.rightColumn}>
+        <div className={styles.rightPanel}>
+          <WatchlistPane />
+        </div>
+        <div className={styles.tmdbAttribution}>
+          <img
+            src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
+            alt="The Movie Database"
+            className={styles.tmdbLogo}
+          />
+        </div>
       </div>
     </div>
   );

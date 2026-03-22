@@ -12,7 +12,7 @@ export default function PresetPane() {
   const hasMedia = useWatchlist((s) => s.hasMedia);
 
   useEffect(() => {
-    apiFetch<{ success: boolean; presets: Preset[] }>('/.netlify/functions/presets')
+    apiFetch<{ success: boolean; presets: Preset[] }>('/api/presets')
       .then((data) => setPresets(data.presets))
       .catch(() => setError('Failed to load presets.'))
       .finally(() => setLoading(false));

@@ -1,8 +1,13 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, passthroughImageService } from 'astro/config';
 import react from '@astrojs/react';
+import netlify from '@astrojs/netlify';
 
 export default defineConfig({
   integrations: [react()],
   output: 'static',
+  adapter: netlify(),
+  image: {
+    service: passthroughImageService(),
+  },
 });

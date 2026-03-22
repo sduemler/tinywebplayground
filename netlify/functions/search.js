@@ -5,7 +5,7 @@ const headers = {
   'Access-Control-Allow-Origin': '*',
 };
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   const { query, page = '1' } = event.queryStringParameters || {};
 
   if (!query || query.trim().length < 2) {

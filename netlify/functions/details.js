@@ -5,7 +5,7 @@ const headers = {
   'Access-Control-Allow-Origin': '*',
 };
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   const { id, type } = event.queryStringParameters || {};
 
   if (!id || !['movie', 'tv'].includes(type)) {
@@ -38,7 +38,6 @@ export const handler = async (event) => {
       };
     }
 
-    // TV: compute per-season time using show's average episode runtime
     const avgRuntime = data.episode_run_time?.[0] || 45;
     const seasons = (data.seasons || [])
       .filter((s) => s.season_number > 0 && s.episode_count > 0)
