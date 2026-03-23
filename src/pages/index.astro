@@ -9,7 +9,7 @@ import { projects } from '../data/projects';
   <div class="page">
     <header class="site-header">
       <h1 class="site-title">
-        <span class="t-drop">t</span>inywebplayground
+        <span class="t-drop">t</span><span class="middle-letters">inywebplaygroun</span><span class="t-drop">d</span>
       </h1>
     </header>
 
@@ -68,6 +68,13 @@ import { projects } from '../data/projects';
     color: var(--color-accent);
   }
 
+  .middle-letters {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+  }
+
   .hub {
     flex: 1;
     max-width: 1100px;
@@ -120,6 +127,10 @@ import { projects } from '../data/projects';
 
     .t-drop {
       font-size: 3.8rem;
+    }
+
+    .middle-letters {
+      text-decoration-thickness: 2px;
     }
 
     .grid {
