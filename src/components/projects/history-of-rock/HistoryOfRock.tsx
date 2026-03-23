@@ -22,7 +22,8 @@ export default function HistoryOfRock() {
     return () => observer.disconnect();
   }, []);
 
-  const { nodes, links, dragStart, dragMove, dragEnd } = useSimulation(size.width, size.height);
+  const { nodes, links, initialTransform, dragStart, dragMove, dragEnd } = useSimulation(size.width, size.height);
+  const isMobile = size.width > 0 && size.width < 640;
 
   const selectedNode = selectedGenre ? nodes.find((n) => n.id === selectedGenre) : null;
 
@@ -50,6 +51,7 @@ export default function HistoryOfRock() {
           onDragStart={dragStart}
           onDragMove={dragMove}
           onDragEnd={dragEnd}
+          initialTransform={initialTransform}
           width={size.width}
           height={size.height}
         />
@@ -64,7 +66,11 @@ export default function HistoryOfRock() {
           onClose={() => setSelectedGenre(null)}
         />
       )}
-      <div className={styles.hint}>Click a genre to see its artists · Drag to move · Scroll to zoom</div>
+      <div className={styles.hint}>
+        {isMobile
+          ? 'Tap a genre to see artists · Drag to pan · Pinch to zoom'
+          : 'Click a genre to see its artists · Drag to move · Scroll to zoom'}
+      </div>
     </div>
   );
 }

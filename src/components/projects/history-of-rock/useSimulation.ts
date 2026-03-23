@@ -18,6 +18,7 @@ export function useSimulation(width: number, height: number) {
   const nodesRef = useRef<GenreNode[]>([]);
   const [nodes, setNodes] = useState<GenreNode[]>([]);
   const [links, setLinks] = useState<Connection[]>(CONNECTIONS);
+  const [initialTransform, setInitialTransform] = useState({ x: 0, y: 0, scale: 1 });
   const frameRef = useRef<number>(0);
 
   useEffect(() => {
@@ -26,9 +27,10 @@ export function useSimulation(width: number, height: number) {
     // Scale initial positions to fit the viewport with padding
     const padX = 80;
     const padY = 70;
-    const scaleX = (width - padX * 2) / 1100; // data ranges from -550 to 550
-    const scaleY = (height - padY * 2) / 700;  // data ranges from -350 to 350
-    const scale = Math.min(scaleX, scaleY);
+    const scaleX = (width - padX * 2) / 1200; // data ranges from -550 to 650
+    const scaleY = (height - padY * 2) / 780;  // data ranges from -350 to 430
+    // Floor at 0.45 so nodes don't get crushed on small screens
+    const scale = Math.max(Math.min(scaleX, scaleY), 0.45);
 
     // Compute each node's home position (scaled from the original chalkboard layout)
     const homePositions = new Map<string, { x: number; y: number }>();
@@ -73,6 +75,31 @@ export function useSimulation(width: number, height: number) {
 
     // Run initial ticks to settle near home positions
     for (let i = 0; i < 200; i++) sim.tick();
+
+    // Compute initial transform to fit/center the graph in the viewport
+    const xs = nodesRef.current.map((n) => n.x!);
+    const ys = nodesRef.current.map((n) => n.y!);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const graphPad = 80;
+    const graphW = maxX - minX + graphPad * 2;
+    const graphH = maxY - minY + graphPad * 2;
+    const graphCenterX = (minX + maxX) / 2;
+    const graphCenterY = (minY + maxY) / 2;
+
+    let initScale = 1;
+    let initX = 0;
+    let initY = 0;
+
+    if (graphW > width * 0.95 || graphH > height * 0.95) {
+      initScale = Math.min(width / graphW, height / graphH) * 0.95;
+      initX = width / 2 - graphCenterX * initScale;
+      initY = height / 2 - graphCenterY * initScale;
+    }
+
+    setInitialTransform({ x: initX, y: initY, scale: initScale });
 
     sim.on('tick', () => {
       cancelAnimationFrame(frameRef.current);
@@ -121,5 +148,5 @@ export function useSimulation(width: number, height: number) {
     }
   }, []);
 
-  return { nodes, links, dragStart, dragMove, dragEnd };
+  return { nodes, links, initialTransform, dragStart, dragMove, dragEnd };
 }

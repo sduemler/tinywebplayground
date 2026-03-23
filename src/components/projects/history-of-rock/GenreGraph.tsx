@@ -13,6 +13,7 @@ interface Props {
   onDragStart: (id: string) => void;
   onDragMove: (id: string, x: number, y: number) => void;
   onDragEnd: (id: string) => void;
+  initialTransform: { x: number; y: number; scale: number };
   width: number;
   height: number;
 }
@@ -52,6 +53,7 @@ export default function GenreGraph({
   onDragStart,
   onDragMove,
   onDragEnd,
+  initialTransform,
   width,
   height,
 }: Props) {
@@ -62,8 +64,25 @@ export default function GenreGraph({
 
   // Pan and zoom state
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
+  const hasInitialized = useRef(false);
   const isPanning = useRef(false);
   const panStart = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
+
+  // Pinch-to-zoom state
+  const pointersRef = useRef<Map<number, { x: number; y: number }>>(new Map());
+  const pinchStartDist = useRef<number | null>(null);
+  const pinchStartScale = useRef(1);
+  const pinchStartCenter = useRef({ x: 0, y: 0 });
+  const pinchStartTransform = useRef({ x: 0, y: 0, scale: 1 });
+
+  // Apply initialTransform once when it arrives from the simulation
+  useEffect(() => {
+    if (hasInitialized.current) return;
+    if (initialTransform.x !== 0 || initialTransform.y !== 0 || initialTransform.scale !== 1) {
+      setTransform(initialTransform);
+      hasInitialized.current = true;
+    }
+  }, [initialTransform]);
 
   const activeGenre = hoveredGenre || selectedGenre;
   const connectedIds = activeGenre ? getConnectedIds(activeGenre) : null;
@@ -97,6 +116,33 @@ export default function GenreGraph({
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
+      // Update tracked pointer position
+      if (pointersRef.current.has(e.pointerId)) {
+        pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      }
+
+      // Pinch-to-zoom: two fingers active
+      if (pointersRef.current.size === 2 && pinchStartDist.current != null) {
+        const [p1, p2] = Array.from(pointersRef.current.values());
+        const currentDist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+        const ratio = currentDist / pinchStartDist.current;
+        const newScale = Math.min(Math.max(pinchStartScale.current * ratio, 0.3), 3);
+
+        const svg = svgRef.current;
+        if (svg) {
+          const rect = svg.getBoundingClientRect();
+          const cx = pinchStartCenter.current.x - rect.left;
+          const cy = pinchStartCenter.current.y - rect.top;
+          const scaleRatio = newScale / pinchStartTransform.current.scale;
+          setTransform({
+            scale: newScale,
+            x: cx - (cx - pinchStartTransform.current.x) * scaleRatio,
+            y: cy - (cy - pinchStartTransform.current.y) * scaleRatio,
+          });
+        }
+        return;
+      }
+
       if (draggingRef.current) {
         const pos = screenToSvg(e.clientX, e.clientY);
         if (dragStartPos.current) {
@@ -122,6 +168,9 @@ export default function GenreGraph({
 
   const handlePointerUp = useCallback(
     (e: React.PointerEvent) => {
+      pointersRef.current.delete(e.pointerId);
+      pinchStartDist.current = null;
+
       if (draggingRef.current) {
         const nodeId = draggingRef.current;
         onDragEnd(nodeId);
@@ -138,6 +187,19 @@ export default function GenreGraph({
 
   const handleSvgPointerDown = useCallback(
     (e: React.PointerEvent) => {
+      pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      // Two fingers down → start pinch-to-zoom
+      if (pointersRef.current.size === 2) {
+        isPanning.current = false;
+        const [p1, p2] = Array.from(pointersRef.current.values());
+        pinchStartDist.current = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+        pinchStartScale.current = transform.scale;
+        pinchStartCenter.current = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
+        pinchStartTransform.current = { ...transform };
+        return;
+      }
+
       if (draggingRef.current) return;
       isPanning.current = true;
       panStart.current = {
