@@ -27,4 +27,14 @@ export const projects: Project[] = [
     accentColor: "#2d5a27",
     status: "live",
   },
+  {
+    slug: "osrs-pet-chance-guesser",
+    title: "OSRS Pet Chance Guesser",
+    description:
+      "Simulate your RNG luck — click a boss and watch the kill count roll.",
+    image: "/images/projects/osrs-pet-chance-guesser.png",
+    accentColor: "#2b2118",
+    status: "live",
+    tags: ["osrs", "simulation", "rng"],
+  },
 ];

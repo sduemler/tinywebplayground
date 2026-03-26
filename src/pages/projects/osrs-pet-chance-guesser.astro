@@ -1,0 +1,13 @@
+---
+export const prerender = true;
+
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects } from '../../data/projects';
+import PetGuesser from '../../components/projects/osrs-pet-chance-guesser/PetGuesser';
+
+const project = projects.find((p) => p.slug === 'osrs-pet-chance-guesser')!;
+---
+
+<ProjectLayout project={project}>
+  <PetGuesser client:load />
+</ProjectLayout>
