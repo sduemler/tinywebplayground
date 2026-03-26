@@ -53,6 +53,21 @@ const PETS = [
   { wikiName: 'Youngllef', file: 'youngllef.png' },
   { wikiName: 'Nexling', file: 'nexling.png' },
   { wikiName: 'Smolcano', file: 'smolcano.png' },
+  // Added July 2023+
+  { wikiName: 'Moxi', file: 'moxi.png' },
+  { wikiName: 'Nid', file: 'nid.png' },
+  { wikiName: 'Beef', file: 'beef.png' },
+  { wikiName: 'Dom', file: 'dom.png' },
+  { wikiName: 'Baron', file: 'baron.png' },
+  { wikiName: 'Huberte', file: 'huberte.png' },
+  { wikiName: "Lil'viathan", file: 'lilviathan.png' },
+  { wikiName: 'Bran', file: 'bran.png' },
+  { wikiName: 'Scurry', file: 'scurry.png' },
+  { wikiName: 'Gull', file: 'gull.png' },
+  { wikiName: 'Smol heredit', file: 'smol-heredit.png' },
+  { wikiName: 'Butch', file: 'butch.png' },
+  { wikiName: 'Wisp', file: 'wisp.png' },
+  { wikiName: 'Yami', file: 'yami.png' },
 ];
 
 async function downloadImage(wikiName, dest) {
