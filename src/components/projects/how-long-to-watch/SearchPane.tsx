@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import type { SearchResult, ShowDetails, MovieDetails, Preset } from "./types";
 import { PRESETS } from "./presets-data";
+import { PRESET_POSTERS } from "./presets-posters";
 import {
   apiFetch,
   getPosterUrl,
@@ -14,7 +15,14 @@ import styles from "./WatchTimeCalculator.module.css";
 
 function PresetCard({ preset }: { preset: Preset }) {
   const [index, setIndex] = useState(0);
-  const [posterPaths, setPosterPaths] = useState<Record<number, string | null>>({});
+  // posterUrls stores fully-resolved image URLs (local paths or TMDB CDN)
+  const [posterUrls, setPosterUrls] = useState<Record<number, string>>(() => {
+    const map: Record<number, string> = {};
+    preset.movies.forEach((m) => {
+      if (PRESET_POSTERS[m.id]) map[m.id] = PRESET_POSTERS[m.id];
+    });
+    return map;
+  });
   const addItem = useWatchlist((s) => s.addItem);
   const hasMedia = useWatchlist((s) => s.hasMedia);
   const allAdded = preset.movies.every((m) => hasMedia(m.id));
@@ -25,26 +33,34 @@ function PresetCard({ preset }: { preset: Preset }) {
         mediaId: movie.id,
         mediaType: "movie",
         title: movie.title,
-        posterPath: posterPaths[movie.id] ?? null,
+        posterPath: PRESET_POSTERS[movie.id] ?? null,
         totalMinutes: movie.runtime,
       });
     });
   };
 
   useEffect(() => {
-    const ids = preset.movies.map((m) => m.id).join(',');
+    const missingIds = preset.movies
+      .filter((m) => !PRESET_POSTERS[m.id])
+      .map((m) => m.id);
+    if (missingIds.length === 0) return;
+
     apiFetch<{ success: boolean; posters: { id: number; poster_path: string | null }[] }>(
-      `/api/posters?ids=${ids}`
+      `/api/posters?ids=${missingIds.join(',')}`
     )
       .then((data) => {
-        const map: Record<number, string | null> = {};
-        data.posters.forEach((p) => { map[p.id] = p.poster_path; });
-        setPosterPaths(map);
+        const updates: Record<number, string> = {};
+        data.posters.forEach((p) => {
+          if (p.poster_path) updates[p.id] = getPosterUrl(p.poster_path, "w342");
+        });
+        if (Object.keys(updates).length > 0) {
+          setPosterUrls((prev) => ({ ...prev, ...updates }));
+        }
       })
       .catch(() => {});
   }, [preset.id]);
 
-  const posters = preset.movies.filter((m) => posterPaths[m.id]);
+  const posters = preset.movies.filter((m) => posterUrls[m.id]);
 
   useEffect(() => {
     if (posters.length <= 1) return;
@@ -60,7 +76,7 @@ function PresetCard({ preset }: { preset: Preset }) {
         {posters.map((movie, i) => (
           <img
             key={movie.id}
-            src={getPosterUrl(posterPaths[movie.id], "w342")}
+            src={posterUrls[movie.id]}
             alt={movie.title}
             className={styles.dvdPoster}
             style={{ opacity: i === index ? 1 : 0 }}

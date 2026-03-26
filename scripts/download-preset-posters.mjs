@@ -1,0 +1,159 @@
+#!/usr/bin/env node
+// Download poster images for all preset movies from TMDB and cache them locally.
+// Run: TMDB_API_KEY=your_key node scripts/download-preset-posters.mjs
+//
+// When adding new presets to presets-data.ts, add the movie IDs to
+// PRESET_MOVIE_IDS below, then re-run this script.
+
+import { writeFile, mkdir, readdir } from 'fs/promises';
+import { existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..');
+const IMAGES_DIR = join(ROOT, 'public/images/presets');
+const OUTPUT_FILE = join(ROOT, 'src/components/projects/how-long-to-watch/presets-posters.ts');
+const TMDB_BASE = 'https://api.themoviedb.org/3';
+const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w342';
+
+const API_KEY = process.env.TMDB_API_KEY;
+if (!API_KEY) {
+  console.error('Error: TMDB_API_KEY environment variable is required.');
+  console.error('Usage: TMDB_API_KEY=your_key node scripts/download-preset-posters.mjs');
+  process.exit(1);
+}
+
+// ─── PRESET MOVIE IDs ────────────────────────────────────────────────────────
+// Keep this in sync with presets-data.ts when adding new presets.
+const PRESET_MOVIE_IDS = [
+  // Harry Potter
+  671, 672, 673, 674, 675, 767, 12444, 12445,
+  // Lord of the Rings
+  120, 121, 122,
+  // Star Wars: Skywalker Saga
+  1893, 1894, 1895, 11, 1891, 1892, 140607, 181808, 181812,
+  // MCU: Infinity Saga
+  1726, 1724, 10138, 10195, 1771, 24428, 68721, 76338, 100402, 118340,
+  99861, 102899, 271110, 284052, 283995, 315635, 284053, 284054, 299536,
+  363088, 299537, 299534,
+  // Dark Knight Trilogy
+  272, 155, 49026,
+  // Indiana Jones
+  85, 87, 89, 217, 335977,
+  // Jurassic Park & World
+  329, 330, 331, 135397, 351286, 507086,
+  // Mission: Impossible
+  954, 955, 956, 56292, 177677, 353081, 575264,
+  // John Wick
+  245891, 324552, 458156, 603692,
+  // The Matrix
+  603, 604, 605, 624860,
+  // Fast & Furious
+  9799, 584, 9615, 13804, 51497, 82992, 168259, 337339, 385128, 385687,
+  // Shrek
+  808, 809, 810, 10192,
+  // Christopher Nolan
+  11660, 77, 320, 1124, 27205, 157336, 374720, 577922, 872585,
+  // Quentin Tarantino
+  500, 680, 184, 24, 393, 1991, 16869, 68718, 273248, 466272,
+  // Denis Villeneuve
+  59482, 35650, 22302, 46738, 146233, 181886, 273481, 329865, 335984, 438631, 693134,
+  // Martin Scorsese
+  42694, 22784, 203, 16153, 103, 12637, 1578, 262, 10843, 11873, 11051,
+  769, 1598, 10436, 524, 9746, 8649, 3131, 2567, 1422, 11324, 44826,
+  106646, 68730, 398978, 466420,
+  // Wes Anderson
+  13685, 11545, 9428, 421, 4538, 10315, 83666, 120467, 399174, 542178,
+  747188, 1259365, 1137350,
+  // David Fincher
+  8077, 807, 2649, 550, 4547, 1949, 4922, 37799, 65754, 210577, 614560, 800158,
+];
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function fetchPosterPath(id) {
+  const res = await fetch(`${TMDB_BASE}/movie/${id}?api_key=${API_KEY}`);
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.poster_path ?? null;
+}
+
+async function downloadImage(url, dest) {
+  const res = await fetch(url);
+  if (!res.ok) return false;
+  const buffer = Buffer.from(await res.arrayBuffer());
+  await writeFile(dest, buffer);
+  return true;
+}
+
+async function main() {
+  await mkdir(IMAGES_DIR, { recursive: true });
+
+  // Build map of already-downloaded images: id -> local public path
+  const downloaded = new Map();
+  if (existsSync(IMAGES_DIR)) {
+    const files = await readdir(IMAGES_DIR);
+    for (const f of files) {
+      const match = f.match(/^(\d+)\.(jpg|jpeg|png|webp)$/);
+      if (match) downloaded.set(Number(match[1]), `/images/presets/${f}`);
+    }
+  }
+
+  const toFetch = PRESET_MOVIE_IDS.filter((id) => !downloaded.has(id));
+  console.log(`${downloaded.size} already cached, fetching ${toFetch.length} new posters…\n`);
+
+  let fetched = 0;
+  let failed = 0;
+
+  for (const id of toFetch) {
+    try {
+      const posterPath = await fetchPosterPath(id);
+      if (!posterPath) {
+        console.log(`  ⚠  ${id}: no poster available on TMDB`);
+        failed++;
+        continue;
+      }
+      const ext = posterPath.split('.').pop() || 'jpg';
+      const filename = `${id}.${ext}`;
+      const dest = join(IMAGES_DIR, filename);
+      const ok = await downloadImage(`${TMDB_IMAGE_BASE}${posterPath}`, dest);
+      if (ok) {
+        downloaded.set(id, `/images/presets/${filename}`);
+        console.log(`  ✓  ${id}: saved ${filename}`);
+        fetched++;
+      } else {
+        console.log(`  ✗  ${id}: image download failed`);
+        failed++;
+      }
+    } catch (err) {
+      console.log(`  ✗  ${id}: ${err.message}`);
+      failed++;
+    }
+  }
+
+  // Write updated presets-posters.ts
+  const entries = [...downloaded.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .map(([id, path]) => `  ${id}: '${path}',`)
+    .join('\n');
+
+  const output = [
+    '// AUTO-GENERATED by scripts/download-preset-posters.mjs — do not edit manually',
+    '// Run: TMDB_API_KEY=your_key node scripts/download-preset-posters.mjs',
+    'export const PRESET_POSTERS: Record<number, string> = {',
+    entries,
+    '};',
+    '',
+  ].join('\n');
+
+  await writeFile(OUTPUT_FILE, output, 'utf8');
+
+  console.log(`\nDone: ${fetched} downloaded, ${failed} failed, ${downloaded.size - fetched} already cached.`);
+  console.log(`Updated src/components/projects/how-long-to-watch/presets-posters.ts`);
+  console.log(`\nNext: commit public/images/presets/ and presets-posters.ts`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
