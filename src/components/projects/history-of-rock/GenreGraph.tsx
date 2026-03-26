@@ -384,7 +384,6 @@ export default function GenreGraph({
                 className={styles.label}
                 textAnchor="middle"
                 dy="0.35em"
-                filter="url(#chalk-texture)"
               >
                 {node.label}
               </text>

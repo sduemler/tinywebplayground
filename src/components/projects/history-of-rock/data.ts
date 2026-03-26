@@ -26,11 +26,11 @@ export const GENRES: Genre[] = [
 
   // Right-center column
   { id: 'hard-rock', label: 'HARD ROCK', artists: ['AC/DC', 'The Who', 'Led Zeppelin', 'Aerosmith', 'Deep Purple', 'Van Halen'], x: 300, y: -150 },
-  { id: 'prog-rock', label: 'PROG ROCK', artists: ['Jethro Tull', 'Rush', 'ELO', 'Yes', 'Pink Floyd', 'Genesis', 'Residents', 'King Crimson'], x: 300, y: 50 },
+  { id: 'prog-rock', label: 'PROG ROCK', artists: ['Jethro Tull', 'Rush', 'ELO', 'Yes', 'Pink Floyd', 'Genesis', 'Residents', 'King Crimson'], x: 375, y: 50 },
   { id: 'glitter-glam', label: 'GLITTER/GLAM', artists: ['David Bowie', 'Alice Cooper', 'T Rex', 'Roxy Music'], x: 300, y: 200 },
   { id: 'unclassifiable', label: '?', artists: ['Zappa', 'Can', 'Capt. Beefheart'], x: 425, y: 125 },
-  { id: 'rap', label: 'RAP', artists: ['Dr. Dre', 'The Geto Boys', 'Public Enemy', 'N.W.A.', 'LL Cool J', 'Run DMC'], x: 350, y: 390 },
-  { id: 'hip-hop', label: 'HIP HOP', artists: ['Sugar Hill Gang', 'Salt-N-Pepa', 'Doug E. Fresh', 'Eric B', 'Boogie Down Productions', 'Beastie Boys', 'Ice T', 'Ice Cube', 'Snoop Dogg'], x: 350, y: 300 },
+  { id: 'rap', label: 'RAP', artists: ['Dr. Dre', 'The Geto Boys', 'Public Enemy', 'N.W.A.', 'LL Cool J', 'Run DMC', 'Beastie Boys', 'Ice T', 'Ice Cube', 'Snoop Dogg'], x: 350, y: 390 },
+  { id: 'hip-hop', label: 'HIP HOP', artists: ['Sugar Hill Gang', 'Salt-N-Pepa', 'Doug E. Fresh', 'Eric B', 'Boogie Down Productions'], x: 350, y: 300 },
 
   // Far right column
   { id: 'new-wave', label: 'NEW WAVE', artists: ['Talking Heads', 'Pretenders', 'Eurythmics', 'Blondie', 'Elvis Costello', 'Devo', 'B-52\'s', 'Police'], x: 500, y: -300 },
