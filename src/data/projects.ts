@@ -37,4 +37,14 @@ export const projects: Project[] = [
     status: "live",
     tags: ["osrs", "simulation", "rng"],
   },
+  {
+    slug: "eurorack",
+    title: "Tiny Eurorack",
+    description:
+      "A simplistic modular synth with oscilloscope visualization.",
+    image: "/images/projects/eurorack.webp",
+    accentColor: "#8b5e3c",
+    status: "wip",
+    tags: ["audio", "synth", "interactive"],
+  },
 ];

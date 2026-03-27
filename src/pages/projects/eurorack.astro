@@ -1,0 +1,12 @@
+---
+export const prerender = true;
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects } from '../../data/projects';
+import Eurorack from '../../components/projects/eurorack/Eurorack';
+
+const project = projects.find((p) => p.slug === 'eurorack')!;
+---
+
+<ProjectLayout project={project}>
+  <Eurorack client:load />
+</ProjectLayout>
