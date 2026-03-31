@@ -10,6 +10,7 @@ export function formatTime(totalMinutes: number): string {
 
 export function getPosterUrl(path: string | null, size = 'w185'): string {
   if (!path) return '';
+  if (path.startsWith('/images/')) return path;
   return `https://image.tmdb.org/t/p/${size}${path}`;
 }
 

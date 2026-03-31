@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Preset } from './types';
 import { formatTime, apiFetch } from './utils';
 import { useWatchlist } from './store';
+import { PRESET_POSTERS } from './presets-posters';
 import styles from './WatchTimeCalculator.module.css';
 
 export default function PresetPane() {
@@ -24,7 +25,7 @@ export default function PresetPane() {
         mediaId: movie.id,
         mediaType: 'movie',
         title: movie.title,
-        posterPath: null,
+        posterPath: PRESET_POSTERS[movie.id] ?? null,
         totalMinutes: movie.runtime,
       });
     });
