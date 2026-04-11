@@ -21,6 +21,7 @@ const { project } = Astro.props;
       width="800"
       height="600"
       class={styles.image}
+      style={project.imagePosition ? `object-position: ${project.imagePosition}` : undefined}
     />
   ) : (
     <div class={styles.imagePlaceholder}>✦</div>

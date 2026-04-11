@@ -6,6 +6,7 @@ export interface Project {
   accentColor: string;
   status: "live" | "wip" | "coming-soon";
   tags?: string[];
+  imagePosition?: string;
 }
 
 export const projects: Project[] = [
@@ -46,5 +47,16 @@ export const projects: Project[] = [
     accentColor: "#8b5e3c",
     status: "wip",
     tags: ["audio", "synth", "interactive"],
+  },
+  {
+    slug: "who-are-you",
+    title: "Who Are You?",
+    description:
+      "A mysterious dog detective asks 10 questions to figure out who you really are.",
+    image: "/images/projects/who-are-you.jpg",
+    imagePosition: "70% top",
+    accentColor: "#4a2d6e",
+    status: "live",
+    tags: ["game", "security", "humor"],
   },
 ];

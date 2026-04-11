@@ -1,0 +1,13 @@
+---
+export const prerender = true;
+
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects } from '../../data/projects';
+import WhoAreYou from '../../components/projects/who-are-you/WhoAreYou';
+
+const project = projects.find((p) => p.slug === 'who-are-you')!;
+---
+
+<ProjectLayout project={project}>
+  <WhoAreYou client:load />
+</ProjectLayout>
