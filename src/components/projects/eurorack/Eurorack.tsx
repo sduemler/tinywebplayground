@@ -4,6 +4,8 @@ import { initAudio, startOscillator, stopOscillator, setWaveType, setFrequency, 
 import Oscilloscope from "./Oscilloscope";
 import WaveSelector from "./WaveSelector";
 import Filter from "./Filter";
+import Space from "./Space";
+import Lfo from "./Lfo";
 import type { WaveType } from "./types";
 import { makeLogSliderMap } from "./utils";
 import styles from "./Eurorack.module.css";
@@ -161,6 +163,8 @@ export default function Eurorack() {
             </div>
           </div>
           <Filter />
+          <Space />
+          <Lfo />
         </div>
       </div>
     </div>

@@ -1,0 +1,161 @@
+import { useCallback } from "react";
+import { useSynthStore } from "./store";
+import {
+  initAudio,
+  setFxTime,
+  setFxFeedback,
+  setFxReverbSize,
+  setFxMix,
+} from "./audio";
+import styles from "./Eurorack.module.css";
+
+const TIME_MIN = 0.02;
+const TIME_MAX = 1.0;
+const STEPS = 1000;
+
+const palette: React.CSSProperties = {
+  ["--module-bg" as string]:
+    "linear-gradient(180deg, #1e2a4a 0%, #121a33 100%)",
+  ["--module-border" as string]: "rgba(120, 150, 220, 0.35)",
+  ["--module-text" as string]: "#c8d4ec",
+  ["--module-accent" as string]: "#7fa8ff",
+  ["--module-track" as string]: "#0a0f1e",
+  ["--module-width" as string]: "calc(var(--module-u, 40px) * 7)",
+};
+
+function linearMap(
+  value: number,
+  min: number,
+  max: number
+): number {
+  return min + (value / STEPS) * (max - min);
+}
+
+function inverseLinear(hz: number, min: number, max: number): number {
+  return Math.round(((hz - min) / (max - min)) * STEPS);
+}
+
+export default function Space() {
+  const {
+    fxTime,
+    fxFeedback,
+    fxReverbSize,
+    fxMix,
+    setFxTime: storeSetTime,
+    setFxFeedback: storeSetFeedback,
+    setFxReverbSize: storeSetReverbSize,
+    setFxMix: storeSetMix,
+  } = useSynthStore();
+
+  const handleTimeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const seconds = linearMap(Number(e.target.value), TIME_MIN, TIME_MAX);
+      storeSetTime(seconds);
+      initAudio().then(() => setFxTime(seconds));
+    },
+    [storeSetTime]
+  );
+
+  const handleFeedbackChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = Number(e.target.value) / STEPS * 0.95;
+      storeSetFeedback(value);
+      initAudio().then(() => setFxFeedback(value));
+    },
+    [storeSetFeedback]
+  );
+
+  const handleDecayChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = 0.1 + (Number(e.target.value) / STEPS) * 0.85;
+      storeSetReverbSize(value);
+      initAudio().then(() => setFxReverbSize(value));
+    },
+    [storeSetReverbSize]
+  );
+
+  const handleMixChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = Number(e.target.value) / STEPS;
+      storeSetMix(value);
+      initAudio().then(() => setFxMix(value));
+    },
+    [storeSetMix]
+  );
+
+  return (
+    <div className={styles.module} style={palette}>
+      <h3 className={styles.moduleHeader}>Space</h3>
+      <div className={styles.moduleBody}>
+        <div className={styles.moduleKnobRow}>
+          <div className={styles.moduleKnob}>
+            <span className={styles.moduleKnobLabel}>Time</span>
+            <input
+              type="range"
+              min={0}
+              max={STEPS}
+              step={1}
+              value={inverseLinear(fxTime, TIME_MIN, TIME_MAX)}
+              onChange={handleTimeChange}
+              className={styles.moduleSlider}
+              aria-label="Delay time"
+            />
+            <span className={styles.moduleKnobValue}>
+              {Math.round(fxTime * 1000)}ms
+            </span>
+          </div>
+          <div className={styles.moduleKnob}>
+            <span className={styles.moduleKnobLabel}>Fbk</span>
+            <input
+              type="range"
+              min={0}
+              max={STEPS}
+              step={1}
+              value={Math.round((fxFeedback / 0.95) * STEPS)}
+              onChange={handleFeedbackChange}
+              className={styles.moduleSlider}
+              aria-label="Delay feedback"
+            />
+            <span className={styles.moduleKnobValue}>
+              {Math.round((fxFeedback / 0.95) * 100)}%
+            </span>
+          </div>
+        </div>
+        <div className={styles.moduleKnobRow}>
+          <div className={styles.moduleKnob}>
+            <span className={styles.moduleKnobLabel}>Decay</span>
+            <input
+              type="range"
+              min={0}
+              max={STEPS}
+              step={1}
+              value={Math.round(((fxReverbSize - 0.1) / 0.85) * STEPS)}
+              onChange={handleDecayChange}
+              className={styles.moduleSlider}
+              aria-label="Reverb decay"
+            />
+            <span className={styles.moduleKnobValue}>
+              {Math.round(((fxReverbSize - 0.1) / 0.85) * 100)}%
+            </span>
+          </div>
+          <div className={styles.moduleKnob}>
+            <span className={styles.moduleKnobLabel}>Mix</span>
+            <input
+              type="range"
+              min={0}
+              max={STEPS}
+              step={1}
+              value={Math.round(fxMix * STEPS)}
+              onChange={handleMixChange}
+              className={styles.moduleSlider}
+              aria-label="Dry/wet mix"
+            />
+            <span className={styles.moduleKnobValue}>
+              {Math.round(fxMix * 100)}%
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
