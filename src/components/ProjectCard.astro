@@ -27,7 +27,11 @@ const { project } = Astro.props;
     <div class={styles.imagePlaceholder}>✦</div>
   )}
   <div class={styles.body}>
-    <h2 class={styles.title}>{project.title}</h2>
+    {project.titleHtml ? (
+      <h2 class={styles.title} set:html={project.titleHtml} />
+    ) : (
+      <h2 class={styles.title}>{project.title}</h2>
+    )}
   </div>
 </a>
 

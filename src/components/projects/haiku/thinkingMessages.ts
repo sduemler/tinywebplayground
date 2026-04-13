@@ -1,0 +1,18 @@
+export const thinkingMessages: string[] = [
+  "Steeping the tea leaves...",
+  "Contemplating the cherry blossoms...",
+  "Raking the zen garden...",
+  "Meditating under the maple tree...",
+  "Listening to the bamboo fountain...",
+  "Folding an origami crane...",
+  "Walking the temple grounds...",
+  "Sharpening the calligraphy brush...",
+  "Watching the koi circle the pond...",
+  "Grinding the ink stone...",
+  "Adjusting the ikebana arrangement...",
+  "Unrolling the scroll...",
+  "Heating the sake...",
+  "Tuning the shamisen...",
+  "Tending the bonsai...",
+  "Lighting the incense...",
+];

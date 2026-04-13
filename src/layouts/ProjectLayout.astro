@@ -18,7 +18,11 @@ const { project } = Astro.props;
         </svg>
         Back
       </a>
-      <span class="project-title">{project.title}</span>
+      {project.titleHtml ? (
+        <span class="project-title" set:html={project.titleHtml} />
+      ) : (
+        <span class="project-title">{project.title}</span>
+      )}
     </header>
     <main class="project-content">
       <slot />

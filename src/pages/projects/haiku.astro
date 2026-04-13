@@ -1,0 +1,13 @@
+---
+export const prerender = true;
+
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects } from '../../data/projects';
+import HaikuGenerator from '../../components/projects/haiku/HaikuGenerator';
+
+const project = projects.find((p) => p.slug === 'haiku')!;
+---
+
+<ProjectLayout project={project}>
+  <HaikuGenerator client:load />
+</ProjectLayout>

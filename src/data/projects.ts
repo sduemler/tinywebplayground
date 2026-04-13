@@ -7,6 +7,7 @@ export interface Project {
   status: "live" | "wip" | "coming-soon";
   tags?: string[];
   imagePosition?: string;
+  titleHtml?: string;
 }
 
 export const projects: Project[] = [
@@ -58,5 +59,16 @@ export const projects: Project[] = [
     accentColor: "#4a2d6e",
     status: "live",
     tags: ["game", "security", "humor"],
+  },
+  {
+    slug: "haiku",
+    title: "HAIKU",
+    titleHtml: 'H<span style="color:#2d8e4a">AI</span>KU',
+    description:
+      "The world's most advanced AI haiku generator. Probably.",
+    image: "/images/projects/haiku.jpg",
+    accentColor: "#8b2020",
+    status: "live",
+    tags: ["ai", "poetry", "humor"],
   },
 ];
