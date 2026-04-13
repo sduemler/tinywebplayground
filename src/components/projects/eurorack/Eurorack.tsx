@@ -1,13 +1,38 @@
 import { useCallback, useEffect } from "react";
 import { useSynthStore } from "./store";
-import { initAudio, startOscillator, stopOscillator, setWaveType, mute, unmute, dispose } from "./audio";
+import { initAudio, startOscillator, stopOscillator, setWaveType, setFrequency, setVolume, mute, unmute, dispose } from "./audio";
 import Oscilloscope from "./Oscilloscope";
 import WaveSelector from "./WaveSelector";
+import Filter from "./Filter";
 import type { WaveType } from "./types";
+import { makeLogSliderMap } from "./utils";
 import styles from "./Eurorack.module.css";
 
+const PITCH_MAP = makeLogSliderMap(55, 880, 1000);
+
+const oscillatorPalette: React.CSSProperties = {
+  ["--module-bg" as string]:
+    "linear-gradient(180deg, #3e1c0e 0%, #2a1306 40%, #331709 60%, #2a1306 100%)",
+  ["--module-border" as string]: "rgba(232, 120, 60, 0.35)",
+  ["--module-text" as string]: "#e8c6a8",
+  ["--module-accent" as string]: "#ff9040",
+  ["--module-track" as string]: "#160803",
+  ["--module-width" as string]: "calc(var(--module-u, 40px) * 15)",
+};
+
 export default function Eurorack() {
-  const { waveType, isPlaying, isMuted, setWaveType: storeSetWave, setPlaying, setMuted } = useSynthStore();
+  const {
+    waveType,
+    isPlaying,
+    isMuted,
+    frequency,
+    volume,
+    setWaveType: storeSetWave,
+    setPlaying,
+    setMuted,
+    setFrequency: storeSetFrequency,
+    setVolume: storeSetVolume,
+  } = useSynthStore();
 
   const handleWaveSelect = useCallback(
     async (type: WaveType) => {
@@ -26,6 +51,24 @@ export default function Eurorack() {
       }
     },
     [storeSetWave, setPlaying, isMuted]
+  );
+
+  const handleVolumeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const linear = Number(e.target.value) / 100;
+      storeSetVolume(linear);
+      initAudio().then(() => setVolume(linear));
+    },
+    [storeSetVolume]
+  );
+
+  const handlePitchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const hz = PITCH_MAP.toHz(Number(e.target.value));
+      storeSetFrequency(hz);
+      initAudio().then(() => setFrequency(hz));
+    },
+    [storeSetFrequency]
   );
 
   const handleMuteToggle = useCallback(() => {
@@ -69,11 +112,56 @@ export default function Eurorack() {
             )}
           </button>
         </div>
-        <Oscilloscope isPlaying={isPlaying} />
-        <WaveSelector
-          activeWave={waveType}
-          onSelect={handleWaveSelect}
-        />
+        <div className={styles.modulesRow}>
+          <div
+            className={styles.module}
+            style={oscillatorPalette}
+          >
+            <h3 className={styles.moduleHeader}>Oscillator</h3>
+            <div className={styles.moduleBody}>
+              <div className={styles.scopeRow}>
+                <div className={styles.volumeControl}>
+                  <span className={styles.volumeLabel}>Vol</span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={Math.round(volume * 100)}
+                    onChange={handleVolumeChange}
+                    className={styles.volumeSlider}
+                    aria-label="Volume"
+                  />
+                  <span className={styles.volumeValue}>{Math.round(volume * 100)}</span>
+                </div>
+                <div className={styles.scopeWrapper}>
+                  <Oscilloscope isPlaying={isPlaying} />
+                </div>
+              </div>
+              <div className={styles.pitchControl}>
+                <div className={styles.pitchLabelRow}>
+                  <span className={styles.pitchLabel}>Pitch</span>
+                  <span className={styles.pitchValue}>{Math.round(frequency)} Hz</span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={PITCH_MAP.steps}
+                  step={1}
+                  value={PITCH_MAP.fromHz(frequency)}
+                  onChange={handlePitchChange}
+                  className={styles.pitchSlider}
+                  aria-label="Pitch"
+                />
+              </div>
+              <WaveSelector
+                activeWave={waveType}
+                onSelect={handleWaveSelect}
+              />
+            </div>
+          </div>
+          <Filter />
+        </div>
       </div>
     </div>
   );

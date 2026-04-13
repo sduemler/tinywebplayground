@@ -1,25 +1,143 @@
 .container {
+  /* Break out of ProjectLayout's .project-content padding so the
+     dark "rack" background fills the full project area */
+  margin: -2rem -1.5rem;
+  padding: 2rem 1.5rem;
+  min-height: calc(100vh - 58px);
+  background: linear-gradient(
+    180deg,
+    #1d1d20 0%,
+    #131316 100%
+  );
   display: flex;
   justify-content: center;
-  padding: 2rem 1rem;
+  align-items: flex-start;
+
+  /* Common rack unit — every module is sized as a multiple of this.
+     Scope-local so components can read it with var(--module-u). */
+  --module-u: 40px;
 }
 
 .panel {
   width: 100%;
-  max-width: 700px;
-  background: linear-gradient(
-    180deg,
-    #3d2b1a 0%,
-    #2e1f12 40%,
-    #3a2816 60%,
-    #2e1f12 100%
-  );
+  max-width: 900px;
+}
+
+/* Scope row (volume + oscilloscope) */
+.scopeRow {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.scopeWrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Volume slider (vertical) */
+.volumeControl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.5rem;
+  background: linear-gradient(180deg, #2a1a0e 0%, #1f130a 100%);
   border-radius: 2px;
-  padding: 2rem;
+  border: 1px solid rgba(139, 94, 60, 0.25);
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(139, 94, 60, 0.3);
+    inset 0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+  font-family: var(--font-body);
+}
+
+.volumeLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c4a882;
+}
+
+.volumeValue {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #e8a840;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 6px rgba(232, 168, 64, 0.25);
+  min-width: 2ch;
+  text-align: center;
+}
+
+.volumeSlider {
+  -webkit-appearance: slider-vertical;
+  appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 20px;
+  flex: 1;
+  min-height: 140px;
+  background: linear-gradient(90deg, #150a05 0%, #1a0f08 100%);
+  border-radius: 3px;
+  outline: none;
+  box-shadow:
+    inset 2px 0 4px rgba(0, 0, 0, 0.7),
+    1px 0 0 rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 18px;
+  border-radius: 3px;
+  background:
+    linear-gradient(90deg, #c4a882 0%, #8c6d4f 50%, #5a4028 100%);
+  border: 1px solid #2e1f12;
+  box-shadow:
+    2px 0 4px rgba(0, 0, 0, 0.5),
+    inset 1px 0 0 rgba(255, 255, 255, 0.3),
+    inset -1px 0 0 rgba(0, 0, 0, 0.4);
+  cursor: grab;
+}
+
+.volumeSlider::-webkit-slider-thumb:hover {
+  background:
+    linear-gradient(90deg, #e8a840 0%, #a67c38 50%, #6b4a22 100%);
+}
+
+.volumeSlider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+
+.volumeSlider::-moz-range-thumb {
+  width: 26px;
+  height: 18px;
+  border-radius: 3px;
+  background:
+    linear-gradient(90deg, #c4a882 0%, #8c6d4f 50%, #5a4028 100%);
+  border: 1px solid #2e1f12;
+  box-shadow:
+    2px 0 4px rgba(0, 0, 0, 0.5),
+    inset 1px 0 0 rgba(255, 255, 255, 0.3),
+    inset -1px 0 0 rgba(0, 0, 0, 0.4);
+  cursor: grab;
+}
+
+.volumeSlider::-moz-range-thumb:hover {
+  background:
+    linear-gradient(90deg, #e8a840 0%, #a67c38 50%, #6b4a22 100%);
+}
+
+.volumeSlider:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid #e8a840;
+  outline-offset: 2px;
+}
+
+.volumeSlider:focus-visible::-moz-range-thumb {
+  outline: 2px solid #e8a840;
+  outline-offset: 2px;
 }
 
 /* Oscilloscope */
@@ -41,12 +159,118 @@
   height: 100%;
 }
 
+/* Pitch slider */
+.pitchControl {
+  padding: 0.75rem 1rem 0.9rem;
+  background:
+    linear-gradient(180deg, #2a1a0e 0%, #1f130a 100%);
+  border-radius: 2px;
+  border: 1px solid rgba(139, 94, 60, 0.25);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.pitchLabelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+  color: #c4a882;
+}
+
+.pitchLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pitchValue {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e8a840;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 6px rgba(232, 168, 64, 0.25);
+}
+
+.pitchSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(180deg, #150a05 0%, #1a0f08 100%);
+  border-radius: 3px;
+  outline: none;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.7),
+    0 1px 0 rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+.pitchSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 26px;
+  border-radius: 3px;
+  background:
+    linear-gradient(180deg, #c4a882 0%, #8c6d4f 50%, #5a4028 100%);
+  border: 1px solid #2e1f12;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  cursor: grab;
+  transition: transform var(--transition);
+}
+
+.pitchSlider::-webkit-slider-thumb:hover {
+  background:
+    linear-gradient(180deg, #e8a840 0%, #a67c38 50%, #6b4a22 100%);
+}
+
+.pitchSlider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scaleY(0.96);
+}
+
+.pitchSlider::-moz-range-thumb {
+  width: 18px;
+  height: 26px;
+  border-radius: 3px;
+  background:
+    linear-gradient(180deg, #c4a882 0%, #8c6d4f 50%, #5a4028 100%);
+  border: 1px solid #2e1f12;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  cursor: grab;
+}
+
+.pitchSlider::-moz-range-thumb:hover {
+  background:
+    linear-gradient(180deg, #e8a840 0%, #a67c38 50%, #6b4a22 100%);
+}
+
+.pitchSlider:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid #e8a840;
+  outline-offset: 2px;
+}
+
+.pitchSlider:focus-visible::-moz-range-thumb {
+  outline: 2px solid #e8a840;
+  outline-offset: 2px;
+}
+
 /* Wave selector */
 .waveSelector {
   display: flex;
   gap: 0.75rem;
   justify-content: center;
-  margin-top: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .waveSeparator {
@@ -124,7 +348,7 @@
 .topBar {
   display: flex;
   justify-content: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 /* Mute button */
@@ -179,10 +403,195 @@
   outline-offset: 2px;
 }
 
+/* ------------------------------------------------------------------ */
+/* Module block pattern — every module uses these base classes.       */
+/* Per-module color is supplied via CSS custom properties on the root */
+/* element, e.g. style={{ "--module-bg": ..., "--module-text": ... }} */
+/* ------------------------------------------------------------------ */
+
+.modulesRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.module {
+  --module-bg: linear-gradient(180deg, #3a3a3a 0%, #242424 100%);
+  --module-border: rgba(255, 255, 255, 0.15);
+  --module-text: #e8e8e8;
+  --module-accent: #ffffff;
+  --module-track: #0a0a0a;
+  --module-width: calc(var(--module-u, 40px) * 8);
+
+  flex: 0 0 auto;
+  width: var(--module-width);
+  max-width: 100%;
+  position: relative;
+  padding: 1rem 1rem 1.1rem;
+  background: var(--module-bg);
+  border: 1px solid var(--module-border);
+  border-radius: 3px;
+  color: var(--module-text);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Four mounting screws — one per corner, painted as radial-gradient
+   backgrounds on a single absolutely-positioned pseudo-element */
+.module::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 35% 35%, #d9cfa8 0%, #5a4a28 70%, #3a2e18 100%),
+    radial-gradient(circle at 35% 35%, #d9cfa8 0%, #5a4a28 70%, #3a2e18 100%),
+    radial-gradient(circle at 35% 35%, #d9cfa8 0%, #5a4a28 70%, #3a2e18 100%),
+    radial-gradient(circle at 35% 35%, #d9cfa8 0%, #5a4a28 70%, #3a2e18 100%);
+  background-size: 8px 8px;
+  background-repeat: no-repeat;
+  background-position:
+    6px 6px,
+    calc(100% - 6px) 6px,
+    6px calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.6));
+}
+
+.moduleHeader {
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 300;
+  text-align: center;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--module-accent);
+  margin: 0.2rem 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--module-border);
+  text-shadow: 0 0 6px color-mix(in srgb, var(--module-accent) 35%, transparent);
+}
+
+.moduleBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.moduleKnobRow {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+.moduleKnob {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.moduleKnobLabel {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--module-text);
+  opacity: 0.85;
+}
+
+.moduleKnobValue {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--module-accent);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+  min-width: 4ch;
+  text-align: center;
+}
+
+.moduleSlider {
+  -webkit-appearance: slider-vertical;
+  appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 20px;
+  flex: 1;
+  min-height: 120px;
+  background: linear-gradient(90deg, var(--module-track) 0%, #000 100%);
+  border-radius: 3px;
+  outline: none;
+  box-shadow:
+    inset 2px 0 4px rgba(0, 0, 0, 0.7),
+    1px 0 0 rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+.moduleSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--module-accent) 80%, #fff) 0%,
+    var(--module-accent) 50%,
+    color-mix(in srgb, var(--module-accent) 40%, #000) 100%
+  );
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  box-shadow:
+    2px 0 4px rgba(0, 0, 0, 0.5),
+    inset 1px 0 0 rgba(255, 255, 255, 0.4),
+    inset -1px 0 0 rgba(0, 0, 0, 0.4);
+  cursor: grab;
+}
+
+.moduleSlider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+
+.moduleSlider::-moz-range-thumb {
+  width: 26px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--module-accent) 80%, #fff) 0%,
+    var(--module-accent) 50%,
+    color-mix(in srgb, var(--module-accent) 40%, #000) 100%
+  );
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  box-shadow:
+    2px 0 4px rgba(0, 0, 0, 0.5),
+    inset 1px 0 0 rgba(255, 255, 255, 0.4),
+    inset -1px 0 0 rgba(0, 0, 0, 0.4);
+  cursor: grab;
+}
+
+.moduleSlider:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--module-accent);
+  outline-offset: 2px;
+}
+
+.moduleSlider:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--module-accent);
+  outline-offset: 2px;
+}
+
 /* Responsive */
 @media (max-width: 560px) {
-  .panel {
-    padding: 1.25rem;
+  .container {
+    margin: -2rem -1.5rem;
+    padding: 1.25rem 0.75rem;
   }
 
   .waveButton {

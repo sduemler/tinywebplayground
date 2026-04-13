@@ -1,0 +1,230 @@
+.wrapper {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hint {
+  margin: 0;
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.hint code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  background: var(--color-accent-light);
+  border: 1px solid var(--color-border);
+  padding: 0.05rem 0.35rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.inputRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.input {
+  flex: 1;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 1.4rem;
+  padding: 0.9rem 1.1rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.input::placeholder {
+  color: var(--color-muted);
+  opacity: 0.6;
+}
+
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.rollButton {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  padding: 0 1.6rem;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--color-rich-text);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition),
+    background var(--transition);
+  letter-spacing: 0.02em;
+}
+
+.rollButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.rollButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.rollButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.error {
+  background: color-mix(in srgb, #8b2020 8%, var(--color-surface));
+  border: 2px solid color-mix(in srgb, #8b2020 40%, var(--color-border));
+  color: #8b2020;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.resultCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1.75rem 1.5rem;
+  background: var(--color-surface);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 18%, transparent);
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.resultCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.resultCard:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.resultLabel {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+
+.resultValue {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.resultBreakdown {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.copyHint {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.35rem;
+}
+
+.historySection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.historyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  padding: 0 0.25rem;
+}
+
+.historyMeta {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.historyList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.historyItem {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.55rem 0.85rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.historyInput {
+  color: var(--color-text);
+}
+
+.historyEquals {
+  color: var(--color-muted);
+}
+
+.historyResult {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.historyBreakdown {
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  margin-left: auto;
+}
+
+@media (max-width: 560px) {
+  .inputRow {
+    flex-direction: column;
+  }
+
+  .rollButton {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .resultValue {
+    font-size: 3rem;
+  }
+
+  .historyBreakdown {
+    margin-left: 0;
+    width: 100%;
+  }
+}

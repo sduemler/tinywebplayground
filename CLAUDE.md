@@ -124,7 +124,7 @@ Wraps project pages. Uses `BaseLayout`. Provides:
 
 ### Step 1 — Register the project
 
-Add an entry to `src/data/projects.ts`:
+Add an entry to `src/data/projects.ts`. **Always append new projects to the end of the array** unless the user explicitly specifies a different position.
 
 ```typescript
 {

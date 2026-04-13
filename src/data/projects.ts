@@ -71,4 +71,14 @@ export const projects: Project[] = [
     status: "live",
     tags: ["ai", "poetry", "humor"],
   },
+  {
+    slug: "dice-roller",
+    title: "Tabletop Dice Roller",
+    description:
+      "Keyboard-first dice roller — type notation like 2d6 + 3, hit Enter, copy the result.",
+    image: "/images/projects/dice-roller.jpg",
+    accentColor: "#b8860b",
+    status: "live",
+    tags: ["tabletop", "dice", "rpg"],
+  },
 ];

@@ -1,0 +1,12 @@
+---
+export const prerender = true;
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects } from '../../data/projects';
+import DiceRoller from '../../components/projects/dice-roller/DiceRoller';
+
+const project = projects.find((p) => p.slug === 'dice-roller')!;
+---
+
+<ProjectLayout project={project}>
+  <DiceRoller client:load />
+</ProjectLayout>
