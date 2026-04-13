@@ -19,6 +19,12 @@ interface SynthStore {
   lfo2Target: LfoTarget;
   lfo2Rate: number;
   lfo2Depth: number;
+  triggerMode: boolean;
+  envAttack: number;
+  envDecay: number;
+  envSustain: number;
+  envRelease: number;
+  octave: number;
   setWaveType: (type: WaveType) => void;
   setPlaying: (playing: boolean) => void;
   setMuted: (muted: boolean) => void;
@@ -36,6 +42,12 @@ interface SynthStore {
   setLfo2Target: (target: LfoTarget) => void;
   setLfo2Rate: (hz: number) => void;
   setLfo2Depth: (value: number) => void;
+  setTriggerMode: (on: boolean) => void;
+  setEnvAttack: (seconds: number) => void;
+  setEnvDecay: (seconds: number) => void;
+  setEnvSustain: (value: number) => void;
+  setEnvRelease: (seconds: number) => void;
+  setOctave: (octave: number) => void;
 }
 
 export const useSynthStore = create<SynthStore>((set) => ({
@@ -56,6 +68,12 @@ export const useSynthStore = create<SynthStore>((set) => ({
   lfo2Target: "none",
   lfo2Rate: 4,
   lfo2Depth: 0,
+  triggerMode: false,
+  envAttack: 0.01,
+  envDecay: 0.15,
+  envSustain: 0.7,
+  envRelease: 0.4,
+  octave: 4,
   setWaveType: (waveType) => set({ waveType }),
   setPlaying: (isPlaying) => set({ isPlaying }),
   setMuted: (isMuted) => set({ isMuted }),
@@ -73,4 +91,10 @@ export const useSynthStore = create<SynthStore>((set) => ({
   setLfo2Target: (lfo2Target) => set({ lfo2Target }),
   setLfo2Rate: (lfo2Rate) => set({ lfo2Rate }),
   setLfo2Depth: (lfo2Depth) => set({ lfo2Depth }),
+  setTriggerMode: (triggerMode) => set({ triggerMode }),
+  setEnvAttack: (envAttack) => set({ envAttack }),
+  setEnvDecay: (envDecay) => set({ envDecay }),
+  setEnvSustain: (envSustain) => set({ envSustain }),
+  setEnvRelease: (envRelease) => set({ envRelease }),
+  setOctave: (octave) => set({ octave }),
 }));

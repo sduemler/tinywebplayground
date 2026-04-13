@@ -655,7 +655,283 @@
   color: var(--module-text);
 }
 
+/* Drone/Trig mode toggle — pill switch inside the oscillator module */
+.modeToggle {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 30px;
+  padding: 3px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #150a05 0%, #1f130a 100%);
+  border: 1px solid rgba(139, 94, 60, 0.35);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+  font-family: var(--font-body);
+}
+
+.modeToggleThumb {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 15px;
+  background: linear-gradient(180deg, #e8a840 0%, #a67c38 100%);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 12px rgba(232, 168, 64, 0.25);
+  transition: transform 180ms ease;
+  pointer-events: none;
+}
+
+.modeToggle[data-mode="trig"] .modeToggleThumb {
+  transform: translateX(100%);
+}
+
+.modeToggleLabel {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  background: none;
+  border: none;
+  color: #c4a882;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--transition);
+}
+
+.modeToggleLabel[aria-pressed="true"] {
+  color: #1a0f08;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.modeToggleLabel:focus-visible {
+  outline: 2px solid #e8a840;
+  outline-offset: 3px;
+  border-radius: 15px;
+}
+
+/* Octave stepper — reuses the .pitchControl inset frame look */
+.octaveControl {
+  padding: 0.75rem 1rem 0.9rem;
+  background: linear-gradient(180deg, #2a1a0e 0%, #1f130a 100%);
+  border-radius: 2px;
+  border: 1px solid rgba(139, 94, 60, 0.25);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.octaveButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.octaveButton {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: 36px;
+  height: 32px;
+  border-radius: 2px;
+  border: none;
+  background: linear-gradient(180deg, #4a3525 0%, #3a2818 50%, #2e1f12 100%);
+  color: #c4a882;
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow:
+    0 3px 0 #1a0f08,
+    0 4px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(0);
+}
+
+.octaveButton:hover:not(:disabled) {
+  color: #e8a840;
+  background: linear-gradient(180deg, #55402e 0%, #422e1c 50%, #352214 100%);
+}
+
+.octaveButton:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow:
+    0 1px 0 #1a0f08,
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.octaveButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.octaveButton:focus-visible {
+  outline: 2px solid #e8a840;
+  outline-offset: 2px;
+}
+
+.octaveReadout {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #e8a840;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 8px rgba(232, 168, 64, 0.35);
+  min-width: 1.5ch;
+  text-align: center;
+}
+
+/* On-screen piano keyboard — fixed to the bottom of the viewport, slides
+   in/out of view when trigger mode is toggled. */
+.pianoKeyboard {
+  --white-key-height: 140px;
+  --black-key-width: 26px;
+  --black-key-height: calc(var(--white-key-height) * 0.62);
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  padding: 0.9rem 1rem 1.2rem;
+  background: linear-gradient(180deg, #2a1a0e 0%, #1a0f08 100%);
+  border-top: 1px solid rgba(139, 94, 60, 0.45);
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.6),
+    0 -8px 24px rgba(0, 0, 0, 0.55);
+  transform: translateY(110%);
+  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.pianoKeyboardVisible {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.pianoKeyRow {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  height: var(--white-key-height);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pianoKeyWhite {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 10px;
+  background: linear-gradient(180deg, #f9f3e0 0%, #ebe0c0 60%, #d9c896 100%);
+  border: 1px solid #2a1a0e;
+  border-radius: 0 0 4px 4px;
+  box-shadow:
+    inset 0 -6px 12px rgba(100, 70, 30, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 3px 0 #0d0604;
+  cursor: pointer;
+  transition: transform 60ms ease, box-shadow 60ms ease, background 60ms ease;
+  user-select: none;
+  touch-action: none;
+}
+
+.pianoKeyWhite:hover {
+  background: linear-gradient(180deg, #fff9e8 0%, #f1e6c8 60%, #dfcf9c 100%);
+}
+
+.pianoKeyBlack {
+  position: absolute;
+  top: 0;
+  width: var(--black-key-width);
+  height: var(--black-key-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 6px;
+  background: linear-gradient(180deg, #3a2818 0%, #1a0f08 50%, #0a0503 100%);
+  border: 1px solid #000;
+  border-radius: 0 0 3px 3px;
+  box-shadow:
+    inset 0 -4px 8px rgba(232, 168, 64, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 3px 0 #000,
+    0 4px 6px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: transform 60ms ease, box-shadow 60ms ease, background 60ms ease;
+  user-select: none;
+  touch-action: none;
+  z-index: 2;
+}
+
+.pianoKeyBlack:hover {
+  background: linear-gradient(180deg, #4a3525 0%, #241308 50%, #0f0603 100%);
+}
+
+.pianoKeyWhite.pianoKeyPressed,
+.pianoKeyWhite:active {
+  transform: translateY(3px);
+  background: linear-gradient(180deg, #f5d680 0%, #e8a840 70%, #c48520 100%);
+  box-shadow:
+    inset 0 -4px 10px rgba(100, 60, 10, 0.3),
+    inset 0 2px 3px rgba(0, 0, 0, 0.15),
+    0 0 0 #0d0604,
+    0 0 14px rgba(232, 168, 64, 0.4);
+}
+
+.pianoKeyBlack.pianoKeyPressed,
+.pianoKeyBlack:active {
+  transform: translateY(2px);
+  background: linear-gradient(180deg, #5a3818 0%, #2a1808 50%, #1a0d03 100%);
+  box-shadow:
+    inset 0 -3px 8px rgba(232, 168, 64, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 1px 0 #000,
+    0 0 12px rgba(232, 168, 64, 0.35);
+}
+
+.pianoKeyLabel {
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #6b4a22;
+  pointer-events: none;
+}
+
+.pianoKeyBlack .pianoKeyLabel {
+  color: #d9c896;
+  font-size: 0.58rem;
+}
+
+.pianoKeyWhite.pianoKeyPressed .pianoKeyLabel,
+.pianoKeyWhite:active .pianoKeyLabel {
+  color: #1a0f08;
+}
+
 /* Responsive */
+@media (max-width: 700px) {
+  .pianoKeyboard {
+    --white-key-height: 110px;
+    --black-key-width: 22px;
+  }
+}
+
 @media (max-width: 560px) {
   .container {
     margin: -2rem -1.5rem;
@@ -665,5 +941,19 @@
   .waveButton {
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
+  }
+
+  .pianoKeyboard {
+    --white-key-height: 92px;
+    --black-key-width: 18px;
+    padding: 0.6rem 0.5rem 0.7rem;
+  }
+
+  .pianoKeyLabel {
+    font-size: 0.55rem;
+  }
+
+  .pianoKeyBlack .pianoKeyLabel {
+    font-size: 0.5rem;
   }
 }

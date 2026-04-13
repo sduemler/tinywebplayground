@@ -11,6 +11,7 @@ let reverbNode: Tone.Freeverb | null = null;
 let fxMixer: Tone.CrossFade | null = null;
 let lfo1: Tone.LFO | null = null;
 let lfo2: Tone.LFO | null = null;
+let envelope: Tone.AmplitudeEnvelope | null = null;
 let initialized = false;
 let currentVolume = 0.25;
 let currentCutoff = 20000;
@@ -20,6 +21,15 @@ let currentFxFeedback = 0.35;
 let currentFxReverbSize = 0.7;
 let currentFxMix = 0;
 let muted = false;
+
+// Trigger-mode envelope state. In drone mode the envelope is forced to
+// pass-through (0, 0, 1, 0) regardless of these values; in trigger mode
+// these are applied to the live envelope node.
+let triggerMode = false;
+let currentEnvA = 0.01;
+let currentEnvD = 0.15;
+let currentEnvS = 0.7;
+let currentEnvR = 0.4;
 
 // LFO state — max modulation depth per target (symmetric around 0).
 // Actual amplitude = TARGET_DEPTH[target] * depth (0..1 from UI).
@@ -76,10 +86,20 @@ export async function initAudio(): Promise<void> {
   await Tone.start();
 
   // Signal chain:
-  //   osc → filter → fxMixer.a (dry)
-  //                → delay → reverb → fxMixer.b (wet)
+  //   osc → envelope → filter → fxMixer.a (dry)
+  //                           → delay → reverb → fxMixer.b (wet)
   //   fxMixer → scopeGain (tracks volume) → analyser
   //   fxMixer → outputGain (volume, or 0 when muted) → destination
+  //
+  // Envelope is *always* in the chain. In drone mode it's forced to
+  // (0, 0, 1, 0) — pass-through at unity — via applyEnvelopeState() below.
+  envelope = new Tone.AmplitudeEnvelope({
+    attack: 0,
+    decay: 0,
+    sustain: 1,
+    release: 0,
+  });
+
   filter = new Tone.Filter({
     type: "lowpass",
     frequency: currentCutoff,
@@ -104,6 +124,7 @@ export async function initAudio(): Promise<void> {
   outputGain = new Tone.Gain(muted ? 0 : currentVolume);
   outputGain.connect(Tone.getDestination());
 
+  envelope.connect(filter);
   filter.connect(fxMixer.a);
   filter.connect(delayNode);
   delayNode.connect(reverbNode);
@@ -115,8 +136,11 @@ export async function initAudio(): Promise<void> {
     type: "sine",
     frequency: 220,
   });
-  osc.connect(filter);
+  osc.connect(envelope);
   oscillator = osc;
+
+  // Seed the envelope with whatever mode we're in (drone by default).
+  applyEnvelopeState();
 
   lfo1 = new Tone.LFO({
     frequency: lfo1Rate,
@@ -203,6 +227,23 @@ function updateLfoDepth(which: 1 | 2): void {
   lfo.max = amp;
 }
 
+// Push the mode-appropriate ADSR values onto the live envelope node.
+// Drone mode = pass-through (0, 0, 1, 0); trigger mode = user's stored ADSR.
+function applyEnvelopeState(): void {
+  if (!envelope) return;
+  if (triggerMode) {
+    envelope.attack = currentEnvA;
+    envelope.decay = currentEnvD;
+    envelope.sustain = currentEnvS;
+    envelope.release = currentEnvR;
+  } else {
+    envelope.attack = 0;
+    envelope.decay = 0;
+    envelope.sustain = 1;
+    envelope.release = 0;
+  }
+}
+
 export function startOscillator(): void {
   if (!oscillator || !initialized) return;
   if (oscillator.state !== "started") {
@@ -220,10 +261,19 @@ export function stopOscillator(): void {
 export function setWaveType(type: WaveType): void {
   if (!oscillator) return;
   if (type === "flat") {
+    // Close any open envelope (drone being released, or a held trigger note)
+    // and stop the oscillator to save CPU.
+    envelope?.triggerRelease();
     stopOscillator();
   } else {
     oscillator.type = type;
     startOscillator();
+    // In drone mode the envelope is pass-through, so triggerAttack is an
+    // instant jump to 1. In trigger mode we leave the envelope closed and
+    // wait for keypresses.
+    if (!triggerMode) {
+      envelope?.triggerAttack();
+    }
   }
 }
 
@@ -300,9 +350,59 @@ export function setLfoDepth(which: 1 | 2, depth: number): void {
   updateLfoDepth(which);
 }
 
+export function setTriggerMode(on: boolean): void {
+  if (triggerMode === on) return;
+  triggerMode = on;
+
+  if (on) {
+    // drone → trigger: close the held drone, then apply user's ADSR so the
+    // next keypress uses the real envelope curve.
+    envelope?.triggerRelease();
+    applyEnvelopeState();
+  } else {
+    // trigger → drone: snap envelope to pass-through values and re-open if
+    // a wave is currently selected (i.e. the oscillator is running).
+    applyEnvelopeState();
+    if (oscillator && oscillator.state === "started") {
+      envelope?.triggerAttack();
+    }
+  }
+}
+
+export function setEnvAttack(seconds: number): void {
+  currentEnvA = seconds;
+  if (triggerMode && envelope) envelope.attack = seconds;
+}
+
+export function setEnvDecay(seconds: number): void {
+  currentEnvD = seconds;
+  if (triggerMode && envelope) envelope.decay = seconds;
+}
+
+export function setEnvSustain(value: number): void {
+  currentEnvS = value;
+  if (triggerMode && envelope) envelope.sustain = value;
+}
+
+export function setEnvRelease(seconds: number): void {
+  currentEnvR = seconds;
+  if (triggerMode && envelope) envelope.release = seconds;
+}
+
+export function triggerNote(hz: number): void {
+  if (!oscillator || !envelope) return;
+  oscillator.frequency.rampTo(hz, 0.005);
+  envelope.triggerAttack();
+}
+
+export function releaseNote(): void {
+  envelope?.triggerRelease();
+}
+
 export function dispose(): void {
   oscillator?.stop();
   oscillator?.dispose();
+  envelope?.dispose();
   filter?.dispose();
   delayNode?.dispose();
   reverbNode?.dispose();
@@ -315,6 +415,7 @@ export function dispose(): void {
   scopeGainNode?.dispose();
   analyser?.dispose();
   oscillator = null;
+  envelope = null;
   filter = null;
   delayNode = null;
   reverbNode = null;

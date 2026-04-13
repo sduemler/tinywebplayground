@@ -1,14 +1,30 @@
 import { useCallback, useEffect } from "react";
 import { useSynthStore } from "./store";
-import { initAudio, startOscillator, stopOscillator, setWaveType, setFrequency, setVolume, mute, unmute, dispose } from "./audio";
+import {
+  initAudio,
+  startOscillator,
+  stopOscillator,
+  setWaveType,
+  setFrequency,
+  setVolume,
+  setTriggerMode,
+  mute,
+  unmute,
+  dispose,
+} from "./audio";
 import Oscilloscope from "./Oscilloscope";
 import WaveSelector from "./WaveSelector";
 import Filter from "./Filter";
 import Space from "./Space";
 import Lfo from "./Lfo";
+import Adsr from "./Adsr";
+import Keyboard from "./Keyboard";
 import type { WaveType } from "./types";
 import { makeLogSliderMap } from "./utils";
 import styles from "./Eurorack.module.css";
+
+const MIN_OCTAVE = 1;
+const MAX_OCTAVE = 7;
 
 const PITCH_MAP = makeLogSliderMap(55, 880, 1000);
 
@@ -29,11 +45,15 @@ export default function Eurorack() {
     isMuted,
     frequency,
     volume,
+    triggerMode,
+    octave,
     setWaveType: storeSetWave,
     setPlaying,
     setMuted,
     setFrequency: storeSetFrequency,
     setVolume: storeSetVolume,
+    setTriggerMode: storeSetTriggerMode,
+    setOctave,
   } = useSynthStore();
 
   const handleWaveSelect = useCallback(
@@ -71,6 +91,23 @@ export default function Eurorack() {
       initAudio().then(() => setFrequency(hz));
     },
     [storeSetFrequency]
+  );
+
+  const handleModeToggle = useCallback(
+    (next: boolean) => {
+      if (next === triggerMode) return;
+      storeSetTriggerMode(next);
+      initAudio().then(() => setTriggerMode(next));
+    },
+    [triggerMode, storeSetTriggerMode]
+  );
+
+  const handleOctaveShift = useCallback(
+    (delta: -1 | 1) => {
+      const next = Math.min(MAX_OCTAVE, Math.max(MIN_OCTAVE, octave + delta));
+      if (next !== octave) setOctave(next);
+    },
+    [octave, setOctave]
   );
 
   const handleMuteToggle = useCallback(() => {
@@ -140,22 +177,76 @@ export default function Eurorack() {
                   <Oscilloscope isPlaying={isPlaying} />
                 </div>
               </div>
-              <div className={styles.pitchControl}>
-                <div className={styles.pitchLabelRow}>
-                  <span className={styles.pitchLabel}>Pitch</span>
-                  <span className={styles.pitchValue}>{Math.round(frequency)} Hz</span>
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={PITCH_MAP.steps}
-                  step={1}
-                  value={PITCH_MAP.fromHz(frequency)}
-                  onChange={handlePitchChange}
-                  className={styles.pitchSlider}
-                  aria-label="Pitch"
-                />
+              <div
+                className={styles.modeToggle}
+                data-mode={triggerMode ? "trig" : "drone"}
+                role="group"
+                aria-label="Oscillator mode"
+              >
+                <span className={styles.modeToggleThumb} aria-hidden="true" />
+                <button
+                  type="button"
+                  className={styles.modeToggleLabel}
+                  onClick={() => handleModeToggle(false)}
+                  aria-pressed={!triggerMode}
+                >
+                  Drone
+                </button>
+                <button
+                  type="button"
+                  className={styles.modeToggleLabel}
+                  onClick={() => handleModeToggle(true)}
+                  aria-pressed={triggerMode}
+                >
+                  Trig
+                </button>
               </div>
+              {triggerMode ? (
+                <div className={styles.octaveControl}>
+                  <div className={styles.pitchLabelRow}>
+                    <span className={styles.pitchLabel}>Oct</span>
+                    <span className={styles.pitchValue}>{octave}</span>
+                  </div>
+                  <div className={styles.octaveButtons}>
+                    <button
+                      type="button"
+                      className={styles.octaveButton}
+                      onClick={() => handleOctaveShift(-1)}
+                      disabled={octave <= MIN_OCTAVE}
+                      aria-label="Octave down"
+                    >
+                      ◄
+                    </button>
+                    <span className={styles.octaveReadout}>{octave}</span>
+                    <button
+                      type="button"
+                      className={styles.octaveButton}
+                      onClick={() => handleOctaveShift(1)}
+                      disabled={octave >= MAX_OCTAVE}
+                      aria-label="Octave up"
+                    >
+                      ►
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.pitchControl}>
+                  <div className={styles.pitchLabelRow}>
+                    <span className={styles.pitchLabel}>Pitch</span>
+                    <span className={styles.pitchValue}>{Math.round(frequency)} Hz</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={0}
+                    max={PITCH_MAP.steps}
+                    step={1}
+                    value={PITCH_MAP.fromHz(frequency)}
+                    onChange={handlePitchChange}
+                    className={styles.pitchSlider}
+                    aria-label="Pitch"
+                  />
+                </div>
+              )}
               <WaveSelector
                 activeWave={waveType}
                 onSelect={handleWaveSelect}
@@ -165,7 +256,9 @@ export default function Eurorack() {
           <Filter />
           <Space />
           <Lfo />
+          <Adsr />
         </div>
+        <Keyboard />
       </div>
     </div>
   );
