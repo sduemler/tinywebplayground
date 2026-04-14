@@ -12,10 +12,14 @@ import {
 } from "./audio";
 import Oscilloscope from "./Oscilloscope";
 import WaveSelector from "./WaveSelector";
+import Mixer from "./Mixer";
 import Filter from "./Filter";
+import Crush from "./Crush";
 import Space from "./Space";
 import Lfo from "./Lfo";
 import Adsr from "./Adsr";
+import Sequencer from "./Sequencer";
+import Random from "./Random";
 import Keyboard from "./Keyboard";
 import ModuleHelp from "./ModuleHelp";
 import type { WaveType } from "./types";
@@ -114,124 +118,132 @@ export default function Eurorack() {
   return (
     <div className={`${styles.container} ${triggerMode ? styles.containerKeyboardOpen : ""}`}>
       <div className={styles.panel}>
-        <div className={styles.oscillatorRow}>
-          <div className={styles.module} style={oscillatorPalette}>
-            <ModuleHelp
-              title="Oscillator"
-              description="The sound source. Generates a raw waveform, runs it through an amplitude envelope, and feeds the rest of the signal chain."
-              controls={[
-                { name: "Vol", description: "Master output volume." },
-                { name: "Scope", description: "Live waveform display of the signal being sent to the speakers." },
-                { name: "Drone / Trigger", description: "Drone holds a constant tone. Trigger opens a keyboard so notes only play while keys are held." },
-                { name: "Pitch", description: "In drone mode, sets the oscillator frequency in Hz." },
-                { name: "Oct", description: "In trigger mode, shifts the keyboard up or down by an octave." },
-                { name: "Wave", description: "Chooses the waveform shape (sine, square, saw, triangle, or off)." },
-              ]}
-            />
-            <h3 className={styles.moduleHeader}>Oscillator</h3>
-            <div className={styles.moduleBody}>
-              <div className={styles.scopeRow}>
-                <div className={styles.volumeControl}>
-                  <span className={styles.volumeLabel}>Vol</span>
-                  <input
-                    type="range"
-                    min={0}
-                    max={100}
-                    step={1}
-                    value={Math.round(volume * 100)}
-                    onChange={handleVolumeChange}
-                    className={styles.volumeSlider}
-                    aria-label="Volume"
-                  />
-                  <span className={styles.volumeValue}>
-                    {Math.round(volume * 100)}
-                  </span>
-                </div>
-                <div className={styles.scopeWrapper}>
-                  <Oscilloscope isPlaying={isPlaying} />
-                </div>
-              </div>
-              <div
-                className={styles.modeToggle}
-                data-mode={triggerMode ? "trig" : "drone"}
-                role="group"
-                aria-label="Oscillator mode"
-              >
-                <span className={styles.modeToggleThumb} aria-hidden="true" />
-                <button
-                  type="button"
-                  className={styles.modeToggleLabel}
-                  onClick={() => handleModeToggle(false)}
-                  aria-pressed={!triggerMode}
-                >
-                  Drone
-                </button>
-                <button
-                  type="button"
-                  className={styles.modeToggleLabel}
-                  onClick={() => handleModeToggle(true)}
-                  aria-pressed={triggerMode}
-                >
-                  Trigger
-                </button>
-              </div>
-              {triggerMode ? (
-                <div className={styles.octaveControl}>
-                  <div className={styles.pitchLabelRow}>
-                    <span className={styles.pitchLabel}>Oct</span>
-                    <span className={styles.pitchValue}>{octave}</span>
-                  </div>
-                  <div className={styles.octaveButtons}>
-                    <button
-                      type="button"
-                      className={styles.octaveButton}
-                      onClick={() => handleOctaveShift(-1)}
-                      disabled={octave <= MIN_OCTAVE}
-                      aria-label="Octave down"
-                    >
-                      ◄
-                    </button>
-                    <span className={styles.octaveReadout}>{octave}</span>
-                    <button
-                      type="button"
-                      className={styles.octaveButton}
-                      onClick={() => handleOctaveShift(1)}
-                      disabled={octave >= MAX_OCTAVE}
-                      aria-label="Octave up"
-                    >
-                      ►
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className={styles.pitchControl}>
-                  <div className={styles.pitchLabelRow}>
-                    <span className={styles.pitchLabel}>Pitch</span>
-                    <span className={styles.pitchValue}>
-                      {Math.round(frequency)} Hz
+        <div className={styles.modulesRow}>
+          <div className={styles.moduleColumn}>
+            <div className={styles.module} style={oscillatorPalette}>
+              <ModuleHelp
+                title="Oscillator"
+                description="The sound source. Generates a raw waveform, runs it through an amplitude envelope, and feeds the rest of the signal chain."
+                controls={[
+                  { name: "Vol", description: "Master output volume." },
+                  { name: "Scope", description: "Live waveform display of the signal being sent to the speakers." },
+                  { name: "Drone / Trigger", description: "Drone holds a constant tone. Trigger opens a keyboard so notes only play while keys are held." },
+                  { name: "Pitch", description: "In drone mode, sets the oscillator frequency in Hz." },
+                  { name: "Oct", description: "In trigger mode, shifts the keyboard up or down by an octave." },
+                  { name: "Wave", description: "Chooses the waveform shape (sine, square, saw, triangle, or off)." },
+                ]}
+              />
+              <h3 className={styles.moduleHeader}>Oscillator</h3>
+              <div className={styles.moduleBody}>
+                <div className={styles.scopeRow}>
+                  <div className={styles.volumeControl}>
+                    <span className={styles.volumeLabel}>Vol</span>
+                    <input
+                      type="range"
+                      min={0}
+                      max={100}
+                      step={1}
+                      value={Math.round(volume * 100)}
+                      onChange={handleVolumeChange}
+                      className={styles.volumeSlider}
+                      aria-label="Volume"
+                    />
+                    <span className={styles.volumeValue}>
+                      {Math.round(volume * 100)}
                     </span>
                   </div>
-                  <input
-                    type="range"
-                    min={0}
-                    max={PITCH_MAP.steps}
-                    step={1}
-                    value={PITCH_MAP.fromHz(frequency)}
-                    onChange={handlePitchChange}
-                    className={styles.pitchSlider}
-                    aria-label="Pitch"
-                  />
+                  <div className={styles.scopeWrapper}>
+                    <Oscilloscope isPlaying={isPlaying} />
+                  </div>
                 </div>
-              )}
-              <WaveSelector activeWave={waveType} onSelect={handleWaveSelect} />
+                <div
+                  className={styles.modeToggle}
+                  data-mode={triggerMode ? "trig" : "drone"}
+                  role="group"
+                  aria-label="Oscillator mode"
+                >
+                  <span className={styles.modeToggleThumb} aria-hidden="true" />
+                  <button
+                    type="button"
+                    className={styles.modeToggleLabel}
+                    onClick={() => handleModeToggle(false)}
+                    aria-pressed={!triggerMode}
+                  >
+                    Drone
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.modeToggleLabel}
+                    onClick={() => handleModeToggle(true)}
+                    aria-pressed={triggerMode}
+                  >
+                    Trigger
+                  </button>
+                </div>
+                {triggerMode ? (
+                  <div className={styles.octaveControl}>
+                    <div className={styles.pitchLabelRow}>
+                      <span className={styles.pitchLabel}>Oct</span>
+                      <span className={styles.pitchValue}>{octave}</span>
+                    </div>
+                    <div className={styles.octaveButtons}>
+                      <button
+                        type="button"
+                        className={styles.octaveButton}
+                        onClick={() => handleOctaveShift(-1)}
+                        disabled={octave <= MIN_OCTAVE}
+                        aria-label="Octave down"
+                      >
+                        ◄
+                      </button>
+                      <span className={styles.octaveReadout}>{octave}</span>
+                      <button
+                        type="button"
+                        className={styles.octaveButton}
+                        onClick={() => handleOctaveShift(1)}
+                        disabled={octave >= MAX_OCTAVE}
+                        aria-label="Octave up"
+                      >
+                        ►
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.pitchControl}>
+                    <div className={styles.pitchLabelRow}>
+                      <span className={styles.pitchLabel}>Pitch</span>
+                      <span className={styles.pitchValue}>
+                        {Math.round(frequency)} Hz
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min={0}
+                      max={PITCH_MAP.steps}
+                      step={1}
+                      value={PITCH_MAP.fromHz(frequency)}
+                      onChange={handlePitchChange}
+                      className={styles.pitchSlider}
+                      aria-label="Pitch"
+                    />
+                  </div>
+                )}
+                <WaveSelector activeWave={waveType} onSelect={handleWaveSelect} />
+              </div>
             </div>
+            <Sequencer />
+            <Lfo />
           </div>
-        </div>
-        <div className={styles.modulesRow}>
-          <Filter />
-          <Space />
-          <Lfo />
-          <Adsr />
+          <div className={styles.moduleColumn}>
+            <Mixer />
+            <Filter />
+            <Crush />
+            <Random />
+          </div>
+          <div className={styles.moduleColumn}>
+            <Space />
+            <Adsr />
+          </div>
         </div>
         <Keyboard />
       </div>

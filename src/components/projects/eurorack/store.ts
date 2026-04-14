@@ -1,5 +1,11 @@
 import { create } from "zustand";
-import type { WaveType, LfoTarget } from "./types";
+import type { WaveType, LfoTarget, NoiseType, SeqStep } from "./types";
+
+const DEFAULT_SEQ_STEPS: SeqStep[] = Array.from({ length: 16 }, () => ({
+  note: "A",
+  octave: 4,
+  on: true,
+}));
 
 interface SynthStore {
   waveType: WaveType;
@@ -30,6 +36,24 @@ interface SynthStore {
   envSustain: number;
   envRelease: number;
   octave: number;
+  oscLevel: number;
+  noiseLevel: number;
+  noiseType: NoiseType;
+  crushDrive: number;
+  crushBits: number;
+  crushMix: number;
+  seqPlaying: boolean;
+  seqBpm: number;
+  seqLoopLength: 8 | 16;
+  seqGate: number;
+  seqSteps: SeqStep[];
+  seqCurrentStep: number;
+  randPlaying: boolean;
+  randHzMin: number;
+  randHzMax: number;
+  randRateMsMin: number;
+  randRateMsMax: number;
+  randGateMs: number;
   setWaveType: (type: WaveType) => void;
   setPlaying: (playing: boolean) => void;
   setVolume: (volume: number) => void;
@@ -58,6 +82,25 @@ interface SynthStore {
   setEnvSustain: (value: number) => void;
   setEnvRelease: (seconds: number) => void;
   setOctave: (octave: number) => void;
+  setOscLevel: (value: number) => void;
+  setNoiseLevel: (value: number) => void;
+  setNoiseType: (type: NoiseType) => void;
+  setCrushDrive: (value: number) => void;
+  setCrushBits: (value: number) => void;
+  setCrushMix: (value: number) => void;
+  setSeqPlaying: (playing: boolean) => void;
+  setSeqBpm: (bpm: number) => void;
+  setSeqLoopLength: (length: 8 | 16) => void;
+  setSeqGate: (value: number) => void;
+  setSeqSteps: (steps: SeqStep[]) => void;
+  setSeqStep: (index: number, partial: Partial<SeqStep>) => void;
+  setSeqCurrentStep: (index: number) => void;
+  setRandPlaying: (playing: boolean) => void;
+  setRandHzMin: (hz: number) => void;
+  setRandHzMax: (hz: number) => void;
+  setRandRateMsMin: (ms: number) => void;
+  setRandRateMsMax: (ms: number) => void;
+  setRandGateMs: (ms: number) => void;
 }
 
 export const useSynthStore = create<SynthStore>((set) => ({
@@ -89,6 +132,24 @@ export const useSynthStore = create<SynthStore>((set) => ({
   envSustain: 0.7,
   envRelease: 0.4,
   octave: 4,
+  oscLevel: 1,
+  noiseLevel: 0,
+  noiseType: "white",
+  crushDrive: 0,
+  crushBits: 16,
+  crushMix: 0,
+  seqPlaying: false,
+  seqBpm: 120,
+  seqLoopLength: 16,
+  seqGate: 0.5,
+  seqSteps: DEFAULT_SEQ_STEPS,
+  seqCurrentStep: -1,
+  randPlaying: false,
+  randHzMin: 110,
+  randHzMax: 880,
+  randRateMsMin: 150,
+  randRateMsMax: 600,
+  randGateMs: 120,
   setWaveType: (waveType) => set({ waveType }),
   setPlaying: (isPlaying) => set({ isPlaying }),
   setVolume: (volume) => set({ volume }),
@@ -117,4 +178,28 @@ export const useSynthStore = create<SynthStore>((set) => ({
   setEnvSustain: (envSustain) => set({ envSustain }),
   setEnvRelease: (envRelease) => set({ envRelease }),
   setOctave: (octave) => set({ octave }),
+  setOscLevel: (oscLevel) => set({ oscLevel }),
+  setNoiseLevel: (noiseLevel) => set({ noiseLevel }),
+  setNoiseType: (noiseType) => set({ noiseType }),
+  setCrushDrive: (crushDrive) => set({ crushDrive }),
+  setCrushBits: (crushBits) => set({ crushBits }),
+  setCrushMix: (crushMix) => set({ crushMix }),
+  setSeqPlaying: (seqPlaying) => set({ seqPlaying }),
+  setSeqBpm: (seqBpm) => set({ seqBpm }),
+  setSeqLoopLength: (seqLoopLength) => set({ seqLoopLength }),
+  setSeqGate: (seqGate) => set({ seqGate }),
+  setSeqSteps: (seqSteps) => set({ seqSteps }),
+  setSeqStep: (index, partial) =>
+    set((state) => {
+      const next = state.seqSteps.slice();
+      next[index] = { ...next[index], ...partial };
+      return { seqSteps: next };
+    }),
+  setSeqCurrentStep: (seqCurrentStep) => set({ seqCurrentStep }),
+  setRandPlaying: (randPlaying) => set({ randPlaying }),
+  setRandHzMin: (randHzMin) => set({ randHzMin }),
+  setRandHzMax: (randHzMax) => set({ randHzMax }),
+  setRandRateMsMin: (randRateMsMin) => set({ randRateMsMin }),
+  setRandRateMsMax: (randRateMsMax) => set({ randRateMsMax }),
+  setRandGateMs: (randGateMs) => set({ randGateMs }),
 }));

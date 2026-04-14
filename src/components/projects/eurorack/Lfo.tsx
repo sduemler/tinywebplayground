@@ -16,7 +16,7 @@ const palette: React.CSSProperties = {
   ["--module-text" as string]: "#e4c8ec",
   ["--module-accent" as string]: "#c48fff",
   ["--module-track" as string]: "#180a22",
-  ["--module-width" as string]: "calc(var(--module-u, 40px) * 13)",
+  ["--module-width" as string]: "min(calc(var(--module-u, 40px) * 20), 95vw)",
 };
 
 const TARGET_OPTIONS: LfoTarget[] = [
@@ -178,16 +178,6 @@ export default function Lfo() {
             onDepthChange={setLfo1Depth}
           />
           <LfoSection
-            index={3}
-            label="Lfo 3"
-            target={lfo3Target}
-            rate={lfo3Rate}
-            depth={lfo3Depth}
-            onTargetChange={setLfo3Target}
-            onRateChange={setLfo3Rate}
-            onDepthChange={setLfo3Depth}
-          />
-          <LfoSection
             index={2}
             label="Lfo 2"
             target={lfo2Target}
@@ -196,6 +186,16 @@ export default function Lfo() {
             onTargetChange={setLfo2Target}
             onRateChange={setLfo2Rate}
             onDepthChange={setLfo2Depth}
+          />
+          <LfoSection
+            index={3}
+            label="Lfo 3"
+            target={lfo3Target}
+            rate={lfo3Rate}
+            depth={lfo3Depth}
+            onTargetChange={setLfo3Target}
+            onRateChange={setLfo3Rate}
+            onDepthChange={setLfo3Depth}
           />
           <LfoSection
             index={4}

@@ -16,7 +16,7 @@ const filterPalette: React.CSSProperties = {
   ["--module-text" as string]: "#d4e8dc",
   ["--module-accent" as string]: "#8fd4a8",
   ["--module-track" as string]: "#0f1e18",
-  ["--module-width" as string]: "calc(var(--module-u, 40px) * 5)",
+  ["--module-width" as string]: "calc(var(--module-u, 40px) * 6)",
 };
 
 function formatHz(hz: number): string {

@@ -16,3 +16,11 @@ export const LFO_TARGET_LABELS: Record<LfoTarget, string> = {
   volume: "Volume",
   mix: "FX Mix",
 };
+
+export type NoiseType = "white" | "pink" | "brown";
+
+export interface SeqStep {
+  note: string;
+  octave: number;
+  on: boolean;
+}

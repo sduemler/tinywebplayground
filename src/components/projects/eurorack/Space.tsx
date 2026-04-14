@@ -21,7 +21,7 @@ const palette: React.CSSProperties = {
   ["--module-text" as string]: "#c8d4ec",
   ["--module-accent" as string]: "#7fa8ff",
   ["--module-track" as string]: "#0a0f1e",
-  ["--module-width" as string]: "calc(var(--module-u, 40px) * 7)",
+  ["--module-width" as string]: "calc(var(--module-u, 40px) * 8)",
 };
 
 function linearMap(

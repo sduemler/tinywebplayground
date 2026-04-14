@@ -1,7 +1,15 @@
 import * as Tone from "tone";
-import type { WaveType, LfoTarget } from "./types";
+import type { WaveType, LfoTarget, NoiseType, SeqStep } from "./types";
+import { noteToHz } from "./notes";
 
 let oscillator: Tone.Oscillator | null = null;
+let noise: Tone.Noise | null = null;
+let oscGain: Tone.Gain | null = null;
+let noiseGain: Tone.Gain | null = null;
+let sourceMix: Tone.Gain | null = null;
+let distortion: Tone.Distortion | null = null;
+let bitCrusher: Tone.BitCrusher | null = null;
+let crushWet: Tone.CrossFade | null = null;
 let analyser: Tone.Analyser | null = null;
 let outputGain: Tone.Gain | null = null;
 let scopeGainNode: Tone.Gain | null = null;
@@ -21,14 +29,31 @@ let currentFxReverbSize = 0.7;
 let currentFxMix = 0;
 let muted = false;
 
+let currentOscLevel = 1;
+let currentNoiseLevel = 0;
+let currentNoiseType: NoiseType = "white";
+let currentCrushDrive = 0;
+let currentCrushBits = 16;
+let currentCrushMix = 0;
+
 // Trigger-mode envelope state. In drone mode the envelope is forced to
 // pass-through (0, 0, 1, 0) regardless of these values; in trigger mode
 // these are applied to the live envelope node.
-let triggerMode = false;
+//
+// userTriggerMode is what the Drone/Trigger toggle says. The effective
+// hardware envelope mode is (userTriggerMode || forcedTriggerCount > 0),
+// so Sequencer/Random can temporarily force trigger mode on without
+// clobbering the user's choice.
+let userTriggerMode = false;
+let forcedTriggerCount = 0;
 let currentEnvA = 0.01;
 let currentEnvD = 0.15;
 let currentEnvS = 0.7;
 let currentEnvR = 0.4;
+
+function effectiveTriggerMode(): boolean {
+  return userTriggerMode || forcedTriggerCount > 0;
+}
 
 // LFO state — max modulation depth per target (symmetric around 0).
 // Actual amplitude = TARGET_DEPTH[target] * depth (0..1 from UI).
@@ -84,8 +109,11 @@ export async function initAudio(): Promise<void> {
   await Tone.start();
 
   // Signal chain:
-  //   osc → envelope → filter → fxMixer.a (dry)
-  //                           → delay → reverb → fxMixer.b (wet)
+  //   osc   → oscGain   ┐
+  //                     ├ sourceMix → envelope → filter → crushWet.a (dry)
+  //   noise → noiseGain ┘                               ↘ distortion → bitCrusher → crushWet.b (wet)
+  //   crushWet → fxMixer.a (dry)
+  //   crushWet → delay → reverb → fxMixer.b (wet)
   //   fxMixer → scopeGain (tracks volume) → analyser
   //   fxMixer → outputGain (volume, or 0 when muted) → destination
   //
@@ -105,6 +133,13 @@ export async function initAudio(): Promise<void> {
     rolloff: -24,
   });
 
+  distortion = new Tone.Distortion({
+    distortion: currentCrushDrive,
+    oversample: "2x",
+  });
+  bitCrusher = new Tone.BitCrusher({ bits: Math.round(currentCrushBits) });
+  crushWet = new Tone.CrossFade(currentCrushMix);
+
   delayNode = new Tone.FeedbackDelay({
     delayTime: currentFxTime,
     feedback: currentFxFeedback,
@@ -123,19 +158,38 @@ export async function initAudio(): Promise<void> {
   outputGain.connect(Tone.getDestination());
 
   envelope.connect(filter);
-  filter.connect(fxMixer.a);
-  filter.connect(delayNode);
+  filter.connect(crushWet.a);
+  filter.connect(distortion);
+  distortion.connect(bitCrusher);
+  bitCrusher.connect(crushWet.b);
+  crushWet.connect(fxMixer.a);
+  crushWet.connect(delayNode);
   delayNode.connect(reverbNode);
   reverbNode.connect(fxMixer.b);
   fxMixer.connect(scopeGainNode);
   fxMixer.connect(outputGain);
 
+  // Source bus: oscillator + noise → sourceMix → envelope
+  oscGain = new Tone.Gain(currentOscLevel);
+  noiseGain = new Tone.Gain(currentNoiseLevel);
+  sourceMix = new Tone.Gain(1);
+  oscGain.connect(sourceMix);
+  noiseGain.connect(sourceMix);
+  sourceMix.connect(envelope);
+
   const osc = new Tone.Oscillator({
     type: "sine",
     frequency: 220,
   });
-  osc.connect(envelope);
+  osc.connect(oscGain);
   oscillator = osc;
+
+  noise = new Tone.Noise({
+    type: currentNoiseType,
+    volume: 0,
+  });
+  noise.connect(noiseGain);
+  noise.start();
 
   // Seed the envelope with whatever mode we're in (drone by default).
   applyEnvelopeState();
@@ -229,7 +283,7 @@ function updateLfoDepth(which: LfoIndex): void {
 // Drone mode = pass-through (0, 0, 1, 0); trigger mode = user's stored ADSR.
 function applyEnvelopeState(): void {
   if (!envelope) return;
-  if (triggerMode) {
+  if (effectiveTriggerMode()) {
     envelope.attack = currentEnvA;
     envelope.decay = currentEnvD;
     envelope.sustain = currentEnvS;
@@ -239,6 +293,30 @@ function applyEnvelopeState(): void {
     envelope.decay = 0;
     envelope.sustain = 1;
     envelope.release = 0;
+  }
+}
+
+function pushForcedTriggerMode(): void {
+  const wasTrigger = effectiveTriggerMode();
+  forcedTriggerCount++;
+  if (!wasTrigger && effectiveTriggerMode()) {
+    // drone → forced trigger: close any held drone so the sequencer/random
+    // source can drive the envelope cleanly.
+    envelope?.triggerRelease();
+    applyEnvelopeState();
+  }
+}
+
+function popForcedTriggerMode(): void {
+  if (forcedTriggerCount === 0) return;
+  forcedTriggerCount = Math.max(0, forcedTriggerCount - 1);
+  if (forcedTriggerCount === 0 && !userTriggerMode) {
+    // Snap back to drone: pass-through envelope, and reopen if a wave is
+    // still selected so the tone resumes continuously.
+    applyEnvelopeState();
+    if (oscillator && oscillator.state === "started") {
+      envelope?.triggerAttack();
+    }
   }
 }
 
@@ -268,8 +346,8 @@ export function setWaveType(type: WaveType): void {
     startOscillator();
     // In drone mode the envelope is pass-through, so triggerAttack is an
     // instant jump to 1. In trigger mode we leave the envelope closed and
-    // wait for keypresses.
-    if (!triggerMode) {
+    // wait for keypresses (or sequencer/random ticks).
+    if (!effectiveTriggerMode()) {
       envelope?.triggerAttack();
     }
   }
@@ -345,17 +423,20 @@ export function setLfoDepth(which: LfoIndex, depth: number): void {
 }
 
 export function setTriggerMode(on: boolean): void {
-  if (triggerMode === on) return;
-  triggerMode = on;
+  if (userTriggerMode === on) return;
+  const wasEffective = effectiveTriggerMode();
+  userTriggerMode = on;
+  const isEffective = effectiveTriggerMode();
 
-  if (on) {
-    // drone → trigger: close the held drone, then apply user's ADSR so the
-    // next keypress uses the real envelope curve.
+  // If a forced source (Sequencer/Random) is already holding trigger mode
+  // on, don't touch the hardware envelope — just update the stored user
+  // preference. popForcedTriggerMode() will restore when the force ends.
+  if (wasEffective === isEffective) return;
+
+  if (isEffective) {
     envelope?.triggerRelease();
     applyEnvelopeState();
   } else {
-    // trigger → drone: snap envelope to pass-through values and re-open if
-    // a wave is currently selected (i.e. the oscillator is running).
     applyEnvelopeState();
     if (oscillator && oscillator.state === "started") {
       envelope?.triggerAttack();
@@ -365,22 +446,22 @@ export function setTriggerMode(on: boolean): void {
 
 export function setEnvAttack(seconds: number): void {
   currentEnvA = seconds;
-  if (triggerMode && envelope) envelope.attack = seconds;
+  if (effectiveTriggerMode() && envelope) envelope.attack = seconds;
 }
 
 export function setEnvDecay(seconds: number): void {
   currentEnvD = seconds;
-  if (triggerMode && envelope) envelope.decay = seconds;
+  if (effectiveTriggerMode() && envelope) envelope.decay = seconds;
 }
 
 export function setEnvSustain(value: number): void {
   currentEnvS = value;
-  if (triggerMode && envelope) envelope.sustain = value;
+  if (effectiveTriggerMode() && envelope) envelope.sustain = value;
 }
 
 export function setEnvRelease(seconds: number): void {
   currentEnvR = seconds;
-  if (triggerMode && envelope) envelope.release = seconds;
+  if (effectiveTriggerMode() && envelope) envelope.release = seconds;
 }
 
 export function triggerNote(hz: number): void {
@@ -393,11 +474,192 @@ export function releaseNote(): void {
   envelope?.triggerRelease();
 }
 
+// Mixer setters
+export function setOscLevel(n: number): void {
+  currentOscLevel = n;
+  oscGain?.gain.rampTo(n, 0.03);
+}
+
+export function setNoiseLevel(n: number): void {
+  currentNoiseLevel = n;
+  noiseGain?.gain.rampTo(n, 0.03);
+}
+
+export function setNoiseType(t: NoiseType): void {
+  currentNoiseType = t;
+  if (noise) noise.type = t;
+}
+
+// Crush setters
+export function setCrushDrive(n: number): void {
+  currentCrushDrive = n;
+  if (distortion) distortion.distortion = n;
+}
+
+export function setCrushBits(n: number): void {
+  const v = Math.max(1, Math.min(16, Math.round(n)));
+  currentCrushBits = v;
+  if (bitCrusher) bitCrusher.bits.value = v;
+}
+
+export function setCrushMix(n: number): void {
+  currentCrushMix = n;
+  crushWet?.fade.rampTo(n, 0.03);
+}
+
+// Transport refcount — Sequencer and Random share a single Tone.Transport.
+let transportRefCount = 0;
+
+function ensureTransport(): void {
+  if (transportRefCount === 0) {
+    Tone.getTransport().start("+0.05");
+  }
+  transportRefCount++;
+}
+
+function releaseTransport(): void {
+  transportRefCount = Math.max(0, transportRefCount - 1);
+  if (transportRefCount === 0) {
+    Tone.getTransport().stop();
+    Tone.getTransport().cancel(0);
+  }
+}
+
+// Sequencer
+interface SequencerOpts {
+  bpm: number;
+  loopLength: number;
+  gate: number;
+  steps: SeqStep[];
+  onTick: (stepIndex: number) => void;
+}
+
+const seqState: {
+  repeatId: number | null;
+  cursor: number;
+  opts: SequencerOpts | null;
+} = { repeatId: null, cursor: 0, opts: null };
+
+export function startSequencer(opts: SequencerOpts): void {
+  stopSequencer();
+  seqState.opts = { ...opts, steps: opts.steps };
+  seqState.cursor = 0;
+  const transport = Tone.getTransport();
+  transport.bpm.value = opts.bpm;
+  seqState.repeatId = transport.scheduleRepeat((time) => {
+    const s = seqState.opts;
+    if (!s) return;
+    const i = seqState.cursor % s.loopLength;
+    const step = s.steps[i];
+    // UI highlight must run on the main thread, not the audio thread.
+    Tone.getDraw().schedule(() => s.onTick(i), time);
+    if (step?.on && oscillator && envelope) {
+      const hz = noteToHz(step.note, step.octave);
+      oscillator.frequency.setValueAtTime(hz, time);
+      const stepSeconds = 60 / transport.bpm.value / 4;
+      envelope.triggerAttackRelease(stepSeconds * s.gate, time);
+    }
+    seqState.cursor++;
+  }, "16n");
+  ensureTransport();
+  pushForcedTriggerMode();
+}
+
+export function stopSequencer(): void {
+  if (seqState.repeatId !== null) {
+    Tone.getTransport().clear(seqState.repeatId);
+    seqState.repeatId = null;
+    releaseTransport();
+    popForcedTriggerMode();
+    envelope?.triggerRelease();
+  }
+  seqState.opts = null;
+  seqState.cursor = 0;
+}
+
+export function setSequencerBpm(bpm: number): void {
+  if (seqState.opts) seqState.opts.bpm = bpm;
+  Tone.getTransport().bpm.rampTo(bpm, 0.05);
+}
+
+export function updateSequencerOpts(partial: Partial<SequencerOpts>): void {
+  if (!seqState.opts) return;
+  Object.assign(seqState.opts, partial);
+}
+
+// Random
+interface RandomOpts {
+  hzMin: number;
+  hzMax: number;
+  rateMsMin: number;
+  rateMsMax: number;
+  gateMs: number;
+}
+
+const randState: {
+  timerId: ReturnType<typeof setTimeout> | null;
+  opts: RandomOpts | null;
+} = { timerId: null, opts: null };
+
+function randBetween(min: number, max: number): number {
+  return min + Math.random() * (max - min);
+}
+
+export function startRandom(opts: RandomOpts): void {
+  stopRandom();
+  randState.opts = { ...opts };
+  const tick = (): void => {
+    const s = randState.opts;
+    if (!s || !oscillator || !envelope) return;
+    const lo = Math.min(s.hzMin, s.hzMax);
+    const hi = Math.max(s.hzMin, s.hzMax);
+    const logMin = Math.log(Math.max(1, lo));
+    const logMax = Math.log(Math.max(1, hi));
+    const hz = Math.exp(logMin + Math.random() * (logMax - logMin));
+    oscillator.frequency.rampTo(hz, 0.005);
+    envelope.triggerAttackRelease(s.gateMs / 1000);
+    const nextMs = randBetween(
+      Math.min(s.rateMsMin, s.rateMsMax),
+      Math.max(s.rateMsMin, s.rateMsMax),
+    );
+    randState.timerId = setTimeout(tick, nextMs);
+  };
+  pushForcedTriggerMode();
+  randState.timerId = setTimeout(tick, 0);
+}
+
+export function stopRandom(): void {
+  if (randState.timerId !== null) {
+    clearTimeout(randState.timerId);
+    randState.timerId = null;
+    popForcedTriggerMode();
+    envelope?.triggerRelease();
+  }
+  randState.opts = null;
+}
+
+export function updateRandomOpts(partial: Partial<RandomOpts>): void {
+  if (randState.opts) Object.assign(randState.opts, partial);
+}
+
 export function dispose(): void {
+  // Stop timed/scheduled sources before tearing down nodes.
+  stopSequencer();
+  stopRandom();
+  forcedTriggerCount = 0;
+
   oscillator?.stop();
   oscillator?.dispose();
+  noise?.stop();
+  noise?.dispose();
+  oscGain?.dispose();
+  noiseGain?.dispose();
+  sourceMix?.dispose();
   envelope?.dispose();
   filter?.dispose();
+  distortion?.dispose();
+  bitCrusher?.dispose();
+  crushWet?.dispose();
   delayNode?.dispose();
   reverbNode?.dispose();
   fxMixer?.dispose();
@@ -410,8 +672,15 @@ export function dispose(): void {
   scopeGainNode?.dispose();
   analyser?.dispose();
   oscillator = null;
+  noise = null;
+  oscGain = null;
+  noiseGain = null;
+  sourceMix = null;
   envelope = null;
   filter = null;
+  distortion = null;
+  bitCrusher = null;
+  crushWet = null;
   delayNode = null;
   reverbNode = null;
   fxMixer = null;
