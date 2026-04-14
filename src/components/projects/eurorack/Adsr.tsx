@@ -8,6 +8,7 @@ import {
   setEnvRelease,
 } from "./audio";
 import { makeLogSliderMap } from "./utils";
+import ModuleHelp from "./ModuleHelp";
 import styles from "./Eurorack.module.css";
 
 const ATTACK_MAP = makeLogSliderMap(0.001, 2, 1000);
@@ -80,6 +81,16 @@ export default function Adsr() {
 
   return (
     <div className={styles.module} style={palette}>
+      <ModuleHelp
+        title="Adsr"
+        description="Amplitude envelope applied to each note in Trigger mode. Shapes how loud the note is over time, from keypress to release."
+        controls={[
+          { name: "Atk", description: "Attack — time for the note to ramp from silence up to full volume after a key is pressed." },
+          { name: "Dec", description: "Decay — time it takes to drop from full volume down to the sustain level after the attack." },
+          { name: "Sus", description: "Sustain level — volume held while a key remains pressed (after attack + decay)." },
+          { name: "Rel", description: "Release — time for the note to fade to silence after the key is released." },
+        ]}
+      />
       <h3 className={styles.moduleHeader}>Adsr</h3>
       <div className={styles.moduleBody}>
         <div className={styles.moduleKnobRow}>

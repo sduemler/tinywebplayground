@@ -7,6 +7,7 @@ import {
   setFxReverbSize,
   setFxMix,
 } from "./audio";
+import ModuleHelp from "./ModuleHelp";
 import styles from "./Eurorack.module.css";
 
 const TIME_MIN = 0.02;
@@ -85,6 +86,16 @@ export default function Space() {
 
   return (
     <div className={styles.module} style={palette}>
+      <ModuleHelp
+        title="Space"
+        description="A combined delay and reverb effect that adds echo and ambience. Blend it into the dry signal with Mix."
+        controls={[
+          { name: "Time", description: "Delay time — how long between the dry signal and each echo repeat." },
+          { name: "Fbk", description: "Feedback — how much of the delayed signal is fed back into the delay, producing more repeats." },
+          { name: "Decay", description: "Reverb room size — larger values produce a longer, more washed-out tail." },
+          { name: "Mix", description: "Dry/wet balance. 0% = dry signal only, 100% = fully processed through delay + reverb." },
+        ]}
+      />
       <h3 className={styles.moduleHeader}>Space</h3>
       <div className={styles.moduleBody}>
         <div className={styles.moduleKnobRow}>

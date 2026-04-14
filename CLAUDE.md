@@ -212,11 +212,39 @@ The app ships with 18 hardcoded preset collections (e.g., Harry Potter, MCU, Dir
 
 ---
 
+## Eurorack Module Convention
+
+Every module in the eurorack project (`src/components/projects/eurorack/`) **must** include a `<ModuleHelp>` component as the first child of its `.module` div. It renders a "?" button in the top-right corner of the module and opens a popover explaining what the module does and what each of its controls does.
+
+Usage:
+
+```tsx
+import ModuleHelp from "./ModuleHelp";
+
+<div className={styles.module} style={palette}>
+  <ModuleHelp
+    title="Module Name"
+    description="One or two sentences explaining what this module does in the signal chain."
+    controls={[
+      { name: "Ctrl Label", description: "What this slider/knob controls." },
+      // one entry per visible control/slider
+    ]}
+  />
+  <h3 className={styles.moduleHeader}>Module Name</h3>
+  {/* ... */}
+</div>
+```
+
+Any new eurorack module you add **must** follow this pattern.
+
+---
+
 ## Existing Projects
 
 | Slug | Title | Status | Notes |
 |---|---|---|---|
 | `howlongtowatch` | HowLongToWatch | live | TMDB API, Zustand, 18 presets |
+| `eurorack` | Tine Eurorack | live | Tone.js-based mini modular synth. Every module must include `<ModuleHelp>` — see Eurorack Module Convention above. |
 
 ---
 

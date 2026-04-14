@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useSynthStore } from "./store";
 import { initAudio, setFilterCutoff, setFilterResonance } from "./audio";
 import { makeLogSliderMap } from "./utils";
+import ModuleHelp from "./ModuleHelp";
 import styles from "./Eurorack.module.css";
 
 const CUTOFF_MAP = makeLogSliderMap(20, 20000, 1000);
@@ -56,6 +57,14 @@ export default function Filter() {
 
   return (
     <div className={styles.module} style={filterPalette}>
+      <ModuleHelp
+        title="Filter"
+        description="A 24 dB/octave low-pass filter that removes frequencies above the cutoff, shaping the tone's brightness."
+        controls={[
+          { name: "Cutoff", description: "Frequency above which the signal is attenuated. Lower values = darker, mellower tone." },
+          { name: "Reso", description: "Resonance — emphasizes frequencies right at the cutoff, adding a squelchy peak as it's pushed up." },
+        ]}
+      />
       <h3 className={styles.moduleHeader}>Filter</h3>
       <div className={styles.moduleBody}>
         <div className={styles.moduleKnobRow}>

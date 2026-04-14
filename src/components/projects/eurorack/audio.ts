@@ -9,8 +9,7 @@ let filter: Tone.Filter | null = null;
 let delayNode: Tone.FeedbackDelay | null = null;
 let reverbNode: Tone.Freeverb | null = null;
 let fxMixer: Tone.CrossFade | null = null;
-let lfo1: Tone.LFO | null = null;
-let lfo2: Tone.LFO | null = null;
+const lfos: (Tone.LFO | null)[] = [null, null, null, null];
 let envelope: Tone.AmplitudeEnvelope | null = null;
 let initialized = false;
 let currentVolume = 0.25;
@@ -42,12 +41,11 @@ const TARGET_DEPTH: Record<LfoTarget, number> = {
   mix: 0.35,   // ±35% wet/dry
 };
 
-let lfo1Target: LfoTarget = "none";
-let lfo1Rate = 2;
-let lfo1Depth = 0;
-let lfo2Target: LfoTarget = "none";
-let lfo2Rate = 4;
-let lfo2Depth = 0;
+const lfoTargets: LfoTarget[] = ["none", "none", "none", "none"];
+const lfoRates: number[] = [2, 4, 1, 8];
+const lfoDepths: number[] = [0, 0, 0, 0];
+
+type LfoIndex = 1 | 2 | 3 | 4;
 
 // Returns the Tone Signal/Param to route an LFO into for a given target.
 // Typed as any because different targets expose params with different
@@ -142,22 +140,20 @@ export async function initAudio(): Promise<void> {
   // Seed the envelope with whatever mode we're in (drone by default).
   applyEnvelopeState();
 
-  lfo1 = new Tone.LFO({
-    frequency: lfo1Rate,
-    type: "sine",
-    min: 0,
-    max: 0,
-  }).start();
-  lfo2 = new Tone.LFO({
-    frequency: lfo2Rate,
-    type: "sine",
-    min: 0,
-    max: 0,
-  }).start();
+  for (let i = 0; i < lfos.length; i++) {
+    lfos[i] = new Tone.LFO({
+      frequency: lfoRates[i],
+      type: "sine",
+      min: 0,
+      max: 0,
+    }).start();
+  }
 
   // Re-apply any LFO state the user may have dialed in before init.
   applyLfoRouting(1);
   applyLfoRouting(2);
+  applyLfoRouting(3);
+  applyLfoRouting(4);
 
   initialized = true;
 }
@@ -186,11 +182,12 @@ function restoreTargetValue(target: LfoTarget): void {
   }
 }
 
-function applyLfoRouting(which: 1 | 2): void {
-  const lfo = which === 1 ? lfo1 : lfo2;
+function applyLfoRouting(which: LfoIndex): void {
+  const i = which - 1;
+  const lfo = lfos[i];
   if (!lfo) return;
-  const target = which === 1 ? lfo1Target : lfo2Target;
-  const depth = which === 1 ? lfo1Depth : lfo2Depth;
+  const target = lfoTargets[i];
+  const depth = lfoDepths[i];
 
   // Disconnect any existing routing first (safe no-op when nothing connected).
   try {
@@ -215,11 +212,12 @@ function applyLfoRouting(which: 1 | 2): void {
   lfo.max = amp;
 }
 
-function updateLfoDepth(which: 1 | 2): void {
-  const lfo = which === 1 ? lfo1 : lfo2;
+function updateLfoDepth(which: LfoIndex): void {
+  const i = which - 1;
+  const lfo = lfos[i];
   if (!lfo) return;
-  const target = which === 1 ? lfo1Target : lfo2Target;
-  const depth = which === 1 ? lfo1Depth : lfo2Depth;
+  const target = lfoTargets[i];
+  const depth = lfoDepths[i];
   const amp = TARGET_DEPTH[target] * depth;
   // lfo.convert/units were forced to number by applyLfoRouting, so these
   // setters are pass-throughs and don't trigger the connectSignal reset.
@@ -331,22 +329,18 @@ export function setFxMix(value: number): void {
   fxMixer?.fade.rampTo(value, 0.03);
 }
 
-export function setLfoTarget(which: 1 | 2, target: LfoTarget): void {
-  if (which === 1) lfo1Target = target;
-  else lfo2Target = target;
+export function setLfoTarget(which: LfoIndex, target: LfoTarget): void {
+  lfoTargets[which - 1] = target;
   applyLfoRouting(which);
 }
 
-export function setLfoRate(which: 1 | 2, hz: number): void {
-  if (which === 1) lfo1Rate = hz;
-  else lfo2Rate = hz;
-  const lfo = which === 1 ? lfo1 : lfo2;
-  lfo?.frequency.rampTo(hz, 0.05);
+export function setLfoRate(which: LfoIndex, hz: number): void {
+  lfoRates[which - 1] = hz;
+  lfos[which - 1]?.frequency.rampTo(hz, 0.05);
 }
 
-export function setLfoDepth(which: 1 | 2, depth: number): void {
-  if (which === 1) lfo1Depth = depth;
-  else lfo2Depth = depth;
+export function setLfoDepth(which: LfoIndex, depth: number): void {
+  lfoDepths[which - 1] = depth;
   updateLfoDepth(which);
 }
 
@@ -407,10 +401,11 @@ export function dispose(): void {
   delayNode?.dispose();
   reverbNode?.dispose();
   fxMixer?.dispose();
-  lfo1?.stop();
-  lfo1?.dispose();
-  lfo2?.stop();
-  lfo2?.dispose();
+  for (let i = 0; i < lfos.length; i++) {
+    lfos[i]?.stop();
+    lfos[i]?.dispose();
+    lfos[i] = null;
+  }
   outputGain?.dispose();
   scopeGainNode?.dispose();
   analyser?.dispose();
@@ -420,8 +415,6 @@ export function dispose(): void {
   delayNode = null;
   reverbNode = null;
   fxMixer = null;
-  lfo1 = null;
-  lfo2 = null;
   outputGain = null;
   scopeGainNode = null;
   analyser = null;

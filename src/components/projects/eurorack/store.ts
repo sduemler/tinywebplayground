@@ -4,7 +4,6 @@ import type { WaveType, LfoTarget } from "./types";
 interface SynthStore {
   waveType: WaveType;
   isPlaying: boolean;
-  isMuted: boolean;
   volume: number;
   frequency: number;
   filterCutoff: number;
@@ -19,6 +18,12 @@ interface SynthStore {
   lfo2Target: LfoTarget;
   lfo2Rate: number;
   lfo2Depth: number;
+  lfo3Target: LfoTarget;
+  lfo3Rate: number;
+  lfo3Depth: number;
+  lfo4Target: LfoTarget;
+  lfo4Rate: number;
+  lfo4Depth: number;
   triggerMode: boolean;
   envAttack: number;
   envDecay: number;
@@ -27,7 +32,6 @@ interface SynthStore {
   octave: number;
   setWaveType: (type: WaveType) => void;
   setPlaying: (playing: boolean) => void;
-  setMuted: (muted: boolean) => void;
   setVolume: (volume: number) => void;
   setFrequency: (frequency: number) => void;
   setFilterCutoff: (hz: number) => void;
@@ -42,6 +46,12 @@ interface SynthStore {
   setLfo2Target: (target: LfoTarget) => void;
   setLfo2Rate: (hz: number) => void;
   setLfo2Depth: (value: number) => void;
+  setLfo3Target: (target: LfoTarget) => void;
+  setLfo3Rate: (hz: number) => void;
+  setLfo3Depth: (value: number) => void;
+  setLfo4Target: (target: LfoTarget) => void;
+  setLfo4Rate: (hz: number) => void;
+  setLfo4Depth: (value: number) => void;
   setTriggerMode: (on: boolean) => void;
   setEnvAttack: (seconds: number) => void;
   setEnvDecay: (seconds: number) => void;
@@ -53,7 +63,6 @@ interface SynthStore {
 export const useSynthStore = create<SynthStore>((set) => ({
   waveType: "flat",
   isPlaying: false,
-  isMuted: false,
   volume: 0.25,
   frequency: 220,
   filterCutoff: 20000,
@@ -68,6 +77,12 @@ export const useSynthStore = create<SynthStore>((set) => ({
   lfo2Target: "none",
   lfo2Rate: 4,
   lfo2Depth: 0,
+  lfo3Target: "none",
+  lfo3Rate: 1,
+  lfo3Depth: 0,
+  lfo4Target: "none",
+  lfo4Rate: 8,
+  lfo4Depth: 0,
   triggerMode: false,
   envAttack: 0.01,
   envDecay: 0.15,
@@ -76,7 +91,6 @@ export const useSynthStore = create<SynthStore>((set) => ({
   octave: 4,
   setWaveType: (waveType) => set({ waveType }),
   setPlaying: (isPlaying) => set({ isPlaying }),
-  setMuted: (isMuted) => set({ isMuted }),
   setVolume: (volume) => set({ volume }),
   setFrequency: (frequency) => set({ frequency }),
   setFilterCutoff: (filterCutoff) => set({ filterCutoff }),
@@ -91,6 +105,12 @@ export const useSynthStore = create<SynthStore>((set) => ({
   setLfo2Target: (lfo2Target) => set({ lfo2Target }),
   setLfo2Rate: (lfo2Rate) => set({ lfo2Rate }),
   setLfo2Depth: (lfo2Depth) => set({ lfo2Depth }),
+  setLfo3Target: (lfo3Target) => set({ lfo3Target }),
+  setLfo3Rate: (lfo3Rate) => set({ lfo3Rate }),
+  setLfo3Depth: (lfo3Depth) => set({ lfo3Depth }),
+  setLfo4Target: (lfo4Target) => set({ lfo4Target }),
+  setLfo4Rate: (lfo4Rate) => set({ lfo4Rate }),
+  setLfo4Depth: (lfo4Depth) => set({ lfo4Depth }),
   setTriggerMode: (triggerMode) => set({ triggerMode }),
   setEnvAttack: (envAttack) => set({ envAttack }),
   setEnvDecay: (envDecay) => set({ envDecay }),

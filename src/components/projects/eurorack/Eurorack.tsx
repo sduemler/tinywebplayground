@@ -8,8 +8,6 @@ import {
   setFrequency,
   setVolume,
   setTriggerMode,
-  mute,
-  unmute,
   dispose,
 } from "./audio";
 import Oscilloscope from "./Oscilloscope";
@@ -19,6 +17,7 @@ import Space from "./Space";
 import Lfo from "./Lfo";
 import Adsr from "./Adsr";
 import Keyboard from "./Keyboard";
+import ModuleHelp from "./ModuleHelp";
 import type { WaveType } from "./types";
 import { makeLogSliderMap } from "./utils";
 import styles from "./Eurorack.module.css";
@@ -35,21 +34,19 @@ const oscillatorPalette: React.CSSProperties = {
   ["--module-text" as string]: "#e8c6a8",
   ["--module-accent" as string]: "#ff9040",
   ["--module-track" as string]: "#160803",
-  ["--module-width" as string]: "calc(var(--module-u, 40px) * 15)",
+  ["--module-width" as string]: "min(calc(var(--module-u, 40px) * 20), 95vw)",
 };
 
 export default function Eurorack() {
   const {
     waveType,
     isPlaying,
-    isMuted,
     frequency,
     volume,
     triggerMode,
     octave,
     setWaveType: storeSetWave,
     setPlaying,
-    setMuted,
     setFrequency: storeSetFrequency,
     setVolume: storeSetVolume,
     setTriggerMode: storeSetTriggerMode,
@@ -66,13 +63,11 @@ export default function Eurorack() {
         setPlaying(false);
       } else {
         setWaveType(type);
-        if (!isMuted) {
-          startOscillator();
-        }
+        startOscillator();
         setPlaying(true);
       }
     },
-    [storeSetWave, setPlaying, isMuted]
+    [storeSetWave, setPlaying],
   );
 
   const handleVolumeChange = useCallback(
@@ -81,7 +76,7 @@ export default function Eurorack() {
       storeSetVolume(linear);
       initAudio().then(() => setVolume(linear));
     },
-    [storeSetVolume]
+    [storeSetVolume],
   );
 
   const handlePitchChange = useCallback(
@@ -90,7 +85,7 @@ export default function Eurorack() {
       storeSetFrequency(hz);
       initAudio().then(() => setFrequency(hz));
     },
-    [storeSetFrequency]
+    [storeSetFrequency],
   );
 
   const handleModeToggle = useCallback(
@@ -99,7 +94,7 @@ export default function Eurorack() {
       storeSetTriggerMode(next);
       initAudio().then(() => setTriggerMode(next));
     },
-    [triggerMode, storeSetTriggerMode]
+    [triggerMode, storeSetTriggerMode],
   );
 
   const handleOctaveShift = useCallback(
@@ -107,18 +102,8 @@ export default function Eurorack() {
       const next = Math.min(MAX_OCTAVE, Math.max(MIN_OCTAVE, octave + delta));
       if (next !== octave) setOctave(next);
     },
-    [octave, setOctave]
+    [octave, setOctave],
   );
-
-  const handleMuteToggle = useCallback(() => {
-    if (isMuted) {
-      unmute();
-      setMuted(false);
-    } else {
-      mute();
-      setMuted(true);
-    }
-  }, [isMuted, setMuted]);
 
   useEffect(() => {
     return () => {
@@ -127,35 +112,22 @@ export default function Eurorack() {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${triggerMode ? styles.containerKeyboardOpen : ""}`}>
       <div className={styles.panel}>
-        <div className={styles.topBar}>
-          <button
-            className={`${styles.muteButton} ${isMuted ? styles.muteButtonActive : ""}`}
-            onClick={handleMuteToggle}
-            aria-label={isMuted ? "Unmute" : "Mute"}
-            title={isMuted ? "Unmute" : "Mute"}
-          >
-            {isMuted ? (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                <line x1="23" y1="9" x2="17" y2="15" />
-                <line x1="17" y1="9" x2="23" y2="15" />
-              </svg>
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                <path d="M19.07 4.93a10 10 0 010 14.14" />
-                <path d="M15.54 8.46a5 5 0 010 7.07" />
-              </svg>
-            )}
-          </button>
-        </div>
-        <div className={styles.modulesRow}>
-          <div
-            className={styles.module}
-            style={oscillatorPalette}
-          >
+        <div className={styles.oscillatorRow}>
+          <div className={styles.module} style={oscillatorPalette}>
+            <ModuleHelp
+              title="Oscillator"
+              description="The sound source. Generates a raw waveform, runs it through an amplitude envelope, and feeds the rest of the signal chain."
+              controls={[
+                { name: "Vol", description: "Master output volume." },
+                { name: "Scope", description: "Live waveform display of the signal being sent to the speakers." },
+                { name: "Drone / Trigger", description: "Drone holds a constant tone. Trigger opens a keyboard so notes only play while keys are held." },
+                { name: "Pitch", description: "In drone mode, sets the oscillator frequency in Hz." },
+                { name: "Oct", description: "In trigger mode, shifts the keyboard up or down by an octave." },
+                { name: "Wave", description: "Chooses the waveform shape (sine, square, saw, triangle, or off)." },
+              ]}
+            />
             <h3 className={styles.moduleHeader}>Oscillator</h3>
             <div className={styles.moduleBody}>
               <div className={styles.scopeRow}>
@@ -171,7 +143,9 @@ export default function Eurorack() {
                     className={styles.volumeSlider}
                     aria-label="Volume"
                   />
-                  <span className={styles.volumeValue}>{Math.round(volume * 100)}</span>
+                  <span className={styles.volumeValue}>
+                    {Math.round(volume * 100)}
+                  </span>
                 </div>
                 <div className={styles.scopeWrapper}>
                   <Oscilloscope isPlaying={isPlaying} />
@@ -198,7 +172,7 @@ export default function Eurorack() {
                   onClick={() => handleModeToggle(true)}
                   aria-pressed={triggerMode}
                 >
-                  Trig
+                  Trigger
                 </button>
               </div>
               {triggerMode ? (
@@ -233,7 +207,9 @@ export default function Eurorack() {
                 <div className={styles.pitchControl}>
                   <div className={styles.pitchLabelRow}>
                     <span className={styles.pitchLabel}>Pitch</span>
-                    <span className={styles.pitchValue}>{Math.round(frequency)} Hz</span>
+                    <span className={styles.pitchValue}>
+                      {Math.round(frequency)} Hz
+                    </span>
                   </div>
                   <input
                     type="range"
@@ -247,12 +223,11 @@ export default function Eurorack() {
                   />
                 </div>
               )}
-              <WaveSelector
-                activeWave={waveType}
-                onSelect={handleWaveSelect}
-              />
+              <WaveSelector activeWave={waveType} onSelect={handleWaveSelect} />
             </div>
           </div>
+        </div>
+        <div className={styles.modulesRow}>
           <Filter />
           <Space />
           <Lfo />
