@@ -10,6 +10,7 @@ import {
 } from "./audio";
 import { makeLogSliderMap } from "./utils";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import type { SwirlMode } from "./types";
 import styles from "./Eurorack.module.css";
 
@@ -154,9 +155,18 @@ export default function Swirl() {
               className={styles.moduleSlider}
               aria-label="Swirl rate"
             />
-            <span className={styles.moduleKnobValue}>
-              {swirlRate.toFixed(2)} Hz
-            </span>
+            <EditableValue
+              value={swirlRate}
+              min={0.1}
+              max={12}
+              precision={2}
+              unit="Hz"
+              onCommit={(v) => {
+                storeSetRate(v);
+                initAudio().then(() => setSwirlRate(v));
+              }}
+              ariaLabel="Swirl rate"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Depth</span>
@@ -170,9 +180,19 @@ export default function Swirl() {
               className={styles.moduleSlider}
               aria-label="Swirl depth"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(swirlDepth * 100)}%
-            </span>
+            <EditableValue
+              value={swirlDepth * 100}
+              min={0}
+              max={100}
+              precision={0}
+              unit="%"
+              onCommit={(v) => {
+                const linear = v / 100;
+                storeSetDepth(linear);
+                initAudio().then(() => setSwirlDepth(linear));
+              }}
+              ariaLabel="Swirl depth"
+            />
           </div>
         </div>
         <div className={styles.moduleKnobRow}>
@@ -189,9 +209,19 @@ export default function Swirl() {
               aria-label="Swirl feedback"
               disabled={feedbackDisabled}
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(swirlFeedback * 100)}%
-            </span>
+            <EditableValue
+              value={swirlFeedback * 100}
+              min={0}
+              max={100}
+              precision={0}
+              unit="%"
+              onCommit={(v) => {
+                const linear = v / 100;
+                storeSetFeedback(linear);
+                initAudio().then(() => setSwirlFeedback(linear));
+              }}
+              ariaLabel="Swirl feedback"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Mix</span>
@@ -205,9 +235,19 @@ export default function Swirl() {
               className={styles.moduleSlider}
               aria-label="Swirl mix"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(swirlMix * 100)}%
-            </span>
+            <EditableValue
+              value={swirlMix * 100}
+              min={0}
+              max={100}
+              precision={0}
+              unit="%"
+              onCommit={(v) => {
+                const linear = v / 100;
+                storeSetMix(linear);
+                initAudio().then(() => setSwirlMix(linear));
+              }}
+              ariaLabel="Swirl mix"
+            />
           </div>
         </div>
       </div>

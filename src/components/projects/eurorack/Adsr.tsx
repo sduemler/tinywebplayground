@@ -9,6 +9,7 @@ import {
 } from "./audio";
 import { makeLogSliderMap } from "./utils";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import styles from "./Eurorack.module.css";
 
 const ATTACK_MAP = makeLogSliderMap(0.001, 2, 1000);
@@ -27,9 +28,11 @@ const palette: React.CSSProperties = {
 };
 
 function formatSeconds(seconds: number): string {
-  if (seconds < 1) return `${Math.round(seconds * 1000)}ms`;
-  return `${seconds.toFixed(2)}s`;
+  if (seconds < 1) return `${Math.round(seconds * 1000)} ms`;
+  return `${seconds.toFixed(2)} s`;
 }
+
+const formatMs = (ms: number) => formatSeconds(ms / 1000);
 
 export default function Adsr() {
   const {
@@ -106,7 +109,19 @@ export default function Adsr() {
               className={styles.moduleSlider}
               aria-label="Envelope attack"
             />
-            <span className={styles.moduleKnobValue}>{formatSeconds(envAttack)}</span>
+            <EditableValue
+              value={envAttack * 1000}
+              min={1}
+              max={2000}
+              precision={0}
+              format={formatMs}
+              onCommit={(v) => {
+                const seconds = v / 1000;
+                storeSetAttack(seconds);
+                initAudio().then(() => setEnvAttack(seconds));
+              }}
+              ariaLabel="Envelope attack"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Dec</span>
@@ -120,7 +135,19 @@ export default function Adsr() {
               className={styles.moduleSlider}
               aria-label="Envelope decay"
             />
-            <span className={styles.moduleKnobValue}>{formatSeconds(envDecay)}</span>
+            <EditableValue
+              value={envDecay * 1000}
+              min={1}
+              max={2000}
+              precision={0}
+              format={formatMs}
+              onCommit={(v) => {
+                const seconds = v / 1000;
+                storeSetDecay(seconds);
+                initAudio().then(() => setEnvDecay(seconds));
+              }}
+              ariaLabel="Envelope decay"
+            />
           </div>
         </div>
         <div className={styles.moduleKnobRow}>
@@ -136,7 +163,19 @@ export default function Adsr() {
               className={styles.moduleSlider}
               aria-label="Envelope sustain"
             />
-            <span className={styles.moduleKnobValue}>{Math.round(envSustain * 100)}%</span>
+            <EditableValue
+              value={envSustain * 100}
+              min={0}
+              max={100}
+              precision={0}
+              unit="%"
+              onCommit={(v) => {
+                const linear = v / 100;
+                storeSetSustain(linear);
+                initAudio().then(() => setEnvSustain(linear));
+              }}
+              ariaLabel="Envelope sustain"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Rel</span>
@@ -150,7 +189,19 @@ export default function Adsr() {
               className={styles.moduleSlider}
               aria-label="Envelope release"
             />
-            <span className={styles.moduleKnobValue}>{formatSeconds(envRelease)}</span>
+            <EditableValue
+              value={envRelease * 1000}
+              min={1}
+              max={5000}
+              precision={0}
+              format={formatMs}
+              onCommit={(v) => {
+                const seconds = v / 1000;
+                storeSetRelease(seconds);
+                initAudio().then(() => setEnvRelease(seconds));
+              }}
+              ariaLabel="Envelope release"
+            />
           </div>
         </div>
       </div>

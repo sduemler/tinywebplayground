@@ -3,6 +3,7 @@ import { useSynthStore } from "./store";
 import { initAudio, setOscLevel, setNoiseLevel, setNoiseType } from "./audio";
 import type { NoiseType } from "./types";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import styles from "./Eurorack.module.css";
 
 const STEPS = 1000;
@@ -89,9 +90,18 @@ export default function Mixer() {
               className={styles.moduleSlider}
               aria-label="Oscillator level"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(oscLevel * 100)}
-            </span>
+            <EditableValue
+              value={oscLevel * 100}
+              min={0}
+              max={100}
+              precision={0}
+              onCommit={(v) => {
+                const linear = v / 100;
+                storeSetOscLevel(linear);
+                initAudio().then(() => setOscLevel(linear));
+              }}
+              ariaLabel="Oscillator level"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Noise</span>
@@ -105,9 +115,18 @@ export default function Mixer() {
               className={styles.moduleSlider}
               aria-label="Noise level"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(noiseLevel * 100)}
-            </span>
+            <EditableValue
+              value={noiseLevel * 100}
+              min={0}
+              max={100}
+              precision={0}
+              onCommit={(v) => {
+                const linear = v / 100;
+                storeSetNoiseLevel(linear);
+                initAudio().then(() => setNoiseLevel(linear));
+              }}
+              ariaLabel="Noise level"
+            />
           </div>
         </div>
         <div className={styles.noiseTypes} role="group" aria-label="Noise type">

@@ -9,6 +9,7 @@ import {
 } from "./audio";
 import { NOTE_SEMITONES } from "./notes";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import type { SeqStep } from "./types";
 import styles from "./Eurorack.module.css";
 
@@ -207,7 +208,14 @@ export default function Sequencer() {
               className={styles.moduleSlider}
               aria-label="Sequencer BPM"
             />
-            <span className={styles.moduleKnobValue}>{seqBpm}</span>
+            <EditableValue
+              value={seqBpm}
+              min={BPM_MIN}
+              max={BPM_MAX}
+              precision={0}
+              onCommit={(v) => storeSetBpm(v)}
+              ariaLabel="Sequencer BPM"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Gate</span>
@@ -223,9 +231,15 @@ export default function Sequencer() {
               className={styles.moduleSlider}
               aria-label="Sequencer gate"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(seqGate * 100)}%
-            </span>
+            <EditableValue
+              value={seqGate * 100}
+              min={GATE_MIN * 100}
+              max={GATE_MAX * 100}
+              precision={0}
+              unit="%"
+              onCommit={(v) => storeSetGate(v / 100)}
+              ariaLabel="Sequencer gate"
+            />
           </div>
           <div className={styles.seqLengthGroup} role="group" aria-label="Loop length">
             <span className={styles.moduleKnobLabel}>Length</span>

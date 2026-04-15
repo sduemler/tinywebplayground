@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useSynthStore } from "./store";
 import { initAudio, setCrushDrive, setCrushBits, setCrushMix } from "./audio";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import styles from "./Eurorack.module.css";
 
 const DRIVE_STEPS = 1000;
@@ -91,9 +92,18 @@ export default function Crush() {
               className={styles.moduleSlider}
               aria-label="Crush drive"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(crushDrive * 100)}
-            </span>
+            <EditableValue
+              value={crushDrive * 100}
+              min={0}
+              max={100}
+              precision={0}
+              onCommit={(v) => {
+                const linear = v / 100;
+                storeSetDrive(linear);
+                initAudio().then(() => setCrushDrive(linear));
+              }}
+              ariaLabel="Crush drive"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Bits</span>
@@ -107,7 +117,17 @@ export default function Crush() {
               className={styles.moduleSlider}
               aria-label="Crush bit depth"
             />
-            <span className={styles.moduleKnobValue}>{crushBits}</span>
+            <EditableValue
+              value={crushBits}
+              min={1}
+              max={16}
+              precision={0}
+              onCommit={(v) => {
+                storeSetBits(v);
+                initAudio().then(() => setCrushBits(v));
+              }}
+              ariaLabel="Crush bit depth"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Mix</span>
@@ -121,9 +141,19 @@ export default function Crush() {
               className={styles.moduleSlider}
               aria-label="Crush mix"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(crushMix * 100)}%
-            </span>
+            <EditableValue
+              value={crushMix * 100}
+              min={0}
+              max={100}
+              precision={0}
+              unit="%"
+              onCommit={(v) => {
+                const linear = v / 100;
+                storeSetMix(linear);
+                initAudio().then(() => setCrushMix(linear));
+              }}
+              ariaLabel="Crush mix"
+            />
           </div>
         </div>
       </div>

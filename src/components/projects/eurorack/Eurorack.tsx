@@ -23,6 +23,7 @@ import Sequencer from "./Sequencer";
 import Random from "./Random";
 import Keyboard from "./Keyboard";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import type { WaveType } from "./types";
 import { makeLogSliderMap } from "./utils";
 import styles from "./Eurorack.module.css";
@@ -149,9 +150,19 @@ export default function Eurorack() {
                       className={styles.volumeSlider}
                       aria-label="Volume"
                     />
-                    <span className={styles.volumeValue}>
-                      {Math.round(volume * 100)}
-                    </span>
+                    <EditableValue
+                      value={volume * 100}
+                      min={0}
+                      max={100}
+                      precision={0}
+                      className={styles.volumeValue}
+                      onCommit={(v) => {
+                        const linear = v / 100;
+                        storeSetVolume(linear);
+                        initAudio().then(() => setVolume(linear));
+                      }}
+                      ariaLabel="Volume"
+                    />
                   </div>
                   <div className={styles.scopeWrapper}>
                     <Oscilloscope isPlaying={isPlaying} />
@@ -213,9 +224,19 @@ export default function Eurorack() {
                   <div className={styles.pitchControl}>
                     <div className={styles.pitchLabelRow}>
                       <span className={styles.pitchLabel}>Pitch</span>
-                      <span className={styles.pitchValue}>
-                        {Math.round(frequency)} Hz
-                      </span>
+                      <EditableValue
+                        value={frequency}
+                        min={55}
+                        max={880}
+                        precision={0}
+                        unit="Hz"
+                        className={styles.pitchValue}
+                        onCommit={(v) => {
+                          storeSetFrequency(v);
+                          initAudio().then(() => setFrequency(v));
+                        }}
+                        ariaLabel="Pitch"
+                      />
                     </div>
                     <input
                       type="range"

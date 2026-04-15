@@ -3,6 +3,7 @@ import { useSynthStore } from "./store";
 import { initAudio, setFilterCutoff, setFilterResonance } from "./audio";
 import { makeLogSliderMap } from "./utils";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import styles from "./Eurorack.module.css";
 
 const CUTOFF_MAP = makeLogSliderMap(20, 20000, 1000);
@@ -20,8 +21,8 @@ const filterPalette: React.CSSProperties = {
 };
 
 function formatHz(hz: number): string {
-  if (hz >= 1000) return `${(hz / 1000).toFixed(hz >= 10000 ? 0 : 1)}k`;
-  return `${Math.round(hz)}`;
+  if (hz >= 1000) return `${(hz / 1000).toFixed(hz >= 10000 ? 0 : 1)}k Hz`;
+  return `${Math.round(hz)} Hz`;
 }
 
 export default function Filter() {
@@ -80,7 +81,18 @@ export default function Filter() {
               className={styles.moduleSlider}
               aria-label="Filter cutoff"
             />
-            <span className={styles.moduleKnobValue}>{formatHz(filterCutoff)} Hz</span>
+            <EditableValue
+              value={filterCutoff}
+              min={20}
+              max={20000}
+              precision={0}
+              format={formatHz}
+              onCommit={(v) => {
+                storeSetCutoff(v);
+                initAudio().then(() => setFilterCutoff(v));
+              }}
+              ariaLabel="Filter cutoff"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Reso</span>
@@ -94,7 +106,17 @@ export default function Filter() {
               className={styles.moduleSlider}
               aria-label="Filter resonance"
             />
-            <span className={styles.moduleKnobValue}>{filterResonance.toFixed(1)}</span>
+            <EditableValue
+              value={filterResonance}
+              min={RESONANCE_MIN}
+              max={RESONANCE_MAX}
+              precision={1}
+              onCommit={(v) => {
+                storeSetResonance(v);
+                initAudio().then(() => setFilterResonance(v));
+              }}
+              ariaLabel="Filter resonance"
+            />
           </div>
         </div>
       </div>

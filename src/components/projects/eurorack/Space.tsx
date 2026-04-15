@@ -8,6 +8,7 @@ import {
   setFxMix,
 } from "./audio";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import styles from "./Eurorack.module.css";
 
 const TIME_MIN = 0.02;
@@ -111,9 +112,19 @@ export default function Space() {
               className={styles.moduleSlider}
               aria-label="Delay time"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(fxTime * 1000)}ms
-            </span>
+            <EditableValue
+              value={fxTime * 1000}
+              min={TIME_MIN * 1000}
+              max={TIME_MAX * 1000}
+              precision={0}
+              unit="ms"
+              onCommit={(v) => {
+                const seconds = v / 1000;
+                storeSetTime(seconds);
+                initAudio().then(() => setFxTime(seconds));
+              }}
+              ariaLabel="Delay time"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Fbk</span>
@@ -127,9 +138,19 @@ export default function Space() {
               className={styles.moduleSlider}
               aria-label="Delay feedback"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round((fxFeedback / 0.95) * 100)}%
-            </span>
+            <EditableValue
+              value={(fxFeedback / 0.95) * 100}
+              min={0}
+              max={100}
+              precision={0}
+              unit="%"
+              onCommit={(v) => {
+                const linear = (v / 100) * 0.95;
+                storeSetFeedback(linear);
+                initAudio().then(() => setFxFeedback(linear));
+              }}
+              ariaLabel="Delay feedback"
+            />
           </div>
         </div>
         <div className={styles.moduleKnobRow}>
@@ -145,9 +166,19 @@ export default function Space() {
               className={styles.moduleSlider}
               aria-label="Reverb decay"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(((fxReverbSize - 0.1) / 0.85) * 100)}%
-            </span>
+            <EditableValue
+              value={((fxReverbSize - 0.1) / 0.85) * 100}
+              min={0}
+              max={100}
+              precision={0}
+              unit="%"
+              onCommit={(v) => {
+                const linear = 0.1 + (v / 100) * 0.85;
+                storeSetReverbSize(linear);
+                initAudio().then(() => setFxReverbSize(linear));
+              }}
+              ariaLabel="Reverb decay"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Mix</span>
@@ -161,9 +192,19 @@ export default function Space() {
               className={styles.moduleSlider}
               aria-label="Dry/wet mix"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(fxMix * 100)}%
-            </span>
+            <EditableValue
+              value={fxMix * 100}
+              min={0}
+              max={100}
+              precision={0}
+              unit="%"
+              onCommit={(v) => {
+                const linear = v / 100;
+                storeSetMix(linear);
+                initAudio().then(() => setFxMix(linear));
+              }}
+              ariaLabel="Dry/wet mix"
+            />
           </div>
         </div>
       </div>

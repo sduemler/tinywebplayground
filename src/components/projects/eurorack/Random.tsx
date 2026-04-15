@@ -8,6 +8,7 @@ import {
 } from "./audio";
 import { makeLogSliderMap } from "./utils";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import styles from "./Eurorack.module.css";
 
 const PITCH_MAP = makeLogSliderMap(40, 4000, 1000);
@@ -196,9 +197,18 @@ export default function Random() {
               className={styles.moduleSlider}
               aria-label="Random pitch min"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(randHzMin)}
-            </span>
+            <EditableValue
+              value={randHzMin}
+              min={40}
+              max={4000}
+              precision={0}
+              unit="Hz"
+              onCommit={(v) => {
+                storeSetHzMin(v);
+                if (v > randHzMax) storeSetHzMax(v);
+              }}
+              ariaLabel="Random pitch min"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Pitch ↑</span>
@@ -212,9 +222,18 @@ export default function Random() {
               className={styles.moduleSlider}
               aria-label="Random pitch max"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(randHzMax)}
-            </span>
+            <EditableValue
+              value={randHzMax}
+              min={40}
+              max={4000}
+              precision={0}
+              unit="Hz"
+              onCommit={(v) => {
+                storeSetHzMax(v);
+                if (v < randHzMin) storeSetHzMin(v);
+              }}
+              ariaLabel="Random pitch max"
+            />
           </div>
         </div>
         <div className={styles.rangePair}>
@@ -230,9 +249,18 @@ export default function Random() {
               className={styles.moduleSlider}
               aria-label="Random rate min"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(randRateMsMin)}
-            </span>
+            <EditableValue
+              value={randRateMsMin}
+              min={RATE_MIN_MS}
+              max={RATE_MAX_MS}
+              precision={0}
+              unit="ms"
+              onCommit={(v) => {
+                storeSetRateMin(v);
+                if (v > randRateMsMax) storeSetRateMax(v);
+              }}
+              ariaLabel="Random rate min"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Rate ↑</span>
@@ -246,9 +274,18 @@ export default function Random() {
               className={styles.moduleSlider}
               aria-label="Random rate max"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(randRateMsMax)}
-            </span>
+            <EditableValue
+              value={randRateMsMax}
+              min={RATE_MIN_MS}
+              max={RATE_MAX_MS}
+              precision={0}
+              unit="ms"
+              onCommit={(v) => {
+                storeSetRateMax(v);
+                if (v < randRateMsMin) storeSetRateMin(v);
+              }}
+              ariaLabel="Random rate max"
+            />
           </div>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Gate</span>
@@ -262,9 +299,15 @@ export default function Random() {
               className={styles.moduleSlider}
               aria-label="Random gate"
             />
-            <span className={styles.moduleKnobValue}>
-              {Math.round(randGateMs)}
-            </span>
+            <EditableValue
+              value={randGateMs}
+              min={GATE_MIN_MS}
+              max={GATE_MAX_MS}
+              precision={0}
+              unit="ms"
+              onCommit={(v) => storeSetGate(v)}
+              ariaLabel="Random gate"
+            />
           </div>
         </div>
       </div>

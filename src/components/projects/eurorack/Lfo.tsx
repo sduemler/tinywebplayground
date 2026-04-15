@@ -4,6 +4,7 @@ import { initAudio, setLfoTarget, setLfoRate, setLfoDepth } from "./audio";
 import { LFO_TARGET_LABELS, type LfoTarget } from "./types";
 import { makeLogSliderMap } from "./utils";
 import ModuleHelp from "./ModuleHelp";
+import EditableValue from "./EditableValue";
 import styles from "./Eurorack.module.css";
 
 const RATE_MAP = makeLogSliderMap(0.1, 20, 1000);
@@ -105,7 +106,18 @@ function LfoSection({
             className={styles.moduleSlider}
             aria-label={`${label} rate`}
           />
-          <span className={styles.moduleKnobValue}>{rate.toFixed(2)} Hz</span>
+          <EditableValue
+            value={rate}
+            min={0.1}
+            max={20}
+            precision={2}
+            unit="Hz"
+            onCommit={(v) => {
+              onRateChange(v);
+              initAudio().then(() => setLfoRate(index, v));
+            }}
+            ariaLabel={`${label} rate`}
+          />
         </div>
         <div className={styles.moduleKnob}>
           <span className={styles.moduleKnobLabel}>Depth</span>
@@ -119,7 +131,19 @@ function LfoSection({
             className={styles.moduleSlider}
             aria-label={`${label} depth`}
           />
-          <span className={styles.moduleKnobValue}>{Math.round(depth * 100)}%</span>
+          <EditableValue
+            value={depth * 100}
+            min={0}
+            max={100}
+            precision={0}
+            unit="%"
+            onCommit={(v) => {
+              const linear = v / 100;
+              onDepthChange(linear);
+              initAudio().then(() => setLfoDepth(index, linear));
+            }}
+            ariaLabel={`${label} depth`}
+          />
         </div>
       </div>
     </div>
