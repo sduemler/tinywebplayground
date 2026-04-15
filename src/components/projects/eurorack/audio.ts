@@ -1,6 +1,12 @@
 import * as Tone from "tone";
-import type { WaveType, LfoTarget, NoiseType, SeqStep } from "./types";
+import type { WaveType, LfoTarget, NoiseType, SeqStep, SwirlMode } from "./types";
 import { noteToHz } from "./notes";
+
+// Tone doesn't share a public base type for effects that all expose a `wet`
+// param. Chorus/Phaser/Vibrato each do, but the union is too narrow for TS to
+// reason about without explicit branching, so we hold them as one nullable
+// pointer and cast at connect time.
+type SwirlEffect = Tone.Chorus | Tone.Phaser | Tone.Vibrato;
 
 let oscillator: Tone.Oscillator | null = null;
 let noise: Tone.Noise | null = null;
@@ -17,6 +23,9 @@ let filter: Tone.Filter | null = null;
 let delayNode: Tone.FeedbackDelay | null = null;
 let reverbNode: Tone.Freeverb | null = null;
 let fxMixer: Tone.CrossFade | null = null;
+let swirlInput: Tone.Gain | null = null;
+let swirlOutput: Tone.Gain | null = null;
+let swirlEffect: SwirlEffect | null = null;
 const lfos: (Tone.LFO | null)[] = [null, null, null, null];
 let envelope: Tone.AmplitudeEnvelope | null = null;
 let initialized = false;
@@ -35,6 +44,12 @@ let currentNoiseType: NoiseType = "white";
 let currentCrushDrive = 0;
 let currentCrushBits = 16;
 let currentCrushMix = 0;
+
+let currentSwirlMode: SwirlMode = "chorus";
+let currentSwirlRate = 2;
+let currentSwirlDepth = 0.5;
+let currentSwirlFeedback = 0.2;
+let currentSwirlMix = 0;
 
 // Trigger-mode envelope state. In drone mode the envelope is forced to
 // pass-through (0, 0, 1, 0) regardless of these values; in trigger mode
@@ -114,8 +129,9 @@ export async function initAudio(): Promise<void> {
   //   noise → noiseGain ┘                               ↘ distortion → bitCrusher → crushWet.b (wet)
   //   crushWet → fxMixer.a (dry)
   //   crushWet → delay → reverb → fxMixer.b (wet)
-  //   fxMixer → scopeGain (tracks volume) → analyser
-  //   fxMixer → outputGain (volume, or 0 when muted) → destination
+  //   fxMixer → swirlInput → swirlEffect → swirlOutput
+  //   swirlOutput → scopeGain (tracks volume) → analyser
+  //   swirlOutput → outputGain (volume, or 0 when muted) → destination
   //
   // Envelope is *always* in the chain. In drone mode it's forced to
   // (0, 0, 1, 0) — pass-through at unity — via applyEnvelopeState() below.
@@ -157,6 +173,9 @@ export async function initAudio(): Promise<void> {
   outputGain = new Tone.Gain(muted ? 0 : currentVolume);
   outputGain.connect(Tone.getDestination());
 
+  swirlInput = new Tone.Gain(1);
+  swirlOutput = new Tone.Gain(1);
+
   envelope.connect(filter);
   filter.connect(crushWet.a);
   filter.connect(distortion);
@@ -166,8 +185,10 @@ export async function initAudio(): Promise<void> {
   crushWet.connect(delayNode);
   delayNode.connect(reverbNode);
   reverbNode.connect(fxMixer.b);
-  fxMixer.connect(scopeGainNode);
-  fxMixer.connect(outputGain);
+  fxMixer.connect(swirlInput);
+  buildSwirlEffect();
+  swirlOutput.connect(scopeGainNode);
+  swirlOutput.connect(outputGain);
 
   // Source bus: oscillator + noise → sourceMix → envelope
   oscGain = new Tone.Gain(currentOscLevel);
@@ -490,6 +511,110 @@ export function setNoiseType(t: NoiseType): void {
   if (noise) noise.type = t;
 }
 
+// Swirl (modulation FX: chorus / phaser / vibrato)
+//
+// The three Tone effects don't share a useful base class, so we allocate a
+// single SwirlEffect pointer and rebuild it whenever the mode changes. Rate,
+// depth, feedback (chorus-only) and wet are re-applied from the cached values
+// each time so mode switches are transparent to the UI.
+function buildSwirlEffect(): void {
+  if (!swirlInput || !swirlOutput) return;
+
+  if (swirlEffect) {
+    try {
+      swirlEffect.disconnect();
+    } catch {
+      // ignore — node may not be connected yet
+    }
+    swirlEffect.dispose();
+    swirlEffect = null;
+  }
+  // swirlInput has the previous effect as its only downstream connection;
+  // clear it before we wire in the new one.
+  try {
+    swirlInput.disconnect();
+  } catch {
+    // ignore
+  }
+
+  switch (currentSwirlMode) {
+    case "chorus": {
+      const chorus = new Tone.Chorus({
+        frequency: currentSwirlRate,
+        depth: currentSwirlDepth,
+        feedback: currentSwirlFeedback,
+        delayTime: 3.5,
+        wet: currentSwirlMix,
+      }).start();
+      swirlEffect = chorus;
+      break;
+    }
+    case "phaser": {
+      const phaser = new Tone.Phaser({
+        frequency: currentSwirlRate,
+        octaves: Math.max(0.1, currentSwirlDepth * 5),
+        baseFrequency: 400,
+      });
+      phaser.wet.value = currentSwirlMix;
+      swirlEffect = phaser;
+      break;
+    }
+    case "vibrato": {
+      const vibrato = new Tone.Vibrato({
+        frequency: currentSwirlRate,
+        depth: currentSwirlDepth,
+      });
+      vibrato.wet.value = currentSwirlMix;
+      swirlEffect = vibrato;
+      break;
+    }
+  }
+
+  swirlInput.connect(swirlEffect);
+  swirlEffect.connect(swirlOutput);
+}
+
+export function setSwirlMode(mode: SwirlMode): void {
+  if (currentSwirlMode === mode) return;
+  currentSwirlMode = mode;
+  if (initialized) buildSwirlEffect();
+}
+
+export function setSwirlRate(hz: number): void {
+  currentSwirlRate = hz;
+  if (!swirlEffect) return;
+  // All three effects expose `frequency` as a Signal/Param.
+  swirlEffect.frequency.rampTo(hz, 0.05);
+}
+
+export function setSwirlDepth(value: number): void {
+  currentSwirlDepth = value;
+  if (!swirlEffect) return;
+  if (swirlEffect instanceof Tone.Chorus) {
+    swirlEffect.depth = value;
+  } else if (swirlEffect instanceof Tone.Phaser) {
+    // Phaser expresses "depth" as octave span.
+    swirlEffect.octaves = Math.max(0.1, value * 5);
+  } else if (swirlEffect instanceof Tone.Vibrato) {
+    swirlEffect.depth.rampTo(value, 0.03);
+  }
+}
+
+export function setSwirlFeedback(value: number): void {
+  currentSwirlFeedback = value;
+  // Only chorus uses feedback; the other modes ignore the stored value until
+  // the user switches back to chorus (at which point buildSwirlEffect re-reads
+  // it).
+  if (swirlEffect instanceof Tone.Chorus) {
+    swirlEffect.feedback.rampTo(value, 0.03);
+  }
+}
+
+export function setSwirlMix(value: number): void {
+  currentSwirlMix = value;
+  swirlEffect?.wet.rampTo(value, 0.03);
+}
+
 // Crush setters
 export function setCrushDrive(n: number): void {
   currentCrushDrive = n;
@@ -663,6 +788,9 @@ export function dispose(): void {
   delayNode?.dispose();
   reverbNode?.dispose();
   fxMixer?.dispose();
+  swirlEffect?.dispose();
+  swirlInput?.dispose();
+  swirlOutput?.dispose();
   for (let i = 0; i < lfos.length; i++) {
     lfos[i]?.stop();
     lfos[i]?.dispose();
@@ -684,6 +812,9 @@ export function dispose(): void {
   delayNode = null;
   reverbNode = null;
   fxMixer = null;
+  swirlEffect = null;
+  swirlInput = null;
+  swirlOutput = null;
   outputGain = null;
   scopeGainNode = null;
   analyser = null;

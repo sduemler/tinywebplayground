@@ -17,6 +17,7 @@ const palette: React.CSSProperties = {
   ["--module-accent" as string]: "#c48fff",
   ["--module-track" as string]: "#180a22",
   ["--module-width" as string]: "min(calc(var(--module-u, 40px) * 20), 95vw)",
+  flexGrow: 1,
 };
 
 const TARGET_OPTIONS: LfoTarget[] = [

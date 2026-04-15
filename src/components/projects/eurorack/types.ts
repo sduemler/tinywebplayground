@@ -19,6 +19,8 @@ export const LFO_TARGET_LABELS: Record<LfoTarget, string> = {
 
 export type NoiseType = "white" | "pink" | "brown";
 
+export type SwirlMode = "chorus" | "phaser" | "vibrato";
+
 export interface SeqStep {
   note: string;
   octave: number;

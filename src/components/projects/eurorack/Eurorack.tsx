@@ -16,6 +16,7 @@ import Mixer from "./Mixer";
 import Filter from "./Filter";
 import Crush from "./Crush";
 import Space from "./Space";
+import Swirl from "./Swirl";
 import Lfo from "./Lfo";
 import Adsr from "./Adsr";
 import Sequencer from "./Sequencer";
@@ -243,6 +244,7 @@ export default function Eurorack() {
           <div className={styles.moduleColumn}>
             <Space />
             <Adsr />
+            <Swirl />
           </div>
         </div>
         <Keyboard />

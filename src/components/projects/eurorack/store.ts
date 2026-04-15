@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { WaveType, LfoTarget, NoiseType, SeqStep } from "./types";
+import type { WaveType, LfoTarget, NoiseType, SeqStep, SwirlMode } from "./types";
 
 const DEFAULT_SEQ_STEPS: SeqStep[] = Array.from({ length: 16 }, () => ({
   note: "A",
@@ -54,6 +54,11 @@ interface SynthStore {
   randRateMsMin: number;
   randRateMsMax: number;
   randGateMs: number;
+  swirlMode: SwirlMode;
+  swirlRate: number;
+  swirlDepth: number;
+  swirlFeedback: number;
+  swirlMix: number;
   setWaveType: (type: WaveType) => void;
   setPlaying: (playing: boolean) => void;
   setVolume: (volume: number) => void;
@@ -101,6 +106,11 @@ interface SynthStore {
   setRandRateMsMin: (ms: number) => void;
   setRandRateMsMax: (ms: number) => void;
   setRandGateMs: (ms: number) => void;
+  setSwirlMode: (mode: SwirlMode) => void;
+  setSwirlRate: (hz: number) => void;
+  setSwirlDepth: (value: number) => void;
+  setSwirlFeedback: (value: number) => void;
+  setSwirlMix: (value: number) => void;
 }
 
 export const useSynthStore = create<SynthStore>((set) => ({
@@ -150,6 +160,11 @@ export const useSynthStore = create<SynthStore>((set) => ({
   randRateMsMin: 150,
   randRateMsMax: 600,
   randGateMs: 120,
+  swirlMode: "chorus",
+  swirlRate: 2,
+  swirlDepth: 0.5,
+  swirlFeedback: 0.2,
+  swirlMix: 0,
   setWaveType: (waveType) => set({ waveType }),
   setPlaying: (isPlaying) => set({ isPlaying }),
   setVolume: (volume) => set({ volume }),
@@ -202,4 +217,9 @@ export const useSynthStore = create<SynthStore>((set) => ({
   setRandRateMsMin: (randRateMsMin) => set({ randRateMsMin }),
   setRandRateMsMax: (randRateMsMax) => set({ randRateMsMax }),
   setRandGateMs: (randGateMs) => set({ randGateMs }),
+  setSwirlMode: (swirlMode) => set({ swirlMode }),
+  setSwirlRate: (swirlRate) => set({ swirlRate }),
+  setSwirlDepth: (swirlDepth) => set({ swirlDepth }),
+  setSwirlFeedback: (swirlFeedback) => set({ swirlFeedback }),
+  setSwirlMix: (swirlMix) => set({ swirlMix }),
 }));
