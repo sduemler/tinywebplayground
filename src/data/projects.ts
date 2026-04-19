@@ -81,4 +81,14 @@ export const projects: Project[] = [
     status: "live",
     tags: ["tabletop", "dice", "rpg"],
   },
+  {
+    slug: "human-maintenance-guide",
+    title: "Human Maintenance Guide",
+    description:
+      "A reference compendium for how often to do the things that keep life running — health, home, car, finances, and personal care.",
+    image: "/images/projects/human-maintenance-guide.jpg",
+    accentColor: "#2e6b6b",
+    status: "live",
+    tags: ["reference", "health", "lifestyle"],
+  },
 ];

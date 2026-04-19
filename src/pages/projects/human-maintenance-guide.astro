@@ -1,0 +1,12 @@
+---
+export const prerender = true;
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import { projects } from "../../data/projects";
+import HumanMaintenanceGuide from "../../components/projects/human-maintenance-guide/HumanMaintenanceGuide";
+
+const project = projects.find((p) => p.slug === "human-maintenance-guide")!;
+---
+
+<ProjectLayout project={project}>
+  <HumanMaintenanceGuide client:load />
+</ProjectLayout>
