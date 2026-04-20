@@ -74,7 +74,7 @@ function CategorySection({
 
 export default function HumanMaintenanceGuide() {
   const [openCategories, setOpenCategories] = useState<Set<string>>(
-    () => new Set(CATEGORIES.map((c) => c.id))
+    () => new Set<string>()
   );
 
   function toggleCategory(id: string) {
