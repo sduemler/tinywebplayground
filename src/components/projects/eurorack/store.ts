@@ -1,5 +1,12 @@
 import { create } from "zustand";
-import type { WaveType, LfoTarget, NoiseType, SeqStep, SwirlMode } from "./types";
+import type {
+  WaveType,
+  LfoTarget,
+  NoiseType,
+  SeqStep,
+  SwirlMode,
+  RandomScale,
+} from "./types";
 
 const DEFAULT_SEQ_STEPS: SeqStep[] = Array.from({ length: 16 }, () => ({
   note: "A",
@@ -54,6 +61,8 @@ interface SynthStore {
   randRateMsMin: number;
   randRateMsMax: number;
   randGateMs: number;
+  randKeyRoot: string;
+  randKeyScale: RandomScale;
   swirlMode: SwirlMode;
   swirlRate: number;
   swirlDepth: number;
@@ -106,6 +115,8 @@ interface SynthStore {
   setRandRateMsMin: (ms: number) => void;
   setRandRateMsMax: (ms: number) => void;
   setRandGateMs: (ms: number) => void;
+  setRandKeyRoot: (note: string) => void;
+  setRandKeyScale: (scale: RandomScale) => void;
   setSwirlMode: (mode: SwirlMode) => void;
   setSwirlRate: (hz: number) => void;
   setSwirlDepth: (value: number) => void;
@@ -160,6 +171,8 @@ export const useSynthStore = create<SynthStore>((set) => ({
   randRateMsMin: 150,
   randRateMsMax: 600,
   randGateMs: 120,
+  randKeyRoot: "C",
+  randKeyScale: "off",
   swirlMode: "chorus",
   swirlRate: 2,
   swirlDepth: 0.5,
@@ -217,6 +230,8 @@ export const useSynthStore = create<SynthStore>((set) => ({
   setRandRateMsMin: (randRateMsMin) => set({ randRateMsMin }),
   setRandRateMsMax: (randRateMsMax) => set({ randRateMsMax }),
   setRandGateMs: (randGateMs) => set({ randGateMs }),
+  setRandKeyRoot: (randKeyRoot) => set({ randKeyRoot }),
+  setRandKeyScale: (randKeyScale) => set({ randKeyScale }),
   setSwirlMode: (swirlMode) => set({ swirlMode }),
   setSwirlRate: (swirlRate) => set({ swirlRate }),
   setSwirlDepth: (swirlDepth) => set({ swirlDepth }),

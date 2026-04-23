@@ -1,6 +1,6 @@
 import * as Tone from "tone";
 import type { WaveType, LfoTarget, NoiseType, SeqStep, SwirlMode } from "./types";
-import { noteToHz } from "./notes";
+import { noteToHz, snapHzToScale } from "./notes";
 
 // Tone doesn't share a public base type for effects that all expose a `wet`
 // param. Chorus/Phaser/Vibrato each do, but the union is too narrow for TS to
@@ -719,6 +719,8 @@ interface RandomOpts {
   rateMsMin: number;
   rateMsMax: number;
   gateMs: number;
+  rootSemitone: number;
+  scaleIntervals: readonly number[] | null;
 }
 
 const randState: {
@@ -740,7 +742,10 @@ export function startRandom(opts: RandomOpts): void {
     const hi = Math.max(s.hzMin, s.hzMax);
     const logMin = Math.log(Math.max(1, lo));
     const logMax = Math.log(Math.max(1, hi));
-    const hz = Math.exp(logMin + Math.random() * (logMax - logMin));
+    let hz = Math.exp(logMin + Math.random() * (logMax - logMin));
+    if (s.scaleIntervals) {
+      hz = snapHzToScale(hz, lo, hi, s.rootSemitone, s.scaleIntervals);
+    }
     oscillator.frequency.rampTo(hz, 0.005);
     envelope.triggerAttackRelease(s.gateMs / 1000);
     const nextMs = randBetween(

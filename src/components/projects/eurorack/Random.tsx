@@ -9,7 +9,22 @@ import {
 import { makeLogSliderMap } from "./utils";
 import ModuleHelp from "./ModuleHelp";
 import EditableValue from "./EditableValue";
+import { NOTE_NAMES, NOTE_SEMITONES, SCALE_INTERVALS } from "./notes";
+import { RANDOM_SCALE_LABELS, type RandomScale } from "./types";
 import styles from "./Eurorack.module.css";
+
+const SCALE_OPTIONS: RandomScale[] = [
+  "off",
+  "major",
+  "minor",
+  "pentaMajor",
+  "pentaMinor",
+];
+
+function scaleIntervalsFor(scale: RandomScale): readonly number[] | null {
+  if (scale === "off") return null;
+  return SCALE_INTERVALS[scale];
+}
 
 const PITCH_MAP = makeLogSliderMap(40, 4000, 1000);
 const RATE_MIN_MS = 50;
@@ -45,12 +60,16 @@ export default function Random() {
     randRateMsMin,
     randRateMsMax,
     randGateMs,
+    randKeyRoot,
+    randKeyScale,
     setRandPlaying: storeSetPlaying,
     setRandHzMin: storeSetHzMin,
     setRandHzMax: storeSetHzMax,
     setRandRateMsMin: storeSetRateMin,
     setRandRateMsMax: storeSetRateMax,
     setRandGateMs: storeSetGate,
+    setRandKeyRoot: storeSetKeyRoot,
+    setRandKeyScale: storeSetKeyScale,
   } = useSynthStore();
 
   // Keep a ref to the latest state so live edits during playback can
@@ -61,6 +80,8 @@ export default function Random() {
     randRateMsMin,
     randRateMsMax,
     randGateMs,
+    randKeyRoot,
+    randKeyScale,
   });
   stateRef.current = {
     randHzMin,
@@ -68,6 +89,8 @@ export default function Random() {
     randRateMsMin,
     randRateMsMax,
     randGateMs,
+    randKeyRoot,
+    randKeyScale,
   };
 
   useEffect(() => {
@@ -78,9 +101,20 @@ export default function Random() {
         rateMsMin: randRateMsMin,
         rateMsMax: randRateMsMax,
         gateMs: randGateMs,
+        rootSemitone: NOTE_SEMITONES[randKeyRoot] ?? 0,
+        scaleIntervals: scaleIntervalsFor(randKeyScale),
       });
     }
-  }, [randPlaying, randHzMin, randHzMax, randRateMsMin, randRateMsMax, randGateMs]);
+  }, [
+    randPlaying,
+    randHzMin,
+    randHzMax,
+    randRateMsMin,
+    randRateMsMax,
+    randGateMs,
+    randKeyRoot,
+    randKeyScale,
+  ]);
 
   // Stop when unmounting.
   useEffect(() => {
@@ -102,6 +136,8 @@ export default function Random() {
       rateMsMin: stateRef.current.randRateMsMin,
       rateMsMax: stateRef.current.randRateMsMax,
       gateMs: stateRef.current.randGateMs,
+      rootSemitone: NOTE_SEMITONES[stateRef.current.randKeyRoot] ?? 0,
+      scaleIntervals: scaleIntervalsFor(stateRef.current.randKeyScale),
     });
     storeSetPlaying(true);
   }, [randPlaying, storeSetPlaying]);
@@ -142,6 +178,15 @@ export default function Random() {
     [randRateMsMin, storeSetRateMin, storeSetRateMax],
   );
 
+  const stepKey = useCallback(
+    (delta: 1 | -1) => {
+      const idx = NOTE_NAMES.indexOf(randKeyRoot);
+      const next = NOTE_NAMES[(idx + delta + NOTE_NAMES.length) % NOTE_NAMES.length];
+      storeSetKeyRoot(next);
+    },
+    [randKeyRoot, storeSetKeyRoot],
+  );
+
   const handleGate = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const ms = linearFromSteps(Number(e.target.value), GATE_MIN_MS, GATE_MAX_MS);
@@ -170,20 +215,80 @@ export default function Random() {
             name: "Gate",
             description: "How long each note sustains, in ms.",
           },
+          {
+            name: "Key",
+            description:
+              "Root note used when a scale is selected. Ignored when scale is Off.",
+          },
+          {
+            name: "Scale",
+            description:
+              "Quantizes each random pitch to the nearest note in the chosen scale. Off = chromatic (no snapping).",
+          },
         ]}
       />
       <h3 className={styles.moduleHeader}>Random</h3>
       <div className={styles.moduleBody}>
-        <button
-          type="button"
-          className={`${styles.autoPlayButton} ${
-            randPlaying ? styles.autoPlayButtonActive : ""
-          }`}
-          onClick={handlePlay}
-          aria-pressed={randPlaying}
-        >
-          {randPlaying ? "Stop" : "Play"}
-        </button>
+        <div className={styles.randPlayRow}>
+          <button
+            type="button"
+            className={`${styles.autoPlayButton} ${
+              randPlaying ? styles.autoPlayButtonActive : ""
+            }`}
+            onClick={handlePlay}
+            aria-pressed={randPlaying}
+          >
+            {randPlaying ? "Stop" : "Play"}
+          </button>
+          <div
+            className={`${styles.randKeyStepper} ${
+              randKeyScale !== "off" ? styles.randKeyStepperActive : ""
+            }`}
+            role="group"
+            aria-label="Random key root"
+          >
+            <button
+              type="button"
+              className={styles.randKeyStepperArrow}
+              onClick={() => stepKey(-1)}
+              aria-label="Previous key"
+            >
+              ◀
+            </button>
+            <span className={styles.randKeyStepperValue}>{randKeyRoot}</span>
+            <button
+              type="button"
+              className={styles.randKeyStepperArrow}
+              onClick={() => stepKey(1)}
+              aria-label="Next key"
+            >
+              ▶
+            </button>
+          </div>
+        </div>
+        <div className={styles.moduleSubSection}>
+          <span className={styles.moduleSubHeader}>Scale</span>
+          <div
+            className={styles.randScaleTabs}
+            role="radiogroup"
+            aria-label="Random scale"
+          >
+            {SCALE_OPTIONS.map((s) => (
+              <button
+                key={s}
+                type="button"
+                role="radio"
+                aria-checked={randKeyScale === s}
+                className={`${styles.randChip} ${
+                  randKeyScale === s ? styles.randChipActive : ""
+                }`}
+                onClick={() => storeSetKeyScale(s)}
+              >
+                {RANDOM_SCALE_LABELS[s]}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className={styles.rangePair}>
           <div className={styles.moduleKnob}>
             <span className={styles.moduleKnobLabel}>Pitch ↓</span>

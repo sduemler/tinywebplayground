@@ -19,6 +19,56 @@ export function noteToHz(noteName: string, octave: number): number {
   return 440 * Math.pow(2, (midi - 69) / 12);
 }
 
+export const NOTE_NAMES: readonly string[] = [
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+  "A",
+  "A#",
+  "B",
+];
+
+export const SCALE_INTERVALS: Record<string, readonly number[]> = {
+  major: [0, 2, 4, 5, 7, 9, 11],
+  minor: [0, 2, 3, 5, 7, 8, 10],
+  pentaMajor: [0, 2, 4, 7, 9],
+  pentaMinor: [0, 3, 5, 7, 10],
+};
+
+export function snapHzToScale(
+  hz: number,
+  hzMin: number,
+  hzMax: number,
+  rootSemitone: number,
+  intervals: readonly number[],
+): number {
+  const toMidi = (f: number): number => 69 + 12 * Math.log2(f / 440);
+  const midiF = toMidi(hz);
+  const midiLo = toMidi(Math.max(1, hzMin));
+  const midiHi = toMidi(Math.max(1, hzMax));
+  const lo = Math.floor(midiLo);
+  const hi = Math.ceil(midiHi);
+  let bestMidi = -1;
+  let bestDist = Infinity;
+  for (let m = lo; m <= hi; m++) {
+    const mod = (((m - rootSemitone) % 12) + 12) % 12;
+    if (!intervals.includes(mod)) continue;
+    const d = Math.abs(m - midiF);
+    if (d < bestDist) {
+      bestDist = d;
+      bestMidi = m;
+    }
+  }
+  if (bestMidi < 0) return hz;
+  return 440 * Math.pow(2, (bestMidi - 69) / 12);
+}
+
 export interface KeyBinding {
   note: string;
   octaveOffset: 0 | 1;

@@ -21,6 +21,21 @@ export type NoiseType = "white" | "pink" | "brown";
 
 export type SwirlMode = "chorus" | "phaser" | "vibrato";
 
+export type RandomScale =
+  | "off"
+  | "major"
+  | "minor"
+  | "pentaMajor"
+  | "pentaMinor";
+
+export const RANDOM_SCALE_LABELS: Record<RandomScale, string> = {
+  off: "Off",
+  major: "Maj",
+  minor: "Min",
+  pentaMajor: "P5+",
+  pentaMinor: "P5−",
+};
+
 export interface SeqStep {
   note: string;
   octave: number;

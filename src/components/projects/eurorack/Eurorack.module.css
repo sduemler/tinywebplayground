@@ -1249,6 +1249,127 @@
     justify-content: space-around;
 }
 
+/* Random — scale tabs & key-note chips */
+.randScaleTabs {
+    display: flex;
+    gap: 0.2rem;
+    background: var(--module-track);
+    border: 1px solid var(--module-border);
+    border-radius: 3px;
+    padding: 0.2rem;
+}
+
+.randChip {
+    flex: 1;
+    font-family:
+        ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.2rem;
+    background: transparent;
+    color: var(--module-text);
+    border: 1px solid transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 160ms ease;
+}
+
+.randChip:hover {
+    background: color-mix(in srgb, var(--module-accent) 20%, transparent);
+}
+
+.randChip:focus-visible {
+    outline: 2px solid var(--module-accent);
+    outline-offset: 2px;
+}
+
+.randChipActive,
+.randChipActive:hover {
+    background: var(--module-accent);
+    color: var(--module-track);
+    box-shadow: 0 0 6px
+        color-mix(in srgb, var(--module-accent) 50%, transparent);
+}
+
+.randPlayRow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.randKeyStepper {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    gap: 0.2rem;
+    background: var(--module-track);
+    border: 1px solid var(--module-border);
+    border-radius: 3px;
+    padding: 0.2rem;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.randKeyStepperActive {
+    border-color: var(--module-accent);
+    box-shadow: 0 0 8px
+        color-mix(in srgb, var(--module-accent) 45%, transparent);
+}
+
+.randKeyStepperArrow {
+    width: 1.6rem;
+    font-family:
+        ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: transparent;
+    color: var(--module-text);
+    border: 1px solid transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 160ms ease;
+}
+
+.randKeyStepperArrow:hover {
+    background: color-mix(in srgb, var(--module-accent) 20%, transparent);
+}
+
+.randKeyStepperArrow:focus-visible {
+    outline: 2px solid var(--module-accent);
+    outline-offset: 2px;
+}
+
+.randKeyStepperValue {
+    flex: 1;
+    align-self: center;
+    text-align: center;
+    font-family:
+        ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--module-text);
+    opacity: 0.5;
+    transition:
+        color 160ms ease,
+        opacity 160ms ease,
+        text-shadow 160ms ease;
+}
+
+.randKeyStepperActive .randKeyStepperValue {
+    color: var(--module-accent);
+    opacity: 1;
+    text-shadow: 0 0 8px
+        color-mix(in srgb, var(--module-accent) 55%, transparent);
+}
+
+.randKeyStepperActive .randKeyStepperArrow {
+    color: var(--module-accent);
+}
+
 /* Sequencer */
 .seqControlRow {
     display: flex;
