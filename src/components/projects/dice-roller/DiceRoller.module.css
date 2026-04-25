@@ -23,6 +23,27 @@
   color: var(--color-text);
 }
 
+.raycastNotice {
+  align-self: center;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  background: var(--color-accent-light);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  text-decoration: none;
+  transition: color var(--transition), border-color var(--transition),
+    transform var(--transition);
+}
+
+.raycastNotice:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
 .inputRow {
   display: flex;
   gap: 0.75rem;

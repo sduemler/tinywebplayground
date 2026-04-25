@@ -76,6 +76,15 @@ export default function DiceRoller() {
 
   return (
     <div className={styles.wrapper}>
+      <a
+        className={styles.raycastNotice}
+        href="https://www.raycast.com/sam_duemler/tabletop-dice-roller"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Also available as a Raycast extension →
+      </a>
+
       <p className={styles.hint}>
         Dice notation with <code>+ − × ÷</code> and parentheses. Try{" "}
         <code>1d20 + 5</code> or <code>2d6 + 3d4 - 1</code>.
