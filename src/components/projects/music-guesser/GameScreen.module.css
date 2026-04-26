@@ -112,11 +112,29 @@
   font-size: 0.9rem;
 }
 
-.lifelineRow {
+.lifelinesField {
+  margin: 0;
+  padding: 0.85rem 1rem 0.7rem;
+  border: 2px solid var(--mg-secondary, #c9a227);
+  border-radius: 999px;
+  background: transparent;
+}
+
+.lifelinesLegend {
+  padding: 0 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--mg-primary, #1f5c3a);
+  letter-spacing: 0.02em;
+}
+
+.lifelineButtons {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  align-items: center;
+  justify-content: center;
 }
 
 .lifelineButton {
@@ -146,23 +164,28 @@
 }
 
 .lifelineRemaining {
-  margin-left: auto;
+  margin-top: 0.5rem;
+  text-align: center;
   color: var(--color-muted);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .skipButton {
   align-self: center;
+  padding: 0.5rem 1.1rem;
   background: transparent;
   color: var(--color-muted);
-  border: none;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
   font: inherit;
   font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
-  text-decoration: underline;
-  padding: 0.4rem;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .skipButton:hover {
-  color: var(--mg-wrong, #a83a2e);
+  background: var(--mg-wrong, #a83a2e);
+  border-color: var(--mg-wrong, #a83a2e);
+  color: var(--color-rich-text);
 }

@@ -104,30 +104,33 @@ export default function GameScreen({
 
           {feedback === 'wrong' && <div className={styles.feedbackWrong}>Not quite — try again</div>}
 
-          <GuessInput onSubmit={handleGuess} disabled={feedback === 'right'} />
-
-          <div className={styles.lifelineRow}>
-            {(['blur', 'extend', 'hint'] as LifelineKind[]).map((kind) => {
-              const used = state.lifelinesUsedThisSong.includes(kind);
-              const noneLeft = state.lifelinesRemaining <= 0;
-              const label = kind === 'blur' ? 'Blur cover' : kind === 'extend' ? 'Extend to 30s' : 'Decade + genre';
-              return (
-                <button
-                  key={kind}
-                  type="button"
-                  className={styles.lifelineButton}
-                  disabled={used || noneLeft}
-                  onClick={() => onUseLifeline(kind)}
-                  data-used={used}
-                >
-                  {label}
-                </button>
-              );
-            })}
-            <span className={styles.lifelineRemaining}>
+          <fieldset className={styles.lifelinesField}>
+            <legend className={styles.lifelinesLegend}>Lifelines</legend>
+            <div className={styles.lifelineButtons}>
+              {(['blur', 'extend', 'hint'] as LifelineKind[]).map((kind) => {
+                const used = state.lifelinesUsedThisSong.includes(kind);
+                const noneLeft = state.lifelinesRemaining <= 0;
+                const label = kind === 'blur' ? 'Blur cover' : kind === 'extend' ? 'Extend to 30s' : 'Decade + genre';
+                return (
+                  <button
+                    key={kind}
+                    type="button"
+                    className={styles.lifelineButton}
+                    disabled={used || noneLeft}
+                    onClick={() => onUseLifeline(kind)}
+                    data-used={used}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className={styles.lifelineRemaining}>
               {state.lifelinesRemaining} lifeline{state.lifelinesRemaining === 1 ? '' : 's'} left
-            </span>
-          </div>
+            </div>
+          </fieldset>
+
+          <GuessInput onSubmit={handleGuess} disabled={feedback === 'right'} />
 
           <button type="button" className={styles.skipButton} onClick={onSkip}>
             Skip song (counts as failed)
