@@ -1,0 +1,117 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.backButton {
+  align-self: flex-start;
+  background: transparent;
+  border: none;
+  color: var(--color-muted);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.25rem 0;
+}
+
+.backButton:hover {
+  color: var(--mg-primary, #1f5c3a);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--mg-primary, #1f5c3a);
+  margin: 0;
+}
+
+.subline {
+  color: var(--color-muted);
+  margin: 0 0 0.5rem 0;
+}
+
+.presetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.presetCard {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.presetCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--mg-primary, #1f5c3a);
+}
+
+.presetLabel {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--mg-primary, #1f5c3a);
+}
+
+.customSection {
+  margin-top: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: var(--color-accent-light);
+  border-radius: var(--radius);
+}
+
+.customLabel {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.customRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.customInput {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  font: inherit;
+  color: var(--color-text);
+}
+
+.customInput:focus {
+  outline: none;
+  border-color: var(--mg-primary, #1f5c3a);
+}
+
+.customSubmit {
+  background: var(--mg-primary, #1f5c3a);
+  color: var(--color-rich-text);
+  border: none;
+  padding: 0 1.2rem;
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.customSubmit:hover {
+  background: #2f7d4a;
+}
+
+.customError {
+  margin-top: 0.45rem;
+  color: var(--mg-wrong, #a83a2e);
+  font-size: 0.85rem;
+}

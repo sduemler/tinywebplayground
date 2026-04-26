@@ -1,0 +1,37 @@
+.row {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.dot[data-state='current'] {
+  background: var(--mg-secondary, #c9a227);
+  border-color: var(--mg-secondary, #c9a227);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.18);
+}
+
+.dot[data-state='correct'] {
+  background: var(--mg-correct, #2f7d4a);
+  border-color: var(--mg-correct, #2f7d4a);
+}
+
+.dot[data-state='failed'],
+.dot[data-state='skipped'] {
+  background: var(--mg-wrong, #a83a2e);
+  border-color: var(--mg-wrong, #a83a2e);
+}
+
+.dot[data-state='skipped'] {
+  opacity: 0.6;
+}

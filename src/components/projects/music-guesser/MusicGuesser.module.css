@@ -1,0 +1,106 @@
+.root {
+  --mg-primary: #1f5c3a;
+  --mg-primary-light: #c8dccd;
+  --mg-secondary: #c9a227;
+  --mg-secondary-light: #f5e8b8;
+  --mg-correct: #2f7d4a;
+  --mg-wrong: #a83a2e;
+
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: var(--color-text);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  color: var(--mg-primary);
+  margin: 0;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--color-muted);
+  margin: 0;
+  font-size: 1rem;
+}
+
+.modeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 560px) {
+  .modeGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modeCard {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.25rem;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.modeCard:hover:not(:disabled) {
+  transform: translateY(-3px);
+  border-color: var(--mg-primary);
+  box-shadow: 0 6px 16px rgba(31, 92, 58, 0.18);
+}
+
+.modeCard:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.modeCardTitle {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--mg-primary);
+  margin: 0 0 0.4rem 0;
+}
+
+.modeCardBody {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.modeCardBadge {
+  display: inline-block;
+  margin-top: 0.6rem;
+  background: var(--mg-secondary-light);
+  color: var(--color-text);
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.loadingBlock {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.errorBlock {
+  background: #f8e0db;
+  border: 2px solid var(--mg-wrong);
+  color: var(--mg-wrong);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+}

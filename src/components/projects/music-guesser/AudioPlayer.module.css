@@ -1,0 +1,51 @@
+.player {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.playButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--mg-primary, #1f5c3a);
+  color: var(--color-rich-text);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.playButton:hover {
+  background: #2f7d4a;
+  transform: scale(1.05);
+}
+
+.progressTrack {
+  flex: 1;
+  height: 8px;
+  background: var(--color-accent-light);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--mg-secondary, #c9a227);
+  transition: width 100ms linear;
+}
+
+.timeLabel {
+  font-family: var(--font-display);
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  min-width: 2.5rem;
+  text-align: right;
+}

@@ -91,4 +91,14 @@ export const projects: Project[] = [
     status: "live",
     tags: ["reference", "health", "lifestyle"],
   },
+  {
+    slug: "music-guesser",
+    title: "Music Guesser",
+    description:
+      "Heardle-style daily song guessing game. Three guesses, three lifelines, ten songs.",
+    image: "/images/projects/music-guesser.webp",
+    accentColor: "#1f5c3a",
+    status: "wip",
+    tags: ["music", "game", "daily"],
+  },
 ];

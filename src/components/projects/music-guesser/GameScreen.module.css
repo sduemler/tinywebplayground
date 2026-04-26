@@ -1,0 +1,168 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.statusRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.songCounter {
+  font-weight: 600;
+}
+
+.attemptCounter {
+  font-family: var(--font-display);
+  color: var(--mg-primary, #1f5c3a);
+}
+
+.revealBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem;
+}
+
+.revealBadge {
+  font-family: var(--font-display);
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge_correct {
+  background: var(--mg-correct, #2f7d4a);
+  color: var(--color-rich-text);
+}
+
+.badge_failed,
+.badge_skipped {
+  background: var(--mg-wrong, #a83a2e);
+  color: var(--color-rich-text);
+}
+
+.revealTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.revealArtist {
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+
+.nextButton {
+  margin-top: 0.6rem;
+  padding: 0.6rem 1.4rem;
+  background: var(--mg-primary, #1f5c3a);
+  color: var(--color-rich-text);
+  border: none;
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.nextButton:hover {
+  background: #2f7d4a;
+  transform: translateY(-1px);
+}
+
+.hintBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.9rem;
+  background: var(--mg-secondary-light, #f5e8b8);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.hintLabel {
+  font-weight: 700;
+  color: var(--mg-primary, #1f5c3a);
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+.hintDot {
+  color: var(--color-muted);
+}
+
+.feedbackWrong {
+  background: #f8e0db;
+  border: 1px solid var(--mg-wrong, #a83a2e);
+  color: var(--mg-wrong, #a83a2e);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius);
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.lifelineRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.lifelineButton {
+  padding: 0.45rem 0.85rem;
+  background: var(--color-surface);
+  border: 2px solid var(--mg-secondary, #c9a227);
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.lifelineButton:hover:not(:disabled) {
+  background: var(--mg-secondary, #c9a227);
+  color: var(--color-rich-text);
+}
+
+.lifelineButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.lifelineButton[data-used='true'] {
+  text-decoration: line-through;
+}
+
+.lifelineRemaining {
+  margin-left: auto;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.skipButton {
+  align-self: center;
+  background: transparent;
+  color: var(--color-muted);
+  border: none;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0.4rem;
+}
+
+.skipButton:hover {
+  color: var(--mg-wrong, #a83a2e);
+}

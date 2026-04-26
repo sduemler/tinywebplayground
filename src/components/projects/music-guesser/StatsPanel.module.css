@@ -1,0 +1,48 @@
+.panel {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--mg-primary, #1f5c3a);
+  margin: 0 0 0.75rem 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+@media (max-width: 460px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat {
+  text-align: center;
+  padding: 0.55rem 0.3rem;
+  background: var(--color-accent-light);
+  border-radius: var(--radius);
+}
+
+.value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--mg-primary, #1f5c3a);
+  line-height: 1;
+}
+
+.label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  margin-top: 0.25rem;
+}
