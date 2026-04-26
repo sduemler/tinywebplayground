@@ -42,8 +42,7 @@ export const projects: Project[] = [
   {
     slug: "eurorack",
     title: "Tiny Eurorack",
-    description:
-      "A simplistic modular synth with oscilloscope visualization.",
+    description: "A simplistic modular synth with oscilloscope visualization.",
     image: "/images/projects/eurorack.webp",
     accentColor: "#8b5e3c",
     status: "wip",
@@ -64,8 +63,7 @@ export const projects: Project[] = [
     slug: "haiku",
     title: "HAIKU",
     titleHtml: 'H<span style="color:#2d8e4a">AI</span>KU',
-    description:
-      "The world's most advanced AI haiku generator. Probably.",
+    description: "The world's most advanced AI haiku generator. Probably.",
     image: "/images/projects/haiku.jpg",
     accentColor: "#8b2020",
     status: "live",
@@ -98,7 +96,7 @@ export const projects: Project[] = [
       "Heardle-style daily song guessing game. Three guesses, three lifelines, ten songs.",
     image: "/images/projects/music-guesser.webp",
     accentColor: "#1f5c3a",
-    status: "wip",
+    status: "live",
     tags: ["music", "game", "daily"],
   },
 ];
