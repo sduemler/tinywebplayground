@@ -1,8 +1,7 @@
 .cover {
   position: relative;
-  width: 220px;
-  height: 220px;
-  margin: 0 auto;
+  width: 240px;
+  height: 240px;
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--color-rich);
@@ -17,12 +16,11 @@
 }
 
 .cover[data-state='blurred'] .image {
-  /* Downscale to 22×22 then scale back up 10× — renders as blocky pixels */
   position: absolute;
-  width: 22px;
-  height: 22px;
-  top: calc(50% - 11px);
-  left: calc(50% - 11px);
+  width: 24px;
+  height: 24px;
+  top: calc(50% - 12px);
+  left: calc(50% - 12px);
   transform: scale(10);
   image-rendering: pixelated;
   object-fit: cover;
@@ -52,10 +50,6 @@
 }
 
 @media (max-width: 560px) {
-  .cover {
-    width: 180px;
-    height: 180px;
-  }
   .questionMark {
     font-size: 4.5rem;
   }

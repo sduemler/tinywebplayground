@@ -111,26 +111,22 @@
 .playArea {
     display: flex;
     gap: 1rem;
-    align-items: flex-start;
-}
-
-.coverWrapper {
-    flex-shrink: 0;
-    margin-top: 3rem;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 .sidePanel {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 0.5rem;
-    flex: 1 1 0;
-    min-width: 0;
+    width: 10rem;
+    flex-shrink: 0;
 }
 
 .attemptLabel {
     font-family: var(--font-display);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--mg-primary, #1f5c3a);
     text-align: center;
 }
