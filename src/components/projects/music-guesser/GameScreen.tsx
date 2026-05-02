@@ -65,24 +65,62 @@ export default function GameScreen({
         <span className={styles.songCounter}>
           Song {state.currentIndex + 1} / {state.tracks.length}
         </span>
-        <span className={styles.attemptCounter}>{songFinished ? '—' : attemptsLabel}</span>
       </div>
 
-      <AlbumCover imageUrl={track.albumArt} state={coverState} />
-
       {songFinished ? (
-        <div className={styles.revealBlock}>
-          <div className={`${styles.revealBadge} ${styles[`badge_${songResult.outcome}`]}`}>
-            {songResult.outcome === 'correct' ? 'Got it!' : songResult.outcome === 'failed' ? 'Out of attempts' : 'Skipped'}
+        <>
+          <AlbumCover imageUrl={track.albumArt} state={coverState} />
+          <div className={styles.revealBlock}>
+            <div className={`${styles.revealBadge} ${styles[`badge_${songResult.outcome}`]}`}>
+              {songResult.outcome === 'correct' ? 'Got it!' : songResult.outcome === 'failed' ? 'Out of attempts' : 'Skipped'}
+            </div>
+            <div className={styles.revealTitle}>{track.title}</div>
+            <div className={styles.revealArtist}>{track.artist}</div>
+            <button type="button" className={styles.nextButton} onClick={onNextSong}>
+              {state.currentIndex + 1 >= state.tracks.length ? 'See results' : 'Next song →'}
+            </button>
           </div>
-          <div className={styles.revealTitle}>{track.title}</div>
-          <div className={styles.revealArtist}>{track.artist}</div>
-          <button type="button" className={styles.nextButton} onClick={onNextSong}>
-            {state.currentIndex + 1 >= state.tracks.length ? 'See results' : 'Next song →'}
-          </button>
-        </div>
+        </>
       ) : (
         <>
+          <div className={styles.playArea}>
+            <div className={styles.coverWrapper}>
+              <AlbumCover imageUrl={track.albumArt} state={coverState} />
+            </div>
+
+            <div className={styles.sidePanel}>
+              <div className={styles.attemptLabel}>{attemptsLabel}</div>
+              <fieldset className={styles.lifelinesField}>
+                <legend className={styles.lifelinesLegend}>Lifelines</legend>
+                <div className={styles.lifelineButtons}>
+                  {(['blur', 'extend', 'hint'] as LifelineKind[]).map((kind) => {
+                    const used = state.lifelinesUsedThisSong.includes(kind);
+                    const noneLeft = state.lifelinesRemaining <= 0;
+                    const label = kind === 'blur' ? 'Blur cover' : kind === 'extend' ? 'Extend to 30s' : 'Decade + genre';
+                    return (
+                      <button
+                        key={kind}
+                        type="button"
+                        className={styles.lifelineButton}
+                        disabled={used || noneLeft}
+                        onClick={() => onUseLifeline(kind)}
+                        data-used={used}
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className={styles.lifelineRemaining}>
+                  {state.lifelinesRemaining} left
+                </div>
+              </fieldset>
+              <button type="button" className={styles.skipButton} onClick={onSkip}>
+                Skip song
+              </button>
+            </div>
+          </div>
+
           <AudioPlayer
             src={track.previewUrl}
             maxSeconds={snippetSeconds}
@@ -104,37 +142,7 @@ export default function GameScreen({
 
           {feedback === 'wrong' && <div className={styles.feedbackWrong}>Not quite — try again</div>}
 
-          <fieldset className={styles.lifelinesField}>
-            <legend className={styles.lifelinesLegend}>Lifelines</legend>
-            <div className={styles.lifelineButtons}>
-              {(['blur', 'extend', 'hint'] as LifelineKind[]).map((kind) => {
-                const used = state.lifelinesUsedThisSong.includes(kind);
-                const noneLeft = state.lifelinesRemaining <= 0;
-                const label = kind === 'blur' ? 'Blur cover' : kind === 'extend' ? 'Extend to 30s' : 'Decade + genre';
-                return (
-                  <button
-                    key={kind}
-                    type="button"
-                    className={styles.lifelineButton}
-                    disabled={used || noneLeft}
-                    onClick={() => onUseLifeline(kind)}
-                    data-used={used}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
-            </div>
-            <div className={styles.lifelineRemaining}>
-              {state.lifelinesRemaining} lifeline{state.lifelinesRemaining === 1 ? '' : 's'} left
-            </div>
-          </fieldset>
-
           <GuessInput onSubmit={handleGuess} disabled={feedback === 'right'} />
-
-          <button type="button" className={styles.skipButton} onClick={onSkip}>
-            Skip song (counts as failed)
-          </button>
         </>
       )}
     </div>

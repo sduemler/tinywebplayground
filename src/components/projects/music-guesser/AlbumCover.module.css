@@ -17,8 +17,17 @@
 }
 
 .cover[data-state='blurred'] .image {
-  filter: blur(18px) brightness(0.85);
-  transform: scale(1.08);
+  /* Downscale to 22×22 then scale back up 10× — renders as blocky pixels */
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: calc(50% - 11px);
+  left: calc(50% - 11px);
+  transform: scale(10);
+  image-rendering: pixelated;
+  object-fit: cover;
+  filter: blur(0.8px) brightness(0.9);
+  transition: none;
 }
 
 .cover[data-state='hidden'] .image {
