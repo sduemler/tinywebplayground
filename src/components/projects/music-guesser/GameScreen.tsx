@@ -142,7 +142,7 @@ export default function GameScreen({
 
           {feedback === 'wrong' && <div className={styles.feedbackWrong}>Not quite — try again</div>}
 
-          <GuessInput onSubmit={handleGuess} disabled={feedback === 'right'} />
+          <GuessInput onSubmit={handleGuess} disabled={feedback === 'right'} currentTrack={track} />
         </>
       )}
     </div>
