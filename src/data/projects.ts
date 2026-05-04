@@ -99,4 +99,14 @@ export const projects: Project[] = [
     status: "live",
     tags: ["music", "game", "daily"],
   },
+  {
+    slug: "so-you-want-to-build-a-snowman",
+    title: "So You Want to Build a Snowman",
+    description:
+      "Roll snowballs through real snowfall data, stack them up, and build a snowman.",
+    image: "/images/projects/samthensnowman.webp",
+    accentColor: "#5BA4CF",
+    status: "wip",
+    tags: ["weather", "game", "interactive"],
+  },
 ];

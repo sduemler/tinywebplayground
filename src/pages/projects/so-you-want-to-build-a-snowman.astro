@@ -1,0 +1,13 @@
+---
+export const prerender = true;
+
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import { projects } from "../../data/projects";
+import SnowmanBuilder from "../../components/projects/snowman-builder/SnowmanBuilder";
+
+const project = projects.find((p) => p.slug === "so-you-want-to-build-a-snowman")!;
+---
+
+<ProjectLayout project={project}>
+  <SnowmanBuilder client:load />
+</ProjectLayout>
