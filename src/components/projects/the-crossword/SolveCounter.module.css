@@ -1,0 +1,17 @@
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.number {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--accent, #2a3d5c);
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}

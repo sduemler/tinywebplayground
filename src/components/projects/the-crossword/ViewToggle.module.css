@@ -1,0 +1,32 @@
+.toggle {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--color-bg);
+  border-radius: 8px;
+  padding: 0.15rem;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.btn.active {
+  color: var(--accent, #2a3d5c);
+  background: var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}

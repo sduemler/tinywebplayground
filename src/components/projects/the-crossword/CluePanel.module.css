@@ -1,0 +1,128 @@
+.panel {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1rem;
+  right: 1rem;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  max-width: 560px;
+}
+
+.clueText {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.slotsRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.slots {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  position: relative;
+  cursor: text;
+  min-width: 0;
+}
+
+.slotsWrong {
+  animation: shake 0.3s ease;
+}
+
+.slot {
+  flex: 0 1 2rem;
+  min-width: 1rem;
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2.5px solid var(--color-border);
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.slotLetter {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.slotPrefilled {
+  border-bottom-color: var(--accent, #2a3d5c);
+}
+
+.slotPrefilled .slotLetter {
+  color: var(--accent, #2a3d5c);
+}
+
+.slotActive {
+  border-bottom-color: var(--accent, #2a3d5c);
+  border-bottom-width: 3px;
+  animation: blink 1s step-end infinite;
+}
+
+.slotsWrong .slot {
+  border-bottom-color: #c0392b;
+}
+
+.slotsWrong .slotLetter {
+  color: #c0392b;
+}
+
+.hiddenInput {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.submit {
+  padding: 0.6rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent, #2a3d5c);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity var(--transition);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.submit:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
+}
+
+@keyframes blink {
+  50% { border-bottom-color: transparent; }
+}

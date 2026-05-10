@@ -109,4 +109,14 @@ export const projects: Project[] = [
     status: "wip",
     tags: ["weather", "game", "interactive"],
   },
+  {
+    slug: "the-crossword",
+    title: "The Crossword",
+    description:
+      "A collaborative crossword that grows as the world solves it. One clue at a time.",
+    image: "/images/projects/the-crossword.svg",
+    accentColor: "#2a3d5c",
+    status: "wip",
+    tags: ["puzzle", "collaborative", "realtime"],
+  },
 ];
