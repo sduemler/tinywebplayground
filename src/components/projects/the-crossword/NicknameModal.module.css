@@ -117,3 +117,18 @@
 .skip:hover {
   color: var(--color-text);
 }
+
+@media (max-width: 600px) {
+  .overlay {
+    align-items: flex-start;
+    padding-top: 3rem;
+  }
+
+  .modal {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+}

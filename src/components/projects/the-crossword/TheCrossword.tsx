@@ -59,6 +59,7 @@ export default function TheCrossword() {
   const [showTimelapse, setShowTimelapse] = useState(false);
   const [showFullTimelapse, setShowFullTimelapse] = useState(false);
   const [resetViewTrigger, setResetViewTrigger] = useState(0);
+  const [zoomTrigger, setZoomTrigger] = useState<{ direction: "in" | "out"; count: number }>({ direction: "in", count: 0 });
   const [pendingSolve, setPendingSolve] = useState<{
     entryId: string;
     answer: string;
@@ -150,6 +151,24 @@ export default function TheCrossword() {
         <div className={styles.toolbarRight}>
           <button
             className={styles.timelapseBtn}
+            onClick={() => setZoomTrigger({ direction: "in", count: zoomTrigger.count + 1 })}
+            title="Zoom in"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 4v10M4 9h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </button>
+          <button
+            className={styles.timelapseBtn}
+            onClick={() => setZoomTrigger({ direction: "out", count: zoomTrigger.count + 1 })}
+            title="Zoom out"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M4 9h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </button>
+          <button
+            className={styles.timelapseBtn}
             onClick={() => setResetViewTrigger((n) => n + 1)}
             title="Reset view"
           >
@@ -192,6 +211,7 @@ export default function TheCrossword() {
             entries={entries}
             onSolve={handleSolveAttempt}
             resetViewTrigger={resetViewTrigger}
+            zoomTrigger={zoomTrigger}
           />
         ) : (
           <ClueListView

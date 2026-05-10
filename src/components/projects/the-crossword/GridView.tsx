@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useState, useMemo } from "react";
 import styles from "./GridView.module.css";
 import { useCrosswordStore } from "./store";
 import type { Camera } from "./canvas/camera";
-import { createCamera, screenToCell } from "./canvas/camera";
+import { createCamera, screenToCell, clampZoom } from "./canvas/camera";
 import type { RenderState, RenderCell } from "./canvas/renderer";
 import { render, buildCellMap } from "./canvas/renderer";
 import {
@@ -10,7 +10,6 @@ import {
   handleMouseDown,
   handleMouseMove,
   handleMouseUp,
-  handleWheel,
   handleTouchStart,
   handleTouchMove,
   handleTouchEnd,
@@ -25,9 +24,10 @@ interface Props {
   entries: Map<string, EntryData>;
   onSolve?: (entryId: string, answer: string) => Promise<{ correct: boolean }>;
   resetViewTrigger?: number;
+  zoomTrigger?: { direction: "in" | "out"; count: number };
 }
 
-export default function GridView({ puzzleData, entries, onSolve, resetViewTrigger }: Props) {
+export default function GridView({ puzzleData, entries, onSolve, resetViewTrigger, zoomTrigger }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const camRef = useRef<Camera>(
@@ -69,6 +69,19 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
     setSelectedEntry(null);
     needsRedrawRef.current = true;
   }, [resetViewTrigger, puzzleData, setSelectedEntry]);
+
+  useEffect(() => {
+    if (!zoomTrigger || zoomTrigger.count === 0) return;
+    const factor = zoomTrigger.direction === "in" ? 1.4 : 0.7;
+    const newZoom = clampZoom(camRef.current.zoom * factor);
+    flyToRef.current = {
+      startCam: { ...camRef.current },
+      targetCam: { ...camRef.current, zoom: newZoom },
+      startTime: Date.now(),
+      duration: 200,
+    };
+    needsRedrawRef.current = true;
+  }, [zoomTrigger]);
 
   useEffect(() => {
     if (!selectedEntryId) return;
@@ -247,24 +260,6 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
     [canvasSize, selectedEntryId, setSelectedEntry],
   );
 
-  const onWheel = useCallback(
-    (e: React.WheelEvent) => {
-      e.preventDefault();
-      flyToRef.current = null;
-      const rect = canvasRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      camRef.current = handleWheel(
-        e.nativeEvent,
-        camRef.current,
-        rect,
-        canvasSize.w,
-        canvasSize.h,
-      );
-      needsRedrawRef.current = true;
-    },
-    [canvasSize],
-  );
-
   const onTouchStart = useCallback((e: React.TouchEvent) => {
     flyToRef.current = null;
     gestureRef.current = handleTouchStart(
@@ -381,7 +376,6 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
         onMouseLeave={() => {
           gestureRef.current = handleMouseUp(gestureRef.current);
         }}
-        onWheel={onWheel}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}

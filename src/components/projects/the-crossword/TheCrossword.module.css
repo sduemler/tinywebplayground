@@ -62,3 +62,18 @@
   color: var(--color-muted);
   font-size: 1rem;
 }
+
+@media (max-width: 600px) {
+  .toolbar {
+    padding: 0.35rem 0.5rem;
+  }
+
+  .toolbarRight {
+    gap: 0.3rem;
+  }
+
+  .timelapseBtn {
+    width: 30px;
+    height: 30px;
+  }
+}

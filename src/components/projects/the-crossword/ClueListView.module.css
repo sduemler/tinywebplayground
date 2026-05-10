@@ -102,3 +102,14 @@
   color: var(--color-muted);
   font-size: 0.9rem;
 }
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0.5rem 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .clueButton {
+    padding: 0.6rem 0.5rem;
+  }
+}

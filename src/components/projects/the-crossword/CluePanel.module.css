@@ -116,6 +116,38 @@
   cursor: not-allowed;
 }
 
+@media (max-width: 600px) {
+  .panel {
+    bottom: auto;
+    top: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 10px;
+  }
+
+  .clueText {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .slot {
+    flex: 0 1 1.6rem;
+    min-width: 0.8rem;
+    height: 2rem;
+  }
+
+  .slotLetter {
+    font-size: 1rem;
+  }
+
+  .submit {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8rem;
+  }
+}
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-6px); }
