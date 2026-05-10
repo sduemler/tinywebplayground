@@ -199,6 +199,7 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
   }, []);
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
     flyToRef.current = null;
     gestureRef.current = handleMouseDown(
       e.nativeEvent,
@@ -261,6 +262,7 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
   );
 
   const onTouchStart = useCallback((e: React.TouchEvent) => {
+    e.preventDefault();
     flyToRef.current = null;
     gestureRef.current = handleTouchStart(
       e.nativeEvent,
