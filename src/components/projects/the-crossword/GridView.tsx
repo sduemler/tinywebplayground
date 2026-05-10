@@ -40,6 +40,7 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
   const needsRedrawRef = useRef(true);
   const isDraggingRef = useRef(false);
   const dragDistRef = useRef(0);
+  const cluePanelInputRef = useRef<HTMLInputElement>(null);
 
   const selectedEntryId = useCrosswordStore((s) => s.selectedEntryId);
   const setSelectedEntry = useCrosswordStore((s) => s.setSelectedEntry);
@@ -199,7 +200,6 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
   }, []);
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
     flyToRef.current = null;
     gestureRef.current = handleMouseDown(
       e.nativeEvent,
@@ -262,7 +262,6 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
   );
 
   const onTouchStart = useCallback((e: React.TouchEvent) => {
-    e.preventDefault();
     flyToRef.current = null;
     gestureRef.current = handleTouchStart(
       e.nativeEvent,
@@ -316,7 +315,10 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
         const cell = cellMapRef.current.get(key);
         if (cell) {
           const entryId = cell.acrossEntryId || cell.downEntryId;
-          if (entryId) setSelectedEntry(entryId);
+          if (entryId) {
+            setSelectedEntry(entryId);
+            cluePanelInputRef.current?.focus();
+          }
         } else {
           setSelectedEntry(null);
         }
@@ -383,7 +385,7 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
         onTouchEnd={onTouchEnd}
       />
       {selectedEntry && !selectedEntry.solvedBy && (
-        <CluePanel entry={selectedEntry} prefilled={prefilled} onSubmit={handleSolveWithAnimation} />
+        <CluePanel entry={selectedEntry} prefilled={prefilled} onSubmit={handleSolveWithAnimation} inputRef={cluePanelInputRef} />
       )}
     </div>
   );

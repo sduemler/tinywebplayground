@@ -10,14 +10,17 @@ interface Props {
     entryId: string,
     answer: string,
   ) => Promise<{ correct: boolean }>;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
-export default function CluePanel({ entry, prefilled, onSubmit }: Props) {
+export default function CluePanel({ entry, prefilled, onSubmit, inputRef }: Props) {
   const [userLetters, setUserLetters] = useState<string[]>([]);
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isWrong, setIsWrong] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const hiddenInputRef = useRef<HTMLInputElement>(null);
+  const localInputRef = useRef<HTMLInputElement>(null);
+  const hiddenInputRef = inputRef || localInputRef;
+  const cursorRef = useRef(0);
   const cooldownUntil = useCrosswordStore((s) => s.cooldownUntil);
   const setCooldown = useCrosswordStore((s) => s.setCooldown);
 
@@ -47,10 +50,16 @@ export default function CluePanel({ entry, prefilled, onSubmit }: Props) {
     [prefilled],
   );
 
+  const updateCursor = (idx: number) => {
+    cursorRef.current = idx;
+    setCursorIndex(idx);
+  };
+
   useEffect(() => {
     setUserLetters(new Array(entry.length).fill(""));
     setIsWrong(false);
-    setCursorIndex(findNextEmpty(0));
+    const first = findNextEmpty(0);
+    updateCursor(first);
     hiddenInputRef.current?.focus();
   }, [entry.id, entry.length, findNextEmpty]);
 
@@ -60,7 +69,7 @@ export default function CluePanel({ entry, prefilled, onSubmit }: Props) {
     setTimeout(() => {
       setIsWrong(false);
       setUserLetters(new Array(entry.length).fill(""));
-      setCursorIndex(findNextEmpty(0));
+      updateCursor(findNextEmpty(0));
     }, 3000);
   };
 
@@ -89,46 +98,67 @@ export default function CluePanel({ entry, prefilled, onSubmit }: Props) {
     }
   };
 
+  const typeLetter = useCallback(
+    (letter: string) => {
+      let idx = cursorRef.current;
+      if (prefilled[idx] !== null) {
+        idx = findNextEmpty(idx);
+      }
+      if (prefilled[idx] === null) {
+        setUserLetters((prev) => {
+          const next = [...prev];
+          next[idx] = letter.toUpperCase();
+          return next;
+        });
+        updateCursor(findNextEmpty(idx + 1));
+      }
+    },
+    [prefilled, findNextEmpty],
+  );
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (disabled) return;
 
     if (e.key === "Backspace") {
       e.preventDefault();
-      if (userLetters[cursorIndex]) {
-        const next = [...userLetters];
-        next[cursorIndex] = "";
-        setUserLetters(next);
-      } else {
-        const prev = findPrevEmpty(cursorIndex - 1);
-        if (prev !== cursorIndex) {
-          const next = [...userLetters];
-          next[prev] = "";
-          setUserLetters(next);
-          setCursorIndex(prev);
+      const idx = cursorRef.current;
+      setUserLetters((prev) => {
+        const next = [...prev];
+        if (next[idx]) {
+          next[idx] = "";
+        } else {
+          const prev2 = findPrevEmpty(idx - 1);
+          if (prev2 !== idx) {
+            next[prev2] = "";
+            updateCursor(prev2);
+          }
         }
-      }
+        return next;
+      });
     } else if (e.key === "Enter") {
       e.preventDefault();
       handleSubmit();
     } else if (e.key === "ArrowLeft") {
       e.preventDefault();
-      setCursorIndex(findPrevEmpty(cursorIndex - 1));
+      updateCursor(findPrevEmpty(cursorRef.current - 1));
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
-      const next = findNextEmpty(cursorIndex + 1);
-      if (next > cursorIndex || next === 0) setCursorIndex(next);
+      const next = findNextEmpty(cursorRef.current + 1);
+      if (next > cursorRef.current || next === 0) updateCursor(next);
     } else if (/^[a-zA-Z]$/.test(e.key)) {
       e.preventDefault();
-      let idx = cursorIndex;
-      if (prefilled[idx] !== null) {
-        idx = findNextEmpty(idx);
-      }
-      if (prefilled[idx] === null) {
-        const next = [...userLetters];
-        next[idx] = e.key.toUpperCase();
-        setUserLetters(next);
-        setCursorIndex(findNextEmpty(idx + 1));
-      }
+      typeLetter(e.key);
+    }
+  };
+
+  const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+    if (disabled) return;
+    const input = e.currentTarget;
+    const val = input.value;
+    input.value = "";
+    const letters = val.replace(/[^a-zA-Z]/g, "");
+    for (const ch of letters) {
+      typeLetter(ch);
     }
   };
 
@@ -154,7 +184,7 @@ export default function CluePanel({ entry, prefilled, onSubmit }: Props) {
                 className={`${styles.slot} ${isPrefilled ? styles.slotPrefilled : ""} ${isActive ? styles.slotActive : ""}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (!isPrefilled && !disabled) setCursorIndex(i);
+                  if (!isPrefilled && !disabled) updateCursor(i);
                   focusInput();
                 }}
               >
@@ -166,11 +196,13 @@ export default function CluePanel({ entry, prefilled, onSubmit }: Props) {
             ref={hiddenInputRef}
             className={styles.hiddenInput}
             onKeyDown={handleKeyDown}
+            onInput={handleInput}
             autoComplete="off"
             autoCapitalize="characters"
+            autoCorrect="off"
+            spellCheck={false}
             inputMode="text"
             disabled={disabled}
-            tabIndex={-1}
           />
         </div>
         <button
