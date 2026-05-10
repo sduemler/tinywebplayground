@@ -7,6 +7,6 @@ import TheCrossword from "@components/projects/the-crossword/TheCrossword";
 const project = projects.find((p) => p.slug === "the-crossword")!;
 ---
 
-<ProjectLayout project={project}>
+<ProjectLayout project={project} subtitle="A collaborative crossword puzzle — solve clues to unlock new ones. Work together to complete them all.">
   <TheCrossword client:load />
 </ProjectLayout>

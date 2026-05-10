@@ -12,6 +12,35 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "the-crossword",
+    title: "The Crossword",
+    description:
+      "A collaborative crossword that grows as the world solves it. One clue at a time.",
+    image: "/images/projects/the-crossword.svg",
+    accentColor: "#2a3d5c",
+    status: "live",
+    tags: ["puzzle", "collaborative", "realtime"],
+  },
+  {
+    slug: "eurorack",
+    title: "Tiny Eurorack",
+    description: "A simplistic modular synth with oscilloscope visualization.",
+    image: "/images/projects/eurorack.webp",
+    accentColor: "#8b5e3c",
+    status: "wip",
+    tags: ["audio", "synth", "interactive"],
+  },
+  {
+    slug: "music-guesser",
+    title: "Music Guesser",
+    description:
+      "Heardle-style daily song guessing game. Three guesses, three lifelines, ten songs.",
+    image: "/images/projects/music-guesser.webp",
+    accentColor: "#1f5c3a",
+    status: "live",
+    tags: ["music", "game", "daily"],
+  },
+  {
     slug: "howlongtowatch",
     title: "HowLongToWatch",
     description:
@@ -38,15 +67,6 @@ export const projects: Project[] = [
     accentColor: "#2b2118",
     status: "live",
     tags: ["osrs", "simulation", "rng"],
-  },
-  {
-    slug: "eurorack",
-    title: "Tiny Eurorack",
-    description: "A simplistic modular synth with oscilloscope visualization.",
-    image: "/images/projects/eurorack.webp",
-    accentColor: "#8b5e3c",
-    status: "wip",
-    tags: ["audio", "synth", "interactive"],
   },
   {
     slug: "who-are-you",
@@ -90,16 +110,6 @@ export const projects: Project[] = [
     tags: ["reference", "health", "lifestyle"],
   },
   {
-    slug: "music-guesser",
-    title: "Music Guesser",
-    description:
-      "Heardle-style daily song guessing game. Three guesses, three lifelines, ten songs.",
-    image: "/images/projects/music-guesser.webp",
-    accentColor: "#1f5c3a",
-    status: "live",
-    tags: ["music", "game", "daily"],
-  },
-  {
     slug: "so-you-want-to-build-a-snowman",
     title: "So You Want to Build a Snowman",
     description:
@@ -108,15 +118,5 @@ export const projects: Project[] = [
     accentColor: "#5BA4CF",
     status: "wip",
     tags: ["weather", "game", "interactive"],
-  },
-  {
-    slug: "the-crossword",
-    title: "The Crossword",
-    description:
-      "A collaborative crossword that grows as the world solves it. One clue at a time.",
-    image: "/images/projects/the-crossword.svg",
-    accentColor: "#2a3d5c",
-    status: "wip",
-    tags: ["puzzle", "collaborative", "realtime"],
   },
 ];

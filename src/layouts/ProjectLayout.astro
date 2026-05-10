@@ -4,9 +4,10 @@ import type { Project } from '../data/projects';
 
 interface Props {
   project: Project;
+  subtitle?: string;
 }
 
-const { project } = Astro.props;
+const { project, subtitle } = Astro.props;
 ---
 
 <BaseLayout title={`${project.title} — tinywebplayground`}>
@@ -23,6 +24,7 @@ const { project } = Astro.props;
       ) : (
         <span class="project-title">{project.title}</span>
       )}
+      {subtitle && <span class="project-subtitle">{subtitle}</span>}
     </header>
     <main class="project-content">
       <slot />
@@ -38,6 +40,7 @@ const { project } = Astro.props;
   }
 
   .project-header {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -66,6 +69,16 @@ const { project } = Astro.props;
     font-family: var(--font-display);
     font-size: 1rem;
     color: var(--color-muted);
+  }
+
+  .project-subtitle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    opacity: 0.7;
   }
 
   .project-content {
