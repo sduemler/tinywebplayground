@@ -54,6 +54,7 @@ export function useFirebaseData(puzzleId: string | null) {
                 id: change.doc.id,
                 word: d.word,
                 clue: d.clue,
+                category: d.category,
                 direction: d.direction,
                 row: d.row,
                 col: d.col,

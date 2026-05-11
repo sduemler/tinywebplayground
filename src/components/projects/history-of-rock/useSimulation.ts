@@ -35,8 +35,8 @@ export function useSimulation(width: number, height: number) {
     // Compute each node's home position (scaled from the original chalkboard layout)
     const homePositions = new Map<string, { x: number; y: number }>();
     const initialNodes: GenreNode[] = GENRES.map((g) => {
-      const hx = g.x * scale + width / 2;
-      const hy = g.y * scale + height / 2;
+      const hx = (g.x ?? 0) * scale + width / 2;
+      const hy = (g.y ?? 0) * scale + height / 2;
       homePositions.set(g.id, { x: hx, y: hy });
       return { ...g, x: hx, y: hy };
     });

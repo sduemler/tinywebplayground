@@ -14,6 +14,7 @@ export const COLORS = {
   cellWrong: "#f5c6c6",
   cellUnlocking: "#d4e6f7",
   border: "#c8b88a",
+  separatorBorder: "#8c6d4f",
   borderSelected: "#2a3d5c",
   letterColor: "#3b2a1a",
   letterLocked: "#5a4530",

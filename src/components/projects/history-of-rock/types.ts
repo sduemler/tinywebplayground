@@ -4,8 +4,8 @@ export interface Genre {
   id: string;
   label: string;
   artists: string[];
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
 }
 
 export interface Connection {

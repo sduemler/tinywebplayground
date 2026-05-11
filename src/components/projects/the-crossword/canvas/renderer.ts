@@ -160,6 +160,28 @@ export function render(
     ctx.lineWidth = state.selectedCells.has(key) ? 1.5 : 0.5;
     ctx.strokeRect(drawX, drawY, drawSize, drawSize);
 
+    if (cellScreenSize > 4) {
+      const sepWidth = Math.max(2, cellScreenSize * 0.07);
+      ctx.strokeStyle = COLORS.separatorBorder;
+      ctx.lineWidth = sepWidth;
+      const neighbors = [
+        [cell.row - 1, cell.col, drawX, drawY, drawX + drawSize, drawY],
+        [cell.row + 1, cell.col, drawX, drawY + drawSize, drawX + drawSize, drawY + drawSize],
+        [cell.row, cell.col - 1, drawX, drawY, drawX, drawY + drawSize],
+        [cell.row, cell.col + 1, drawX + drawSize, drawY, drawX + drawSize, drawY + drawSize],
+      ];
+      for (const [nr, nc, x1, y1, x2, y2] of neighbors) {
+        const nk = cellKey(nr, nc);
+        const neighbor = state.cells.get(nk);
+        if (neighbor && !sharesEntry(cell, neighbor)) {
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        }
+      }
+    }
+
     if (cell.number && cellScreenSize > 12) {
       ctx.fillStyle = COLORS.numberColor;
       ctx.font = `600 ${numFontSize}px Nunito, sans-serif`;
@@ -180,6 +202,12 @@ export function render(
       ctx.fillText(cell.letter, drawX + drawSize / 2, drawY + drawSize / 2 + 1);
     }
   }
+}
+
+function sharesEntry(a: RenderCell, b: RenderCell): boolean {
+  if (a.acrossEntryId && (a.acrossEntryId === b.acrossEntryId || a.acrossEntryId === b.downEntryId)) return true;
+  if (a.downEntryId && (a.downEntryId === b.acrossEntryId || a.downEntryId === b.downEntryId)) return true;
+  return false;
 }
 
 function lerpColor(a: string, b: string, t: number): string {
