@@ -103,6 +103,14 @@
   font-size: 0.9rem;
 }
 
+.inlinePanel {
+  margin: 0.25rem 0 0.5rem;
+}
+
+.clueButtonActive {
+  background: var(--color-bg);
+}
+
 @media (max-width: 600px) {
   .container {
     padding: 0.5rem 0.5rem;

@@ -216,7 +216,9 @@ export default function TheCrossword() {
         ) : (
           <ClueListView
             entries={unlockedEntries}
+            allEntries={entries}
             onClueClick={handleClueClick}
+            onSolve={handleSolveAttempt}
           />
         )}
         {view === "grid" && <Leaderboard entries={entries} />}

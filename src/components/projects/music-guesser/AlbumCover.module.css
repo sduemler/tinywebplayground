@@ -1,7 +1,8 @@
 .cover {
   position: relative;
   width: 240px;
-  height: 240px;
+  max-width: 100%;
+  aspect-ratio: 1;
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--color-rich);

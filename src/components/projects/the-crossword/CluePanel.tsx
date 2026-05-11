@@ -11,9 +11,10 @@ interface Props {
     answer: string,
   ) => Promise<{ correct: boolean }>;
   inputRef?: React.RefObject<HTMLInputElement | null>;
+  inline?: boolean;
 }
 
-export default function CluePanel({ entry, prefilled, onSubmit, inputRef }: Props) {
+export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline }: Props) {
   const [userLetters, setUserLetters] = useState<string[]>([]);
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isWrong, setIsWrong] = useState(false);
@@ -167,7 +168,7 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef }: Prop
   };
 
   return (
-    <div className={styles.panel}>
+    <div className={`${styles.panel} ${inline ? styles.panelInline : ""}`}>
       <div className={styles.clueText}>{entry.clue}</div>
       <div className={styles.slotsRow}>
         <div

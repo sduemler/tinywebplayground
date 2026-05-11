@@ -1,15 +1,9 @@
 .panel {
-  position: absolute;
-  bottom: 1.25rem;
-  left: 1rem;
-  right: 1rem;
   background: var(--color-surface);
   border: 2px solid var(--color-border);
   border-radius: var(--radius);
   padding: 1rem 1.25rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  max-width: 560px;
 }
 
 .clueText {
@@ -116,12 +110,34 @@
   cursor: not-allowed;
 }
 
+.panelInline {
+  box-shadow: none;
+  border: 1.5px solid var(--color-border);
+  padding: 0.65rem 0.75rem;
+}
+
+.panelInline .clueText {
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.panelInline .slot {
+  flex: 0 1 1.6rem;
+  min-width: 0.8rem;
+  height: 2rem;
+}
+
+.panelInline .slotLetter {
+  font-size: 1rem;
+}
+
+.panelInline .submit {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.8rem;
+}
+
 @media (max-width: 600px) {
   .panel {
-    bottom: auto;
-    top: 0.5rem;
-    left: 0.5rem;
-    right: 0.5rem;
     padding: 0.65rem 0.75rem;
     border-radius: 10px;
   }

@@ -220,8 +220,18 @@
     }
 
     .sidePanel {
+        width: auto;
         flex-direction: row;
         flex-wrap: wrap;
         align-items: stretch;
+    }
+
+    .lifelinesField {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .skipButton {
+        flex: 1;
     }
 }

@@ -73,6 +73,25 @@ export function buildCellMap(entries: Map<string, EntryData>): Map<string, Rende
   return cells;
 }
 
+export function computePrefilled(
+  entry: EntryData,
+  cellMap: Map<string, RenderCell>,
+): (string | null)[] {
+  if (entry.solvedBy) return [];
+  const result: (string | null)[] = [];
+  for (let i = 0; i < entry.length; i++) {
+    const r = entry.direction === "down" ? entry.row + i : entry.row;
+    const c = entry.direction === "across" ? entry.col + i : entry.col;
+    const cell = cellMap.get(`${r},${c}`);
+    if (cell && cell.locked && cell.letter) {
+      result.push(cell.letter);
+    } else {
+      result.push(null);
+    }
+  }
+  return result;
+}
+
 export function render(
   ctx: CanvasRenderingContext2D,
   cam: Camera,

@@ -374,8 +374,8 @@
 }
 
 .moduleHelpButton {
-    width: 22px;
-    height: 22px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     border: 1px solid var(--module-border);
     background: var(--module-track);
@@ -1136,6 +1136,7 @@
     .container {
         margin: -2rem -1.5rem;
         padding: 1.25rem 0.75rem;
+        --module-u: 32px;
     }
 
     .containerKeyboardOpen {
@@ -1159,6 +1160,24 @@
 
     .pianoKeyBlack .pianoKeyLabel {
         font-size: 0.5rem;
+    }
+
+    .octaveButton {
+        width: 40px;
+        height: 36px;
+    }
+
+    .lfoGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .seqRow {
+        gap: 0.2rem;
+    }
+
+    .seqCellButton {
+        font-size: 0.6rem;
+        padding: 0.25rem 0;
     }
 }
 

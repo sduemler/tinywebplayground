@@ -141,3 +141,21 @@
     opacity: 0.7;
     margin-top: 0.5rem;
 }
+
+@media (max-width: 560px) {
+    .toolbar {
+        gap: 0.5rem;
+    }
+
+    .newBallBtn,
+    .resetBtn {
+        font-size: 0.8rem;
+        padding: 0.45rem 0.75rem;
+    }
+
+    .snowInfo {
+        width: 100%;
+        margin-left: 0;
+        text-align: center;
+    }
+}

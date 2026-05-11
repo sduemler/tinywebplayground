@@ -202,8 +202,8 @@
 }
 
 .addBtn {
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
     padding: 0 1px 4px 0;
     border-radius: 50%;
     border: 2px solid var(--color-accent);
@@ -228,8 +228,8 @@
 }
 
 .addedBtn {
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     border: 2px solid var(--color-muted);
     background: var(--color-accent-light);
@@ -514,13 +514,13 @@
 }
 
 .removeBtn {
-    width: 22px;
-    height: 22px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     border: 1px solid var(--color-border);
     background: transparent;
     color: var(--color-muted);
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -783,6 +783,14 @@
 
 
 @media (max-width: 500px) {
+    .tabContent {
+        padding: 0.75rem;
+    }
+
+    .presetGrid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
     .dvdTitle {
         font-size: 0.78rem;
     }
@@ -801,5 +809,20 @@
         font-size: 0.65rem;
         padding: 0.25rem 0.5rem;
         margin-top: 0.2rem;
+    }
+
+    .totalTime {
+        font-size: 1.3rem;
+    }
+
+    .tab,
+    .activeTab {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.5rem;
+    }
+
+    .seasonCheck {
+        width: 18px;
+        height: 18px;
     }
 }

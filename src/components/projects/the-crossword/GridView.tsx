@@ -4,7 +4,7 @@ import { useCrosswordStore } from "./store";
 import type { Camera } from "./canvas/camera";
 import { createCamera, screenToCell, clampZoom } from "./canvas/camera";
 import type { RenderState, RenderCell } from "./canvas/renderer";
-import { render, buildCellMap } from "./canvas/renderer";
+import { render, buildCellMap, computePrefilled } from "./canvas/renderer";
 import {
   createGestureState,
   handleMouseDown,
@@ -53,10 +53,12 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
     duration: number;
   } | null>(null);
 
+  const cellMap = useMemo(() => buildCellMap(entries), [entries]);
+
   useEffect(() => {
-    cellMapRef.current = buildCellMap(entries);
+    cellMapRef.current = cellMap;
     needsRedrawRef.current = true;
-  }, [entries]);
+  }, [cellMap]);
 
   useEffect(() => {
     if (!resetViewTrigger) return;
@@ -330,21 +332,36 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
 
   const selectedEntry = selectedEntryId ? entries.get(selectedEntryId) : null;
 
-  const prefilled = useMemo(() => {
-    if (!selectedEntry || selectedEntry.solvedBy) return [];
-    const result: (string | null)[] = [];
-    for (let i = 0; i < selectedEntry.length; i++) {
-      const r = selectedEntry.direction === "down" ? selectedEntry.row + i : selectedEntry.row;
-      const c = selectedEntry.direction === "across" ? selectedEntry.col + i : selectedEntry.col;
-      const cell = cellMapRef.current.get(`${r},${c}`);
-      if (cell && cell.locked && cell.letter) {
-        result.push(cell.letter);
+  const unsolvedIds = useMemo(() => {
+    return [...entries.values()]
+      .filter((e) => e.unlocked && !e.solvedBy)
+      .sort((a, b) => {
+        if (a.row !== b.row) return a.row - b.row;
+        if (a.col !== b.col) return a.col - b.col;
+        return a.direction === "across" ? -1 : 1;
+      })
+      .map((e) => e.id);
+  }, [entries]);
+
+  const navigateClue = useCallback(
+    (delta: number) => {
+      if (unsolvedIds.length === 0) return;
+      const currentIdx = selectedEntryId ? unsolvedIds.indexOf(selectedEntryId) : -1;
+      let nextIdx: number;
+      if (currentIdx === -1) {
+        nextIdx = delta > 0 ? 0 : unsolvedIds.length - 1;
       } else {
-        result.push(null);
+        nextIdx = (currentIdx + delta + unsolvedIds.length) % unsolvedIds.length;
       }
-    }
-    return result;
-  }, [selectedEntry, entries]);
+      setSelectedEntry(unsolvedIds[nextIdx]);
+    },
+    [unsolvedIds, selectedEntryId, setSelectedEntry],
+  );
+
+  const prefilled = useMemo(() => {
+    if (!selectedEntry) return [];
+    return computePrefilled(selectedEntry, cellMap);
+  }, [selectedEntry, cellMap]);
 
   const handleSolveWithAnimation = useCallback(
     async (entryId: string, answer: string): Promise<{ correct: boolean }> => {
@@ -384,8 +401,44 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       />
-      {selectedEntry && !selectedEntry.solvedBy && (
-        <CluePanel entry={selectedEntry} prefilled={prefilled} onSubmit={handleSolveWithAnimation} inputRef={cluePanelInputRef} />
+      {selectedEntry && (
+        <div className={styles.panelArea}>
+          {unsolvedIds.length > 1 && (
+            <button
+              className={`${styles.navArrow} ${styles.navPrev}`}
+              onClick={() => navigateClue(-1)}
+              aria-label="Previous clue"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M12 4L6 10L12 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          )}
+          <div className={styles.panelContent}>
+            {!selectedEntry.solvedBy ? (
+              <CluePanel entry={selectedEntry} prefilled={prefilled} onSubmit={handleSolveWithAnimation} inputRef={cluePanelInputRef} />
+            ) : (
+              <div className={styles.solvedPanel}>
+                <div className={styles.solvedClue}>{selectedEntry.clue}</div>
+                <div className={styles.solvedMeta}>
+                  <span className={styles.solvedWord}>{selectedEntry.word}</span>
+                  <span className={styles.solvedByLabel}>solved by {selectedEntry.solvedBy}</span>
+                </div>
+              </div>
+            )}
+          </div>
+          {unsolvedIds.length > 1 && (
+            <button
+              className={`${styles.navArrow} ${styles.navNext}`}
+              onClick={() => navigateClue(1)}
+              aria-label="Next clue"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M8 4L14 10L8 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

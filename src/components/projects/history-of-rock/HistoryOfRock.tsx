@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useSimulation } from './useSimulation';
 import GenreGraph from './GenreGraph';
+import GenreTimeline from './GenreTimeline';
 import ArtistPanel from './ArtistPanel';
 import styles from './HistoryOfRock.module.css';
 
@@ -22,16 +23,17 @@ export default function HistoryOfRock() {
     return () => observer.disconnect();
   }, []);
 
-  const { nodes, links, initialTransform, dragStart, dragMove, dragEnd } = useSimulation(size.width, size.height);
   const isMobile = size.width > 0 && size.width < 640;
+
+  const { nodes, links, initialTransform, dragStart, dragMove, dragEnd } = useSimulation(
+    isMobile ? 0 : size.width,
+    isMobile ? 0 : size.height,
+  );
 
   const selectedNode = selectedGenre ? nodes.find((n) => n.id === selectedGenre) : null;
 
-  // Calculate screen position for the artist panel
   const getScreenPos = useCallback(() => {
     if (!selectedNode || !containerRef.current) return { x: 0, y: 0 };
-    // The node positions are in SVG coordinate space
-    // We need to account for pan/zoom but for now use raw positions
     return { x: selectedNode.x ?? 0, y: selectedNode.y ?? 0 };
   }, [selectedNode]);
 
@@ -40,35 +42,41 @@ export default function HistoryOfRock() {
   return (
     <div ref={containerRef} className={styles.chalkboard}>
       <h1 className={styles.title}>HISTORY OF ROCK</h1>
-      {size.width > 0 && (
-        <GenreGraph
-          nodes={nodes}
-          links={links}
-          selectedGenre={selectedGenre}
-          hoveredGenre={hoveredGenre}
-          onSelect={setSelectedGenre}
-          onHover={setHoveredGenre}
-          onDragStart={dragStart}
-          onDragMove={dragMove}
-          onDragEnd={dragEnd}
-          initialTransform={initialTransform}
-          width={size.width}
-          height={size.height}
-        />
-      )}
-      {selectedNode && selectedNode.artists.length > 0 && (
-        <ArtistPanel
-          genre={selectedNode}
-          screenX={screenPos.x}
-          screenY={screenPos.y}
-          containerWidth={size.width}
-          containerHeight={size.height}
-          onClose={() => setSelectedGenre(null)}
-        />
+      {isMobile ? (
+        <GenreTimeline selectedGenre={selectedGenre} onSelect={setSelectedGenre} />
+      ) : (
+        <>
+          {size.width > 0 && (
+            <GenreGraph
+              nodes={nodes}
+              links={links}
+              selectedGenre={selectedGenre}
+              hoveredGenre={hoveredGenre}
+              onSelect={setSelectedGenre}
+              onHover={setHoveredGenre}
+              onDragStart={dragStart}
+              onDragMove={dragMove}
+              onDragEnd={dragEnd}
+              initialTransform={initialTransform}
+              width={size.width}
+              height={size.height}
+            />
+          )}
+          {selectedNode && selectedNode.artists.length > 0 && (
+            <ArtistPanel
+              genre={selectedNode}
+              screenX={screenPos.x}
+              screenY={screenPos.y}
+              containerWidth={size.width}
+              containerHeight={size.height}
+              onClose={() => setSelectedGenre(null)}
+            />
+          )}
+        </>
       )}
       <div className={styles.hint}>
         {isMobile
-          ? 'Tap a genre to see artists · Drag to pan · Pinch to zoom'
+          ? 'Tap a genre to explore · Scroll to see more'
           : 'Click a genre to see its artists · Drag to move · Scroll to zoom'}
       </div>
     </div>
