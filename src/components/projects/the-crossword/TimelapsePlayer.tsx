@@ -80,14 +80,29 @@ export default function TimelapsePlayer({
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, cw, ch);
 
-      const { gridWidth, gridHeight } = puzzleData;
-      const padX = fullscreen ? 40 : 16;
-      const padY = fullscreen ? 40 : 16;
+      let minRow = Infinity, maxRow = -Infinity, minCol = Infinity, maxCol = -Infinity;
+      for (const entry of entries.values()) {
+        if (!entry.unlocked) continue;
+        for (let i = 0; i < entry.length; i++) {
+          const r = entry.direction === "down" ? entry.row + i : entry.row;
+          const c = entry.direction === "across" ? entry.col + i : entry.col;
+          if (r < minRow) minRow = r;
+          if (r > maxRow) maxRow = r;
+          if (c < minCol) minCol = c;
+          if (c > maxCol) maxCol = c;
+        }
+      }
+      if (minRow === Infinity) return;
+      const boundsW = maxCol - minCol + 1;
+      const boundsH = maxRow - minRow + 1;
+
+      const padX = fullscreen ? 40 : 20;
+      const padY = fullscreen ? 40 : 20;
       const availW = cw - padX * 2;
       const availH = ch - padY * 2;
-      const scale = Math.min(availW / (gridWidth * CELL_SIZE), availH / (gridHeight * CELL_SIZE));
-      const offsetX = padX + (availW - gridWidth * CELL_SIZE * scale) / 2;
-      const offsetY = padY + (availH - gridHeight * CELL_SIZE * scale) / 2;
+      const scale = Math.min(availW / (boundsW * CELL_SIZE), availH / (boundsH * CELL_SIZE));
+      const offsetX = padX + (availW - boundsW * CELL_SIZE * scale) / 2 - minCol * CELL_SIZE * scale;
+      const offsetY = padY + (availH - boundsH * CELL_SIZE * scale) / 2 - minRow * CELL_SIZE * scale;
       const cellPx = CELL_SIZE * scale;
 
       ctx.fillStyle = COLORS.background;
@@ -113,7 +128,7 @@ export default function TimelapsePlayer({
         ctx.fillStyle = color;
         ctx.fillRect(x, y, cellPx, cellPx);
 
-        if (cellPx > 6 && fullscreen) {
+        if (cellPx > 6) {
           const fontSize = cellPx * 0.5;
           ctx.fillStyle = "#fff";
           ctx.font = `700 ${fontSize}px Nunito, sans-serif`;
@@ -136,7 +151,7 @@ export default function TimelapsePlayer({
         }
       }
     },
-    [puzzleData, entries, cellsAtFrame, fullscreen],
+    [entries, cellsAtFrame, fullscreen],
   );
 
   useEffect(() => {
@@ -181,43 +196,50 @@ export default function TimelapsePlayer({
     setPlaying(false);
   };
 
-  if (totalFrames === 0) {
-    return (
-      <div className={fullscreen ? styles.fullscreen : styles.mini}>
-        <div className={styles.empty}>No solves yet</div>
-        <button className={styles.closeBtn} onClick={onClose}>
-          &times;
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <div className={fullscreen ? styles.fullscreen : styles.mini}>
+  const content = (
+    <>
       <button className={styles.closeBtn} onClick={onClose}>
         &times;
       </button>
-      <div ref={containerRef} className={styles.canvasWrap}>
-        <canvas ref={canvasRef} className={styles.canvas} />
-      </div>
-      <div className={styles.controls}>
-        <button className={styles.playBtn} onClick={togglePlay}>
-          {playing ? "⏸" : "▶"}
-        </button>
-        <input
-          type="range"
-          className={styles.scrubber}
-          min={0}
-          max={totalFrames}
-          value={frame}
-          onChange={handleScrub}
-        />
-        <span className={styles.counter}>
-          {frame}/{totalFrames}
-        </span>
-        <button className={styles.speedBtn} onClick={cycleSpeed}>
-          {SPEEDS[speedIdx]}x
-        </button>
+      {totalFrames === 0 ? (
+        <div className={styles.empty}>No solves yet</div>
+      ) : (
+        <>
+          <div ref={containerRef} className={styles.canvasWrap}>
+            <canvas ref={canvasRef} className={styles.canvas} />
+          </div>
+          <div className={styles.controls}>
+            <button className={styles.playBtn} onClick={togglePlay}>
+              {playing ? "⏸" : "▶"}
+            </button>
+            <input
+              type="range"
+              className={styles.scrubber}
+              min={0}
+              max={totalFrames}
+              value={frame}
+              onChange={handleScrub}
+            />
+            <span className={styles.counter}>
+              {frame}/{totalFrames}
+            </span>
+            <button className={styles.speedBtn} onClick={cycleSpeed}>
+              {SPEEDS[speedIdx]}x
+            </button>
+          </div>
+        </>
+      )}
+    </>
+  );
+
+  if (fullscreen) {
+    return <div className={styles.fullscreen}>{content}</div>;
+  }
+
+  return (
+    <div className={styles.mini} onClick={onClose}>
+      <div className={styles.miniInner} onClick={(e) => e.stopPropagation()}>
+        {content}
       </div>
     </div>
   );

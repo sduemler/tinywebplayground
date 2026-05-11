@@ -7,6 +7,8 @@ const WIN_THRESHOLD = 5;
 interface MusicGuesserStore {
   dailyResults: Record<string, DailyResult>;
   stats: LifetimeStats;
+  volume: number;
+  setVolume: (v: number) => void;
   recordGame: (params: {
     mode: Mode;
     date?: string;
@@ -37,6 +39,8 @@ export const useMusicGuesserStore = create<MusicGuesserStore>()(
     (set, get) => ({
       dailyResults: {},
       stats: emptyStats,
+      volume: 0.75,
+      setVolume: (v) => set({ volume: v }),
 
       recordGame: ({ mode, date, songResults, lifelinesUsed }) => {
         if (mode !== 'daily' || !date) return;

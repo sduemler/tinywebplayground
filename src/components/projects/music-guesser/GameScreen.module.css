@@ -213,6 +213,88 @@
     border-color: #7d2c22;
 }
 
+.volumeSlider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    height: 240px;
+}
+
+.volumeIcon {
+    color: var(--color-muted);
+    flex-shrink: 0;
+}
+
+.volumeRange {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    flex: 1;
+    width: 28px;
+    min-height: 0;
+    accent-color: var(--mg-primary, #1f5c3a);
+    cursor: pointer;
+}
+
+.skipGuessButton {
+    align-self: center;
+    padding: 0.4rem 1rem;
+    background: transparent;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition:
+        color var(--transition),
+        border-color var(--transition);
+}
+
+.skipGuessButton:hover:not(:disabled) {
+    color: var(--mg-primary, #1f5c3a);
+    border-color: var(--mg-primary, #1f5c3a);
+}
+
+.skipGuessButton:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.wrongList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.wrongItem {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: calc(var(--radius) - 4px);
+    background: #f8e0db;
+    font-size: 0.88rem;
+}
+
+.wrongX {
+    color: var(--mg-wrong, #a83a2e);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.wrongTitle {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.wrongArtist {
+    color: var(--color-muted);
+}
+
 @media (max-width: 560px) {
     .playArea {
         flex-direction: column;
@@ -233,5 +315,17 @@
 
     .skipButton {
         flex: 1;
+    }
+
+    .volumeSlider {
+        flex-direction: row;
+        height: auto;
+    }
+
+    .volumeRange {
+        writing-mode: horizontal-tb;
+        direction: ltr;
+        flex: 1;
+        width: auto;
     }
 }

@@ -5,6 +5,7 @@ import GuessInput from './GuessInput';
 import ProgressBar from './ProgressBar';
 import { MAX_ATTEMPTS } from './gameReducer';
 import { getSnippetSeconds } from './utils';
+import { useMusicGuesserStore } from './store';
 import styles from './GameScreen.module.css';
 import type { GameState, LifelineKind, SearchResult } from './types';
 
@@ -29,10 +30,14 @@ export default function GameScreen({
   const songResult = state.songResults[state.currentIndex];
   const songFinished = !!songResult;
 
+  const volume = useMusicGuesserStore((s) => s.volume);
+  const setVolume = useMusicGuesserStore((s) => s.setVolume);
   const [feedback, setFeedback] = useState<'right' | 'wrong' | null>(null);
+  const [wrongGuesses, setWrongGuesses] = useState<SearchResult[]>([]);
 
   useEffect(() => {
     setFeedback(null);
+    setWrongGuesses([]);
   }, [state.currentIndex]);
 
   if (!track) return null;
@@ -52,6 +57,7 @@ export default function GameScreen({
       onGuessCorrect(selected);
     } else {
       setFeedback('wrong');
+      setWrongGuesses((prev) => [...prev, selected]);
       window.setTimeout(() => setFeedback(null), 800);
       onGuessWrong();
     }
@@ -84,6 +90,28 @@ export default function GameScreen({
       ) : (
         <>
           <div className={styles.playArea}>
+            <div className={styles.volumeSlider}>
+              <svg className={styles.volumeIcon} viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+                <path d="M10 3L5.5 7H2v6h3.5L10 17V3z" fill="currentColor" />
+                <path d="M13 7.5a4 4 0 010 5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                <path d="M15 5.5a7 7 0 010 9" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+              </svg>
+              <input
+                type="range"
+                className={styles.volumeRange}
+                min={0}
+                max={1}
+                step={0.01}
+                value={volume}
+                onChange={(e) => setVolume(Number(e.target.value))}
+                aria-label="Volume"
+              />
+              <svg className={styles.volumeIcon} viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+                <path d="M10 3L5.5 7H2v6h3.5L10 17V3z" fill="currentColor" />
+                <path d="M14 8l-4 4M10 8l4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+              </svg>
+            </div>
+
             <div className={styles.coverWrapper}>
               <AlbumCover imageUrl={track.albumArt} state={coverState} />
             </div>
@@ -125,6 +153,7 @@ export default function GameScreen({
             src={track.previewUrl}
             maxSeconds={snippetSeconds}
             resetKey={`${state.currentIndex}-${state.attempt}-${state.extendActive ? 'ext' : 'norm'}`}
+            volume={volume}
           />
 
           {state.hintRevealed && (
@@ -143,6 +172,25 @@ export default function GameScreen({
           {feedback === 'wrong' && <div className={styles.feedbackWrong}>Not quite — try again</div>}
 
           <GuessInput onSubmit={handleGuess} disabled={feedback === 'right'} currentTrack={track} />
+          <button
+            type="button"
+            className={styles.skipGuessButton}
+            onClick={onGuessWrong}
+            disabled={feedback === 'right'}
+          >
+            {state.attempt + 1 >= MAX_ATTEMPTS ? 'Give up' : `Skip guess (${MAX_ATTEMPTS - state.attempt - 1} left)`}
+          </button>
+          {wrongGuesses.length > 0 && (
+            <ul className={styles.wrongList}>
+              {wrongGuesses.map((g, i) => (
+                <li key={`${g.id}-${i}`} className={styles.wrongItem}>
+                  <span className={styles.wrongX}>✗</span>
+                  <span className={styles.wrongTitle}>{g.title}</span>
+                  <span className={styles.wrongArtist}>{g.artist}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </>
       )}
     </div>

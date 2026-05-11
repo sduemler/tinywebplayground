@@ -1459,6 +1459,7 @@
 }
 
 .seqCell {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -1511,30 +1512,116 @@
     outline-offset: 2px;
 }
 
-.seqArrows {
+.seqToggle {
     display: flex;
-    gap: 0.2rem;
-}
-
-.seqArrow {
-    flex: 1;
-    font-size: 0.55rem;
-    line-height: 1;
-    padding: 0.15rem 0;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem 0;
     background: rgba(0, 0, 0, 0.35);
     color: var(--module-text);
+    opacity: 0.45;
     border: 1px solid var(--module-border);
     border-radius: 2px;
     cursor: pointer;
     transition: all 160ms ease;
 }
 
-.seqArrow:hover {
-    background: color-mix(in srgb, var(--module-accent) 30%, rgba(0, 0, 0, 0.35));
+.seqToggleOn {
+    opacity: 1;
+    color: var(--module-accent);
+    background: color-mix(in srgb, var(--module-accent) 25%, rgba(0, 0, 0, 0.35));
+    border-color: color-mix(in srgb, var(--module-accent) 50%, var(--module-border));
+}
+
+.seqToggle:hover {
+    opacity: 1;
     color: var(--module-accent);
 }
 
-.seqArrow:focus-visible {
+.seqToggle:focus-visible {
     outline: 2px solid var(--module-accent);
     outline-offset: 1px;
+}
+
+.notePicker {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.4rem;
+    background: #1a1205;
+    border: 1px solid var(--module-accent);
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    width: max-content;
+}
+
+.notePickerOctaves {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.notePickerOct {
+    flex: 1;
+    padding: 0.2rem 0.35rem;
+    font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.4);
+    color: var(--module-text);
+    border: 1px solid var(--module-border);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 120ms ease;
+}
+
+.notePickerOct:hover {
+    border-color: var(--module-accent);
+    color: var(--module-accent);
+}
+
+.notePickerOctActive {
+    background: color-mix(in srgb, var(--module-accent) 30%, rgba(0, 0, 0, 0.4));
+    border-color: var(--module-accent);
+    color: var(--module-accent);
+}
+
+.notePickerNotes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.2rem;
+}
+
+.notePickerNote {
+    padding: 0.25rem 0.35rem;
+    font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--module-text);
+    border: 1px solid var(--module-border);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 120ms ease;
+    text-align: center;
+}
+
+.notePickerNoteSharp {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.notePickerNote:hover {
+    border-color: var(--module-accent);
+    color: var(--module-accent);
+}
+
+.notePickerNoteActive {
+    background: color-mix(in srgb, var(--module-accent) 30%, rgba(0, 0, 0, 0.4));
+    border-color: var(--module-accent);
+    color: var(--module-accent);
+    text-shadow: 0 0 6px color-mix(in srgb, var(--module-accent) 60%, transparent);
 }

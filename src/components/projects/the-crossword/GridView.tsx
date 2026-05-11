@@ -86,10 +86,13 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
     needsRedrawRef.current = true;
   }, [zoomTrigger]);
 
+  const entriesRef = useRef(entries);
+  entriesRef.current = entries;
+
   useEffect(() => {
     if (!selectedEntryId) return;
     if (canvasSize.w === 0 || canvasSize.h === 0) return;
-    const entry = entries.get(selectedEntryId);
+    const entry = entriesRef.current.get(selectedEntryId);
     if (!entry) return;
 
     const midIdx = (entry.length - 1) / 2;
@@ -116,7 +119,7 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
       duration: 400,
     };
     needsRedrawRef.current = true;
-  }, [selectedEntryId, entries, canvasSize]);
+  }, [selectedEntryId, canvasSize]);
 
   const getSelectedCells = useCallback((): Set<string> => {
     if (!selectedEntryId) return new Set();

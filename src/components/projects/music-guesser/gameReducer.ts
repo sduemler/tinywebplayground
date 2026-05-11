@@ -61,7 +61,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
           songResults: [...state.songResults, result],
         };
       }
-      return { ...state, attempt: nextAttempt, extendActive: false };
+      return { ...state, attempt: nextAttempt };
     }
 
     case 'skip': {

@@ -23,9 +23,9 @@ export default function Leaderboard({ entries }: Props) {
 
   return (
     <div className={styles.panel}>
-      <h3 className={styles.title}>Leaderboard</h3>
+      <h3 className={styles.title}>Contributors</h3>
       <ol className={styles.list}>
-        {rankings.map(({ rank, name, count }) => (
+        {rankings.slice(0, 10).map(({ rank, name, count }) => (
           <li key={name} className={styles.row}>
             <span className={styles.rank}>{rank}</span>
             <span className={styles.name}>{name}</span>

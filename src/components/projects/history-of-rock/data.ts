@@ -3,8 +3,8 @@ import type { Genre, Connection } from './types';
 export const GENRES: Genre[] = [
   // Root genres (left side)
   { id: 'country', label: 'COUNTRY', artists: [], x: -550, y: -200 },
-  { id: 'blues', label: 'BLUES', artists: [], x: -550, y: 200 },
-  { id: 'jazz', label: 'JAZZ', artists: [], x: -550, y: 350 },
+  { id: 'blues', label: 'BLUES', artists: ['Muddy Waters', 'Robert Johnson', 'Howlin\' Wolf', 'B.B. King', 'John Lee Hooker', 'Lead Belly', 'T-Bone Walker'], x: -550, y: 200 },
+  { id: 'jazz', label: 'JAZZ', artists: ['Louis Armstrong', 'Duke Ellington', 'Charlie Parker', 'Miles Davis', 'Dizzy Gillespie', 'Thelonious Monk', 'John Coltrane'], x: -550, y: 350 },
 
   // Early offshoots
   { id: 'folk', label: 'FOLK', artists: ['Kingston Trio', 'Joan Baez', 'Peter, Paul & Mary'], x: -380, y: -250 },

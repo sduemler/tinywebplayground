@@ -225,14 +225,12 @@ export default function TheCrossword() {
       </div>
 
       {showTimelapse && (
-        <div className={styles.timelapseMini}>
-          <TimelapsePlayer
-            puzzleData={puzzleData}
-            entries={entries}
-            solveHistory={solveHistory}
-            onClose={() => setShowTimelapse(false)}
-          />
-        </div>
+        <TimelapsePlayer
+          puzzleData={puzzleData}
+          entries={entries}
+          solveHistory={solveHistory}
+          onClose={() => setShowTimelapse(false)}
+        />
       )}
 
       {showNicknameModal && (
@@ -245,6 +243,7 @@ export default function TheCrossword() {
       {isComplete && !showFullTimelapse && (
         <CompletionOverlay
           solveCount={solveCount}
+          entries={entries}
           onPlayTimelapse={() => setShowFullTimelapse(true)}
         />
       )}

@@ -1,4 +1,15 @@
 .mini {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(42, 61, 92, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.miniInner {
   position: relative;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -6,9 +17,11 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  width: 320px;
-  height: 300px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px;
+  height: 100%;
+  max-height: 80vh;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
 }
 
 .fullscreen {
@@ -18,6 +31,16 @@
   background: var(--color-bg);
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .mini {
+    padding: 0.75rem;
+  }
+
+  .miniInner {
+    max-height: 90vh;
+  }
 }
 
 .canvasWrap {

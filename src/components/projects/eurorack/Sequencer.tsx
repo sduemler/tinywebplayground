@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSynthStore } from "./store";
 import {
   initAudio,
@@ -7,7 +7,7 @@ import {
   setSequencerBpm,
   updateSequencerOpts,
 } from "./audio";
-import { NOTE_SEMITONES } from "./notes";
+import { NOTE_NAMES } from "./notes";
 import ModuleHelp from "./ModuleHelp";
 import EditableValue from "./EditableValue";
 import type { SeqStep } from "./types";
@@ -31,32 +31,55 @@ const palette: React.CSSProperties = {
   ["--module-width" as string]: "min(calc(var(--module-u, 40px) * 20), 95vw)",
 };
 
-// Chromatic order so up/down arrows step through all semitones.
-const CHROMATIC_ORDER: string[] = [
-  "C",
-  "C#",
-  "D",
-  "D#",
-  "E",
-  "F",
-  "F#",
-  "G",
-  "G#",
-  "A",
-  "A#",
-  "B",
-];
+const OCTAVES = [1, 2, 3, 4, 5, 6, 7] as const;
 
-function shiftPitch(
-  step: SeqStep,
-  delta: 1 | -1,
-): { note: string; octave: number } {
-  const idx = CHROMATIC_ORDER.indexOf(step.note);
-  const absolute = step.octave * 12 + (idx >= 0 ? idx : NOTE_SEMITONES[step.note] ?? 0);
-  const next = absolute + delta;
-  const octave = Math.max(MIN_OCT, Math.min(MAX_OCT, Math.floor(next / 12)));
-  const noteIdx = ((next % 12) + 12) % 12;
-  return { note: CHROMATIC_ORDER[noteIdx], octave };
+function NotePicker({
+  step,
+  onPick,
+  onClose,
+}: {
+  step: SeqStep;
+  onPick: (note: string, octave: number) => void;
+  onClose: () => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handle = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+    };
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, [onClose]);
+
+  return (
+    <div ref={ref} className={styles.notePicker}>
+      <div className={styles.notePickerOctaves}>
+        {OCTAVES.map((o) => (
+          <button
+            key={o}
+            type="button"
+            className={`${styles.notePickerOct} ${o === step.octave ? styles.notePickerOctActive : ""}`}
+            onClick={() => onPick(step.note, o)}
+          >
+            {o}
+          </button>
+        ))}
+      </div>
+      <div className={styles.notePickerNotes}>
+        {NOTE_NAMES.map((n) => (
+          <button
+            key={n}
+            type="button"
+            className={`${styles.notePickerNote} ${n === step.note ? styles.notePickerNoteActive : ""} ${n.includes("#") ? styles.notePickerNoteSharp : ""}`}
+            onClick={() => onPick(n, step.octave)}
+          >
+            {n}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function Sequencer() {
@@ -144,6 +167,8 @@ export default function Sequencer() {
     [storeSetLoopLength],
   );
 
+  const [pickerOpen, setPickerOpen] = useState<number | null>(null);
+
   const handleToggleStep = useCallback(
     (index: number) => {
       storeSetStep(index, { on: !seqSteps[index].on });
@@ -151,12 +176,12 @@ export default function Sequencer() {
     [seqSteps, storeSetStep],
   );
 
-  const handleStepPitch = useCallback(
-    (index: number, delta: 1 | -1) => {
-      const next = shiftPitch(seqSteps[index], delta);
-      storeSetStep(index, next);
+  const handlePickNote = useCallback(
+    (index: number, note: string, octave: number) => {
+      storeSetStep(index, { note, octave });
+      setPickerOpen(null);
     },
-    [seqSteps, storeSetStep],
+    [storeSetStep],
   );
 
   const rows = useMemo(() => {
@@ -179,7 +204,8 @@ export default function Sequencer() {
           },
           {
             name: "Steps",
-            description: "Click to toggle on/off; arrows change pitch.",
+            description:
+              "Click the note to pick a pitch; the power button toggles the step on/off.",
           },
         ]}
       />
@@ -286,31 +312,32 @@ export default function Sequencer() {
                     <button
                       type="button"
                       className={styles.seqCellButton}
-                      onClick={() => handleToggleStep(index)}
-                      aria-pressed={step.on}
+                      onMouseDown={(e) => { if (pickerOpen === index) e.stopPropagation(); }}
+                      onClick={() => setPickerOpen(pickerOpen === index ? null : index)}
                       aria-label={`Step ${index + 1} ${step.note}${step.octave}`}
                     >
                       {step.note}
                       {step.octave}
                     </button>
-                    <div className={styles.seqArrows}>
-                      <button
-                        type="button"
-                        className={styles.seqArrow}
-                        onClick={() => handleStepPitch(index, 1)}
-                        aria-label={`Step ${index + 1} pitch up`}
-                      >
-                        ▲
-                      </button>
-                      <button
-                        type="button"
-                        className={styles.seqArrow}
-                        onClick={() => handleStepPitch(index, -1)}
-                        aria-label={`Step ${index + 1} pitch down`}
-                      >
-                        ▼
-                      </button>
-                    </div>
+                    {pickerOpen === index && (
+                      <NotePicker
+                        step={step}
+                        onPick={(note, octave) => handlePickNote(index, note, octave)}
+                        onClose={() => setPickerOpen(null)}
+                      />
+                    )}
+                    <button
+                      type="button"
+                      className={`${styles.seqToggle} ${step.on ? styles.seqToggleOn : ""}`}
+                      onClick={() => handleToggleStep(index)}
+                      aria-pressed={step.on}
+                      aria-label={`Step ${index + 1} ${step.on ? "disable" : "enable"}`}
+                    >
+                      <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true">
+                        <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                        <line x1="8" y1="2" x2="8" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                    </button>
                   </div>
                 );
               })}

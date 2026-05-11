@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { apiFetch, isDuplicateVersion } from './utils';
+import { apiFetch, isDuplicateVersion, normalize } from './utils';
 import type { SearchResult, Track } from './types';
 import styles from './GuessInput.module.css';
 
@@ -31,9 +31,17 @@ export default function GuessInput({ disabled, onSubmit, placeholder, currentTra
         const data = await apiFetch<{ success: boolean; results: SearchResult[] }>(
           `/api/music/search?q=${encodeURIComponent(query.trim())}`
         );
-        const filtered = currentTrack
+        let filtered = currentTrack
           ? (data.results || []).filter((r) => !isDuplicateVersion(r, currentTrack))
           : (data.results || []);
+        if (currentTrack && !filtered.some((r) => r.id === currentTrack.id)) {
+          const q = normalize(query.trim());
+          const matchesTitle = normalize(currentTrack.title).includes(q);
+          const matchesArtist = normalize(currentTrack.artist).includes(q);
+          if (matchesTitle || matchesArtist) {
+            filtered = [{ id: currentTrack.id, title: currentTrack.title, artist: currentTrack.artist }, ...filtered];
+          }
+        }
         setResults(filtered);
         setOpen(true);
         setHighlightIndex(0);

@@ -6,9 +6,10 @@ interface AudioPlayerProps {
   maxSeconds: number;
   /** Bumping this value forces playback to restart (e.g., on attempt change). */
   resetKey: number | string;
+  volume?: number;
 }
 
-export default function AudioPlayer({ src, maxSeconds, resetKey }: AudioPlayerProps) {
+export default function AudioPlayer({ src, maxSeconds, resetKey, volume = 0.75 }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const stopTimerRef = useRef<number | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -37,6 +38,7 @@ export default function AudioPlayer({ src, maxSeconds, resetKey }: AudioPlayerPr
     if (!audio) return;
     clearStopTimer();
     audio.currentTime = 0;
+    audio.volume = volume;
     try {
       await audio.play();
       setPlaying(true);
@@ -45,6 +47,10 @@ export default function AudioPlayer({ src, maxSeconds, resetKey }: AudioPlayerPr
       setPlaying(false);
     }
   };
+
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = volume;
+  }, [volume]);
 
   useEffect(() => {
     stop();
