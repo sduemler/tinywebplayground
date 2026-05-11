@@ -73,7 +73,12 @@ export default function ClueListView({
     );
     return {
       unsolvedByCategory: sorted,
-      solved: entries.filter((e) => e.solvedBy),
+      solved: entries
+        .filter((e) => e.solvedBy)
+        .sort((a, b) => {
+          if (!a.solvedAt || !b.solvedAt) return a.solvedAt ? -1 : 1;
+          return b.solvedAt.getTime() - a.solvedAt.getTime();
+        }),
     };
   }, [entries]);
 
