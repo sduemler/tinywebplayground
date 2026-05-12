@@ -10,11 +10,29 @@
   font-size: 0.9rem;
   color: var(--color-muted);
   margin: 0 0 0.5rem;
-  padding-bottom: 0.35rem;
+  padding: 0 0 0.35rem;
+  border: none;
   border-bottom: 1px solid var(--color-border);
+  background: transparent;
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  width: 100%;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.sectionTitle:hover {
+  color: var(--color-text);
+}
+
+.chevron {
+  font-size: 0.85rem;
+  transition: transform 160ms ease;
+}
+
+.chevronCollapsed {
+  transform: rotate(-90deg);
 }
 
 .categoryCount {

@@ -82,6 +82,17 @@ export default function ClueListView({
     };
   }, [entries]);
 
+  const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+
+  const toggleSection = (key: string) => {
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
   const handleClue = (entryId: string) => {
     if (isMobile && onSolve) {
       setInlineEntryId(inlineEntryId === entryId ? null : entryId);
@@ -94,62 +105,78 @@ export default function ClueListView({
     <div className={styles.container}>
       {unsolvedByCategory.map(([category, clues]) => (
         <section key={category}>
-          <h3 className={styles.sectionTitle}>
+          <button
+            type="button"
+            className={styles.sectionTitle}
+            onClick={() => toggleSection(category)}
+            aria-expanded={!collapsed.has(category)}
+          >
+            <span className={`${styles.chevron} ${collapsed.has(category) ? styles.chevronCollapsed : ""}`}>▾</span>
             {category}
             <span className={styles.categoryCount}>{clues.length}</span>
-          </h3>
-          <ul className={styles.list}>
-            {clues.map((entry) => (
-              <li key={entry.id} className={styles.item}>
-                <button
-                  className={`${styles.clueButton} ${isMobile && inlineEntryId === entry.id ? styles.clueButtonActive : ""}`}
-                  onClick={() => handleClue(entry.id)}
-                >
-                  <span className={styles.clueText}>{entry.clue}</span>
-                  <span className={styles.clueLength}>
-                    {entry.length} letters
-                  </span>
-                </button>
-                {isMobile &&
-                  inlineEntryId === entry.id &&
-                  inlineEntry &&
-                  !inlineEntry.solvedBy && (
-                    <div ref={inlinePanelRef} className={styles.inlinePanel}>
-                      <CluePanel
-                        entry={inlineEntry}
-                        prefilled={inlinePrefilled}
-                        onSubmit={onSolve}
-                        inline
-                      />
-                    </div>
-                  )}
-              </li>
-            ))}
-          </ul>
+          </button>
+          {!collapsed.has(category) && (
+            <ul className={styles.list}>
+              {clues.map((entry) => (
+                <li key={entry.id} className={styles.item}>
+                  <button
+                    className={`${styles.clueButton} ${isMobile && inlineEntryId === entry.id ? styles.clueButtonActive : ""}`}
+                    onClick={() => handleClue(entry.id)}
+                  >
+                    <span className={styles.clueText}>{entry.clue}</span>
+                    <span className={styles.clueLength}>
+                      {entry.length} letters
+                    </span>
+                  </button>
+                  {isMobile &&
+                    inlineEntryId === entry.id &&
+                    inlineEntry &&
+                    !inlineEntry.solvedBy && (
+                      <div ref={inlinePanelRef} className={styles.inlinePanel}>
+                        <CluePanel
+                          entry={inlineEntry}
+                          prefilled={inlinePrefilled}
+                          onSubmit={onSolve}
+                          inline
+                        />
+                      </div>
+                    )}
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       ))}
       {solved.length > 0 && (
         <section>
-          <h3 className={styles.sectionTitle}>
+          <button
+            type="button"
+            className={styles.sectionTitle}
+            onClick={() => toggleSection("__solved__")}
+            aria-expanded={!collapsed.has("__solved__")}
+          >
+            <span className={`${styles.chevron} ${collapsed.has("__solved__") ? styles.chevronCollapsed : ""}`}>▾</span>
             Solved
             <span className={styles.categoryCount}>{solved.length}</span>
-          </h3>
-          <ul className={styles.list}>
-            {solved.map((entry) => (
-              <li
-                key={entry.id}
-                className={`${styles.item} ${styles.solved}`}
-              >
-                <button
-                  className={styles.clueButton}
-                  onClick={() => onClueClick(entry.id)}
+          </button>
+          {!collapsed.has("__solved__") && (
+            <ul className={styles.list}>
+              {solved.map((entry) => (
+                <li
+                  key={entry.id}
+                  className={`${styles.item} ${styles.solved}`}
                 >
-                  <span className={styles.clueText}>{entry.clue}</span>
-                  <span className={styles.solvedBy}>{entry.solvedBy}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
+                  <button
+                    className={styles.clueButton}
+                    onClick={() => onClueClick(entry.id)}
+                  >
+                    <span className={styles.clueText}>{entry.clue}</span>
+                    <span className={styles.solvedBy}>{entry.solvedBy}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       )}
       {entries.length === 0 && (
