@@ -47,6 +47,17 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  if (data?.code === 'subscriber_blocked') {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error:
+          "This email couldn't be subscribed. If you think this is a mistake, please reach out.",
+      }),
+      { status: 422, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
   return new Response(
     JSON.stringify({ success: false, error: 'Something went wrong. Please try again.' }),
     { status: 500, headers: { 'Content-Type': 'application/json' } }
