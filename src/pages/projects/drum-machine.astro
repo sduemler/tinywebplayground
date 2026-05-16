@@ -1,0 +1,12 @@
+---
+export const prerender = true;
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects } from '../../data/projects';
+import DrumMachine from '../../components/projects/drum-machine/DrumMachine';
+
+const project = projects.find((p) => p.slug === 'drum-machine')!;
+---
+
+<ProjectLayout project={project}>
+  <DrumMachine client:load />
+</ProjectLayout>

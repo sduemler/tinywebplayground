@@ -35,7 +35,10 @@ export default function ClueListView({
   useEffect(() => {
     if (inlineEntryId) {
       const entry = allEntries.get(inlineEntryId);
-      if (entry?.solvedBy) setInlineEntryId(null);
+      if (entry?.solvedBy) {
+        const timer = setTimeout(() => setInlineEntryId(null), 1200);
+        return () => clearTimeout(timer);
+      }
     }
   }, [allEntries, inlineEntryId]);
 
@@ -130,8 +133,7 @@ export default function ClueListView({
                   </button>
                   {isMobile &&
                     inlineEntryId === entry.id &&
-                    inlineEntry &&
-                    !inlineEntry.solvedBy && (
+                    inlineEntry && (
                       <div ref={inlinePanelRef} className={styles.inlinePanel}>
                         <CluePanel
                           entry={inlineEntry}

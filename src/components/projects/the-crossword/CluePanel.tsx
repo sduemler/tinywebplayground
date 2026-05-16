@@ -18,6 +18,7 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
   const [userLetters, setUserLetters] = useState<string[]>([]);
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isWrong, setIsWrong] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const localInputRef = useRef<HTMLInputElement>(null);
   const hiddenInputRef = inputRef || localInputRef;
@@ -26,7 +27,7 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
   const setCooldown = useCrosswordStore((s) => s.setCooldown);
 
   const isCoolingDown = cooldownUntil ? Date.now() < cooldownUntil : false;
-  const disabled = isCoolingDown || submitting;
+  const disabled = isCoolingDown || submitting || isCorrect;
 
   const findNextEmpty = useCallback(
     (from: number): number => {
@@ -59,6 +60,7 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
   useEffect(() => {
     setUserLetters(new Array(entry.length).fill(""));
     setIsWrong(false);
+    setIsCorrect(false);
     const first = findNextEmpty(0);
     updateCursor(first);
     hiddenInputRef.current?.focus();
@@ -88,7 +90,11 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
       setSubmitting(true);
       try {
         const result = await onSubmit(entry.id, answer);
-        if (!result.correct) markWrong();
+        if (result.correct) {
+          setIsCorrect(true);
+        } else {
+          markWrong();
+        }
       } catch {
         markWrong();
       } finally {
@@ -172,7 +178,7 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
       <div className={styles.clueText}>{entry.clue}</div>
       <div className={styles.slotsRow}>
         <div
-          className={`${styles.slots} ${isWrong ? styles.slotsWrong : ""}`}
+          className={`${styles.slots} ${isWrong ? styles.slotsWrong : ""} ${isCorrect ? styles.slotsCorrect : ""}`}
           onClick={focusInput}
         >
           {Array.from({ length: entry.length }, (_, i) => {
@@ -208,11 +214,11 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
         </div>
         <button
           type="button"
-          className={styles.submit}
+          className={`${styles.submit} ${isCorrect ? styles.submitCorrect : ""}`}
           disabled={!allFilled || disabled}
           onClick={handleSubmit}
         >
-          {submitting ? "..." : "Check"}
+          {submitting ? "..." : isCorrect ? "✓" : "Check"}
         </button>
       </div>
     </div>

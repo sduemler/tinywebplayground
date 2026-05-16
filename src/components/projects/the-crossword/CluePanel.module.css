@@ -76,6 +76,18 @@
   color: #c0392b;
 }
 
+.slotsCorrect {
+  animation: popIn 0.3s ease;
+}
+
+.slotsCorrect .slot {
+  border-bottom-color: #27ae60;
+}
+
+.slotsCorrect .slotLetter {
+  color: #27ae60;
+}
+
 .hiddenInput {
   position: absolute;
   opacity: 0;
@@ -108,6 +120,11 @@
 .submit:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.submitCorrect {
+  background: #27ae60;
+  opacity: 1;
 }
 
 .panelInline {
@@ -173,4 +190,10 @@
 
 @keyframes blink {
   50% { border-bottom-color: transparent; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.04); }
+  100% { transform: scale(1); }
 }

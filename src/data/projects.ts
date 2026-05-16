@@ -7,16 +7,17 @@ export interface Project {
   status: "live" | "wip" | "coming-soon";
   tags?: string[];
   imagePosition?: string;
+  imageFit?: "cover" | "contain";
   titleHtml?: string;
 }
 
 export const projects: Project[] = [
   {
     slug: "the-crossword",
-    title: "The Crossword",
+    title: "CROSSWORLD",
     description:
       "A collaborative crossword that grows as the world solves it. One clue at a time.",
-    image: "/images/projects/the-crossword.svg",
+    image: "/images/projects/the-crossword.png",
     accentColor: "#2a3d5c",
     status: "live",
     tags: ["puzzle", "collaborative", "realtime"],
@@ -118,5 +119,15 @@ export const projects: Project[] = [
     accentColor: "#5BA4CF",
     status: "wip",
     tags: ["weather", "game", "interactive"],
+  },
+  {
+    slug: "drum-machine",
+    title: "Tiny Drum Machine",
+    description:
+      "A vertical, scalable drum sequencer inspired by the Linndrum.",
+    image: "/images/projects/drum-machine.webp",
+    accentColor: "#c97b2e",
+    status: "wip",
+    tags: ["audio", "sequencer", "interactive"],
   },
 ];

@@ -10,7 +10,7 @@
  * - Every white cell must belong to both an across AND a down entry
  * - All white cells must be connected (single component)
  * - No duplicate words
- * - No parallel adjacency (two same-direction words side by side)
+ * - No touching: adjacent filled cells must be part of the same word
  */
 
 import { readFileSync, writeFileSync } from "fs";
@@ -78,21 +78,14 @@ function canPlace(row, col, word, direction) {
       if (direction === "down" && existing.downId) return null;
       intersections++;
     } else {
-      // Check parallel adjacency: cells to the side shouldn't have same-direction words
+      // No filled cell may touch a new cell unless they share a word.
+      // For across: no filled cell above or below. For down: no filled cell left or right.
       if (direction === "across") {
-        const above = getCell(r - 1, c);
-        const below = getCell(r + 1, c);
-        if (above && above.acrossId && !cells.find((x) => x.r === r - 1 && x.c === c))
-          return null;
-        if (below && below.acrossId && !cells.find((x) => x.r === r + 1 && x.c === c))
-          return null;
+        if (getCell(r - 1, c)) return null;
+        if (getCell(r + 1, c)) return null;
       } else {
-        const left = getCell(r, c - 1);
-        const right = getCell(r, c + 1);
-        if (left && left.downId && !cells.find((x) => x.r === r && x.c === c - 1))
-          return null;
-        if (right && right.downId && !cells.find((x) => x.r === r && x.c === c + 1))
-          return null;
+        if (getCell(r, c - 1)) return null;
+        if (getCell(r, c + 1)) return null;
       }
     }
   }
