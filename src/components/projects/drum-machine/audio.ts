@@ -15,6 +15,40 @@ let masterGain: Tone.Gain | null = null;
 let initialized = false;
 let scheduledId: number | null = null;
 let onStepAdvance: ((step: number) => void) | null = null;
+let silentEl: HTMLAudioElement | null = null;
+
+// Silent MP3 — playing this on a user gesture switches iOS Safari's audio
+// session out of "ambient" (which the silent switch mutes) and into
+// "playback" (which ignores the silent switch). After this, Tone.js output
+// is audible even when the device is on silent.
+const SILENT_MP3 =
+  "data:audio/mpeg;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA" +
+  "gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA" +
+  "gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgP///////////////////////" +
+  "//////////////////////////////////////////////////////////////////8AAAA" +
+  "ATGF2YzU3LjEwAAAAAAAAAAAAAAAAJAYAAAAAAAAAAnGMRyzqAAAAAA==";
+
+export function unmuteIosAudio() {
+  if (silentEl || typeof document === "undefined") return;
+  try {
+    const audio = document.createElement("audio");
+    audio.setAttribute("playsinline", "playsinline");
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.style.display = "none";
+    audio.src = SILENT_MP3;
+    document.body.appendChild(audio);
+    const p = audio.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(() => {
+        // Will retry on the next user gesture.
+      });
+    }
+    silentEl = audio;
+  } catch {
+    // ignored — feature detection: if HTMLMediaElement is unavailable, give up.
+  }
+}
 
 function semitonesToRate(semitones: number): number {
   return 2 ** (semitones / 12);
@@ -215,6 +249,11 @@ export function disposeAudio() {
     masterGain.disconnect();
     masterGain.dispose();
     masterGain = null;
+  }
+  if (silentEl) {
+    silentEl.pause();
+    silentEl.remove();
+    silentEl = null;
   }
   initialized = false;
 }

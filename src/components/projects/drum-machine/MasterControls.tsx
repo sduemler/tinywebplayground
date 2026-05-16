@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useDrumStore, LIMITS } from "./store";
 import ModuleHelp from "./ModuleHelp";
-import { initAudio } from "./audio";
+import { initAudio, unmuteIosAudio } from "./audio";
 import {
   PlayIcon,
   StopIcon,
@@ -75,9 +75,11 @@ export default function MasterControls({ onOpenShare }: Props) {
             isPlaying ? styles.transportButtonPlaying : ""
           }`}
           onClick={() => {
-            // Fire AudioContext unlock SYNCHRONOUSLY in the click handler so
-            // iOS Safari accepts it as part of the user gesture. The promise
-            // it returns is intentionally not awaited here.
+            // Fire SYNCHRONOUSLY inside the gesture so iOS accepts both the
+            // AudioContext resume AND the silent-element play() that switches
+            // the page out of "ambient" audio session (lets audio play even
+            // when the device's silent switch is on).
+            unmuteIosAudio();
             void initAudio();
             setIsPlaying(!isPlaying);
           }}

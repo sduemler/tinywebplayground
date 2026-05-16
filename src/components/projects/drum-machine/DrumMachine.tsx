@@ -17,6 +17,7 @@ import {
   stopTransport,
   disposeAudio,
   subdivisionToInterval,
+  unmuteIosAudio,
 } from "./audio";
 import styles from "./DrumMachine.module.css";
 
@@ -143,6 +144,7 @@ export default function DrumMachine() {
         return;
       }
       e.preventDefault();
+      unmuteIosAudio();
       void initAudio();
       setIsPlaying(!useDrumStore.getState().isPlaying);
     };
