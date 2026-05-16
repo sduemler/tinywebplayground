@@ -296,6 +296,21 @@ export function LoadIcon(p: IconProps) {
   );
 }
 
+export function ChevronDownIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path
+        d="M6 9 L12 15 L18 9"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
 type IconComponent = (p: IconProps) => ReactElement;
 
 // Map sample IDs → icon component. Unmapped samples render no icon.

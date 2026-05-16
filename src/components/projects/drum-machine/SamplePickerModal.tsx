@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { PACKS } from "./drum-packs";
 import type { DrumSample, SampleCategory } from "./types";
+import { ChevronDownIcon } from "./Icons";
 import styles from "./DrumMachine.module.css";
 
 interface Props {
@@ -31,6 +32,11 @@ export default function SamplePickerModal({
   title = "Choose a sample",
 }: Props) {
   const [filter, setFilter] = useState("");
+  // All packs start expanded.
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+
+  const togglePack = (slug: string) =>
+    setCollapsed((prev) => ({ ...prev, [slug]: !prev[slug] }));
 
   useEffect(() => {
     if (!open) return;
@@ -99,40 +105,67 @@ export default function SamplePickerModal({
           {grouped.length === 0 && (
             <p className={styles.modalEmpty}>No samples match.</p>
           )}
-          {grouped.map(({ pack, samples }) => (
-            <section key={pack.slug} className={styles.modalPack}>
-              <div className={styles.modalPackHeader}>
-                <h4>{pack.name}</h4>
-                <p>{pack.description}</p>
-              </div>
-              <ul className={styles.modalSampleList}>
-                {samples.map((sample: DrumSample) => {
-                  const active = sample.id === selectedId;
-                  return (
-                    <li key={sample.id}>
-                      <button
-                        type="button"
-                        className={`${styles.modalSample} ${
-                          active ? styles.modalSampleActive : ""
-                        }`}
-                        onClick={() => {
-                          onPick(sample.id);
-                          onClose();
-                        }}
-                      >
-                        <span className={styles.modalSampleName}>
-                          {sample.name}
-                        </span>
-                        <span className={styles.modalSampleCat}>
-                          {sample.category}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ))}
+          {grouped.map(({ pack, samples }) => {
+            const isCollapsed = !!collapsed[pack.slug];
+            return (
+              <section key={pack.slug} className={styles.modalPack}>
+                <button
+                  type="button"
+                  className={styles.modalPackHeader}
+                  onClick={() => togglePack(pack.slug)}
+                  aria-expanded={!isCollapsed}
+                  aria-controls={`pack-${pack.slug}-list`}
+                >
+                  <span
+                    className={`${styles.modalPackChevron} ${
+                      isCollapsed ? styles.modalPackChevronCollapsed : ""
+                    }`}
+                    aria-hidden
+                  >
+                    <ChevronDownIcon size={14} />
+                  </span>
+                  <span className={styles.modalPackHeaderText}>
+                    <h4>{pack.name}</h4>
+                    <p>{pack.description}</p>
+                  </span>
+                  <span className={styles.modalPackCount}>
+                    {samples.length}
+                  </span>
+                </button>
+                {!isCollapsed && (
+                  <ul
+                    id={`pack-${pack.slug}-list`}
+                    className={styles.modalSampleList}
+                  >
+                    {samples.map((sample: DrumSample) => {
+                      const active = sample.id === selectedId;
+                      return (
+                        <li key={sample.id}>
+                          <button
+                            type="button"
+                            className={`${styles.modalSample} ${
+                              active ? styles.modalSampleActive : ""
+                            }`}
+                            onClick={() => {
+                              onPick(sample.id);
+                              onClose();
+                            }}
+                          >
+                            <span className={styles.modalSampleName}>
+                              {sample.name}
+                            </span>
+                            <span className={styles.modalSampleCat}>
+                              {sample.category}
+                            </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </section>
+            );
+          })}
         </div>
       </div>
     </div>

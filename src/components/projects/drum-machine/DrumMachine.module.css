@@ -449,6 +449,46 @@
   color: var(--dm-bg-deep);
 }
 
+.packSelectWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.packSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: var(--dm-bg-deep);
+  border: 1px solid var(--dm-border-soft);
+  border-radius: 4px;
+  color: var(--dm-text);
+  font-family: inherit;
+  font-size: 0.8rem;
+  padding: 0.3rem 1.8rem 0.3rem 0.55rem;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.packSelect:hover:not(:disabled) {
+  border-color: var(--dm-orange);
+  color: var(--dm-orange);
+}
+
+.packSelect:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.packSelectChevron {
+  position: absolute;
+  right: 0.4rem;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  color: var(--dm-orange);
+}
+
 /* ---------- Grid ---------- */
 
 .gridScroller {
@@ -940,6 +980,26 @@
   margin-top: 1rem;
 }
 
+.modalPackHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  padding: 0.35rem 0.4rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  transition: background var(--transition);
+}
+
+.modalPackHeader:hover {
+  background: rgba(255, 140, 46, 0.08);
+}
+
 .modalPackHeader h4 {
   margin: 0;
   font-family: var(--font-display);
@@ -949,9 +1009,39 @@
 }
 
 .modalPackHeader p {
-  margin: 0.15rem 0 0.5rem;
+  margin: 0.1rem 0 0.5rem;
   font-size: 0.8rem;
   color: var(--dm-text-dim);
+}
+
+.modalPackHeaderText {
+  flex: 1;
+  min-width: 0;
+}
+
+.modalPackChevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dm-orange);
+  margin-top: 2px;
+  transition: transform var(--transition);
+}
+
+.modalPackChevronCollapsed {
+  transform: rotate(-90deg);
+}
+
+.modalPackCount {
+  flex: 0 0 auto;
+  font-size: 0.7rem;
+  color: var(--dm-text-dim);
+  background: var(--dm-bg-deep);
+  border: 1px solid var(--dm-border-soft);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  align-self: center;
+  font-variant-numeric: tabular-nums;
 }
 
 .modalSampleList {

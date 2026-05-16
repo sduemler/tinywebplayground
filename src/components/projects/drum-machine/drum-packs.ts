@@ -48,3 +48,38 @@ export function getDefaultPack(): DrumPack {
 export function allSamples(): DrumSample[] {
   return PACKS.flatMap((p) => p.samples);
 }
+
+/**
+ * Find the best-matching sample in `newPackSlug` for an existing sample ID.
+ * Priority:
+ *   1. Same id suffix (e.g. `linn:kick` → `<newpack>:kick`)
+ *   2. Same display name
+ *   3. First sample with same category
+ *   4. Returns null — caller should keep the existing sample
+ */
+export function findEquivalentSample(
+  sourceSampleId: string,
+  newPackSlug: string
+): string | null {
+  const source = findSample(sourceSampleId);
+  const newPack = findPack(newPackSlug);
+  if (!source || !newPack) return null;
+  if (source.packSlug === newPackSlug) return source.id;
+
+  const suffix = sourceSampleId.includes(":")
+    ? sourceSampleId.split(":").slice(1).join(":")
+    : sourceSampleId;
+  const candidateId = `${newPackSlug}:${suffix}`;
+  const byId = newPack.samples.find((s) => s.id === candidateId);
+  if (byId) return byId.id;
+
+  const byName = newPack.samples.find(
+    (s) => s.name.toLowerCase() === source.name.toLowerCase()
+  );
+  if (byName) return byName.id;
+
+  const byCategory = newPack.samples.find((s) => s.category === source.category);
+  if (byCategory) return byCategory.id;
+
+  return null;
+}

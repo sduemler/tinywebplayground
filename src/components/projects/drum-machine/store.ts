@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { PatternState, TrackState, Subdivision } from "./types";
-import { getDefaultPack } from "./drum-packs";
+import { getDefaultPack, findEquivalentSample, findPack } from "./drum-packs";
 
 export const SUBDIVISIONS: Subdivision[] = [1, 2, 4];
 
@@ -159,7 +159,19 @@ export const useDrumStore = create<DrumStore>((set) => ({
   setMasterVolume: (masterVolume) =>
     set({ masterVolume: clamp(masterVolume, 0, 1) }),
 
-  setDefaultPack: (defaultPackSlug) => set({ defaultPackSlug }),
+  setDefaultPack: (defaultPackSlug) =>
+    set((state) => {
+      if (!findPack(defaultPackSlug) || state.defaultPackSlug === defaultPackSlug) {
+        return {};
+      }
+      // Remap every track to the equivalent sample in the new pack. If no
+      // match exists, leave that track's sample alone.
+      const remappedTracks = state.tracks.map((t) => {
+        const next = findEquivalentSample(t.sampleId, defaultPackSlug);
+        return next ? { ...t, sampleId: next } : t;
+      });
+      return { defaultPackSlug, tracks: remappedTracks };
+    }),
 
   setBars: (bars) =>
     set((state) => {

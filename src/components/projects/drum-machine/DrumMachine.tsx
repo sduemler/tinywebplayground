@@ -3,6 +3,7 @@ import { useDrumStore, getTotalSteps } from "./store";
 import Track from "./Track";
 import AddTrackButton from "./AddTrackButton";
 import PatternSizeControls from "./PatternSizeControls";
+import PackSelector from "./PackSelector";
 import SamplePickerModal from "./SamplePickerModal";
 import MasterControls from "./MasterControls";
 import ShareDialog from "./ShareDialog";
@@ -169,6 +170,7 @@ export default function DrumMachine() {
     <div className={styles.chassis}>
       <header className={styles.topBar}>
         <MasterControls onOpenShare={() => setShareOpen(true)} />
+        <PackSelector />
         <PatternSizeControls />
       </header>
 
