@@ -17,26 +17,24 @@ let scheduledId: number | null = null;
 let onStepAdvance: ((step: number) => void) | null = null;
 let silentEl: HTMLAudioElement | null = null;
 
-// Silent MP3 — playing this on a user gesture switches iOS Safari's audio
-// session out of "ambient" (which the silent switch mutes) and into
+// Playing a real silent audio file on a user gesture switches iOS Safari's
+// audio session out of "ambient" (which the silent switch mutes) and into
 // "playback" (which ignores the silent switch). After this, Tone.js output
-// is audible even when the device is on silent.
-const SILENT_MP3 =
-  "data:audio/mpeg;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA" +
-  "gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA" +
-  "gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgP///////////////////////" +
-  "//////////////////////////////////////////////////////////////////8AAAA" +
-  "ATGF2YzU3LjEwAAAAAAAAAAAAAAAAJAYAAAAAAAAAAnGMRyzqAAAAAA==";
+// is audible even when the device is on silent. Data URLs are unreliable on
+// iOS for this purpose, so we serve a real file from /public.
+const SILENT_AUDIO_URL = "/audio/silent.wav";
 
 export function unmuteIosAudio() {
   if (silentEl || typeof document === "undefined") return;
   try {
     const audio = document.createElement("audio");
     audio.setAttribute("playsinline", "playsinline");
+    audio.setAttribute("webkit-playsinline", "true");
     audio.loop = true;
     audio.preload = "auto";
+    audio.controls = false;
     audio.style.display = "none";
-    audio.src = SILENT_MP3;
+    audio.src = SILENT_AUDIO_URL;
     document.body.appendChild(audio);
     const p = audio.play();
     if (p && typeof p.catch === "function") {
