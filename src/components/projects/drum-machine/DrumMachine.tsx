@@ -143,6 +143,7 @@ export default function DrumMachine() {
         return;
       }
       e.preventDefault();
+      void initAudio();
       setIsPlaying(!useDrumStore.getState().isPlaying);
     };
     window.addEventListener("keydown", onKey);

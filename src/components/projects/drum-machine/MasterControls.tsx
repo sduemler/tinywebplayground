@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useDrumStore, LIMITS } from "./store";
 import ModuleHelp from "./ModuleHelp";
+import { initAudio } from "./audio";
 import {
   PlayIcon,
   StopIcon,
@@ -73,7 +74,13 @@ export default function MasterControls({ onOpenShare }: Props) {
           className={`${styles.transportButton} ${
             isPlaying ? styles.transportButtonPlaying : ""
           }`}
-          onClick={() => setIsPlaying(!isPlaying)}
+          onClick={() => {
+            // Fire AudioContext unlock SYNCHRONOUSLY in the click handler so
+            // iOS Safari accepts it as part of the user gesture. The promise
+            // it returns is intentionally not awaited here.
+            void initAudio();
+            setIsPlaying(!isPlaying);
+          }}
           aria-label={isPlaying ? "Stop" : "Play"}
         >
           {isPlaying ? <StopIcon size={18} /> : <PlayIcon size={18} />}
