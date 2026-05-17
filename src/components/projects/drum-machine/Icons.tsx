@@ -1,4 +1,5 @@
 import type { SVGProps, ReactElement } from "react";
+import type { DrumSample } from "./types";
 
 type IconProps = SVGProps<SVGSVGElement> & { size?: number };
 
@@ -313,22 +314,45 @@ export function ChevronDownIcon(p: IconProps) {
 
 type IconComponent = (p: IconProps) => ReactElement;
 
-// Map sample IDs → icon component. Unmapped samples render no icon.
-export const SAMPLE_ICON: Record<string, IconComponent> = {
-  "linn:kick": KickIcon,
-  "linn:snare": SnareIcon,
-  "linn:hat-closed": HhClosedIcon,
-  "linn:hat-open": HhOpenIcon,
-  "linn:crash": CrashIcon,
-  "linn:ride": RideIcon,
-  "linn:clap": ClapIcon,
-  "linn:tom-low": TomLoIcon,
-  "linn:tom-mid": TomMidIcon,
-  "linn:tom-high": TomHiIcon,
-  "linn:conga-low": CongaIcon,
-  "linn:conga-high": CongaIcon,
-  "linn:cowbell": CowbellIcon,
-  "linn:cabasa": ShakerIcon,
-  "linn:tambourine": TambourineIcon,
-  "linn:side-stick": RimshotIcon,
-};
+// Resolve a sample to its icon by category + name heuristics so every pack
+// gets sensible icons without needing a hand-maintained per-id map.
+export function iconForSample(sample: DrumSample): IconComponent | undefined {
+  const suffix = sample.id.includes(":")
+    ? sample.id.split(":").slice(1).join(":")
+    : sample.id;
+  const hay = `${suffix} ${sample.name}`.toLowerCase();
+
+  switch (sample.category) {
+    case "kick":
+      return KickIcon;
+    case "snare":
+      return SnareIcon;
+    case "clap":
+      return ClapIcon;
+    case "hat":
+      return hay.includes("open") ? HhOpenIcon : HhClosedIcon;
+    case "cymbal":
+      return hay.includes("ride") ? RideIcon : CrashIcon;
+    case "tom":
+      if (hay.includes("low") || hay.includes("floor") || hay.includes("flr")) return TomLoIcon;
+      if (hay.includes("high") || /\bhi\b/.test(hay)) return TomHiIcon;
+      return TomMidIcon;
+    case "perc":
+      if (hay.includes("cowbell")) return CowbellIcon;
+      if (hay.includes("conga")) return CongaIcon;
+      if (hay.includes("tamb")) return TambourineIcon;
+      if (
+        hay.includes("rim") ||
+        hay.includes("side") ||
+        hay.includes("clave") ||
+        hay.includes("snap")
+      )
+        return RimshotIcon;
+      return ShakerIcon;
+    case "fx":
+      if (hay.includes("click")) return RimshotIcon;
+      return undefined;
+    default:
+      return undefined;
+  }
+}

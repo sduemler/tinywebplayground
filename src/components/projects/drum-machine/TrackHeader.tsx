@@ -2,7 +2,7 @@ import type { DragEvent } from "react";
 import { findSample } from "./drum-packs";
 import { useDrumStore } from "./store";
 import ModuleHelp from "./ModuleHelp";
-import { SAMPLE_ICON, VolumeIcon, PanIcon, MuteIcon, SoloIcon } from "./Icons";
+import { iconForSample, VolumeIcon, PanIcon, MuteIcon, SoloIcon } from "./Icons";
 import styles from "./DrumMachine.module.css";
 
 interface Props {
@@ -29,7 +29,7 @@ export default function TrackHeader({
   if (!track) return null;
   const sample = findSample(track.sampleId);
   const label = sample?.name ?? "—";
-  const Icon = SAMPLE_ICON[track.sampleId];
+  const Icon = sample ? iconForSample(sample) : undefined;
 
   return (
     <div className={styles.trackHeader}>

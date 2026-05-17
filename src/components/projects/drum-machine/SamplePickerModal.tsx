@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { PACKS } from "./drum-packs";
+import { PACKS, findSample } from "./drum-packs";
+import { useDrumStore } from "./store";
 import type { DrumSample, SampleCategory } from "./types";
 import { ChevronDownIcon } from "./Icons";
 import styles from "./DrumMachine.module.css";
@@ -32,11 +33,26 @@ export default function SamplePickerModal({
   title = "Choose a sample",
 }: Props) {
   const [filter, setFilter] = useState("");
-  // All packs start expanded.
+  const defaultPackSlug = useDrumStore((s) => s.defaultPackSlug);
+  // The active pack — for "swap" this is the existing sample's pack;
+  // for "add" it's the user's currently selected default pack.
+  const activePackSlug =
+    (selectedId && findSample(selectedId)?.packSlug) || defaultPackSlug;
+  // Active pack is expanded; all others start collapsed.
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
   const togglePack = (slug: string) =>
     setCollapsed((prev) => ({ ...prev, [slug]: !prev[slug] }));
+
+  // When the modal opens, collapse every pack except the active one.
+  useEffect(() => {
+    if (!open) return;
+    const next: Record<string, boolean> = {};
+    for (const pack of PACKS) {
+      next[pack.slug] = pack.slug !== activePackSlug;
+    }
+    setCollapsed(next);
+  }, [open, activePackSlug]);
 
   useEffect(() => {
     if (!open) return;
@@ -49,7 +65,7 @@ export default function SamplePickerModal({
 
   const grouped = useMemo(() => {
     const lower = filter.trim().toLowerCase();
-    return PACKS.map((pack) => {
+    const groups = PACKS.map((pack) => {
       const samples = pack.samples
         .filter((s) =>
           lower
@@ -67,7 +83,14 @@ export default function SamplePickerModal({
         });
       return { pack, samples };
     }).filter((g) => g.samples.length > 0);
-  }, [filter]);
+    // Float the active pack to the top.
+    const activeIdx = groups.findIndex((g) => g.pack.slug === activePackSlug);
+    if (activeIdx > 0) {
+      const [active] = groups.splice(activeIdx, 1);
+      groups.unshift(active);
+    }
+    return groups;
+  }, [filter, activePackSlug]);
 
   if (!open) return null;
 
