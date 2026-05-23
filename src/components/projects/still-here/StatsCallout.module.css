@@ -1,0 +1,205 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.summaryLine {
+  margin: 0;
+  text-align: center;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--color-text);
+  max-width: 620px;
+}
+
+.summaryLine strong {
+  color: var(--color-rich);
+  font-weight: 700;
+}
+
+.summaryLine em {
+  font-style: italic;
+  color: var(--still-accent, var(--color-accent));
+  font-weight: 700;
+  font-style: normal;
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  width: 100%;
+}
+
+@media (max-width: 560px) {
+  .statRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statBox {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  box-shadow: 0 2px 0 var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.35rem;
+  font-weight: 700;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  color: var(--color-rich);
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.statValueSuffix {
+  font-size: 0.5em;
+  color: var(--color-muted);
+  margin-left: 0.1em;
+}
+
+.statSub {
+  margin: 0.3rem 0 0;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+.kicker {
+  margin: 0;
+  font-size: 1.0625rem;
+  color: var(--color-rich);
+  font-family: var(--font-display);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 580px;
+  padding: 0.25rem 0.5rem;
+}
+
+/* ── Live counter (wide stat bar below the 3 boxes) ───────────────── */
+
+.liveCounter {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 0 var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.liveCounterText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.liveCounterLabel {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-rich);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.liveCounterLabel strong {
+  font-weight: inherit;
+  color: var(--still-accent, var(--color-accent));
+}
+
+.liveCounterSub {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin: 0;
+  font-weight: 700;
+}
+
+.liveCounterValueGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.liveCounterValue {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--still-accent, var(--color-accent));
+  margin: 0;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.livePulse {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--still-accent, var(--color-accent));
+  margin-right: 0.4rem;
+  vertical-align: 1px;
+  animation: livePulseBeat 1.6s ease-in-out infinite;
+}
+
+@keyframes livePulseBeat {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .livePulse {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
+.liveCounterRate {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  margin: 0.3rem 0 0;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 560px) {
+  .liveCounter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .liveCounterValueGroup {
+    align-items: flex-start;
+    text-align: left;
+  }
+}

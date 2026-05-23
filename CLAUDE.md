@@ -245,6 +245,7 @@ Any new eurorack module you add **must** follow this pattern.
 |---|---|---|---|
 | `howlongtowatch` | HowLongToWatch | live | TMDB API, Zustand, 18 presets |
 | `eurorack` | Tine Eurorack | live | Tone.js-based mini modular synth. Every module must include `<ModuleHelp>` — see Eurorack Module Convention above. |
+| `still-here` | Still Here | live | WHO life-table survival pyramid. Data fetched at build time via `npm run build-life-tables` → `src/data/still-here/life-tables.json` (committed). Re-run if you want fresher numbers. |
 
 ---
 

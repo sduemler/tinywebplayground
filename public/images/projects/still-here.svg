@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Still Here">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fef9e7"/>
+      <stop offset="1" stop-color="#f5e6c8"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <text
+    x="400"
+    y="300"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-size="500"
+    font-family="'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif"
+  >💀</text>
+</svg>

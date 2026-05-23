@@ -1,0 +1,12 @@
+---
+export const prerender = true;
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects } from '../../data/projects';
+import StillHere from '../../components/projects/still-here/StillHere';
+
+const project = projects.find((p) => p.slug === 'still-here')!;
+---
+
+<ProjectLayout project={project}>
+  <StillHere client:load />
+</ProjectLayout>

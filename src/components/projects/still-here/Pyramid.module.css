@@ -1,0 +1,310 @@
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 82vh;
+  overflow: visible;
+  background:
+    radial-gradient(
+      ellipse at center,
+      var(--color-surface) 0%,
+      color-mix(in oklab, var(--color-surface) 85%, var(--color-accent-light)) 100%
+    );
+  border-radius: var(--radius);
+}
+
+/* ── Decorative frame ─────────────────────────────────────────────── */
+
+.outerFrame {
+  fill: none;
+  stroke: var(--color-rich);
+  stroke-width: 1.25;
+  opacity: 0.85;
+}
+
+.innerFrame {
+  fill: none;
+  stroke: var(--color-rich);
+  stroke-width: 0.4;
+  opacity: 0.45;
+}
+
+/* ── Title plate ──────────────────────────────────────────────────── */
+
+.titlePlate {
+  pointer-events: none;
+}
+
+.titleEyebrow {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  fill: var(--color-muted);
+  text-anchor: middle;
+}
+
+.titleMain {
+  font-family: var(--font-display);
+  font-size: 22px;
+  fill: var(--color-rich);
+  text-anchor: middle;
+  letter-spacing: 0.18em;
+}
+
+.titleRule {
+  stroke: var(--color-rich);
+  stroke-width: 0.55;
+  opacity: 0.5;
+}
+
+/* ── Bars: animated growth from base, one at a time ───────────────── */
+
+.bar {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: grow 480ms cubic-bezier(0.2, 0.7, 0.25, 1) both;
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.barLived {
+  fill: url(#sh-livedGrad);
+  stroke: color-mix(in oklab, var(--still-accent, var(--color-accent)) 70%, var(--color-rich));
+  stroke-width: 0.5;
+}
+
+.barYou {
+  fill: url(#sh-youGrad);
+  stroke: var(--color-rich);
+  stroke-width: 1.4;
+  filter: drop-shadow(0 1px 0 color-mix(in oklab, var(--color-rich) 30%, transparent));
+}
+
+.barFuture {
+  fill: url(#sh-hatch);
+  stroke: color-mix(in oklab, var(--still-accent, var(--color-accent)) 50%, transparent);
+  stroke-width: 0.6;
+}
+
+/* ── "You" band ornamental brackets ───────────────────────────────── */
+
+.youBracketLeft,
+.youBracketRight {
+  fill: none;
+  stroke: var(--color-rich);
+  stroke-width: 1.2;
+  stroke-linecap: square;
+  animation: fadeIn 280ms ease both;
+}
+
+/* ── Band labels (right edge marginalia) ──────────────────────────── */
+
+.bandTick {
+  stroke: var(--color-muted);
+  stroke-width: 0.6;
+  opacity: 0.7;
+}
+
+.bandLabel {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-weight: 700;
+  fill: var(--color-muted);
+  text-anchor: end;
+  letter-spacing: 0.04em;
+}
+
+.bandLabelActive {
+  fill: var(--color-rich);
+  font-weight: 700;
+  font-size: 10.5px;
+}
+
+/* ── Center reference line ────────────────────────────────────────── */
+
+.centerLine {
+  stroke: var(--color-rich);
+  stroke-width: 0.4;
+  stroke-dasharray: 1.5 3;
+  opacity: 0.35;
+}
+
+/* ── Cohort scale (calibration ruler at bottom) ───────────────────── */
+
+.scaleGroup {
+  pointer-events: none;
+}
+
+.scaleBaseline {
+  stroke: var(--color-rich);
+  stroke-width: 0.55;
+  opacity: 0.5;
+}
+
+.scaleTick {
+  stroke: var(--color-rich);
+  stroke-width: 0.55;
+  opacity: 0.65;
+}
+
+.scaleTickLabel {
+  font-family: var(--font-body);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  fill: var(--color-muted);
+  text-anchor: middle;
+}
+
+.scaleLegend {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.18em;
+  fill: var(--color-muted);
+  text-anchor: middle;
+  opacity: 0.85;
+}
+
+/* ── "You are here" marker: banner ────────────────────────────────── */
+
+.youGroup {
+  pointer-events: none;
+}
+
+.youLine {
+  stroke: var(--color-rich);
+  stroke-width: 1.2;
+  stroke-dasharray: 3.5 2.5;
+  animation: fadeIn 320ms ease 760ms both;
+}
+
+.youDot {
+  fill: var(--color-rich);
+  animation: fadeIn 320ms ease 760ms both;
+}
+
+.youFlag {
+  animation: fadeIn 360ms ease 820ms both;
+}
+
+.youFlagBanner {
+  fill: var(--color-rich);
+  stroke: var(--color-rich);
+  stroke-width: 0.5;
+}
+
+.youLabel {
+  font-family: var(--font-display);
+  font-size: 9px;
+  fill: var(--color-rich-text);
+  letter-spacing: 0.18em;
+  text-anchor: middle;
+}
+
+/* ── Caption plate at bottom ──────────────────────────────────────── */
+
+.captionPlate {
+  pointer-events: none;
+}
+
+.captionRule {
+  stroke: var(--color-rich);
+  stroke-width: 0.5;
+  opacity: 0.45;
+}
+
+.captionMain {
+  font-family: var(--font-display);
+  font-size: 13px;
+  fill: var(--color-rich);
+  text-anchor: middle;
+  letter-spacing: 0.05em;
+}
+
+/* ── Plate II: age-at-death distribution ──────────────────────────── */
+
+.deathBars {
+  pointer-events: none;
+}
+
+.deathBarPast {
+  fill: url(#sh-hatch2);
+  stroke: color-mix(in oklab, var(--still-accent, var(--color-accent)) 45%, transparent);
+  stroke-width: 0.4;
+}
+
+.deathBarFuture {
+  fill: url(#sh-deathGrad);
+  stroke: color-mix(in oklab, var(--still-accent, var(--color-accent)) 70%, var(--color-rich));
+  stroke-width: 0.3;
+}
+
+.gridLine {
+  stroke: var(--color-rich);
+  stroke-width: 0.4;
+  stroke-dasharray: 1.5 3;
+  opacity: 0.22;
+}
+
+.currentAgeLine {
+  stroke: var(--color-rich);
+  stroke-width: 0.8;
+  stroke-dasharray: 2 2.5;
+  opacity: 0.55;
+  animation: fadeIn 320ms ease 760ms both;
+}
+
+.currentAgeLabel {
+  font-family: var(--font-body);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  fill: var(--color-muted);
+  animation: fadeIn 320ms ease 760ms both;
+}
+
+.medianLine {
+  stroke: var(--color-rich);
+  stroke-width: 1.1;
+  stroke-dasharray: 4 2.5;
+  opacity: 0.75;
+  animation: fadeIn 320ms ease 820ms both;
+}
+
+/* ── Animations ───────────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar,
+  .youBracketLeft,
+  .youBracketRight,
+  .youLine,
+  .youDot,
+  .youFlag,
+  .youLabel,
+  .currentAgeLine,
+  .currentAgeLabel,
+  .medianLine {
+    animation: none !important;
+  }
+}

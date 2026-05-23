@@ -130,4 +130,14 @@ export const projects: Project[] = [
     status: "wip",
     tags: ["audio", "sequencer", "interactive"],
   },
+  {
+    slug: "still-here",
+    title: "Still Here",
+    description:
+      "Enter your birth year and see how much of your cohort is still around — and how much pyramid you've got left.",
+    image: "/images/projects/still-here.svg",
+    accentColor: "#a85e2e",
+    status: "live",
+    tags: ["data-viz", "demographics"],
+  },
 ];
