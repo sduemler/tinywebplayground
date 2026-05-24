@@ -135,9 +135,10 @@ export const projects: Project[] = [
     title: "Still Here",
     description:
       "Enter your birth year and see how much of your cohort is still around — and how much pyramid you've got left.",
-    image: "/images/projects/still-here.svg",
+    image: "/images/projects/still-here.webp",
     accentColor: "#a85e2e",
     status: "live",
     tags: ["data-viz", "demographics"],
+    imagePosition: "center 65%",
   },
 ];
