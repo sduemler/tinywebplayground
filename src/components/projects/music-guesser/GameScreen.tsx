@@ -150,7 +150,9 @@ export default function GameScreen({
           </div>
 
           <AudioPlayer
-            src={track.previewUrl}
+            title={track.title}
+            artist={track.artist}
+            fallbackUrl={track.previewUrl}
             maxSeconds={snippetSeconds}
             resetKey={`${state.currentIndex}-${state.attempt}-${state.extendActive ? 'ext' : 'norm'}`}
             volume={volume}

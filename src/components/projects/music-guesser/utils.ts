@@ -53,3 +53,33 @@ export function getSnippetSeconds(attempt: number, extendActive: boolean): numbe
   if (attempt === 1) return 7;
   return 10;
 }
+
+/**
+ * Deezer preview URLs embed a signed expiry as `hdnea=exp=<unix-seconds>~...`.
+ * Returns true only if that timestamp is still comfortably in the future, so we
+ * can reuse a baked URL without refetching when it is genuinely still valid.
+ */
+export function isPreviewUrlFresh(url: string | undefined | null, marginSeconds = 60): boolean {
+  if (!url) return false;
+  const match = url.match(/\bexp=(\d+)/);
+  if (!match) return false;
+  const expMs = Number(match[1]) * 1000;
+  if (!Number.isFinite(expMs)) return false;
+  return expMs > Date.now() + marginSeconds * 1000;
+}
+
+interface PreviewResponse {
+  success: boolean;
+  previewUrl?: string;
+  error?: string;
+}
+
+/** Fetches a freshly-signed preview URL for a track from the server. */
+export async function fetchFreshPreview(title: string, artist: string): Promise<string> {
+  const params = new URLSearchParams({ title, artist });
+  const data = await apiFetch<PreviewResponse>(`/api/music/preview?${params.toString()}`);
+  if (!data.success || !data.previewUrl) {
+    throw new Error(data.error || 'No preview available');
+  }
+  return data.previewUrl;
+}
