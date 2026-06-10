@@ -20,7 +20,25 @@ const PUZZLE_PATH = resolve(__dirname, "../src/data/the-crossword/puzzle.json");
 
 const args = process.argv.slice(2);
 const doReset = args.includes("--reset");
-const puzzleId = args.find((a) => !a.startsWith("--")) || "puzzle-001";
+
+// Launch gate: `--launch-at <ISO datetime>`. When set, the client shows a
+// countdown and solveClue rejects solves until it passes. Omitted ⇒ a far-future
+// sentinel, so a freshly seeded puzzle is LOCKED ("coming soon") and flipping
+// PUZZLE_ID can never make an undated puzzle accidentally live. Set the real
+// date later with scripts/set-launch.mjs (no re-seed, preserves progress).
+// (A null launchAt — e.g. legacy puzzle-001 — means "no gate / open".)
+const LAUNCH_SENTINEL = new Date("2999-01-01T00:00:00Z");
+const laIdx = args.indexOf("--launch-at");
+const launchAtArg = laIdx !== -1 ? args[laIdx + 1] : null;
+const launchAt = launchAtArg ? new Date(launchAtArg) : LAUNCH_SENTINEL;
+if (launchAtArg && Number.isNaN(launchAt.getTime())) {
+  console.error(`Invalid --launch-at value: "${launchAtArg}" (use an ISO datetime, e.g. 2026-07-01T17:00:00-04:00)`);
+  process.exit(1);
+}
+
+// First non-flag arg that isn't the --launch-at value.
+const puzzleId =
+  args.find((a, i) => !a.startsWith("--") && i !== laIdx + 1) || "puzzle-002";
 
 const credPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 if (!credPath) {
@@ -59,11 +77,8 @@ async function reset() {
   n = await deleteCollection(`puzzles/${puzzleId}/entries`);
   console.log(`  Deleted ${n} entry docs`);
 
-  n = await deleteCollection(`puzzles/${puzzleId}/cells`);
-  console.log(`  Deleted ${n} cell docs`);
-
-  n = await deleteCollection("nicknames");
-  console.log(`  Deleted ${n} nickname docs`);
+  // nicknames/ and players/ are global (keyed by uid), not per-puzzle —
+  // a puzzle reset must not wipe them.
 
   const metaRef = db.doc(`puzzles/${puzzleId}`);
   if ((await metaRef.get()).exists) {
@@ -86,8 +101,13 @@ async function seed() {
     isComplete: false,
     startedAt: new Date(),
     completedAt: null,
+    pendingUnlock: [],
+    openCount: 1,
+    launchAt,
   });
-  console.log("  Meta document written");
+  console.log(
+    `  Meta document written (launchAt: ${launchAt.toISOString()}${launchAtArg ? "" : " — sentinel; locked until you run 'npm run set-launch'"})`,
+  );
 
   // Write entries in batches
   let batchCount = 0;
@@ -96,17 +116,23 @@ async function seed() {
 
   for (const entry of puzzle.entries) {
     const ref = db.doc(`puzzles/${puzzleId}/entries/${entry.id}`);
+    const isStart = entry.id === puzzle.startEntryId;
     batch.set(ref, {
       word: entry.word,
       clue: entry.clue,
+      category: entry.category ?? "Uncategorized",
+      style: entry.style ?? "crossword",
+      ...(entry.media ? { media: entry.media } : {}),
       direction: entry.direction,
       row: entry.row,
       col: entry.col,
       length: entry.length,
-      unlocked: entry.id === puzzle.startEntryId,
+      unlocked: isStart,
+      unlockedAt: isStart ? new Date() : null,
       solvedBy: null,
       solvedAt: null,
       solveSequence: null,
+      wrongAttempts: 0,
       adjacentEntryIds: entry.adjacentEntryIds,
     });
     inBatch++;
@@ -125,50 +151,8 @@ async function seed() {
     console.log(`  Final entry batch committed (${puzzle.entries.length} total)`);
   }
 
-  // Write cells in batches
-  batch = db.batch();
-  inBatch = 0;
-  batchCount = 0;
-  let cellCount = 0;
-
-  for (const entry of puzzle.entries) {
-    for (let i = 0; i < entry.length; i++) {
-      const r = entry.direction === "down" ? entry.row + i : entry.row;
-      const c = entry.direction === "across" ? entry.col + i : entry.col;
-      const cellId = `${r}_${c}`;
-      const ref = db.doc(`puzzles/${puzzleId}/cells/${cellId}`);
-
-      batch.set(
-        ref,
-        {
-          letter: entry.word[i],
-          locked: false,
-          ...(entry.direction === "across"
-            ? { acrossEntryId: entry.id }
-            : { downEntryId: entry.id }),
-        },
-        { merge: true },
-      );
-      inBatch++;
-      cellCount++;
-
-      if (inBatch >= BATCH_SIZE) {
-        await batch.commit();
-        batchCount++;
-        console.log(`  Cell batch ${batchCount} committed`);
-        batch = db.batch();
-        inBatch = 0;
-      }
-    }
-  }
-  if (inBatch > 0) {
-    await batch.commit();
-    console.log(`  Final cell batch committed (${cellCount} total cells)`);
-  }
-
   console.log(`\nDone! Puzzle "${puzzleId}" seeded with:`);
   console.log(`  ${puzzle.entries.length} entries`);
-  console.log(`  ${cellCount} cells`);
   console.log(`  Start entry: ${puzzle.startEntryId}`);
 }
 

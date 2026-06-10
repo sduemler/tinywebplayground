@@ -25,9 +25,10 @@ interface Props {
   onSolve?: (entryId: string, answer: string) => Promise<{ correct: boolean }>;
   resetViewTrigger?: number;
   zoomTrigger?: { direction: "in" | "out"; count: number };
+  locked?: boolean;
 }
 
-export default function GridView({ puzzleData, entries, onSolve, resetViewTrigger, zoomTrigger }: Props) {
+export default function GridView({ puzzleData, entries, onSolve, resetViewTrigger, zoomTrigger, locked }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const camRef = useRef<Camera>(
@@ -419,7 +420,7 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
           )}
           <div className={styles.panelContent}>
             {!selectedEntry.solvedBy ? (
-              <CluePanel entry={selectedEntry} prefilled={prefilled} onSubmit={handleSolveWithAnimation} inputRef={cluePanelInputRef} />
+              <CluePanel entry={selectedEntry} prefilled={prefilled} onSubmit={handleSolveWithAnimation} inputRef={cluePanelInputRef} locked={locked} />
             ) : (
               <div className={styles.solvedPanel}>
                 <div className={styles.solvedClue}>{selectedEntry.clue}</div>

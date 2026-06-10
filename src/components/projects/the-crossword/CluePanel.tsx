@@ -1,7 +1,37 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import styles from "./CluePanel.module.css";
 import { useCrosswordStore } from "./store";
-import type { EntryData } from "./types";
+import type { EntryData, ClueMedia } from "./types";
+
+function ClueMediaBlock({ media }: { media: ClueMedia }) {
+  if (media.type === "image") {
+    return (
+      <img
+        className={styles.media}
+        src={media.src}
+        alt={media.alt ?? "Clue image"}
+      />
+    );
+  }
+  if (media.type === "audio") {
+    return (
+      <audio
+        className={styles.mediaAudio}
+        src={media.src}
+        controls
+        preload="metadata"
+      />
+    );
+  }
+  return (
+    <video
+      className={styles.media}
+      src={media.src}
+      controls
+      preload="metadata"
+    />
+  );
+}
 
 interface Props {
   entry: EntryData;
@@ -12,9 +42,11 @@ interface Props {
   ) => Promise<{ correct: boolean }>;
   inputRef?: React.RefObject<HTMLInputElement | null>;
   inline?: boolean;
+  /** When true, solving is disabled (e.g. puzzle hasn't launched yet). */
+  locked?: boolean;
 }
 
-export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline }: Props) {
+export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline, locked }: Props) {
   const [userLetters, setUserLetters] = useState<string[]>([]);
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isWrong, setIsWrong] = useState(false);
@@ -27,7 +59,7 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
   const setCooldown = useCrosswordStore((s) => s.setCooldown);
 
   const isCoolingDown = cooldownUntil ? Date.now() < cooldownUntil : false;
-  const disabled = isCoolingDown || submitting || isCorrect;
+  const disabled = locked || isCoolingDown || submitting || isCorrect;
 
   const findNextEmpty = useCallback(
     (from: number): number => {
@@ -175,6 +207,7 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
 
   return (
     <div className={`${styles.panel} ${inline ? styles.panelInline : ""}`}>
+      {entry.media && <ClueMediaBlock media={entry.media} />}
       <div className={styles.clueText}>{entry.clue}</div>
       <div className={styles.slotsRow}>
         <div
@@ -218,7 +251,7 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
           disabled={!allFilled || disabled}
           onClick={handleSubmit}
         >
-          {submitting ? "..." : isCorrect ? "✓" : "Check"}
+          {locked ? "🔒" : submitting ? "..." : isCorrect ? "✓" : "Check"}
         </button>
       </div>
     </div>

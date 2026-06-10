@@ -1,0 +1,5002 @@
+[
+  {
+    "word": "ABOLISH",
+    "clue": "To formally put an end to a system, practice, or institution",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BASTION",
+    "clue": "An institution strongly defending particular principles or attitudes",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CALLOUS",
+    "clue": "Showing or having an insensitive and cruel disregard for others",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DEARTH",
+    "clue": "A scarcity or lack of something",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EBULLIENT",
+    "clue": "Cheerful and full of energy",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FACADE",
+    "clue": "An outward appearance that is maintained to conceal a less pleasant reality",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GARISH",
+    "clue": "Obtrusively bright and showy",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HALLOWED",
+    "clue": "Made holy; consecrated",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "IMMUTABLE",
+    "clue": "Unchanging over time or unable to be changed",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "JOCOSE",
+    "clue": "Playful or humorous",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "KINDLE",
+    "clue": "To arouse or inspire an emotion or feeling",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LAMENT",
+    "clue": "A passionate expression of grief or sorrow",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MYOPIA",
+    "clue": "Nearsightedness, or lack of imagination and foresight",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "NEFARIOUS",
+    "clue": "Wicked or criminal in nature",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OBLIQUE",
+    "clue": "Not explicit or direct in addressing a point",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PALLIATE",
+    "clue": "Make a disease or its symptoms less severe without curing it",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "QUAGMIRE",
+    "clue": "A soft boggy area of land, or an awkward, complex, or hazardous situation",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RANCOR",
+    "clue": "Bitterness or resentfulness, especially when long-standing",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SANGUINE",
+    "clue": "Optimistic or positive, especially in an apparently bad or difficult situation",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TACIT",
+    "clue": "Understood or implied without being stated",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "UBIQUITY",
+    "clue": "The fact of appearing everywhere or of being very common",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VACUOUS",
+    "clue": "Having or showing a lack of thought or intelligence; mindless",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "WANE",
+    "clue": "To decrease in vigor, power, or extent; become weaker",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "YEARN",
+    "clue": "To have an intense feeling of longing for something",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ZENITH",
+    "clue": "The time at which something is most powerful or successful",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ABJURE",
+    "clue": "To solemnly renounce a belief, cause, or claim",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BANAL",
+    "clue": "So lacking in originality as to be obvious and boring",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CACOPHONY",
+    "clue": "A harsh, discordant mixture of sounds",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DAUNTLESS",
+    "clue": "Showing fearlessness and determination",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ECLECTIC",
+    "clue": "Deriving ideas, style, or taste from a broad and diverse range of sources",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FASTIDIOUS",
+    "clue": "Very attentive to and concerned about accuracy and detail",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GAINSAY",
+    "clue": "Deny or contradict a fact or statement",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HAPLESS",
+    "clue": "Especially of a person, unfortunate",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ICONOCLAST",
+    "clue": "A person who attacks cherished beliefs or institutions",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "JETTISON",
+    "clue": "Throw or drop something from an aircraft or ship",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "AMSTERDAM",
+    "clue": "Capital city of the Netherlands",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "COPENHAGEN",
+    "clue": "Capital city of Denmark",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "DAMASCUS",
+    "clue": "Capital of Syria, one of the oldest continuously inhabited cities",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CALGARY",
+    "clue": "Alberta city famous for its annual Stampede",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MELBOURNE",
+    "clue": "Coastal capital of the southeastern Australian state of Victoria",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "AUCKLAND",
+    "clue": "Major city in the North Island of New Zealand",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "TEHRAN",
+    "clue": "Capital city of Iran",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "GLASGOW",
+    "clue": "Most populous city in Scotland",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ROCKIES",
+    "clue": "Major mountain range spanning western North America",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "NIAGARA",
+    "clue": "Famous group of waterfalls on the border of Ontario and New York",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "AMAZON",
+    "clue": "Largest river by discharge volume of water in the world",
+    "category": "Common brand names"
+  },
+  {
+    "word": "MUSSOLINI",
+    "clue": "Italian fascist dictator during World War II",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "LENIN",
+    "clue": "Russian revolutionary and founding head of Soviet Russia",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "BOHR",
+    "clue": "Danish physicist who made foundational contributions to understanding atomic structure",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "PAVLOV",
+    "clue": "Russian physiologist known primarily for his work in classical conditioning",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MENDEL",
+    "clue": "Augustinian friar often called the father of modern genetics",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "FARADAY",
+    "clue": "English scientist who contributed significantly to the study of electromagnetism",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "DOUGLASS",
+    "clue": "African-American social reformer, abolitionist, orator, and writer",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "KHRUSHCHEV",
+    "clue": "First Secretary of the Communist Party of the Soviet Union from 1953 to 1964",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "TRUMAN",
+    "clue": "33rd U.S. President who served at the end of World War II",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "HATSHEPSUT",
+    "clue": "Second historically confirmed female pharaoh of ancient Egypt",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "KINGLEAR",
+    "clue": "Shakespearean tragedy about an aging monarch and his daughters",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "BEOWULF",
+    "clue": "Old English epic poem about a hero of the Geats",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "VERTIGO",
+    "clue": "1958 Hitchcock thriller starring James Stewart and Kim Novak",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "METROPOLIS",
+    "clue": "1927 German expressionist science-fiction drama film directed by Fritz Lang",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "NOSFERATU",
+    "clue": "1922 unauthorized German film adaptation of Dracula",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "REBECCA",
+    "clue": "Daphne du Maurier novel featuring the ominous Mrs. Danvers",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "HEATHCLIFF",
+    "clue": "Brooding protagonist of 'Wuthering Heights'",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "TARTUFFE",
+    "clue": "Theatrical comedy by Moliere about a religious hypocrite",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "THEBEAR",
+    "clue": "Hulu series about a fine dining chef running a family sandwich shop",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "FARGO",
+    "clue": "FX black comedy crime anthology series inspired by a Coen Brothers film",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "OPPENHEIMER",
+    "clue": "2023 biographical thriller directed by Christopher Nolan",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "KNIVESOUT",
+    "clue": "2019 mystery film starring Daniel Craig as Benoit Blanc",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "TRUEDETECTIVE",
+    "clue": "HBO crime anthology series that debuted with Matthew McConaughey and Woody Harrelson",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "YELLOWSTONE",
+    "clue": "Paramount series following the Dutton family ranch",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "BRIDGERTON",
+    "clue": "Shondaland's hit Netflix period drama set during the Regency era",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "EMBIID",
+    "clue": "Cameroonian NBA center who won the 2023 MVP award",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "HAALAND",
+    "clue": "Norwegian striker for Manchester City",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "SWIATEK",
+    "clue": "Polish tennis star who has dominated the French Open",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "ELORDI",
+    "clue": "Australian actor known for 'Euphoria' and 'Priscilla'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "MESCAL",
+    "clue": "Irish actor known for 'Normal People' and 'Aftersun'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "SZA",
+    "clue": "R&B singer known for the acclaimed album 'SOS'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "DRIVER",
+    "clue": "Actor known for playing Kylo Ren and starring in 'Marriage Story'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "RADUCANU",
+    "clue": "British tennis player who famously won the 2021 US Open as a qualifier",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "NINTENDO",
+    "clue": "Japanese video game company behind Mario and Zelda",
+    "category": "Common brand names"
+  },
+  {
+    "word": "PATAGONIA",
+    "clue": "Outdoor clothing brand known for its environmental activism",
+    "category": "Common brand names"
+  },
+  {
+    "word": "LOREAL",
+    "clue": "French personal care company and the world's largest cosmetics brand",
+    "category": "Common brand names"
+  },
+  {
+    "word": "CHEVROLET",
+    "clue": "American automobile division of General Motors, known for the Silverado",
+    "category": "Common brand names"
+  },
+  {
+    "word": "PANASONIC",
+    "clue": "Major Japanese multinational electronics corporation",
+    "category": "Common brand names"
+  },
+  {
+    "word": "GUCCI",
+    "clue": "Italian high-end luxury fashion house famous for its double G logo",
+    "category": "Common brand names"
+  },
+  {
+    "word": "OBOE",
+    "clue": "Double-reed woodwind instrument",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "SKEIN",
+    "clue": "A length of thread or yarn, loosely coiled and knotted",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ANTE",
+    "clue": "A stake put up by a player in poker before receiving cards",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "CHATTY",
+    "clue": "Tending to talk a great deal in a casual way",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CLAUSTROPHOBIA",
+    "clue": "Extreme or irrational fear of confined places",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DEVASTATION",
+    "clue": "Great destruction or damage",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RAVENOUS",
+    "clue": "Extremely hungry or famished",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OBLITERATE",
+    "clue": "To destroy utterly; wipe out",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EPIPHANY",
+    "clue": "A moment of sudden revelation or insight",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LOGICAL",
+    "clue": "Characterized by clear, sound reasoning",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXTOL",
+    "clue": "To praise enthusiastically",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "AFFIDAVIT",
+    "clue": "A written statement confirmed by oath or affirmation",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SOCIABLE",
+    "clue": "Willing to talk and engage in activities with other people",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ARACHNOPHOBIA",
+    "clue": "Extreme or irrational fear of spiders",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MORATORIUM",
+    "clue": "A temporary prohibition of an activity",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SURREPTITIOUS",
+    "clue": "Kept secret, especially because it would not be approved of",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CULINARY",
+    "clue": "Of or for cooking",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ETHEREAL",
+    "clue": "Extremely delicate and light, seemingly not of this world",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MALIGN",
+    "clue": "Speak about someone in a spitefully critical manner",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ELIXIR",
+    "clue": "A magical or medicinal potion",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXCRUCIATING",
+    "clue": "Intensely painful or agonizing",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "IMPOVERISH",
+    "clue": "Make a person or area poor",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "COWARDLY",
+    "clue": "Lacking courage",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "IRIDESCENT",
+    "clue": "Showing luminous colors that seem to change from different angles",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ENTRENCHED",
+    "clue": "Firmly established and difficult or unlikely to change",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FATUOUS",
+    "clue": "Silly and pointless",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GUARDED",
+    "clue": "Cautious and having possible reservations",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXCEPTION",
+    "clue": "A person or thing that is excluded from a general statement",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ONSLAUGHT",
+    "clue": "A fierce or destructive attack",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FRAGILE",
+    "clue": "Easily broken or damaged",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "IRREFUTABLE",
+    "clue": "Impossible to deny or disprove",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SCRUPULOUS",
+    "clue": "Diligent, thorough, and extremely attentive to details",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OUTCRY",
+    "clue": "A strong expression of public disapproval or anger",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PROHIBITION",
+    "clue": "The action of forbidding something, especially by law",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INHERENT",
+    "clue": "Existing in something as a permanent, essential attribute",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "WOE",
+    "clue": "Great sorrow or distress",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INIMICAL",
+    "clue": "Tending to obstruct or harm; hostile",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OTTAWA",
+    "clue": "Capital city of Canada",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "PARANA",
+    "clue": "Second-longest river in South America",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ROME",
+    "clue": "Historic capital city of Italy",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "TANZANIA",
+    "clue": "East African country famous for the Serengeti National Park",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CUBA",
+    "clue": "Island nation in the Caribbean known for its capital, Havana",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "NETHERLANDS",
+    "clue": "European country known for its flat landscape, tulips, and windmills",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "STOCKHOLM",
+    "clue": "Capital city of Sweden",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CAUCASUS",
+    "clue": "Mountain range situated between the Black Sea and the Caspian Sea",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ALASKA",
+    "clue": "Largest U.S. state by total area",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ANKARA",
+    "clue": "Capital city of Turkey",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ANTARCTICA",
+    "clue": "Earth's southernmost continent",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "FUJI",
+    "clue": "Active volcano and the highest peak in Japan",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "WHITNEY",
+    "clue": "American inventor of the cotton gin",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "JEFFERSON",
+    "clue": "Principal author of the U.S. Declaration of Independence",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "SHEPARD",
+    "clue": "First American to travel into space",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "SALK",
+    "clue": "Medical researcher who developed one of the first successful polio vaccines",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "WILSON",
+    "clue": "28th U.S. President who led the country during World War I",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "KELLER",
+    "clue": "Deafblind American author and disability rights advocate",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "GORBACHEV",
+    "clue": "Eighth and final leader of the Soviet Union",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "TUTANKHAMUN",
+    "clue": "Egyptian pharaoh whose nearly intact tomb was discovered in 1922",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "KUBLAIKHAN",
+    "clue": "Founder of the Yuan dynasty and grandson of Genghis Khan",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "SHELLEY",
+    "clue": "Author who anonymously published 'Frankenstein' in 1818",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "WINSTONSMITH",
+    "clue": "Protagonist who works at the Ministry of Truth in '1984'",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "FITZGERALD",
+    "clue": "Author of the Jazz Age classic 'The Great Gatsby'",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "HYDE",
+    "clue": "The sinister alter ego of Dr. Henry Jekyll",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "NEMO",
+    "clue": "Captain of the submarine Nautilus",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "SCOUT",
+    "clue": "Young narrator of 'To Kill a Mockingbird'",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "ROMEOANDJULIET",
+    "clue": "Shakespearean tragedy featuring the houses of Montague and Capulet",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "ENDGAME",
+    "clue": "2019 Marvel film concluding the Infinity Saga",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "QUEENSGAMBIT",
+    "clue": "Acclaimed Netflix miniseries about a chess prodigy",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "LADYGAGA",
+    "clue": "Pop superstar who released the 2020 album 'Chromatica'",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "CODA",
+    "clue": "2021 Best Picture winner centered on a deaf family",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "SIX",
+    "clue": "Pop musical retelling the lives of the wives of Henry VIII",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "INSIDEOUT",
+    "clue": "Pixar animated film set primarily in the mind of a young girl named Riley",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "BRUNOMARS",
+    "clue": "Artist who featured on Mark Ronson's massive hit 'Uptown Funk'",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "ONLYMURDERS",
+    "clue": "___ in the Building, Hulu comedy-mystery starring Steve Martin and Martin Short",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "DURANT",
+    "clue": "NBA superstar nicknamed the 'Slim Reaper'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "FEDERER",
+    "clue": "Swiss tennis icon who retired in 2022 after 20 Grand Slam men's singles titles",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "RAPINOE",
+    "clue": "Star forward for the US Women's National Soccer Team known for her pink hair",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "CARDIB",
+    "clue": "Rapper behind hits like 'Bodak Yellow' and 'I Like It'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "DOWNEYJR",
+    "clue": "Actor synonymous with the role of Tony Stark",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "KELCE",
+    "clue": "Star tight end for the Kansas City Chiefs",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "MURPHY",
+    "clue": "Irish actor who starred as J. Robert Oppenheimer",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "WENDYS",
+    "clue": "Fast-food chain known for square hamburger patties and the Frosty",
+    "category": "Common brand names"
+  },
+  {
+    "word": "UNDERARMOUR",
+    "clue": "Athletic apparel brand known for its moisture-wicking gear",
+    "category": "Common brand names"
+  },
+  {
+    "word": "HONDA",
+    "clue": "Japanese manufacturer of the Civic and Accord",
+    "category": "Common brand names"
+  },
+  {
+    "word": "CREST",
+    "clue": "Brand of toothpaste produced by Procter & Gamble",
+    "category": "Common brand names"
+  },
+  {
+    "word": "BING",
+    "clue": "Search engine owned and operated by Microsoft",
+    "category": "Common brand names"
+  },
+  {
+    "word": "MOA",
+    "clue": "Extinct flightless bird of New Zealand",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ONAGER",
+    "clue": "Asian wild ass often seen in puzzle grids",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "EWER",
+    "clue": "A pitcher with a wide spout",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ACUMEN",
+    "clue": "Keen insight and sharp judgment",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BELLICOSE",
+    "clue": "Demonstrating a willingness to fight",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CAPRICIOUS",
+    "clue": "Given to sudden and unaccountable changes of mood",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DICHOTOMY",
+    "clue": "A sharp division or contrast between two things",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EPITOME",
+    "clue": "A person or thing that is a perfect example of a quality",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FACETIOUS",
+    "clue": "Treating serious issues with deliberately inappropriate humor",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GARRULOUS",
+    "clue": "Excessively talkative, especially on trivial matters",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HYPERBOLE",
+    "clue": "Exaggerated statements not meant to be taken literally",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "JUXTAPOSE",
+    "clue": "Place close together for contrasting effect",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "KUDOS",
+    "clue": "Praise and honor received for an achievement",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LACONIC",
+    "clue": "Using very few words",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MAGNANIMOUS",
+    "clue": "Very generous or forgiving, especially toward a rival",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "NONCHALANT",
+    "clue": "Feeling or appearing casually calm and relaxed",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OBFUSCATE",
+    "clue": "Render obscure, unclear, or unintelligible",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PARADOX",
+    "clue": "A seemingly absurd or self-contradictory statement",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RECALCITRANT",
+    "clue": "Having an obstinately uncooperative attitude",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SYCOPHANT",
+    "clue": "A person who acts obsequiously toward someone important",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TACITURN",
+    "clue": "Reserved or uncommunicative in speech",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VACILLATE",
+    "clue": "Alternate or waver between different opinions or actions",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "WINSOME",
+    "clue": "Attractive or appealing in appearance or character",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ZEALOT",
+    "clue": "A person who is fanatical and uncompromising in pursuit of their ideals",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ALACRITY",
+    "clue": "Brisk and cheerful readiness",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DIDACTIC",
+    "clue": "Intended to teach, particularly in having moral instruction",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ENNUI",
+    "clue": "A feeling of listlessness and dissatisfaction",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GRANDIOSE",
+    "clue": "Impressive or magnificent in appearance or style",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HUBRIS",
+    "clue": "Excessive pride or self-confidence",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INEFFABLE",
+    "clue": "Too great or extreme to be expressed or described in words",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LOQUACIOUS",
+    "clue": "Tending to talk a great deal; talkative",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MYRIAD",
+    "clue": "A countless or extremely great number",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "NEOPHYTE",
+    "clue": "A person who is new to a subject, skill, or belief",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OSTENTATIOUS",
+    "clue": "Characterized by vulgar or pretentious display",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PANACEA",
+    "clue": "A solution or remedy for all difficulties or diseases",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OSLO",
+    "clue": "Norwegian capital where the Nobel Peace Prize is awarded",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "NAIROBI",
+    "clue": "Capital city of Kenya",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "KATHMANDU",
+    "clue": "Capital city of Nepal, situated in a valley",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ALPS",
+    "clue": "Mountain range stretching across eight European countries",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SEINE",
+    "clue": "River that flows through Paris",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "THAMES",
+    "clue": "River that flows through London",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "GOBI",
+    "clue": "Vast desert region in northern China and southern Mongolia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SAHARA",
+    "clue": "The largest hot desert in the world",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "TAHITI",
+    "clue": "The largest island in French Polynesia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "BALI",
+    "clue": "Indonesian island known for its forested volcanic mountains and beaches",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MALDIVES",
+    "clue": "Tropical nation in the Indian Ocean composed of 26 ring-shaped atolls",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "VATICAN",
+    "clue": "Independent city-state enclaved within Rome",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "PLATO",
+    "clue": "Student of Socrates and teacher of Aristotle",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "SOCRATES",
+    "clue": "Classical Greek philosopher credited as a founder of Western philosophy",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MAGELLAN",
+    "clue": "Portuguese explorer who organized the Spanish expedition to the East Indies",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "COLUMBUS",
+    "clue": "Genoese explorer who completed four voyages across the Atlantic Ocean",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "PASTEUR",
+    "clue": "French chemist whose breakthroughs included the principles of vaccination",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "FLEMING",
+    "clue": "Scottish physician who discovered penicillin",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "EDISON",
+    "clue": "American inventor of the phonograph and the incandescent light bulb",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "NAPOLEON",
+    "clue": "French military commander who rose to prominence during the French Revolution",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MARX",
+    "clue": "Author of \"The Communist Manifesto\"",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "FREUD",
+    "clue": "Austrian neurologist and founder of psychoanalysis",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "HOBBIT",
+    "clue": "Middle-earth dweller with furry feet",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "GANDALF",
+    "clue": "Wizard in Tolkien's legendarium",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "SCROOGE",
+    "clue": "Miserly protagonist of \"A Christmas Carol\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "FRANKENSTEIN",
+    "clue": "Mary Shelley's ambitious scientist",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "HOLMES",
+    "clue": "Arthur Conan Doyle's legendary detective",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "TARZAN",
+    "clue": "Edgar Rice Burroughs' famous ape-man",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "GODZILLA",
+    "clue": "Iconic kaiju that debuted in 1954",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "MACGYVER",
+    "clue": "1980s TV secret agent known for resourceful problem-solving",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "ADELE",
+    "clue": "British singer known for hits like \"Rolling in the Deep\" and \"Hello\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "DRAKE",
+    "clue": "Canadian rapper behind the album \"Views\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "SHAKIRA",
+    "clue": "Colombian singer whose hips don't lie",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "WAKANDA",
+    "clue": "Fictional African nation home to the Black Panther",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "THANOS",
+    "clue": "Marvel supervillain seeking the Infinity Stones",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "DEADPOOL",
+    "clue": "The \"Merc with a Mouth\" played by Ryan Reynolds",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "EUPHORIA",
+    "clue": "HBO teen drama starring Zendaya",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "MANDALORIAN",
+    "clue": "Bounty hunter from the Star Wars live-action series",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "MAHOMES",
+    "clue": "Star quarterback for the Kansas City Chiefs",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "BRADY",
+    "clue": "Seven-time Super Bowl-winning quarterback",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "CURRY",
+    "clue": "NBA superstar known for revolutionizing the three-point shot",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "OSAKA",
+    "clue": "Four-time Grand Slam singles tennis champion from Japan",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "ALCARAZ",
+    "clue": "Spanish tennis prodigy who won the 2022 US Open",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "CHALAMET",
+    "clue": "Star of \"Dune\" and \"Wonka\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "PUGH",
+    "clue": "British actress from \"Midsommar\" and \"Oppenheimer\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "JENNER",
+    "clue": "Reality TV star and founder of Kylie Cosmetics",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "APPLE",
+    "clue": "Tech giant behind the iPhone and Mac",
+    "category": "Common brand names"
+  },
+  {
+    "word": "MICROSOFT",
+    "clue": "Tech corporation founded by Bill Gates and Paul Allen",
+    "category": "Common brand names"
+  },
+  {
+    "word": "PEPSI",
+    "clue": "Rival cola brand to Coca-Cola",
+    "category": "Common brand names"
+  },
+  {
+    "word": "PUMA",
+    "clue": "Sportswear brand featuring a leaping feline logo",
+    "category": "Common brand names"
+  },
+  {
+    "word": "SONY",
+    "clue": "Japanese conglomerate known for the PlayStation",
+    "category": "Common brand names"
+  },
+  {
+    "word": "IKEA",
+    "clue": "Swedish furniture giant known for flat-pack assembly",
+    "category": "Common brand names"
+  },
+  {
+    "word": "AGLET",
+    "clue": "The plastic or metal tip at the end of a shoelace",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "EPEE",
+    "clue": "Thrusting weapon used in modern fencing",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "EMIR",
+    "clue": "A title of various Muslim rulers, typically in the Middle East",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ASCETIC",
+    "clue": "Characterized by severe self-discipline and abstention",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PITIFUL",
+    "clue": "Deserving or arousing pity",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DISPARAGE",
+    "clue": "To represent as being of little worth",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PERNICIOUS",
+    "clue": "Harmful or destructive in a gradual way",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INSCRUTABLE",
+    "clue": "Impossible to understand or interpret",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LUGUBRIOUS",
+    "clue": "Looking or sounding sad and dismal",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HUBBUB",
+    "clue": "A loud, confused noise or uproar",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ABEYANCE",
+    "clue": "A state of temporary disuse or suspension",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ANOMALY",
+    "clue": "Something that deviates from what is standard or expected",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "AFFABLE",
+    "clue": "Friendly, good-natured, or easy to talk to",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INNATE",
+    "clue": "Inborn or natural",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VERACITY",
+    "clue": "Conformity to facts; accuracy and truthfulness",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MIEN",
+    "clue": "A person's look or manner, especially indicating character",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PUERILE",
+    "clue": "Childishly silly and trivial",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CLANDESTINE",
+    "clue": "Kept secret or done secretively, especially because illicit",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VESTIGE",
+    "clue": "A trace of something that is disappearing or no longer exists",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FERVENT",
+    "clue": "Intensely enthusiastic or passionate",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FURTIVE",
+    "clue": "Attempting to avoid notice or attention; secretive",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "AVENGE",
+    "clue": "To inflict harm in return for an injury or wrong",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SCHEMING",
+    "clue": "Given to or involved in making secret and underhand plans",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CANDOR",
+    "clue": "The quality of being open and honest in expression",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TIMID",
+    "clue": "Showing a lack of courage or confidence",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RETICENT",
+    "clue": "Not revealing one's thoughts or feelings readily",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VENGEFUL",
+    "clue": "Seeking to harm someone in return for a perceived injury",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PRESUMPTUOUS",
+    "clue": "Failing to observe the limits of what is permitted or appropriate",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HIATUS",
+    "clue": "A pause or gap in a sequence, series, or process",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SPECIOUS",
+    "clue": "Superficially plausible, but actually wrong",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TRITE",
+    "clue": "Overused and consequently of little import; lacking originality",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BREVITY",
+    "clue": "The quality of being concise and exact in use of words",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GRANDILOQUENT",
+    "clue": "Pompous or extravagant in language, style, or manner",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TERSE",
+    "clue": "Sparing in the use of words; abrupt",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TRUCULENT",
+    "clue": "Eager or quick to argue or fight; aggressively defiant",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INGRAINED",
+    "clue": "Firmly established and difficult or unlikely to change",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RESILIENCE",
+    "clue": "The capacity to recover quickly from difficulties",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BUENOSAIRES",
+    "clue": "Capital of Argentina and birthplace of the tango",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "YANGTZE",
+    "clue": "Longest river in Asia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SIBERIA",
+    "clue": "Vast geographical region in Russia known for its harsh winters",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "DENALI",
+    "clue": "Highest mountain peak in North America",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SEOUL",
+    "clue": "Capital city of South Korea",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CYPRUS",
+    "clue": "Island country in the eastern Mediterranean Sea",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SYDNEY",
+    "clue": "Largest city in Australia by population, famous for its opera house",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MONACO",
+    "clue": "European microstate situated on the French Riviera",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "RIOGRANDE",
+    "clue": "River forming a significant part of the border between the US and Mexico",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "INDIA",
+    "clue": "Country home to the Taj Mahal",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "JAPAN",
+    "clue": "Archipelago nation often called the Land of the Rising Sun",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "PARKS",
+    "clue": "Pioneer of civil rights who refused to give up her bus seat",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "JOANOFARC",
+    "clue": "French heroine who led the French army at Orleans",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "CAESAR",
+    "clue": "Roman general and dictator assassinated on the Ides of March",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "EARHART",
+    "clue": "First female aviator to fly solo across the Atlantic Ocean",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "ARISTOTLE",
+    "clue": "Ancient Greek philosopher who tutored Alexander the Great",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MENDELEEV",
+    "clue": "Russian chemist who formulated the Periodic Law",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "BELL",
+    "clue": "Inventor credited with patenting the first practical telephone",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "GAGARIN",
+    "clue": "Soviet cosmonaut who was the first human to journey into outer space",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "HENRYVIII",
+    "clue": "English monarch famously known for having six wives",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "SAGAN",
+    "clue": "American astronomer who popularized science with the TV series \"Cosmos\"",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "POIROT",
+    "clue": "Mustachioed Belgian detective created by Agatha Christie",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "HUCKFINN",
+    "clue": "Mark Twain's adventurous runaway boy who travels down the Mississippi",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "ILIAD",
+    "clue": "Epic poem attributed to Homer concerning the Trojan War",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "VALJEAN",
+    "clue": "Victor Hugo protagonist who steals a loaf of bread",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "WIZARDOFOZ",
+    "clue": "1939 classic film featuring a yellow brick road",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "JAMESBOND",
+    "clue": "Fictional MI6 spy created by Ian Fleming",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "KIRK",
+    "clue": "Captain of the USS Enterprise in the original Star Trek series",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "GETOUT",
+    "clue": "2017 horror film directed by Jordan Peele",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "RICKANDMORTY",
+    "clue": "Animated sci-fi sitcom featuring a cynical scientist and his fretful grandson",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "BTS",
+    "clue": "South Korean boy band that skyrocketed to global fame",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "GAMEOFTHRONES",
+    "clue": "HBO fantasy epic based on George R.R. Martin's books",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "HARRYSTYLES",
+    "clue": "Pop star known for the hit \"Watermelon Sugar\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "FURYROAD",
+    "clue": "2015 apocalyptic action film \"Mad Max: ___\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "KENDRICKLAMAR",
+    "clue": "Rapper behind the acclaimed album \"To Pimp a Butterfly\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "SEVERANCE",
+    "clue": "Apple TV+ sci-fi psychological thriller about work-life balance",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "GRANDE",
+    "clue": "Pop singer whose dedicated fans are known as Arianators",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "RODGERS",
+    "clue": "Star NFL quarterback who moved from the Packers to the Jets",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "JACKMAN",
+    "clue": "Australian actor synonymous with the X-Men character Wolverine",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "HAMILTON",
+    "clue": "British racing driver with seven Formula One World Championships",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "WOODS",
+    "clue": "Golf legend whose first name is a type of big cat",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "BADBUNNY",
+    "clue": "Puerto Rican rapper and global superstar known as \"San Benito\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "RAMSAY",
+    "clue": "British chef and restaurateur famous for his fiery temper on reality TV",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "REEVES",
+    "clue": "Action star of \"John Wick\" and \"The Matrix\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "BURGERKING",
+    "clue": "Fast-food chain famous for the Whopper",
+    "category": "Common brand names"
+  },
+  {
+    "word": "FORD",
+    "clue": "American automaker known for the Mustang and F-150",
+    "category": "Common brand names"
+  },
+  {
+    "word": "VISA",
+    "clue": "Global payment card services corporation headquartered in California",
+    "category": "Common brand names"
+  },
+  {
+    "word": "MRCLEAN",
+    "clue": "Household cleaning brand featuring a bald, muscular mascot",
+    "category": "Common brand names"
+  },
+  {
+    "word": "LENOVO",
+    "clue": "Multinational technology company known for its ThinkPad laptops",
+    "category": "Common brand names"
+  },
+  {
+    "word": "ESSE",
+    "clue": "To be, in Latin",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ERE",
+    "clue": "Poetic word for \"before\"",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "VORACIOUS",
+    "clue": "Having a huge appetite",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ABERRANT",
+    "clue": "Deviating from the norm or standard",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "AMBIVALENT",
+    "clue": "Having mixed feelings or contradictory ideas",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CENSURE",
+    "clue": "Express severe disapproval of",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DEFER",
+    "clue": "To put off to a later time",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXEMPLARY",
+    "clue": "Serving as a desirable model; representing the best of its kind",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INEXORABLE",
+    "clue": "Impossible to stop or prevent",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DESTITUTE",
+    "clue": "Without the basic necessities of life",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PROPENSITY",
+    "clue": "An inclination or natural tendency to behave in a particular way",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CHAOS",
+    "clue": "Complete disorder and confusion",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CORROBORATE",
+    "clue": "To confirm or give support to a statement or theory",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MODICUM",
+    "clue": "A small quantity of a particular thing",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "COVERT",
+    "clue": "Not openly acknowledged or displayed",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MUNIFICENT",
+    "clue": "Larger or more generous than is usual or necessary",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MARTINET",
+    "clue": "A strict disciplinarian, especially in the military",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PILLAGE",
+    "clue": "To rob a place using violence, especially in wartime",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PERSPICACIOUS",
+    "clue": "Having a ready insight into and understanding of things",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "NOSTRUM",
+    "clue": "A pet scheme or favorite remedy, especially one that is not effective",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SERVILE",
+    "clue": "Having an excessive willingness to serve or please others",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "WRY",
+    "clue": "Using or expressing dry, especially mocking, humor",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DIVISIVE",
+    "clue": "Tending to cause disagreement or hostility between people",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PHILISTINE",
+    "clue": "A person who is hostile or indifferent to culture and the arts",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PARAGON",
+    "clue": "A person or thing viewed as a model of excellence",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OMNIPRESENT",
+    "clue": "Widely or constantly encountered; common or widespread",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ALOOF",
+    "clue": "Not friendly or forthcoming; cool and distant",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PERVADE",
+    "clue": "To spread through and be perceived in every part of",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MELLIFLUOUS",
+    "clue": "Sweet or musical; pleasant to hear",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CONTUMACIOUS",
+    "clue": "Stubbornly or willfully disobedient to authority",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ACROPHOBIA",
+    "clue": "Extreme or irrational fear of heights",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXONERATE",
+    "clue": "Absolve from blame for a fault or wrongdoing",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PHILIPPIC",
+    "clue": "A bitter attack or denunciation, especially a verbal one",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FACILITATE",
+    "clue": "Make an action or process easy or easier",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CONVOLUTED",
+    "clue": "Extremely complex and difficult to follow",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PLACATE",
+    "clue": "Make someone less angry or hostile",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DERELICT",
+    "clue": "In a very poor condition as a result of disuse and neglect",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PRAGUE",
+    "clue": "Capital city of the Czech Republic",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "JAMAICA",
+    "clue": "Island nation in the Caribbean known for its Blue Mountain coffee",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SEVERN",
+    "clue": "Longest river in the United Kingdom",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ETHIOPIA",
+    "clue": "African country whose capital is Addis Ababa",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SANMARINO",
+    "clue": "European microstate completely surrounded by Italy",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "BUDAPEST",
+    "clue": "European capital bisected by the Danube River",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "URALS",
+    "clue": "Mountain range acting as a natural boundary between Europe and Asia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MINNESOTA",
+    "clue": "U.S. state known as the Land of 10,000 Lakes",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "PARAGUAY",
+    "clue": "South American country completely landlocked along with Bolivia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "DEADSEA",
+    "clue": "Salt lake bordered by Jordan to the east and Israel to the west",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SANFRANCISCO",
+    "clue": "California city known for the Golden Gate Bridge and Alcatraz",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "DENMARK",
+    "clue": "Country occupying the Jutland Peninsula",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "FRANK",
+    "clue": "Author of \"The Diary of a Young Girl\"",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "NIGHTINGALE",
+    "clue": "Famous nurse who came to prominence during the Crimean War",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "GENGHISKHAN",
+    "clue": "Founder and first Great Khan of the Mongol Empire",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "CONFUCIUS",
+    "clue": "Chinese philosopher and politician whose teachings shaped East Asian life",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "VICTORIA",
+    "clue": "British monarch whose reign saw significant industrial and cultural expansion",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "GUTENBERG",
+    "clue": "Inventor who introduced letterpress printing to Europe",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "ARMSTRONG",
+    "clue": "Astronaut who delivered the \"one small step\" quote",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "KING",
+    "clue": "Civil rights leader who delivered the \"I Have a Dream\" speech",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "ALEXANDER",
+    "clue": "Ancient Macedonian king who created one of the largest empires in history",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "ADDAMS",
+    "clue": "Social activist who co-founded Chicago's Hull House",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "WILBUR",
+    "clue": "Fictional pig who is saved by a spider in E.B. White's classic",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "CARRIE",
+    "clue": "Stephen King's telekinetic prom queen",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "SAURON",
+    "clue": "Tolkien's dark lord of Mordor",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "PETER",
+    "clue": "Iconic mischievous rabbit created by Beatrix Potter",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "SPACEODYSSEY",
+    "clue": "2001: A ___ ___, Stanley Kubrick's epic science fiction film",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "MIDSUMMER",
+    "clue": "Shakespearean comedy featuring the fairy Puck",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "WESTWORLD",
+    "clue": "HBO anthology series set in a high-tech Wild West theme park",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "BLACKPANTHER",
+    "clue": "2018 superhero film starring Chadwick Boseman as T'Challa",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "RODRIGO",
+    "clue": "Pop star behind the massive 2021 hit \"Drivers License\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "WICKED",
+    "clue": "Hit Broadway musical exploring the backstory of the witches of Oz",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "SQUIDGAME",
+    "clue": "Korean dystopian survival drama that became a global phenomenon on Netflix",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "ARCHER",
+    "clue": "Animated comedy series about a spy agency led by the narcissistic Sterling",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "THEWEEKND",
+    "clue": "Canadian singer renowned for the synth-pop hit \"Blinding Lights\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "SCHITTSCREEK",
+    "clue": "Acclaimed comedy series centered around the eccentric, formerly wealthy Rose family",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "HEMSWORTH",
+    "clue": "Australian actor who wields the hammer Mjolnir in the MCU",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "CRUISE",
+    "clue": "Hollywood heavyweight known for doing his own stunts in the \"Mission: Impossible\" films",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "FALLON",
+    "clue": "Late-night host who took over \"The Tonight Show\" in 2014",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "MOMOA",
+    "clue": "Actor who portrayed Khal Drogo and Aquaman",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "LEVINE",
+    "clue": "Lead vocalist of the pop rock band Maroon 5",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "BROWN",
+    "clue": "Actress who gained fame playing Eleven on \"Stranger Things\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "YOUTUBE",
+    "clue": "Giant video streaming platform acquired by Google",
+    "category": "Common brand names"
+  },
+  {
+    "word": "CHAPSTICK",
+    "clue": "Iconic brand of lip balm that became a generic trademark",
+    "category": "Common brand names"
+  },
+  {
+    "word": "KLEENEX",
+    "clue": "Brand name often used generically for facial tissues",
+    "category": "Common brand names"
+  },
+  {
+    "word": "CHANEL",
+    "clue": "French luxury fashion house with a famous interlocking 'C' logo",
+    "category": "Common brand names"
+  },
+  {
+    "word": "HERSHEY",
+    "clue": "American chocolate brand synonymous with bite-sized \"Kisses\"",
+    "category": "Common brand names"
+  },
+  {
+    "word": "LYFT",
+    "clue": "Major ride-sharing competitor to Uber, known for its pink logo",
+    "category": "Common brand names"
+  },
+  {
+    "word": "LUTE",
+    "clue": "Plucked string instrument popular in the Renaissance",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "GNU",
+    "clue": "Large African antelope with a downward-sloping back",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "EAVE",
+    "clue": "The part of a roof that meets or overhangs the walls of a building",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "TENACIOUS",
+    "clue": "Tending to keep a firm hold of something; clinging",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INGENUOUS",
+    "clue": "Devoid of guile or artifice; innocent or naive",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXACERBATE",
+    "clue": "Make a problem or bad situation worse",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SERENDIPITOUS",
+    "clue": "Occurring by a happy chance or accident",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INDIGNANT",
+    "clue": "Feeling or showing anger at what is perceived as unfair treatment",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PRESTIGE",
+    "clue": "Widespread respect and admiration",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LASSITUDE",
+    "clue": "A state of physical or mental weariness; lack of energy",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RUEFUL",
+    "clue": "Expressing sorrow or regret, especially when in a slightly humorous way",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PREMONITION",
+    "clue": "A strong feeling that something is about to happen, especially something unpleasant",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SENTENTIOUS",
+    "clue": "Given to moralizing in a pompous or affected manner",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EMACIATED",
+    "clue": "Abnormally thin or weak, especially because of illness",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RESPLENDENCE",
+    "clue": "A brilliant, radiantly colorful display",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PERVASIVE",
+    "clue": "Spreading widely throughout an area or a group of people",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BUCOLIC",
+    "clue": "Relating to the pleasant aspects of the countryside and country life",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PRECEPT",
+    "clue": "A general rule intended to regulate behavior or thought",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INTRINSIC",
+    "clue": "Belonging naturally; essential",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LANGUOR",
+    "clue": "The state or feeling, often pleasant, of tiredness or inertia",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DISARRAY",
+    "clue": "A state of disorganization or untidiness",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SQUALID",
+    "clue": "Extremely dirty and unpleasant, especially as a result of poverty or neglect",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MUDDLE",
+    "clue": "Bring into a disordered or confusing state",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "COMPLAISANT",
+    "clue": "Willing to please others; obliging; agreeable",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXACTING",
+    "clue": "Making great demands on one's skill, attention, or other resources",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "APOTHEOSIS",
+    "clue": "The highest point in the development of something, culmination",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "NUANCE",
+    "clue": "A subtle difference in or shade of meaning, expression, or sound",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INNOCUOUS",
+    "clue": "Presenting no significant danger or threat",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "REPRIMAND",
+    "clue": "To express sharp disapproval or criticism of",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HEARTLESS",
+    "clue": "Displaying a complete lack of feeling or consideration",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TEMERITY",
+    "clue": "Excessive confidence or boldness; audacity",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BEDLAM",
+    "clue": "A scene of uproar and confusion",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TIMOROUS",
+    "clue": "Showing or suffering from nervousness, fear, or a lack of confidence",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LAUDABLE",
+    "clue": "Deserving praise and commendation",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OBLIVION",
+    "clue": "The state of being unaware or unconscious of what is happening",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PLIABLE",
+    "clue": "Easily bent; flexible",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SOPORIFIC",
+    "clue": "Tending to induce drowsiness or sleep",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "METTLE",
+    "clue": "A person's ability to cope well with difficulties",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MANILA",
+    "clue": "Capital city of the Philippines",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ECUADOR",
+    "clue": "South American country known for the Galapagos Islands",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ORINOCO",
+    "clue": "Major South American river that flows through Venezuela and Colombia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "LESOTHO",
+    "clue": "African kingdom completely surrounded by South Africa",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "WELLINGTON",
+    "clue": "Capital of New Zealand",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MARIANA",
+    "clue": "The deepest oceanic trench on Earth",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SRILANKA",
+    "clue": "Island nation located southeast of India",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "NORWAY",
+    "clue": "European country famous for its coastal fjords",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MONTREAL",
+    "clue": "Canadian city in Quebec that hosted the 1976 Summer Olympics",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "REDSEA",
+    "clue": "Body of water separating the Arabian Peninsula and Africa",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "HANOI",
+    "clue": "Capital city of Vietnam",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "AUSTRIA",
+    "clue": "European country known for Vienna and the Alps",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "COLEMAN",
+    "clue": "First African-American woman to hold a pilot license",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MORSE",
+    "clue": "Co-inventor of a famous telegraph code",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MACHIAVELLI",
+    "clue": "Italian diplomat and author of \"The Prince\"",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "ELIZABETH",
+    "clue": "British monarch known as the \"Virgin Queen\"",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MAXWELL",
+    "clue": "Scottish scientist who formulated the classical theory of electromagnetic radiation",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "PAINE",
+    "clue": "American political activist who authored \"Common Sense\"",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "ALDRIN",
+    "clue": "Second person to walk on the Moon",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "DIX",
+    "clue": "American advocate for the mentally ill who created the first generation of American mental asylums",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "DESCARTES",
+    "clue": "French philosopher who famously declared \"I think, therefore I am\"",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "VANHELSING",
+    "clue": "Famed vampire hunter in Bram Stoker's Dracula",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "CAULFIELD",
+    "clue": "Last name of the protagonist of \"The Catcher in the Rye\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "WATSON",
+    "clue": "Loyal friend and biographer of Sherlock Holmes",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "AHAB",
+    "clue": "Obsessive captain of the Pequod",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "OPHELIA",
+    "clue": "Tragic Shakespearean heroine who drowns in a river",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "MONTAG",
+    "clue": "Last name of the fireman protagonist in \"Fahrenheit 451\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "NOMADLAND",
+    "clue": "2020 film starring Frances McDormand that won Best Picture",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "TAYLOR",
+    "clue": "First name of the pop star known for the album \"1989\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "ANDOR",
+    "clue": "Disney+ Star Wars series starring Diego Luna",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "EVERYTHING",
+    "clue": "First word in the title of the 2022 film that swept the Oscars",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "CABELLO",
+    "clue": "Pop singer who sang the hit song \"Havana\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "WHITELOTUS",
+    "clue": "HBO anthology series set at a luxurious, fictional resort chain",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "LIZZO",
+    "clue": "Singer and flutist known for hits like \"Truth Hurts\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "PATTINSON",
+    "clue": "Actor who portrayed the title character in \"The Batman\" (2022)",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "WILLIAMS",
+    "clue": "Last name of the tennis star who retired in 2022 with 23 Grand Slam singles titles",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "GUARDIOLA",
+    "clue": "Spanish football manager for Manchester City F.C.",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "EVANS",
+    "clue": "Actor known for wielding the shield as Captain America",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "LEE",
+    "clue": "Gymnast Sunisa who won individual all-around gold at the Tokyo Olympics",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "SELENA",
+    "clue": "First name of the pop icon who founded Rare Beauty",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "VERSTAPPEN",
+    "clue": "Dutch Formula One driver for Red Bull Racing",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "ANYA",
+    "clue": "First name of the actress who starred in \"The Queen's Gambit\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "BANDAID",
+    "clue": "Popular genericized trademark for an adhesive bandage",
+    "category": "Common brand names"
+  },
+  {
+    "word": "DYSON",
+    "clue": "Company famous for its bagless vacuum cleaners and hand dryers",
+    "category": "Common brand names"
+  },
+  {
+    "word": "LULULEMON",
+    "clue": "Athletic apparel brand known originally for its yoga pants",
+    "category": "Common brand names"
+  },
+  {
+    "word": "UBER",
+    "clue": "Pioneering ridesharing service and verb for hailing a car",
+    "category": "Common brand names"
+  },
+  {
+    "word": "HASBRO",
+    "clue": "Toy and board game conglomerate behind Monopoly and Nerf",
+    "category": "Common brand names"
+  },
+  {
+    "word": "INTEL",
+    "clue": "Multinational corporation known for its computer processors and the \"Inside\" slogan",
+    "category": "Common brand names"
+  },
+  {
+    "word": "ALLEGE",
+    "clue": "To state or assert that something is the case, typically without providing proof",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CAVALIER",
+    "clue": "Showing a lack of proper concern; offhand",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DOYEN",
+    "clue": "The most successful or authoritative person in a particular sphere or group",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ERUDITE",
+    "clue": "Characterized by great knowledge; learned",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXPLICATE",
+    "clue": "To make something clear; explain",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FECKLESS",
+    "clue": "Lacking initiative or strength of character; irresponsible",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GENTEEL",
+    "clue": "Exaggerated or affected politeness and refinement",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TURMOIL",
+    "clue": "A state of great disturbance, confusion, or uncertainty",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PLACID",
+    "clue": "Not easily upset or excited",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GENERIC",
+    "clue": "Relating to or typical of a whole group; not specific",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DILATORY",
+    "clue": "Slow to act",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LURID",
+    "clue": "Very vivid in color, especially so as to create an unpleasantly harsh or unnatural effect",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PROMONTORY",
+    "clue": "A point of high land that juts out into a large body of water",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ARBITRARY",
+    "clue": "Based on random choice or personal whim, rather than any reason or system",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VEX",
+    "clue": "To make someone feel annoyed, frustrated, or worried, especially with trivial matters",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CIRCUMLOCUTION",
+    "clue": "The use of many words where fewer would do, especially in a deliberate attempt to be vague",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VOLATILE",
+    "clue": "Easily evaporated at normal temperatures",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INGENUITY",
+    "clue": "The quality of being clever, original, and inventive",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FEINT",
+    "clue": "A deceptive or pretended blow, thrust, or other movement, especially in boxing or fencing",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MALEVOLENT",
+    "clue": "Intending to cause harm",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HINDER",
+    "clue": "To delay or prevent someone or something by obstructing them",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ALTRUISTIC",
+    "clue": "Showing a disinterested and selfless concern for the well-being of others",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXTORTION",
+    "clue": "The practice of obtaining something, especially money, through force or threats",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "AUDACIOUS",
+    "clue": "Extremely bold or daring; recklessly brave",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RECANT",
+    "clue": "To formally withdraw or retract a statement or belief previously held",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "NOTORIETY",
+    "clue": "The state of being famous or well known for some bad quality or deed",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PITTANCE",
+    "clue": "A very small or inadequate amount of money paid to someone as a wage or allowance",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MUNDANE",
+    "clue": "Lacking interest or excitement; dull",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CONTEMPT",
+    "clue": "The feeling that a person or a thing is beneath consideration, worthless, or deserving scorn",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "APATHETIC",
+    "clue": "Showing or feeling no interest, enthusiasm, or concern",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MINUSCULE",
+    "clue": "Extremely small; tiny",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DIATRIBE",
+    "clue": "A forceful and bitter verbal attack against someone or something",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DUBAI",
+    "clue": "The most populous city in the United Arab Emirates",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "PORTUGAL",
+    "clue": "European country that shares the Iberian Peninsula with Spain",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CHARLOTTE",
+    "clue": "Largest city in the U.S. state of North Carolina",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CAIRO",
+    "clue": "Capital city of Egypt",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ENGLISHCHANNEL",
+    "clue": "Body of water that separates the United Kingdom from France",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "FLORIDA",
+    "clue": "U.S. state known as the 'Sunshine State'",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "KILIMANJARO",
+    "clue": "The highest mountain in Africa",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "VENICE",
+    "clue": "European city famous for its canals and the Rialto Bridge",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "DUBLIN",
+    "clue": "Capital of the Republic of Ireland",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "NEWTON",
+    "clue": "English mathematician and physicist who formulated the laws of motion",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "WASHINGTON",
+    "clue": "First President of the United States",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "SMITH",
+    "clue": "Scottish economist known as the 'Father of Capitalism'",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "THATCHER",
+    "clue": "First female Prime Minister of the United Kingdom",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "GALILEO",
+    "clue": "Italian physicist and astronomer who improved the telescope",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MOBYDICK",
+    "clue": "Herman Melville's novel about a white whale",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "HAMLET",
+    "clue": "Shakespearean character who famously asks, 'To be, or not to be'",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "SHERLOCK",
+    "clue": "Fictional detective who lives at 221B Baker Street",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "HITCHCOCK",
+    "clue": "Legendary director of 'Psycho' and 'The Birds'",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "TINMAN",
+    "clue": "The wood-cutter who follows a yellow brick road with a scarecrow",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "YUGIOH",
+    "clue": "Popular Japanese trading card game and anime involving 'Dueling'",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "BARBIE",
+    "clue": "Highly successful 2023 film based on a Mattel fashion doll",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "SWIFT",
+    "clue": "The 2023 'Eras Tour' singer",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "SHANGCHI",
+    "clue": "Marvel's 2021 film about a martial arts master and the Ten Rings",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "NOPE",
+    "clue": "Hit 2022 horror film directed by Jordan Peele",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "MESSI",
+    "clue": "Argentine footballer often considered one of the greatest of all time, now playing in Miami",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "BILES",
+    "clue": "American gymnast who is the most decorated in history",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "REYNOLDS",
+    "clue": "Actor who plays Deadpool and co-owns Wrexham AFC",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "GOMEZ",
+    "clue": "Pop star and actress who starred in 'Only Murders in the Building'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "RONALDO",
+    "clue": "Portuguese football star currently playing in Saudi Arabia",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "SUBARU",
+    "clue": "Japanese car manufacturer known for the Forester and Crosstrek",
+    "category": "Common brand names"
+  },
+  {
+    "word": "COCACOLA",
+    "clue": "Popular carbonated soft drink created by John Pemberton",
+    "category": "Common brand names"
+  },
+  {
+    "word": "NETFLIX",
+    "clue": "Streaming giant famous for 'Stranger Things'",
+    "category": "Common brand names"
+  },
+  {
+    "word": "STARBUCKS",
+    "clue": "Global coffeehouse chain founded in Seattle",
+    "category": "Common brand names"
+  },
+  {
+    "word": "LYRE",
+    "clue": "An ancient Greek string instrument",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "EON",
+    "clue": "A period of time; a long historical era",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ABSTRUSE",
+    "clue": "Difficult to understand; obscure",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BELLIGERENT",
+    "clue": "Hostile and aggressive",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DISSONANT",
+    "clue": "Lacking harmony; unsuitable in combination",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EBULLIENCE",
+    "clue": "The quality of being cheerful and full of energy",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PUNCTILIOUS",
+    "clue": "Showing great attention to detail or correct behavior",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CONVIVIAL",
+    "clue": "Friendly, lively, and enjoyable",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PLATITUDE",
+    "clue": "A remark or statement that has been used too often to be interesting",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INTRANSIGENT",
+    "clue": "Unwilling or refusing to change one's views or to agree about something",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "JUXTAPOSITION",
+    "clue": "Two things being seen or placed close together with contrasting effect",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DYNAMIC",
+    "clue": "Characterized by constant change, activity, or progress",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SUCCINCT",
+    "clue": "Briefly and clearly expressed",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ALTRUISM",
+    "clue": "The belief in or practice of disinterested and selfless concern for the well-being of others",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PERFIDIOUS",
+    "clue": "Deceitful and untrustworthy",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EQUIVOCATE",
+    "clue": "Use ambiguous language so as to conceal the truth",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ARCHETYPE",
+    "clue": "A very typical example of a certain person or thing",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DILEMMA",
+    "clue": "A situation in which a difficult choice has to be made",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PERTINACIOUS",
+    "clue": "Holding firmly to an opinion or a course of action",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OBSEQUIOUS",
+    "clue": "Obedient or attentive to an excessive or servile degree",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RESERVED",
+    "clue": "Slow to reveal emotion or opinions",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RAMPANT",
+    "clue": "Flourishing or spreading unchecked",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OSCILLATE",
+    "clue": "Waver between extremes of opinion, action, or quality",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ENGAGING",
+    "clue": "Charming and attractive",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ARDENT",
+    "clue": "Enthusiastic or passionate",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "AMELIORATE",
+    "clue": "Make something bad or unsatisfactory better",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BENEVOLENT",
+    "clue": "Well meaning and kindly",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FICKLE",
+    "clue": "Changing frequently, especially as regards one's loyalties or interests",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DESPONDENT",
+    "clue": "In low spirits from loss of hope or courage",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EXTRAPOLATE",
+    "clue": "Extend the application of a method or conclusion to an unknown situation",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FALLACIOUS",
+    "clue": "Based on a mistaken belief",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PRETENTIOUS",
+    "clue": "Attempting to impress by affecting greater importance than is actually possessed",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HYPERBOLIC",
+    "clue": "Enlarged beyond truth or reasonableness",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MAVERICK",
+    "clue": "An unorthodox or independent-minded person",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "JUDICIOUS",
+    "clue": "Having, showing, or done with good sense",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "KNEAD",
+    "clue": "Work moistened flour or clay into dough or paste with the hands",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "AMALGAMATE",
+    "clue": "Combine or put together to form one substance or mass",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ATHENS",
+    "clue": "Capital of Greece and heart of Ancient Greece",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "LISBON",
+    "clue": "Hilly, coastal capital city of Portugal",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "WARSAW",
+    "clue": "Sprawling capital of Poland",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "COLORADO",
+    "clue": "U.S. state known for the Rocky Mountains and Denver",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "APPALACHIANS",
+    "clue": "Major mountain range in eastern North America",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "GANGES",
+    "clue": "Sacred river of India that flows through Bangladesh",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SUMATRA",
+    "clue": "Large Indonesian island known for its rugged tropical terrain and wildlife",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "GREENLAND",
+    "clue": "World's largest island, located between the Arctic and Atlantic oceans",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "BAHAMAS",
+    "clue": "Archipelago nation in the Lucayan Archipelago of the West Indies",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CARPATHIANS",
+    "clue": "Mountain range forming an arc across Central and Eastern Europe",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "TIBET",
+    "clue": "Highest region on Earth, located in Asia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ROUSSEAU",
+    "clue": "Genevan philosopher whose political philosophy influenced the Enlightenment",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "KENNEDY",
+    "clue": "35th U.S. President who served at the height of the Cold War",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "NEFERTITI",
+    "clue": "Queen of the 18th Dynasty of Ancient Egypt alongside Pharaoh Akhenaten",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "KEPLER",
+    "clue": "German astronomer who discovered the laws of planetary motion",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "POLO",
+    "clue": "Venetian merchant and explorer who traveled the Silk Road",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "BEAUVOIR",
+    "clue": "French existentialist philosopher and author of \"The Second Sex\"",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "TUTU",
+    "clue": "South African Anglican bishop and anti-apartheid theologian",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "VOLTAIRE",
+    "clue": "French Enlightenment writer famous for his wit and criticism of Christianity",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "GULLIVER",
+    "clue": "Title traveler created by satirist Jonathan Swift",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "EDMOND",
+    "clue": "First name of the protagonist in \"The Count of Monte Cristo\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "QUASIMODO",
+    "clue": "The bell-ringer of Notre-Dame",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "BOGART",
+    "clue": "Last name of the legendary star of \"Casablanca\" and \"The Maltese Falcon\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "HEPBURN",
+    "clue": "Last name of the iconic star of \"Breakfast at Tiffany's\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "THESHINING",
+    "clue": "1980 psychological horror film directed by Stanley Kubrick",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "BRONTE",
+    "clue": "Last name of literary sisters Charlotte, Emily, and Anne",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "PIP",
+    "clue": "Orphan protagonist of Charles Dickens's \"Great Expectations\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "SHREK",
+    "clue": "2001 animated comedy featuring an ogre and a talking donkey",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "FLEABAG",
+    "clue": "Acclaimed British comedy-drama created by and starring Phoebe Waller-Bridge",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "JAYZ",
+    "clue": "Rapper, record executive, and husband of Beyonce",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "JOKER",
+    "clue": "2019 psychological thriller starring Joaquin Phoenix as Arthur Fleck",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "MADMEN",
+    "clue": "AMC period drama series set in a 1960s advertising agency",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "THEWIRE",
+    "clue": "Acclaimed HBO crime drama set in Baltimore, known for its realism",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "AVENGERS",
+    "clue": "Marvel superhero team featuring Iron Man and Thor",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "DOJACAT",
+    "clue": "Rapper and singer known for the hit song \"Say So\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "JOKIC",
+    "clue": "Serbian NBA center who won Finals MVP for the Denver Nuggets",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "COCO",
+    "clue": "First name of the young American tennis star who won the 2023 US Open",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "PRATT",
+    "clue": "Last name of the actor who leads the \"Guardians of the Galaxy\" and \"Jurassic World\" films",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "OSCAR",
+    "clue": "First name of the actor who starred in \"Moon Knight\" and \"Ex Machina\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "OHTANI",
+    "clue": "Japanese two-way baseball superstar who signed a record-breaking MLB contract",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "RORY",
+    "clue": "First name of Northern Irish golfer McIlroy",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "KARDASHIAN",
+    "clue": "Surname of the famous reality TV family behind SKIMS and Kylie Cosmetics",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "PITT",
+    "clue": "Hollywood star of \"Fight Club\" and \"Once Upon a Time in Hollywood\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "GATORADE",
+    "clue": "Sports drink brand famous for its neon colors and sidelines coolers",
+    "category": "Common brand names"
+  },
+  {
+    "word": "HYUNDAI",
+    "clue": "South Korean multinational automotive manufacturer",
+    "category": "Common brand names"
+  },
+  {
+    "word": "GILLETTE",
+    "clue": "Safety razor brand with the slogan \"The Best a Man Can Get\"",
+    "category": "Common brand names"
+  },
+  {
+    "word": "COLGATE",
+    "clue": "American brand principally used for oral hygiene products",
+    "category": "Common brand names"
+  },
+  {
+    "word": "KRAFT",
+    "clue": "Food company famous for its boxed macaroni and cheese",
+    "category": "Common brand names"
+  },
+  {
+    "word": "REDBULL",
+    "clue": "Energy drink brand with a slogan about giving you wings",
+    "category": "Common brand names"
+  },
+  {
+    "word": "EMU",
+    "clue": "Large flightless Australian bird often found in grids",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "EKE",
+    "clue": "To manage to support oneself with difficulty (usually followed by \"out\")",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "URN",
+    "clue": "A tall, rounded vase often used for storing ashes",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "CHASTISE",
+    "clue": "To rebuke or reprimand severely",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INANE",
+    "clue": "Devoid of intelligence; silly and foolish",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PREVALENT",
+    "clue": "Widespread in a particular area at a particular time",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LISTLESS",
+    "clue": "Lacking energy or enthusiasm",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "IMPULSE",
+    "clue": "A sudden strong and unreflective urge to act",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ABSOLVE",
+    "clue": "Show or declare that someone is not guilty of wrongdoing",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DERISIVE",
+    "clue": "Expressing contempt or ridicule",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FRUGAL",
+    "clue": "Sparing or economical with regard to money or food",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TRANQUILITY",
+    "clue": "A state of profound peace and quiet",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INEXPLICABLE",
+    "clue": "Unable to be explained or accounted for",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RAUCOUS",
+    "clue": "Making or constituting a disturbingly harsh and loud noise",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PROCLIVITY",
+    "clue": "A tendency to choose or do something regularly",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SUBTLE",
+    "clue": "So delicate or precise as to be difficult to analyze",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ELICIT",
+    "clue": "Evoke or draw out a response",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CONUNDRUM",
+    "clue": "A confusing and difficult problem or question",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SPASMODIC",
+    "clue": "Occurring or done in brief, irregular bursts",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INFAMY",
+    "clue": "The state of being notoriously bad",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INTREPID",
+    "clue": "Fearless and daring",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INDOMITABLE",
+    "clue": "Impossible to subdue or defeat",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ELUCIDATE",
+    "clue": "Make something clear; explain",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INEFFECTUAL",
+    "clue": "Not producing any significant or desired effect",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MERCURIAL",
+    "clue": "Given to sudden and unaccountable changes of mood",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PSEUDONYM",
+    "clue": "A fictitious name, especially one used by an author",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "POLEMIC",
+    "clue": "A strong verbal or written attack on someone",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SUSPICIOUS",
+    "clue": "Having or showing a cautious distrust",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RETALIATION",
+    "clue": "The action of harming someone in return for an injury or wrong suffered",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VISCOUS",
+    "clue": "Having a thick, sticky consistency",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FEROCIOUS",
+    "clue": "Savagely fierce, cruel, or violent",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OLFACTORY",
+    "clue": "Pertaining to the sense of smell",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PRATTLE",
+    "clue": "To talk at length in a foolish or inconsequential way",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INCIPIENT",
+    "clue": "In an initial stage; beginning to happen or develop",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "COPIOUS",
+    "clue": "Abundant in supply or quantity",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "IRASCIBLE",
+    "clue": "Having or showing a tendency to be easily angered",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PONDEROUS",
+    "clue": "Slow and clumsy because of great weight",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "COMPLICIT",
+    "clue": "Involved with others in an illegal activity",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EDINBURGH",
+    "clue": "Capital city of Scotland",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MALTA",
+    "clue": "Island archipelago nation in the central Mediterranean",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "LOSANGELES",
+    "clue": "Second-most populous city in the United States",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CONGO",
+    "clue": "Deepest river in the world, located in Africa",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "BANGKOK",
+    "clue": "Capital and most populous city of Thailand",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MATTERHORN",
+    "clue": "Pyramid-shaped peak in the Alps",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "LUXEMBOURG",
+    "clue": "Small landlocked European nation between Belgium, France, and Germany",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "PAMPAS",
+    "clue": "Vast, fertile plains found in South America, largely in Argentina",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "BRAZIL",
+    "clue": "The largest country in South America",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "NASSAU",
+    "clue": "Capital city of the Bahamas",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MEDITERRANEAN",
+    "clue": "Sea entirely surrounded by Europe, Africa, and Asia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "HAWAII",
+    "clue": "U.S. state known as the Aloha State",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "RIDE",
+    "clue": "First American woman in space",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "COPERNICUS",
+    "clue": "Polish astronomer who proposed a heliocentric model of the universe",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "FRANKLIN",
+    "clue": "American Founding Father who invented the lightning rod",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "STALIN",
+    "clue": "Ruler of the Soviet Union from 1924 to 1953",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "EUCLID",
+    "clue": "Greek mathematician known as the 'father of geometry'",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "AUGUSTUS",
+    "clue": "First Emperor of Rome",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "WOLLSTONECRAFT",
+    "clue": "English author of 'A Vindication of the Rights of Woman'",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "ASHOKA",
+    "clue": "Indian emperor of the Maurya Dynasty who embraced Buddhism",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "WRIGHT",
+    "clue": "Aviation pioneers who achieved the first powered flight",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "GILEAD",
+    "clue": "Totalitarian theocracy that is the setting of 'The Handmaid's Tale'",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "JAYGATSBY",
+    "clue": "Wealthy, mysterious protagonist obsessed with Daisy Buchanan",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "OTHELLO",
+    "clue": "Shakespeare's Moor of Venice",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "THEGODFATHER",
+    "clue": "1972 Mafia epic directed by Francis Ford Coppola",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "OEDIPUS",
+    "clue": "Tragic king of Thebes who unwittingly fulfills a terrible prophecy",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "SHELOB",
+    "clue": "J.R.R. Tolkien's monstrous spider who lairs in Cirith Ungol",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "PEQUOD",
+    "clue": "Ill-fated whaling ship in 'Moby-Dick'",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "THECROWN",
+    "clue": "Netflix period drama chronicling the reign of Queen Elizabeth II",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "GAGA",
+    "clue": "Pop icon known for 'Bad Romance' and 'A Star Is Born'",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "THINGS",
+    "clue": "Second word in the title of the hit sci-fi horror series set in Hawkins",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "DUNE",
+    "clue": "2021 sci-fi spectacle set on the desert planet Arrakis",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "BLACKPINK",
+    "clue": "K-pop girl group behind the hit 'How You Like That'",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "VADER",
+    "clue": "Sith Lord who famously reveals his true relation to Luke Skywalker",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "FROZEN",
+    "clue": "Disney animated film featuring the powerhouse anthem 'Let It Go'",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "PASCAL",
+    "clue": "Star of 'The Mandalorian' and 'The Last of Us'",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "DONCIC",
+    "clue": "Slovenian NBA superstar for the Dallas Mavericks",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "BURROW",
+    "clue": "Star quarterback for the Cincinnati Bengals",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "YEOH",
+    "clue": "Award-winning actress who anchored 'Everything Everywhere All at Once'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "BIEBER",
+    "clue": "Canadian pop star who skyrocketed to fame with 'Baby'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "NEYMAR",
+    "clue": "Brazilian football superstar forward known for his flair on the pitch",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "GADOT",
+    "clue": "Actress widely known for portraying Wonder Woman in the DC Extended Universe",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "SHEERAN",
+    "clue": "British singer-songwriter known for mathematical album titles like 'Divide' and 'Equals'",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "UPS",
+    "clue": "Global logistics company recognized by its brown delivery trucks",
+    "category": "Common brand names"
+  },
+  {
+    "word": "DELTA",
+    "clue": "Major American airline headquartered in Atlanta, Georgia",
+    "category": "Common brand names"
+  },
+  {
+    "word": "AUDI",
+    "clue": "Luxury German automobile brand with a four-ring logo",
+    "category": "Common brand names"
+  },
+  {
+    "word": "LEVIS",
+    "clue": "American manufacturer of denim jeans founded in 1853",
+    "category": "Common brand names"
+  },
+  {
+    "word": "ISLET",
+    "clue": "A small island or peninsula",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "EROS",
+    "clue": "God of love in Greek mythology",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "FALLACY",
+    "clue": "A mistaken belief, especially one based on unsound argument",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GAUCHE",
+    "clue": "Lacking ease or grace; socially awkward",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HACKNEYED",
+    "clue": "Lacking significance through having been overused",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "IMPERIOUS",
+    "clue": "Assuming power or authority without justification; arrogant",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "JOVIAL",
+    "clue": "Cheerful and friendly",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "KNAVE",
+    "clue": "A dishonest or unscrupulous man",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LANGUID",
+    "clue": "Displaying or having a disinclination for physical exertion; slow and relaxed",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MALLEABLE",
+    "clue": "Easily influenced; pliable",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "NEBULOUS",
+    "clue": "In the form of a cloud or haze; hazy",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OBDURATE",
+    "clue": "Stubbornly refusing to change one's opinion or course of action",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "QUERULOUS",
+    "clue": "Complaining in a petulant or whining manner",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RAMBUNCTIOUS",
+    "clue": "Uncontrollably exuberant; boisterous",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SALIENCE",
+    "clue": "The quality of being particularly noticeable or important",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TANTAMOUNT",
+    "clue": "Equivalent in seriousness to; virtually the same as",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "UMBRAGE",
+    "clue": "Offense or annoyance",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VEHEMENT",
+    "clue": "Showing strong feeling; forceful, passionate, or intense",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "WANING",
+    "clue": "Decreasing in vigor, power, or extent; becoming weaker",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "XYLOPHONE",
+    "clue": "Musical instrument played by striking a row of wooden bars",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "YEARNING",
+    "clue": "A feeling of intense longing for something",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ZEPHYR",
+    "clue": "A soft, gentle breeze",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ABERRATION",
+    "clue": "A departure from what is normal, usual, or expected",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BOISTEROUS",
+    "clue": "Noisy, energetic, and cheerful; rowdy",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CAJOLE",
+    "clue": "Persuade someone to do something by sustained coaxing or flattery",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DELETERIOUS",
+    "clue": "Causing harm or damage",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EGREGIOUS",
+    "clue": "Outstandingly bad; shocking",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FORTUITOUS",
+    "clue": "Happening by accident or chance rather than design",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GARRISON",
+    "clue": "A body of troops stationed in a fortified place",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HEGEMONY",
+    "clue": "Leadership or dominance, especially by one country or social group",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "IDIOSYNCRASY",
+    "clue": "A mode of behavior or way of thought peculiar to an individual",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "JOCULAR",
+    "clue": "Fond of or characterized by joking; humorous or playful",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LUMINOUS",
+    "clue": "Full of or shedding light; brightly shining",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BERLIN",
+    "clue": "Capital city divided by a wall until 1989",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "TOKYO",
+    "clue": "Most populous metropolitan area in the world",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "PERU",
+    "clue": "South American country home to the Nazca Lines",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "HIMALAYAS",
+    "clue": "Mountain range spanning five countries in Asia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "NILE",
+    "clue": "Longest river in Africa",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MADRID",
+    "clue": "Capital city centrally located on the Iberian Peninsula",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ICELAND",
+    "clue": "Nordic island nation known for its hot springs and geysers",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SAMOA",
+    "clue": "Polynesian island country consisting of two main islands, Savai'i and Upolu",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CARIBBEAN",
+    "clue": "Sea bound by the Greater Antilles and South America",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SWITZERLAND",
+    "clue": "European nation famously known for its policy of armed neutrality",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "VOLGA",
+    "clue": "Longest river in Europe",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "TASMANIA",
+    "clue": "Australian island state known for its native devil",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "BEETHOVEN",
+    "clue": "Composer who continued to write masterpieces after going deaf",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MOZART",
+    "clue": "Child prodigy and prolific composer of the Classical period",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "BOLIVAR",
+    "clue": "Venezuelan military and political leader known as El Libertador",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "ROOSEVELT",
+    "clue": "U.S. President who championed the Square Deal and National Parks",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "HAWKING",
+    "clue": "Theoretical physicist known for his work on black holes and relativity",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "TURING",
+    "clue": "Computer scientist instrumental in breaking the Enigma code",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "BARTON",
+    "clue": "Founder of the American Red Cross",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "MANDELA",
+    "clue": "Anti-apartheid revolutionary who became South Africa's first Black head of state",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "GUEVARA",
+    "clue": "Argentine Marxist revolutionary who aided Fidel Castro",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "AUSTEN",
+    "clue": "Author of \"Pride and Prejudice\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "ORWELL",
+    "clue": "Dystopian author of \"1984\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "CITIZENKANE",
+    "clue": "1941 Orson Welles masterpiece often cited as the greatest film ever made",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "CORLEONE",
+    "clue": "The Don in \"The Godfather\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "ATTICUS",
+    "clue": "Righteous lawyer Finch in \"To Kill a Mockingbird\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "HOLDEN",
+    "clue": "Caulfield of \"The Catcher in the Rye\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "JAWS",
+    "clue": "1975 Spielberg blockbuster that kept people out of the ocean",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "ROCKY",
+    "clue": "1976 sports drama starring Sylvester Stallone",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "EILISH",
+    "clue": "Singer of \"Bad Guy\" and \"Ocean Eyes\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "PEAKYBLINDERS",
+    "clue": "British crime drama set in post-WWI Birmingham",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "NARCOS",
+    "clue": "Netflix series chronicling the rise of the cocaine trade",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "BREAKINGBAD",
+    "clue": "AMC series about a chemistry teacher turned meth kingpin",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "INCEPTION",
+    "clue": "2010 sci-fi film centered around dream theft",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "INTERSTELLAR",
+    "clue": "2014 Christopher Nolan film exploring wormholes and time dilation",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "ANTETOKOUNMPO",
+    "clue": "NBA star affectionately called the \"Greek Freak\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "HOLLAND",
+    "clue": "Actor who swung into the Marvel Cinematic Universe as Spider-Man",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "ROBBIE",
+    "clue": "Australian actress who starred in and produced 2023's \"Barbie\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "DJOKOVIC",
+    "clue": "Serbian tennis player holding the record for most men's Grand Slam titles",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "MBAPPE",
+    "clue": "French forward who scored a hat-trick in the 2022 World Cup final",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "CHAPPELLE",
+    "clue": "Stand-up comedian known for his self-titled Comedy Central show",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "MCDONALDS",
+    "clue": "Fast-food chain associated with the Golden Arches",
+    "category": "Common brand names"
+  },
+  {
+    "word": "REEBOK",
+    "clue": "Footwear brand known for the Freestyle and Pump lines",
+    "category": "Common brand names"
+  },
+  {
+    "word": "SAMSUNG",
+    "clue": "South Korean electronics giant",
+    "category": "Common brand names"
+  },
+  {
+    "word": "DISNEY",
+    "clue": "Media conglomerate symbolized by a mouse",
+    "category": "Common brand names"
+  },
+  {
+    "word": "ASTA",
+    "clue": "Famous canine from \"The Thin Man\" movies",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "OLEO",
+    "clue": "Margarine, in old crosswords",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ARIA",
+    "clue": "Operatic solo often requiring impressive vocal chops",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ELOQUENT",
+    "clue": "Articulate and well-spoken",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PARADIGM",
+    "clue": "A typical example or established pattern",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SYZYGY",
+    "clue": "An alignment of three celestial bodies in a straight line",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "EPHEMERAL",
+    "clue": "Lasting for a very short time; fleeting",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "QUANDARY",
+    "clue": "State of perplexity or uncertainty",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ENIGMA",
+    "clue": "A person or thing that is mysterious, puzzling, or difficult to understand",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LETHARGIC",
+    "clue": "Sluggish and apathetic",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "METICULOUS",
+    "clue": "Showing great attention to detail",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PRAGMATIC",
+    "clue": "Sensible and realistic rather than theoretical",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RESILIENT",
+    "clue": "Able to bounce back quickly from hardship",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SERENDIPITY",
+    "clue": "Happy accident",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "UBIQUITOUS",
+    "clue": "Seemingly present everywhere at once",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "VINDICTIVE",
+    "clue": "Out for revenge",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "ZEALOUS",
+    "clue": "Fervent and passionately devoted",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "AMBIGUOUS",
+    "clue": "Open to more than one interpretation",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BENIGN",
+    "clue": "Harmless, as a tumor",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "CANDID",
+    "clue": "Frank and straightforward",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "DOGMATIC",
+    "clue": "Inclined to lay down principles as incontrovertibly true",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "FRIVOLOUS",
+    "clue": "Not having any serious purpose or value",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "GREGARIOUS",
+    "clue": "Fond of company; sociable",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "HAPHAZARD",
+    "clue": "Lacking any obvious principle of organization",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "INTRICATE",
+    "clue": "Very complicated or detailed",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "JUBILANT",
+    "clue": "Feeling or expressing great happiness and triumph",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "KINETIC",
+    "clue": "Relating to or resulting from motion",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "LUCID",
+    "clue": "Expressed clearly; easy to understand",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "MELANCHOLY",
+    "clue": "A feeling of pensive sadness",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "NOSTALGIA",
+    "clue": "Sentimental longing for the past",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "OBSCURE",
+    "clue": "Not discovered or known about; uncertain",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "PENCHANT",
+    "clue": "A strong or habitual liking for something",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "QUIXOTIC",
+    "clue": "Exceedingly idealistic, unrealistic, and impractical",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "RUSTIC",
+    "clue": "Relating to the countryside; rural",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "SPORADIC",
+    "clue": "Occurring at irregular intervals",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "TREPIDATION",
+    "clue": "A feeling of fear or agitation about something that may happen",
+    "category": "Standard dictionary words"
+  },
+  {
+    "word": "BOGOTA",
+    "clue": "High-altitude capital of Colombia",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "MADAGASCAR",
+    "clue": "Island nation known for its unique biodiversity, including lemurs",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "HELSINKI",
+    "clue": "Capital city on the Gulf of Finland",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "YOSEMITE",
+    "clue": "National park featuring El Capitan and Half Dome",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "TANGIER",
+    "clue": "Moroccan port city on the Strait of Gibraltar",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "URUGUAY",
+    "clue": "South American nation sandwiched between Brazil and Argentina",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "DANUBE",
+    "clue": "River flowing through Vienna, Budapest, and Belgrade",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "OKINAWA",
+    "clue": "Japanese prefecture known for a high concentration of centenarians",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "ANDES",
+    "clue": "Longest continental mountain range in the world",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "SASKATCHEWAN",
+    "clue": "Canadian province situated between Alberta and Manitoba",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "PYRENEES",
+    "clue": "Mountain range forming a natural border between France and Spain",
+    "category": "Countries, cities & geography"
+  },
+  {
+    "word": "CLEOPATRA",
+    "clue": "Last active ruler of the Ptolemaic Kingdom of Egypt",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "TESLA",
+    "clue": "Inventor of the alternating current motor",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "CHURCHILL",
+    "clue": "British Prime Minister known for his wartime leadership",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "CURIE",
+    "clue": "First woman to win a Nobel Prize",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "LINCOLN",
+    "clue": "President featured on the U.S. five-dollar bill",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "DARWIN",
+    "clue": "Naturalist who authored \"On the Origin of Species\"",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "GANDHI",
+    "clue": "Leader of the Indian independence movement known for nonviolent resistance",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "TUBMAN",
+    "clue": "Famous conductor on the Underground Railroad",
+    "category": "Historical figures & scientists"
+  },
+  {
+    "word": "GATSBY",
+    "clue": "F. Scott Fitzgerald's famously \"Great\" title character",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "CASABLANCA",
+    "clue": "1942 classic starring Humphrey Bogart and Ingrid Bergman",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "MACBETH",
+    "clue": "Shakespearean tragedy often referred to as \"The Scottish Play\"",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "ROSEBUD",
+    "clue": "Famous final word uttered by Charles Foster Kane",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "PSYCHO",
+    "clue": "Alfred Hitchcock thriller featuring the infamous shower scene",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "DRACULA",
+    "clue": "Bram Stoker's iconic bloodsucking antagonist",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "SCARLETT",
+    "clue": "Miss O'Hara of Tara",
+    "category": "Classic literature & film"
+  },
+  {
+    "word": "SUCCESSION",
+    "clue": "HBO drama about the wealthy and dysfunctional Roy family",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "BEYONCE",
+    "clue": "Artist behind the 2022 album \"Renaissance\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "AVATAR",
+    "clue": "James Cameron blockbuster featuring the Na'vi",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "STRANGERTHINGS",
+    "clue": "Netflix series set in the fictional town of Hawkins, Indiana",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "PARASITE",
+    "clue": "2019 South Korean dark comedy that swept the Oscars",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "DUALIPA",
+    "clue": "Pop star whose hits include \"Levitating\" and \"Don't Start Now\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "ENCANTO",
+    "clue": "Disney animated film featuring the magical Madrigal family",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "OUTKAST",
+    "clue": "Hip hop duo who famously sang \"Hey Ya!\"",
+    "category": "Recent movies, TV & music"
+  },
+  {
+    "word": "ZENDAYA",
+    "clue": "\"Euphoria\" and \"Dune\" star",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "NADAL",
+    "clue": "Spanish tennis champion dubbed the \"King of Clay\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "LEBRON",
+    "clue": "NBA superstar known as \"King James\"",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "GOSLING",
+    "clue": "Actor who played Ken in the 2023 \"Barbie\" movie",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "RIHANNA",
+    "clue": "Barbadian singer, billionaire, and founder of Fenty Beauty",
+    "category": "Athletes & celebrities (current)"
+  },
+  {
+    "word": "NIKE",
+    "clue": "Sportswear giant with the \"Swoosh\" logo",
+    "category": "Common brand names"
+  },
+  {
+    "word": "GOOGLE",
+    "clue": "Tech giant that became a synonymous verb for web searching",
+    "category": "Common brand names"
+  },
+  {
+    "word": "TOYOTA",
+    "clue": "Automaker behind the Prius and Corolla",
+    "category": "Common brand names"
+  },
+  {
+    "word": "ROLEX",
+    "clue": "Luxury watchmaker with a crown logo",
+    "category": "Common brand names"
+  },
+  {
+    "word": "LEGO",
+    "clue": "Danish toy company famous for interlocking plastic bricks",
+    "category": "Common brand names"
+  },
+  {
+    "word": "OREO",
+    "clue": "Classic black-and-white sandwich cookie",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ALOE",
+    "clue": "Soothing succulent plant often used for sunburns",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ERNE",
+    "clue": "Sea eagle often spotted in crossword grids",
+    "category": "Crosswordese"
+  },
+  {
+    "word": "ROUGE",
+    "clue": "French word for 'Red'",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MICROSCOPE",
+    "clue": "An optical instrument used for viewing very small objects",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "METEORITE",
+    "clue": "A piece of rock or metal that has fallen to the earth's surface from outer space",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "ARCHITECTURE",
+    "clue": "The art and science of building and structures",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "TEDLASSO",
+    "clue": "Upbeat American football coach managing an English soccer team on Apple TV+",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "LIGHT",
+    "clue": "The natural agent that stimulates sight and makes things visible",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "EVAPORATION",
+    "clue": "The process of turning liquid into vapor",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "TELESCOPE",
+    "clue": "An instrument for seeing distant objects",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "EPIC",
+    "clue": "A long poem, typically one derived from ancient oral tradition, narrating the deeds and adventures of heroic or legendary figures",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "CHERNOBYL",
+    "clue": "Site of the devastating 1986 nuclear disaster",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "THERMOMETER",
+    "clue": "Instrument used to measure temperature",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "FIJI",
+    "clue": "Island nation in the South Pacific, or a popular brand of bottled water",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "ASGARD",
+    "clue": "Odin's realm in Norse mythology",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "APHRODITE",
+    "clue": "Ancient Greek goddess of sexual love and beauty",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "GRAVITY",
+    "clue": "The force that attracts a body toward the center of the earth",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "AMBER",
+    "clue": "Hard, translucent fossilized resin often used in jewelry",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "BONJOUR",
+    "clue": "Standard French greeting",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "RIVER",
+    "clue": "A large natural stream of water flowing in a channel to the sea, a lake, or another such stream",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "AMOEBA",
+    "clue": "Microscopic single-celled organism that catches food and moves about by extending fingerlike projections",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MILLENNIUM",
+    "clue": "A period of one thousand years",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MIRAGE",
+    "clue": "An optical illusion caused by atmospheric conditions, especially in a desert",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "PILOT",
+    "clue": "A person who flies an aircraft",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MERMAID",
+    "clue": "Legendary aquatic creature with the head and upper body of a female human and the tail of a fish",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "RISOTTO",
+    "clue": "Northern Italian rice dish cooked with broth until it reaches a creamy consistency",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "PIZZA",
+    "clue": "Popular Italian dish with a dough base, tomatoes, and cheese",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "LUPIN",
+    "clue": "Fictional gentleman thief and master of disguise created by Maurice Leblanc",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "PSYCHOLOGY",
+    "clue": "The study of the mind and behavior",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "ECLIPSE",
+    "clue": "An obscuring of the light from one celestial body by the passage of another",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "KRAKEN",
+    "clue": "Legendary sea monster of giant size",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "LOKI",
+    "clue": "Norse god of mischief and trickery",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "CONSTELLATION",
+    "clue": "A group of stars forming a recognizable pattern",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "LABYRINTH",
+    "clue": "Elaborate maze constructed to hold the Minotaur",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MATHEMATICS",
+    "clue": "The abstract science of number, quantity, and space",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "LOOM",
+    "clue": "An apparatus for making fabric by weaving yarn or thread",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "CANYON",
+    "clue": "A deep, typically narrow, valley with steep rocky sides",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "REYKJAVIK",
+    "clue": "The world's northernmost capital of a sovereign state",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "OCTAGON",
+    "clue": "A polygon with eight sides, like a stop sign",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "GLACIER",
+    "clue": "A slowly moving mass or river of ice formed by the accumulation of snow",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "KIMONO",
+    "clue": "Traditional Japanese garment worn for special occasions",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "DIAMOND",
+    "clue": "A precious stone consisting of a clear and colorless crystalline form of pure carbon",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "ANATOMY",
+    "clue": "The study of the structure of the human body",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "CATHARTIC",
+    "clue": "Providing psychological relief through the open expression of strong emotions",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "BURGER",
+    "clue": "A sandwich consisting of one or more cooked patties of ground meat placed inside a bun",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "STONEHENGE",
+    "clue": "Prehistoric monument on Salisbury Plain",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "PETRA",
+    "clue": "Historical and archaeological city in southern Jordan, famous for rock-cut architecture",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "CERBERUS",
+    "clue": "Multi-headed hound that guards the gates of the Underworld",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "TITANIC",
+    "clue": "Ill-fated British passenger liner that sank in 1912",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "SATURN",
+    "clue": "Gas giant famous for its prominent planetary ring system",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MARS",
+    "clue": "The fourth planet from the Sun, often called the Red Planet",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "DECADE",
+    "clue": "A period of ten years",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "ATMOSPHERE",
+    "clue": "The envelope of gases surrounding the earth or another planet",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "AVALANCHE",
+    "clue": "A mass of snow, ice, and rocks falling rapidly down a mountainside",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "APOLLO",
+    "clue": "Greek and Roman god of archery, music, and dance",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "RAINBOW",
+    "clue": "An arch of colors formed in the sky in certain circumstances",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MJOLNIR",
+    "clue": "Fearsome hammer wielded by Thor",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "EARTHQUAKE",
+    "clue": "A sudden and violent shaking of the ground, sometimes causing great destruction",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "ELECTRON",
+    "clue": "Subatomic particle with a negative elementary electric charge",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "VOLCANO",
+    "clue": "A mountain or hill having a crater or vent through which lava erupts",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MODEM",
+    "clue": "Device historically used for converting digital data for transmission over telephone lines",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "FABLE",
+    "clue": "A short story, typically with animals as characters, conveying a moral",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MERLIN",
+    "clue": "Legendary wizard of Arthurian legend",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "SPHINX",
+    "clue": "Mythical creature with the head of a human and the body of a lion",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "BIGFOOT",
+    "clue": "Large, hairy, ape-like creature of North American folklore",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "ASTRONOMY",
+    "clue": "The scientific study of celestial objects and phenomena",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "GALAXY",
+    "clue": "A system of millions or billions of stars, together with gas and dust",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "WEREWOLF",
+    "clue": "Fictional creature that transforms during a full moon",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MEDUSA",
+    "clue": "Gorgon whose gaze turned onlookers to stone",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "POMPEII",
+    "clue": "Ancient Roman city buried by the eruption of Mount Vesuvius",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "YETI",
+    "clue": "Ape-like creature said to inhabit the Himalayan mountains",
+    "category": "Common brand names"
+  },
+  {
+    "word": "OXYGEN",
+    "clue": "A colorless, odorless reactive gas, the chemical element of atomic number 8 and the life-supporting component of the air",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "AXE",
+    "clue": "A tool typically used for chopping wood",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "TACO",
+    "clue": "Traditional Mexican dish consisting of a small hand-sized folded tortilla topped with a filling",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "YEN",
+    "clue": "The official currency of Japan",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "COLOSSEUM",
+    "clue": "Ancient Roman amphitheater",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "PHOENIX",
+    "clue": "Mythical bird that regenerates from ashes",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "DINOSAUR",
+    "clue": "A fossil reptile of the Mesozoic era",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "SERENA",
+    "clue": "Tennis great Williams with 23 Grand Slam women's singles titles",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "PANTHEON",
+    "clue": "Former Roman temple, now a Catholic church in Rome",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "ORIGAMI",
+    "clue": "The traditional Japanese art of folding paper",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "EINSTEIN",
+    "clue": "Theoretical physicist synonymous with genius",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "SOPRANO",
+    "clue": "The highest vocal range in a traditional four-part chorus",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "SPARTACUS",
+    "clue": "Thracian gladiator who led a major slave uprising against the Roman Republic",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "SPUTNIK",
+    "clue": "First artificial Earth satellite, launched by the Soviet Union",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "CENTAUR",
+    "clue": "Mythological creature with the upper body of a human and the lower body and legs of a horse",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "PEGASUS",
+    "clue": "Mythical winged horse",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "PASTA",
+    "clue": "Italian staple food typically made from an unleavened dough of wheat flour",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "MOON",
+    "clue": "The natural satellite of the Earth",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "UNICORN",
+    "clue": "Mythical one-horned equine",
+    "category": "Reserve pool"
+  },
+  {
+    "word": "ALCATRAZ",
+    "clue": "Infamous former federal prison on an island in San Francisco Bay",
+    "category": "Reserve pool"
+  }
+]

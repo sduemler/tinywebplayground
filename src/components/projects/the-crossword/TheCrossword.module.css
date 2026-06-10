@@ -21,6 +21,60 @@
   position: relative;
 }
 
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 1rem;
+  background: var(--color-accent-light);
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-rich);
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.bannerReload {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity var(--transition);
+}
+
+.bannerReload:hover {
+  opacity: 0.85;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.archiveLink {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.archiveLink:hover {
+  color: var(--accent, #2a3d5c);
+}
+
 .toolbarRight {
   display: flex;
   align-items: center;

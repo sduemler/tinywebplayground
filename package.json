@@ -8,8 +8,13 @@
     "preview": "astro preview",
     "astro": "astro",
     "download-posters": "node scripts/download-preset-posters.mjs",
-    "build-crossword": "node scripts/build-layout.mjs",
-    "build-life-tables": "node scripts/build-life-tables.mjs"
+    "build-life-tables": "node scripts/build-life-tables.mjs",
+    "build-crossword": "node scripts/build-layout.mjs --shape cat",
+    "export-crossword": "node scripts/export-puzzle.mjs",
+    "set-launch": "node scripts/set-launch.mjs",
+    "gen-clues": "node --env-file=.env scripts/gen-clues.mjs",
+    "gen-clues:finalize": "node --env-file=.env scripts/gen-clues.mjs --finalize",
+    "gen-clues:finalize-shuffled": "node --env-file=.env scripts/gen-clues.mjs --finalize --shuffle"
   },
   "dependencies": {
     "@astrojs/netlify": "^6.0.0",

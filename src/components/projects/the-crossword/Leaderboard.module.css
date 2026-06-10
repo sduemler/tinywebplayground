@@ -153,6 +153,15 @@
   overflow-y: auto;
 }
 
+.empty {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  text-align: center;
+  padding: 0.5rem 1rem 1.25rem;
+  margin: 0;
+}
+
 @media (max-width: 600px) {
   .panel {
     display: none;

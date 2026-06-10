@@ -1,0 +1,166 @@
+{
+  "puzzleId": "puzzle-002",
+  "totalTarget": 2500,
+  "bufferPercent": 20,
+  "jeopardyStyleRatio": 0.5,
+  "chunkSize": 25,
+  "requestSleepMs": 7000,
+  "maxRequests": 1500,
+  "wordLength": { "min": 3, "max": 21 },
+  "outputPath": "src/data/the-crossword/clues.json",
+  "stagingPath": "src/data/the-crossword/clues-staging.json",
+  "v1ExclusionPath": "src/data/the-crossword/clues-v1.json",
+  "mediaCluesPath": "src/data/the-crossword/media-clues.json",
+  "categories": [
+    {
+      "name": "US Birds",
+      "target": 53,
+      "generate": true,
+      "note": "North American bird species — common backyard birds, raptors, waterfowl, songbirds. Names solvers might encounter on a hike or at a feeder. Avoid obscure subspecies."
+    },
+    {
+      "name": "Plants",
+      "target": 50,
+      "generate": true,
+      "note": "Trees, flowers, garden plants, crops, common herbs. Recognizable species, not Latin taxonomy."
+    },
+    {
+      "name": "Animals",
+      "target": 100,
+      "generate": true,
+      "note": "Mammals, reptiles, amphibians, fish, insects — anything that isn't a bird (separate category) or plant. Common species and notable wildlife."
+    },
+    {
+      "name": "Other nature",
+      "target": 75,
+      "generate": true,
+      "note": "Weather (clouds, rain types, seasons, climate zones), ecosystems and biomes (tundra, savanna, coral reef), Earth processes (tides, erosion, photosynthesis), natural materials (amber, granite, obsidian). Earth-relevant astronomy (moon phases, eclipses, equinox) ONLY. Excludes named storms/volcanoes/earthquakes (→ Science), named geographic features like rivers/mountains (→ Geography), and specific animals/plants/birds."
+    },
+    {
+      "name": "Anime/manga",
+      "target": 215,
+      "generate": true,
+      "note": "Anime and manga titles, characters, studios (Ghibli, Toei), creators (Miyazaki, Toriyama). Spans classic (Astro Boy, DBZ) through current (Chainsaw Man, JJK, Frieren). Live-action adaptations of anime IP still count here."
+    },
+    {
+      "name": "Movies",
+      "target": 181,
+      "generate": true,
+      "note": "Live-action and animated films — titles, characters, directors, iconic lines, franchises. Exclude anime films (→ Anime/manga) and superhero-comics-origin films when the clue references the comics canon (→ Comics)."
+    },
+    {
+      "name": "TV",
+      "target": 208,
+      "generate": true,
+      "note": "Live-action and Western-animated television — sitcoms, dramas, reality, animated series (Simpsons, Family Guy, Bluey). Streaming counts. Exclude anime (→ Anime/manga)."
+    },
+    {
+      "name": "Books",
+      "target": 75,
+      "generate": true,
+      "note": "Novels, authors, characters, literary movements. Both classic literature and contemporary bestsellers. Manga goes in Anime/manga; comics in Comics."
+    },
+    {
+      "name": "Videogames",
+      "target": 156,
+      "generate": true,
+      "note": "Game titles, characters, studios, in-game terminology. Spans retro (Pac-Man, Zelda) through current (Elden Ring, Stardew Valley). Consoles and gaming HARDWARE go in Tech."
+    },
+    {
+      "name": "Music",
+      "target": 210,
+      "generate": true,
+      "note": "Songs, albums, lyrics, bands, artists-as-musicians, instruments, genres, music theory terms. Artist personal-life trivia goes in Celebrities/athletes."
+    },
+    {
+      "name": "YouTubers/internet",
+      "target": 53,
+      "generate": true,
+      "note": "YouTubers, streamers, TikTokers, memes, viral moments, internet slang, defunct sites (Vine, Tumblr), online subcultures. Internet-native culture."
+    },
+    {
+      "name": "Celebrities/athletes",
+      "target": 100,
+      "generate": true,
+      "note": "Famous PEOPLE — actors, musicians, athletes, public figures, by name. Their biographies, personal lives, signature looks. Their WORK goes in the relevant medium."
+    },
+    {
+      "name": "Comics/superheroes",
+      "target": 50,
+      "generate": true,
+      "note": "Marvel, DC, Image, indie comics — characters, runs, creators, story arcs. Clues that reference the comics canon. Movie/TV adaptations go in Movies/TV unless the clue is comics-specific."
+    },
+    {
+      "name": "Art",
+      "target": 75,
+      "generate": true,
+      "note": "Visual art — paintings, sculpture, painters, art movements (Impressionism, Cubism), museums, art history. Includes fine-art photography."
+    },
+    {
+      "name": "History",
+      "target": 150,
+      "generate": true,
+      "note": "Real, documented events and people — wars, treaties, monarchs, civil rights, exploration, named historical figures. Architecture-as-period (Gothic, Baroque) lives here."
+    },
+    {
+      "name": "Mythology/folklore/religion",
+      "target": 125,
+      "generate": true,
+      "note": "Stories, deities, scripture, fairy tales, urban legends, religious figures, holidays-as-tradition. Spans ancient myth (Zeus, Odin, Ra) and active religion (apostles, surahs, the Eightfold Path, saints). Real historical religious figures (Martin Luther) go in History; figures who exist only in scripture/myth (Moses) go here."
+    },
+    {
+      "name": "Science/space",
+      "target": 150,
+      "generate": true,
+      "note": "Physics, biology, chemistry, geology, astronomy, space exploration, scientists, elements, classical inventions (steam engine, telegraph), named natural disasters (Vesuvius, Krakatoa). Computing/internet/gadgets go in Tech."
+    },
+    {
+      "name": "Tech/computing",
+      "target": 100,
+      "generate": true,
+      "note": "Computing, internet, programming languages, gadgets, tech companies, software, AI, gaming hardware/consoles. Post-1950 tech that exists because of computers."
+    },
+    {
+      "name": "Sports",
+      "target": 50,
+      "generate": true,
+      "note": "Events, teams, leagues, terminology, iconic moments, rules. NOT the athletes themselves (→ Celebrities/athletes). 'Super Bowl XLVIII' yes; 'Tom Brady' no."
+    },
+    {
+      "name": "Food & drink",
+      "target": 100,
+      "generate": true,
+      "note": "Dishes, ingredients, cuisines, beverages, cooking terms, chefs. Regional dishes count here; regions known for food (Emilia-Romagna) go in Geography."
+    },
+    {
+      "name": "Dictionary",
+      "target": 74,
+      "generate": true,
+      "note": "Words clued by their definition, etymology, or synonyms — clues are about the word itself, not what it refers to. Lean toward common-to-medium difficulty. AVOID obscure/archaic words and rare synonyms — the v1 puzzle was criticized for too many hard dictionary clues."
+    },
+    {
+      "name": "Geography",
+      "target": 100,
+      "generate": true,
+      "note": "Countries, cities, rivers, mountains, deserts, oceans BY NAME. Landmarks (Eiffel Tower, Great Wall). Capitals, regions, geographic features."
+    },
+    {
+      "name": "Hand curated",
+      "target": 50,
+      "generate": false,
+      "note": "Hand-authored clues (image/audio/video plus text-only pop-culture/pen trivia — not all include media) — authored separately in media-clues.json and merged at layout time. The generation script SKIPS this category. 49 entries authored; the former 51-clue surplus was redistributed across the generated categories."
+    }
+  ],
+  "v1Feedback": {
+    "tooMuchDictionary": "v1 had too many dictionary clues, and too many of them were difficult. Cut the count significantly and target common-to-medium difficulty.",
+    "tooSimilar": "v1 clues felt too similar to each other in style and difficulty. Vary tone, structure, and difficulty across the set.",
+    "skewedHard": "v1 skewed too hard, making solving feel like a grind. Aim for a wider difficulty range — easy/medium clues should outnumber hard ones roughly 2:1. Do NOT overcorrect to uniformly easy.",
+    "moreUSBirds": "Players asked for more US bird clues specifically.",
+    "moreAnime": "Players asked for substantially more anime/manga clues.",
+    "morePopCulture": "Players asked for substantially more pop culture overall."
+  },
+  "styles": {
+    "crossword": "Traditional concise crossword clue: short, often a definition or wordplay. Example clue for JUPITER: 'Largest planet in our solar system'.",
+    "jeopardy": "Declarative statement framed like a Jeopardy answer — full sentence, often factual narration. The solver still types the word; only the clue text style differs. Example clue for JUPITER: 'This gas giant has a Great Red Spot that has been raging for at least 350 years'."
+  }
+}

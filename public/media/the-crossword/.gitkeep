@@ -1,0 +1,4 @@
+# Hand-curated crossword media assets
+# Drop the 9 files referenced in src/data/the-crossword/media-clues.json here:
+#   jeremiahjohnson.gif, chickens.gif, anxiety-doechii.mp3, the-night-watch.jpg,
+#   rza-fender.png, beatles-clip.mp3, viggo-helmet-kick.gif, amen-break.mp3, homestar-runner.png

@@ -12,6 +12,7 @@ interface Props {
     entryId: string,
     answer: string,
   ) => Promise<{ correct: boolean }>;
+  locked?: boolean;
 }
 
 export default function ClueListView({
@@ -19,6 +20,7 @@ export default function ClueListView({
   allEntries,
   onClueClick,
   onSolve,
+  locked,
 }: Props) {
   const [inlineEntryId, setInlineEntryId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -140,6 +142,7 @@ export default function ClueListView({
                           prefilled={inlinePrefilled}
                           onSubmit={onSolve}
                           inline
+                          locked={locked}
                         />
                       </div>
                     )}

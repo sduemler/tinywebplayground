@@ -1,0 +1,13 @@
+{
+  "puzzleId": "puzzle-001",
+  "gridWidth": 0,
+  "gridHeight": 0,
+  "centerRow": 0,
+  "centerCol": 0,
+  "solveCount": 0,
+  "totalEntries": 0,
+  "startedAt": null,
+  "completedAt": null,
+  "entries": [],
+  "solveHistory": []
+}

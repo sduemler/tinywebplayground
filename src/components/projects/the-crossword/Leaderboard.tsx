@@ -4,10 +4,26 @@ import type { EntryData } from "./types";
 
 interface Props {
   entries: Map<string, EntryData>;
+  /** Whether the docked sidebar panel renders (grid view only). */
+  showPanel?: boolean;
+  /** Controlled lightbox state. When omitted, the panel manages its own. */
+  expanded?: boolean;
+  onExpandedChange?: (v: boolean) => void;
 }
 
-export default function Leaderboard({ entries }: Props) {
-  const [expanded, setExpanded] = useState(false);
+export default function Leaderboard({
+  entries,
+  showPanel = true,
+  expanded,
+  onExpandedChange,
+}: Props) {
+  const [internalExpanded, setInternalExpanded] = useState(false);
+  const isControlled = expanded !== undefined;
+  const isExpanded = isControlled ? expanded : internalExpanded;
+  const setExpanded = (v: boolean) => {
+    if (isControlled) onExpandedChange?.(v);
+    else setInternalExpanded(v);
+  };
 
   const rankings = useMemo(() => {
     const counts = new Map<string, number>();
@@ -21,36 +37,42 @@ export default function Leaderboard({ entries }: Props) {
       .map(([name, count], i) => ({ rank: i + 1, name, count }));
   }, [entries]);
 
-  if (rankings.length === 0) return null;
+  const showSidebar = showPanel && rankings.length > 0;
+  if (!showSidebar && !isExpanded) return null;
 
   return (
     <>
-      <div className={styles.panel}>
-        <div className={styles.header}>
-          <h3 className={styles.title}>Contributors</h3>
-          <button
-            type="button"
-            className={styles.expandBtn}
-            onClick={() => setExpanded(true)}
-            aria-label="Show all contributors"
-          >
-            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-              <path d="M2 2h5V0H0v7h2V2zM14 14h-5v2h7V9h-2v5z" fill="currentColor" />
-            </svg>
-          </button>
+      {showSidebar && (
+        <div className={styles.panel}>
+          <div className={styles.header}>
+            <h3 className={styles.title}>Contributors</h3>
+            <button
+              type="button"
+              className={styles.expandBtn}
+              onClick={() => setExpanded(true)}
+              aria-label="Show all contributors"
+            >
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                <path
+                  d="M2 2h5V0H0v7h2V2zM14 14h-5v2h7V9h-2v5z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+          </div>
+          <ol className={styles.list}>
+            {rankings.slice(0, 10).map(({ rank, name, count }) => (
+              <li key={name} className={styles.row}>
+                <span className={styles.rank}>{rank}</span>
+                <span className={styles.name}>{name}</span>
+                <span className={styles.count}>{count}</span>
+              </li>
+            ))}
+          </ol>
         </div>
-        <ol className={styles.list}>
-          {rankings.slice(0, 10).map(({ rank, name, count }) => (
-            <li key={name} className={styles.row}>
-              <span className={styles.rank}>{rank}</span>
-              <span className={styles.name}>{name}</span>
-              <span className={styles.count}>{count}</span>
-            </li>
-          ))}
-        </ol>
-      </div>
+      )}
 
-      {expanded && (
+      {isExpanded && (
         <div className={styles.overlay} onClick={() => setExpanded(false)}>
           <div className={styles.lightbox} onClick={(e) => e.stopPropagation()}>
             <button
@@ -61,15 +83,19 @@ export default function Leaderboard({ entries }: Props) {
               &times;
             </button>
             <h3 className={styles.lightboxTitle}>Contributors</h3>
-            <ol className={styles.lightboxList}>
-              {rankings.map(({ rank, name, count }) => (
-                <li key={name} className={styles.row}>
-                  <span className={styles.rank}>{rank}</span>
-                  <span className={styles.name}>{name}</span>
-                  <span className={styles.count}>{count}</span>
-                </li>
-              ))}
-            </ol>
+            {rankings.length > 0 ? (
+              <ol className={styles.lightboxList}>
+                {rankings.map(({ rank, name, count }) => (
+                  <li key={name} className={styles.row}>
+                    <span className={styles.rank}>{rank}</span>
+                    <span className={styles.name}>{name}</span>
+                    <span className={styles.count}>{count}</span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className={styles.empty}>No clues solved yet.</p>
+            )}
           </div>
         </div>
       )}

@@ -13,16 +13,99 @@
  * - No touching: adjacent filled cells must be part of the same word
  */
 
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const INPUT = resolve(__dirname, "../src/data/the-crossword/clues.json");
+const MEDIA_INPUT = resolve(
+  __dirname,
+  "../src/data/the-crossword/media-clues.json",
+);
 const OUTPUT = resolve(__dirname, "../src/data/the-crossword/puzzle.json");
 
-const clues = JSON.parse(readFileSync(INPUT, "utf-8"));
-console.log(`Loaded ${clues.length} clues`);
+const rawClues = JSON.parse(readFileSync(INPUT, "utf-8"));
+let mediaClues = [];
+if (existsSync(MEDIA_INPUT)) {
+  mediaClues = JSON.parse(readFileSync(MEDIA_INPUT, "utf-8"));
+}
+// Normalize: every clue carries category + style; media is optional.
+const clues = [...rawClues, ...mediaClues].map((c) => ({
+  ...c,
+  category: c.category ?? "Uncategorized",
+  style: c.style ?? "crossword",
+}));
+console.log(
+  `Loaded ${rawClues.length} clues + ${mediaClues.length} media = ${clues.length} total`,
+);
+
+// ---------------------------------------------------------------------------
+// Shape masks
+// ---------------------------------------------------------------------------
+// The grid grows around the origin (0,0), which becomes the center. A shape
+// mask is a predicate inShape(row, col) over those origin-centered coords; any
+// candidate word with a cell outside the mask is rejected in canPlace(). With
+// no mask the puzzle forms a diamond (a side effect of the L1 center-bias in
+// scorePlacement). Pass --shape <name> to fill a silhouette instead.
+const shapeArg =
+  (process.argv.find((a) => a.startsWith("--shape=")) || "").split("=")[1] ||
+  (process.argv.includes("--shape")
+    ? process.argv[process.argv.indexOf("--shape") + 1]
+    : "") ||
+  "diamond";
+
+function sign(px, py, ax, ay, bx, by) {
+  return (px - bx) * (ay - by) - (ax - bx) * (py - by);
+}
+function inTriangle(px, py, a, b, c) {
+  const d1 = sign(px, py, a.x, a.y, b.x, b.y);
+  const d2 = sign(px, py, b.x, b.y, c.x, c.y);
+  const d3 = sign(px, py, c.x, c.y, a.x, a.y);
+  const hasNeg = d1 < 0 || d2 < 0 || d3 < 0;
+  const hasPos = d1 > 0 || d2 > 0 || d3 > 0;
+  return !(hasNeg && hasPos);
+}
+
+// Cat head: rounded head ellipse + two triangular ears, with two elliptical
+// eye holes punched out of the upper face. x = col (right), y = row (down),
+// so "up" is negative y. Sized so ~2500 words fill it edge-to-edge.
+function makeCatMask() {
+  const A = 106; // head half-width
+  const B = 93; // head half-height
+  // Eyes (holes in the face)
+  const eyeCx = 0.4 * A;
+  const eyeCy = -0.02 * B;
+  const eyeRx = 0.17 * A;
+  const eyeRy = 0.15 * B;
+  // Ears (triangles sitting on top of the head)
+  const leftEar = [
+    { x: -0.18 * A, y: -0.78 * B }, // inner base, near top-center
+    { x: -0.82 * A, y: -0.48 * B }, // outer base, on the head's upper-left
+    { x: -0.6 * A, y: -1.62 * B }, // apex, up high
+  ];
+  const rightEar = leftEar.map((p) => ({ x: -p.x, y: p.y }));
+
+  return function inCat(row, col) {
+    const x = col;
+    const y = row;
+    // Eye holes win over everything (carve them out of the face).
+    for (const cx of [-eyeCx, eyeCx]) {
+      const dx = (x - cx) / eyeRx;
+      const dy = (y - eyeCy) / eyeRy;
+      if (dx * dx + dy * dy <= 1) return false;
+    }
+    // Head ellipse
+    if ((x / A) ** 2 + (y / B) ** 2 <= 1) return true;
+    // Ears
+    if (inTriangle(x, y, leftEar[0], leftEar[1], leftEar[2])) return true;
+    if (inTriangle(x, y, rightEar[0], rightEar[1], rightEar[2])) return true;
+    return false;
+  };
+}
+
+const SHAPE_MASK = shapeArg === "cat" ? makeCatMask() : null;
+console.log(`Shape: ${shapeArg}${SHAPE_MASK ? " (masked)" : ""}`);
 
 // Grid is stored as a Map<string, { letter, entries }> keyed by "row,col"
 const grid = new Map();
@@ -67,6 +150,13 @@ function canPlace(row, col, word, direction) {
   const perpDir = direction === "across" ? "down" : "across";
   let intersections = 0;
 
+  // Reject any placement that pokes outside the target silhouette.
+  if (SHAPE_MASK) {
+    for (const { r, c } of cells) {
+      if (!SHAPE_MASK(r, c)) return null;
+    }
+  }
+
   for (let i = 0; i < cells.length; i++) {
     const { r, c, letter } = cells[i];
     const existing = getCell(r, c);
@@ -105,13 +195,14 @@ function canPlace(row, col, word, direction) {
   return intersections;
 }
 
-function placeWord(row, col, word, clue, direction) {
+function placeWord(row, col, clueObj, direction) {
+  const { word } = clueObj;
   const id = `${++entryCounter}${direction === "across" ? "A" : "D"}`;
   const cells = cellsForWord(row, col, word, direction);
   for (const { r, c, letter } of cells) {
     setCell(r, c, letter, id, direction);
   }
-  entries.push({ id, word, clue, direction, row, col, length: word.length });
+  entries.push({ ...clueObj, id, direction, row, col, length: word.length });
   return id;
 }
 
@@ -165,7 +256,7 @@ sorted.sort((a, b) => b.word.length - a.word.length);
 
 // Place first word horizontally at origin
 const first = sorted.shift();
-placeWord(0, -Math.floor(first.word.length / 2), first.word, first.clue, "across");
+placeWord(0, -Math.floor(first.word.length / 2), first, "across");
 console.log(`Placed #1: ${first.word} (${first.word.length} chars) at center`);
 
 const failed = [];
@@ -180,7 +271,7 @@ for (const clue of sorted) {
 
   placements.sort((a, b) => scorePlacement(b) - scorePlacement(a));
   const best = placements[0];
-  placeWord(best.row, best.col, clue.word, clue.clue, best.direction);
+  placeWord(best.row, best.col, clue, best.direction);
   placedCount++;
 
   if (placedCount % 100 === 0) {
@@ -202,7 +293,7 @@ for (let pass = 0; pass < 3 && failed.length > 0; pass++) {
     }
     placements.sort((a, b) => scorePlacement(b) - scorePlacement(a));
     const best = placements[0];
-    placeWord(best.row, best.col, clue.word, clue.clue, best.direction);
+    placeWord(best.row, best.col, clue, best.direction);
     placedCount++;
   }
   console.log(`  Placed ${placedCount} total, ${failed.length} still failed`);
@@ -334,6 +425,9 @@ const output = {
     id: e.id,
     word: e.word,
     clue: e.clue,
+    category: e.category,
+    style: e.style,
+    ...(e.media ? { media: e.media } : {}),
     direction: e.direction,
     row: e.row,
     col: e.col,

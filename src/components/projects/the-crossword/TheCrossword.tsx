@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { httpsCallable } from "firebase/functions";
 import { functions } from "./firebase";
 import { useCrosswordStore } from "./store";
@@ -14,10 +14,12 @@ import NicknameModal from "./NicknameModal";
 import TimelapsePlayer from "./TimelapsePlayer";
 import CompletionOverlay from "./CompletionOverlay";
 import Leaderboard from "./Leaderboard";
+import PlayerStatsModal from "./PlayerStatsModal";
+import CountdownBanner from "./CountdownBanner";
 import type { EntryData, PuzzleJson } from "./types";
 import puzzleRaw from "@data/the-crossword/puzzle.json";
 
-const puzzleData = puzzleRaw as PuzzleJson;
+const puzzleData = puzzleRaw as unknown as PuzzleJson;
 const PUZZLE_ID = "puzzle-001";
 
 function buildStaticEntries(puzzle: PuzzleJson): Map<string, EntryData> {
@@ -26,9 +28,11 @@ function buildStaticEntries(puzzle: PuzzleJson): Map<string, EntryData> {
     map.set(e.id, {
       ...e,
       unlocked: e.id === puzzle.startEntryId,
+      unlockedAt: null,
       solvedBy: null,
       solvedAt: null,
       solveSequence: null,
+      wrongAttempts: 0,
     });
   }
   return map;
@@ -47,8 +51,10 @@ export default function TheCrossword() {
     meta,
     loading: fbLoading,
     error: fbError,
+    blocked: fbBlocked,
   } = useFirebaseData(PUZZLE_ID);
   const {
+    uid,
     nickname: nicknameData,
     loading: nickLoading,
     submitNickname,
@@ -56,6 +62,8 @@ export default function TheCrossword() {
   const solveHistory = useSolveHistory(PUZZLE_ID);
 
   const [showNicknameModal, setShowNicknameModal] = useState(false);
+  const [showStats, setShowStats] = useState(false);
+  const [showContributors, setShowContributors] = useState(false);
   const [showTimelapse, setShowTimelapse] = useState(false);
   const [showFullTimelapse, setShowFullTimelapse] = useState(false);
   const [resetViewTrigger, setResetViewTrigger] = useState(0);
@@ -74,9 +82,11 @@ export default function TheCrossword() {
           merged.set(id, {
             ...staticEntry,
             unlocked: fbEntry.unlocked,
+            unlockedAt: fbEntry.unlockedAt,
             solvedBy: fbEntry.solvedBy,
             solvedAt: fbEntry.solvedAt,
             solveSequence: fbEntry.solveSequence,
+            wrongAttempts: fbEntry.wrongAttempts,
             adjacentEntryIds: staticEntry.adjacentEntryIds,
           });
         }
@@ -88,6 +98,21 @@ export default function TheCrossword() {
 
   const solveCount = meta?.solveCount ?? 0;
   const isComplete = meta?.isComplete ?? false;
+
+  // Launch gate: until meta.launchAt passes, the board is read-only and a
+  // countdown banner shows. A null launchAt (e.g. puzzle-001) means no gate.
+  const launchAt = meta?.launchAt ?? null;
+  const [now, setNow] = useState(() => Date.now());
+  const locked = launchAt != null && now < launchAt.getTime();
+  useEffect(() => {
+    if (launchAt == null || Date.now() >= launchAt.getTime()) return;
+    const id = setInterval(() => {
+      const t = Date.now();
+      setNow(t);
+      if (t >= launchAt.getTime()) clearInterval(id);
+    }, 1000);
+    return () => clearInterval(id);
+  }, [launchAt]);
 
   const unlockedEntries = useMemo(
     () => [...entries.values()].filter((e) => e.unlocked),
@@ -110,7 +135,15 @@ export default function TheCrossword() {
         entryId,
         answer,
       });
-      return result.data as { correct: boolean; solveSequence?: number };
+      const data = result.data as {
+        correct: boolean;
+        solveSequence?: number;
+      };
+      if (!data.correct) {
+        const recordFn = httpsCallable(functions, "recordWrongAttempt");
+        recordFn({ puzzleId: PUZZLE_ID, entryId }).catch(() => {});
+      }
+      return data;
     } catch (err) {
       console.error("solveClue error:", err);
       return { correct: false };
@@ -122,6 +155,7 @@ export default function TheCrossword() {
       entryId: string,
       answer: string,
     ): Promise<{ correct: boolean }> => {
+      if (locked) return { correct: false };
       if (!hasSeenNicknamePrompt && !nicknameData) {
         setPendingSolve({ entryId, answer });
         setShowNicknameModal(true);
@@ -129,7 +163,7 @@ export default function TheCrossword() {
       }
       return submitSolve(entryId, answer);
     },
-    [hasSeenNicknamePrompt, nicknameData],
+    [hasSeenNicknamePrompt, nicknameData, locked],
   );
 
   const handleNicknameClose = () => {
@@ -140,14 +174,37 @@ export default function TheCrossword() {
     }
   };
 
-  if (fbLoading && firebaseEntries.size === 0) {
+  if (fbLoading && !fbBlocked && firebaseEntries.size === 0) {
     return <div className={styles.loading}>Loading puzzle...</div>;
   }
 
   return (
     <div className={styles.root}>
+      {locked && <CountdownBanner launchAt={launchAt} now={now} />}
+      {(fbBlocked || fbError) && (
+        <div className={styles.banner}>
+          <span>
+            Can’t reach the live puzzle — an ad blocker may be blocking it.
+            Allowlist this site or disable your blocker, then reload.
+          </span>
+          <button
+            className={styles.bannerReload}
+            onClick={() => window.location.reload()}
+          >
+            Reload
+          </button>
+        </div>
+      )}
       <div className={styles.toolbar}>
-        <SolveCounter count={solveCount} />
+        <div className={styles.toolbarLeft}>
+          <SolveCounter count={solveCount} />
+          <a
+            className={styles.archiveLink}
+            href="/projects/the-crossword-archive"
+          >
+            Past puzzles
+          </a>
+        </div>
         <div className={styles.toolbarRight}>
           <button
             className={styles.timelapseBtn}
@@ -201,6 +258,42 @@ export default function TheCrossword() {
               />
             </svg>
           </button>
+          <button
+            className={styles.timelapseBtn}
+            onClick={() => setShowContributors(true)}
+            title="Contributors"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path
+                d="M4.5 2.5h9v3a4.5 4.5 0 1 1-9 0v-3Z"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M4.5 4h-2v1.5A2.5 2.5 0 0 0 5 8M13.5 4h2v1.5A2.5 2.5 0 0 1 13 8"
+                stroke="currentColor"
+                strokeWidth="1.4"
+              />
+              <path
+                d="M9 10v2.3M6 15.5h6M7.2 12.8h3.6l.5 2.7h-4.6l.5-2.7Z"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <button
+            className={styles.timelapseBtn}
+            onClick={() => setShowStats(true)}
+            title="Your stats"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <rect x="2.5" y="9" width="3.2" height="6" rx="0.6" fill="currentColor" />
+              <rect x="7.4" y="5" width="3.2" height="10" rx="0.6" fill="currentColor" />
+              <rect x="12.3" y="2" width="3.2" height="13" rx="0.6" fill="currentColor" />
+            </svg>
+          </button>
           <ViewToggle />
         </div>
       </div>
@@ -212,6 +305,7 @@ export default function TheCrossword() {
             onSolve={handleSolveAttempt}
             resetViewTrigger={resetViewTrigger}
             zoomTrigger={zoomTrigger}
+            locked={locked}
           />
         ) : (
           <ClueListView
@@ -219,9 +313,15 @@ export default function TheCrossword() {
             allEntries={entries}
             onClueClick={handleClueClick}
             onSolve={handleSolveAttempt}
+            locked={locked}
           />
         )}
-        {view === "grid" && <Leaderboard entries={entries} />}
+        <Leaderboard
+          entries={entries}
+          showPanel={view === "grid"}
+          expanded={showContributors}
+          onExpandedChange={setShowContributors}
+        />
       </div>
 
       {showTimelapse && (
@@ -237,6 +337,15 @@ export default function TheCrossword() {
         <NicknameModal
           onSubmit={submitNickname}
           onClose={handleNicknameClose}
+        />
+      )}
+
+      {showStats && (
+        <PlayerStatsModal
+          uid={uid}
+          entries={entries}
+          solveHistory={solveHistory}
+          onClose={() => setShowStats(false)}
         />
       )}
 
