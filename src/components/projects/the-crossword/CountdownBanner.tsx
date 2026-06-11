@@ -31,15 +31,15 @@ export default function CountdownBanner({ launchAt, now }: Props) {
 
   return (
     <div className={styles.banner}>
-      <span className={styles.label}>New puzzle drops</span>
+      <span className={styles.label}>PUZZLE 2</span>
       {scheduled ? (
         <span className={styles.clock} aria-live="off">
           {formatRemaining(remaining!)}
         </span>
       ) : (
-        <span className={styles.soon}>coming soon</span>
+        <span className={styles.soon}>COMING SOON</span>
       )}
-      <span className={styles.note}>— solving unlocks at launch</span>
+      <span className={styles.note}>—  solving unlocks at launch</span>
     </div>
   );
 }
