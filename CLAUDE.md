@@ -262,3 +262,4 @@ Any new eurorack module you add **must** follow this pattern.
 - **Static pages, dynamic API routes** — project pages use `export const prerender = true`, API routes use `export const prerender = false`.
 - **Footer** must appear on every page, styled to match the page's aesthetic.
 - **Never commit `.env` files.**
+- **Mobile-friendly is required** — every project and UI change must work on phones, not just desktop. Design/verify at narrow widths (≤600px, down to ~360px). Toolbars, control rows, and button groups must **wrap or stack into rows** rather than overlap, overflow, or clip each other; keep tap targets ≥34px; avoid fixed widths that force horizontal scrolling. When you add or change any on-screen controls, check the `@media (max-width: 600px)` behavior before considering the change done.
