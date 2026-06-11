@@ -14,14 +14,16 @@ service cloud.firestore {
         allow read: if true;
         allow write: if false;
       }
+
+      // Per-puzzle player stats (wrong attempts). Readable only by its owner;
+      // written functions-only via the admin SDK.
+      match /players/{uid} {
+        allow read: if request.auth != null && request.auth.uid == uid;
+        allow write: if false;
+      }
     }
 
     match /nicknames/{uid} {
-      allow read: if request.auth != null && request.auth.uid == uid;
-      allow write: if false;
-    }
-
-    match /players/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow write: if false;
     }

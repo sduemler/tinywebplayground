@@ -3,6 +3,7 @@ import { usePlayerStats, type RankedName } from "./usePlayerStats";
 import type { EntryData, SolveEvent } from "./types";
 
 interface Props {
+  puzzleId: string;
   uid: string | null;
   entries: Map<string, EntryData>;
   solveHistory: SolveEvent[];
@@ -59,12 +60,13 @@ function RankList({ title, rows }: { title: string; rows: RankedName[] }) {
 }
 
 export default function PlayerStatsModal({
+  puzzleId,
   uid,
   entries,
   solveHistory,
   onClose,
 }: Props) {
-  const stats = usePlayerStats(uid, entries, solveHistory);
+  const stats = usePlayerStats(puzzleId, uid, entries, solveHistory);
 
   return (
     <div className={styles.overlay} onClick={onClose}>

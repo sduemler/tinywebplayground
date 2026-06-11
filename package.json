@@ -10,6 +10,7 @@
     "download-posters": "node scripts/download-preset-posters.mjs",
     "build-life-tables": "node scripts/build-life-tables.mjs",
     "build-crossword": "node scripts/build-layout.mjs --shape cat",
+    "preview-crossword": "node scripts/preview-puzzle.mjs",
     "export-crossword": "node scripts/export-puzzle.mjs",
     "set-launch": "node scripts/set-launch.mjs",
     "gen-clues": "node --env-file=.env scripts/gen-clues.mjs",
@@ -31,6 +32,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "canvas": "^3.2.3"
+    "canvas": "^3.2.3",
+    "firebase-admin": "^12.7.0"
   }
 }

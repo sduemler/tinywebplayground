@@ -36,11 +36,13 @@ function rank(counts: Map<string, number>): RankedName[] {
 
 /**
  * Derives the current player's stats from already-loaded entries + solveHistory
- * (zero extra reads), plus a live subscription to players/{uid} for the
- * server-tracked wrong-attempt total. Mounting this hook = the stats modal is
- * open, so the players/{uid} listener is scoped to the modal's lifetime.
+ * (zero extra reads), plus a live subscription to puzzles/{puzzleId}/players/{uid}
+ * for the server-tracked wrong-attempt total (per-puzzle, so it resets each
+ * game). Mounting this hook = the stats modal is open, so the listener is scoped
+ * to the modal's lifetime.
  */
 export function usePlayerStats(
+  puzzleId: string,
   uid: string | null,
   entries: Map<string, EntryData>,
   solveHistory: SolveEvent[],
@@ -49,13 +51,16 @@ export function usePlayerStats(
 
   useEffect(() => {
     if (!uid) return;
-    const unsub = onSnapshot(doc(db, "players", uid), (snap) => {
-      setWrongAttempts(
-        snap.exists() ? (snap.data().totalWrongAttempts ?? 0) : 0,
-      );
-    });
+    const unsub = onSnapshot(
+      doc(db, "puzzles", puzzleId, "players", uid),
+      (snap) => {
+        setWrongAttempts(
+          snap.exists() ? (snap.data().totalWrongAttempts ?? 0) : 0,
+        );
+      },
+    );
     return unsub;
-  }, [uid]);
+  }, [puzzleId, uid]);
 
   return useMemo(() => {
     if (!uid) return null;

@@ -20,7 +20,7 @@ import type { EntryData, PuzzleJson } from "./types";
 import puzzleRaw from "@data/the-crossword/puzzle.json";
 
 const puzzleData = puzzleRaw as unknown as PuzzleJson;
-const PUZZLE_ID = "puzzle-001";
+const PUZZLE_ID = "puzzle-002";
 
 function buildStaticEntries(puzzle: PuzzleJson): Map<string, EntryData> {
   const map = new Map<string, EntryData>();
@@ -342,6 +342,7 @@ export default function TheCrossword() {
 
       {showStats && (
         <PlayerStatsModal
+          puzzleId={PUZZLE_ID}
           uid={uid}
           entries={entries}
           solveHistory={solveHistory}

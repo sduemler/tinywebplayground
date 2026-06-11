@@ -103,8 +103,9 @@ export interface MediaClue extends ClueInput {
   media: ClueMedia;
 }
 
-/** The players/{uid} doc. Only server-tracked wrong-attempt stats live here;
- *  all solve-derived stats are computed client-side from solveHistory. */
+/** The puzzles/{puzzleId}/players/{uid} doc. Only server-tracked wrong-attempt
+ *  stats live here (per-puzzle, resets each game); all solve-derived stats are
+ *  computed client-side from solveHistory. */
 export interface PlayerDoc {
   totalWrongAttempts: number;
   lastWrongAt: Date | null;

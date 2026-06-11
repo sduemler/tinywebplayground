@@ -27,7 +27,8 @@ export const recordWrongAttempt = onCall(
 
     const uid = request.auth.uid;
     const entryRef = db.doc(`puzzles/${puzzleId}/entries/${entryId}`);
-    const playerRef = db.doc(`players/${uid}`);
+    // Per-puzzle player stats doc, so wrong-attempts/accuracy reset each game.
+    const playerRef = db.doc(`puzzles/${puzzleId}/players/${uid}`);
 
     return db.runTransaction(async (tx) => {
       const [entrySnap, playerSnap] = await Promise.all([

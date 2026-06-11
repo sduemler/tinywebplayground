@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # Firebase Cloud Functions build output
 firebase/functions/lib/
+
+# Local full-solution preview (generated, do not commit)
+puzzle-preview.html
