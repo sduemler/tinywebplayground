@@ -11,6 +11,7 @@
     "build-life-tables": "node scripts/build-life-tables.mjs",
     "build-crossword": "node scripts/build-layout.mjs --shape cat",
     "preview-crossword": "node scripts/preview-puzzle.mjs",
+    "preview-media": "node scripts/preview-media.mjs",
     "export-crossword": "node scripts/export-puzzle.mjs",
     "set-launch": "node scripts/set-launch.mjs",
     "gen-clues": "node --env-file=.env scripts/gen-clues.mjs",
