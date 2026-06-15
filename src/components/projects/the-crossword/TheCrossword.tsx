@@ -22,6 +22,12 @@ import puzzleRaw from "@data/the-crossword/puzzle.json";
 const puzzleData = puzzleRaw as unknown as PuzzleJson;
 const PUZZLE_ID = "puzzle-002";
 
+// Index static entries by id once at module load. The live-entry merge below
+// runs on every Firestore snapshot (i.e. every solve by any player); with 2,500
+// entries a per-entry linear `.find` is O(n²) and janks the main thread on
+// mobile under load. A Map lookup keeps the merge O(n).
+const staticEntryById = new Map(puzzleData.entries.map((e) => [e.id, e]));
+
 function buildStaticEntries(puzzle: PuzzleJson): Map<string, EntryData> {
   const map = new Map<string, EntryData>();
   for (const e of puzzle.entries) {
@@ -77,7 +83,7 @@ export default function TheCrossword() {
     if (firebaseEntries.size > 0) {
       const merged = new Map<string, EntryData>();
       for (const [id, fbEntry] of firebaseEntries) {
-        const staticEntry = puzzleData.entries.find((e) => e.id === id);
+        const staticEntry = staticEntryById.get(id);
         if (staticEntry) {
           merged.set(id, {
             ...staticEntry,
