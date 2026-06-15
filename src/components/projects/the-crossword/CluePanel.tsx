@@ -89,6 +89,10 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
     setCursorIndex(idx);
   };
 
+  // Reset the input only when the selected clue itself changes. We intentionally
+  // depend on `entry.id` alone (not `findNextEmpty`/`prefilled`): a remote solve
+  // of any other clue produces a new `prefilled` array reference, and including
+  // it here used to re-run this effect mid-typing and wipe the user's letters.
   useEffect(() => {
     setUserLetters(new Array(entry.length).fill(""));
     setIsWrong(false);
@@ -96,7 +100,8 @@ export default function CluePanel({ entry, prefilled, onSubmit, inputRef, inline
     const first = findNextEmpty(0);
     updateCursor(first);
     hiddenInputRef.current?.focus();
-  }, [entry.id, entry.length, findNextEmpty]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entry.id]);
 
   const markWrong = () => {
     setIsWrong(true);
