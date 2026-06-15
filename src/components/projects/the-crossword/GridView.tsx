@@ -426,6 +426,9 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
                 <div className={styles.solvedClue}>{selectedEntry.clue}</div>
                 <div className={styles.solvedMeta}>
                   <span className={styles.solvedWord}>{selectedEntry.word}</span>
+                  {selectedEntry.category && (
+                    <span className={styles.solvedCategory}>{selectedEntry.category}</span>
+                  )}
                   <span className={styles.solvedByLabel}>solved by {selectedEntry.solvedBy}</span>
                 </div>
               </div>

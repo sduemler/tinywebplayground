@@ -102,6 +102,23 @@
   font-style: italic;
 }
 
+.solvedCategory {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.05rem 0.4rem;
+  white-space: nowrap;
+}
+
+/* Let the solved row wrap so a long clue + category chip + solver never
+   overflow on narrow screens. */
+.solved .clueButton {
+  flex-wrap: wrap;
+}
+
 .solved .clueText {
   color: var(--color-muted);
   text-decoration: line-through;

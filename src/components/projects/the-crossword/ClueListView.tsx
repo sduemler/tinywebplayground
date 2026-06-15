@@ -176,6 +176,9 @@ export default function ClueListView({
                     onClick={() => onClueClick(entry.id)}
                   >
                     <span className={styles.clueText}>{entry.clue}</span>
+                    {entry.category && (
+                      <span className={styles.solvedCategory}>{entry.category}</span>
+                    )}
                     <span className={styles.solvedBy}>{entry.solvedBy}</span>
                   </button>
                 </li>

@@ -103,6 +103,17 @@
   font-style: italic;
 }
 
+.solvedCategory {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  background: var(--color-bg);
+  border-radius: 10px;
+  padding: 0.1rem 0.5rem;
+  white-space: nowrap;
+}
+
 @media (max-width: 600px) {
   .panelArea {
     bottom: auto;
