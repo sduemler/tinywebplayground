@@ -113,6 +113,12 @@
   white-space: nowrap;
 }
 
+.jumpArrow {
+  font-size: 0.95rem;
+  color: var(--accent, #2a3d5c);
+  white-space: nowrap;
+}
+
 /* Let the solved row wrap so a long clue + category chip + solver never
    overflow on narrow screens. */
 .solved .clueButton {

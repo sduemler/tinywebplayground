@@ -352,6 +352,7 @@ export default function TheCrossword() {
           uid={uid}
           entries={entries}
           solveHistory={solveHistory}
+          launchAt={launchAt}
           onClose={() => setShowStats(false)}
         />
       )}

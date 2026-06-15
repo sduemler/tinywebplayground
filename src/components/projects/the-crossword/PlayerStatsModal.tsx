@@ -7,6 +7,7 @@ interface Props {
   uid: string | null;
   entries: Map<string, EntryData>;
   solveHistory: SolveEvent[];
+  launchAt: Date | null;
   onClose: () => void;
 }
 
@@ -28,6 +29,10 @@ function formatDate(d: Date): string {
     month: "short",
     day: "numeric",
   });
+}
+
+function formatNumber(n: number): string {
+  return n.toLocaleString();
 }
 
 function Stat({ value, label }: { value: string; label: string }) {
@@ -64,15 +69,16 @@ export default function PlayerStatsModal({
   uid,
   entries,
   solveHistory,
+  launchAt,
   onClose,
 }: Props) {
-  const stats = usePlayerStats(puzzleId, uid, entries, solveHistory);
+  const stats = usePlayerStats(puzzleId, uid, entries, solveHistory, launchAt);
 
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Your Stats</h2>
+          <h2 className={styles.title}>Stats</h2>
           <button
             className={styles.closeBtn}
             onClick={onClose}
@@ -82,109 +88,217 @@ export default function PlayerStatsModal({
           </button>
         </div>
 
-        {!stats || stats.totalSolves === 0 ? (
+        {!stats ? (
           <p className={styles.empty}>
             Solve a few clues and your stats will show up here.
           </p>
         ) : (
           <div className={styles.body}>
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>Summary</div>
-              <div className={styles.statGrid}>
-                <Stat value={`${stats.totalSolves}`} label="Clues solved" />
-                <Stat
-                  value={`${stats.totalLetters}`}
-                  label="Letters filled"
-                />
-                <Stat
-                  value={`${stats.acrossCount} / ${stats.downCount}`}
-                  label="Across / Down"
-                />
-              </div>
-              {stats.firstSolveAt && stats.lastSolveAt && (
-                <div className={styles.note}>
-                  Solving since {formatDate(stats.firstSolveAt)} · last solve{" "}
-                  {formatDate(stats.lastSolveAt)}
-                </div>
+            {/* ---------------------------- Personal ---------------------------- */}
+            <div className={styles.group}>
+              <div className={styles.groupTitle}>Personal Stats</div>
+
+              {stats.totalSolves === 0 ? (
+                <p className={styles.empty}>
+                  Solve a few clues and your stats will show up here.
+                </p>
+              ) : (
+                <>
+                  <section className={styles.section}>
+                    <div className={styles.sectionTitle}>Summary</div>
+                    <div className={styles.statGrid}>
+                      <Stat value={`${stats.totalSolves}`} label="Clues solved" />
+                      <Stat
+                        value={`${stats.totalLetters}`}
+                        label="Letters filled"
+                      />
+                      <Stat
+                        value={`${stats.acrossCount} / ${stats.downCount}`}
+                        label="Across / Down"
+                      />
+                    </div>
+                    {stats.firstSolveAt && stats.lastSolveAt && (
+                      <div className={styles.note}>
+                        Solving since {formatDate(stats.firstSolveAt)} · last
+                        solve {formatDate(stats.lastSolveAt)}
+                      </div>
+                    )}
+                  </section>
+
+                  <section className={styles.section}>
+                    <div className={styles.sectionTitle}>Timing</div>
+                    <div className={styles.statGrid}>
+                      <Stat
+                        value={
+                          stats.avgSolveMs != null
+                            ? formatDuration(stats.avgSolveMs)
+                            : "—"
+                        }
+                        label="Avg. solve time"
+                      />
+                      <Stat
+                        value={
+                          stats.quickestSolveMs != null
+                            ? formatDuration(stats.quickestSolveMs)
+                            : "—"
+                        }
+                        label="Fastest solve"
+                      />
+                      <Stat
+                        value={
+                          stats.longestSolveMs != null
+                            ? formatDuration(stats.longestSolveMs)
+                            : "—"
+                        }
+                        label="Longest a clue waited"
+                      />
+                    </div>
+                    <div className={styles.note}>
+                      {stats.firstResponderCount} solved within a minute of
+                      unlocking.
+                    </div>
+                  </section>
+
+                  <section className={styles.section}>
+                    <div className={styles.sectionTitle}>Accuracy</div>
+                    <div className={styles.statGrid}>
+                      <Stat
+                        value={`${stats.totalWrongAttempts}`}
+                        label="Wrong guesses"
+                      />
+                      <Stat
+                        value={
+                          stats.accuracy != null
+                            ? `${Math.round(stats.accuracy * 100)}%`
+                            : "—"
+                        }
+                        label="Accuracy"
+                      />
+                      <Stat
+                        value={stats.favoriteCategory ?? "—"}
+                        label="Favourite category"
+                      />
+                    </div>
+                    {stats.hardestClue && (
+                      <div className={styles.note}>
+                        Hardest clue you cracked:{" "}
+                        <strong>{stats.hardestClue.word}</strong> — took the
+                        crowd {stats.hardestClue.wrongAttempts} wrong guess
+                        {stats.hardestClue.wrongAttempts === 1 ? "" : "es"}.
+                      </div>
+                    )}
+                  </section>
+                </>
               )}
-            </section>
+            </div>
 
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>Timing</div>
-              <div className={styles.statGrid}>
-                <Stat
-                  value={
-                    stats.avgSolveMs != null
-                      ? formatDuration(stats.avgSolveMs)
-                      : "—"
-                  }
-                  label="Avg. solve time"
-                />
-                <Stat
-                  value={
-                    stats.quickestSolveMs != null
-                      ? formatDuration(stats.quickestSolveMs)
-                      : "—"
-                  }
-                  label="Fastest solve"
-                />
-                <Stat
-                  value={
-                    stats.longestSolveMs != null
-                      ? formatDuration(stats.longestSolveMs)
-                      : "—"
-                  }
-                  label="Longest a clue waited"
-                />
-              </div>
-              <div className={styles.note}>
-                {stats.firstResponderCount} solved within a minute of unlocking.
-              </div>
-            </section>
+            {/* ----------------------------- World ------------------------------ */}
+            <div className={styles.group}>
+              <div className={styles.groupTitle}>World Stats</div>
 
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>Accuracy</div>
-              <div className={styles.statGrid}>
-                <Stat
-                  value={`${stats.totalWrongAttempts}`}
-                  label="Wrong guesses"
-                />
-                <Stat
-                  value={
-                    stats.accuracy != null
-                      ? `${Math.round(stats.accuracy * 100)}%`
-                      : "—"
-                  }
-                  label="Accuracy"
-                />
-                <Stat
-                  value={stats.favoriteCategory ?? "—"}
-                  label="Favourite category"
-                />
-              </div>
-              {stats.hardestClue && (
-                <div className={styles.note}>
-                  Hardest clue you cracked:{" "}
-                  <strong>{stats.hardestClue.word}</strong> — took the crowd{" "}
-                  {stats.hardestClue.wrongAttempts} wrong guess
-                  {stats.hardestClue.wrongAttempts === 1 ? "" : "es"}.
+              <section className={styles.section}>
+                <div className={styles.sectionTitle}>Summary</div>
+                <div className={styles.statGrid}>
+                  <Stat
+                    value={`${stats.world.solved}`}
+                    label="Clues solved"
+                  />
+                  <Stat
+                    value={formatNumber(stats.world.letters)}
+                    label="Letters filled"
+                  />
+                  <Stat
+                    value={`${stats.world.acrossCount} / ${stats.world.downCount}`}
+                    label="Across / Down"
+                  />
                 </div>
-              )}
-            </section>
+                <div className={styles.note}>
+                  {stats.world.contributors} contributor
+                  {stats.world.contributors === 1 ? "" : "s"} so far.
+                </div>
+              </section>
 
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>Teamwork</div>
-              <div className={styles.rankGrid}>
-                <RankList
-                  title="Unlocked clues for you"
-                  rows={stats.topUnlockPartners}
-                />
-                <RankList
-                  title="Solved clues you unlocked"
-                  rows={stats.handedOffTo}
-                />
-              </div>
-            </section>
+              <section className={styles.section}>
+                <div className={styles.sectionTitle}>Timing</div>
+                <div className={styles.statGrid}>
+                  <Stat
+                    value={
+                      stats.world.avgSolveMs != null
+                        ? formatDuration(stats.world.avgSolveMs)
+                        : "—"
+                    }
+                    label="Avg. solve time"
+                  />
+                  <Stat
+                    value={
+                      stats.world.quickestSolveMs != null
+                        ? formatDuration(stats.world.quickestSolveMs)
+                        : "—"
+                    }
+                    label="Fastest solve"
+                  />
+                  <Stat
+                    value={
+                      stats.world.longestSolveMs != null
+                        ? formatDuration(stats.world.longestSolveMs)
+                        : "—"
+                    }
+                    label="Longest a clue waited"
+                  />
+                </div>
+                <div className={styles.note}>
+                  {stats.world.firstResponderCount} solved within a minute of
+                  unlocking.
+                </div>
+              </section>
+
+              <section className={styles.section}>
+                <div className={styles.sectionTitle}>Accuracy</div>
+                <div className={styles.statGrid}>
+                  <Stat
+                    value={formatNumber(stats.world.totalWrongAttempts)}
+                    label="Wrong guesses"
+                  />
+                  <Stat
+                    value={
+                      stats.world.accuracy != null
+                        ? `${Math.round(stats.world.accuracy * 100)}%`
+                        : "—"
+                    }
+                    label="Accuracy"
+                  />
+                  <Stat
+                    value={stats.world.topCategory ?? "—"}
+                    label="Top category"
+                  />
+                </div>
+                {stats.world.mostContestedClue && (
+                  <div className={styles.note}>
+                    Most-contested clue:{" "}
+                    <strong>{stats.world.mostContestedClue.word}</strong> —{" "}
+                    {stats.world.mostContestedClue.wrongAttempts} wrong guess
+                    {stats.world.mostContestedClue.wrongAttempts === 1
+                      ? ""
+                      : "es"}{" "}
+                    across everyone.
+                  </div>
+                )}
+              </section>
+
+              <section className={styles.section}>
+                <div className={styles.sectionTitle}>Teamwork</div>
+                <div className={styles.rankGrid}>
+                  <RankList
+                    title="Unlocked clues for you"
+                    rows={stats.topUnlockPartners}
+                  />
+                  <RankList
+                    title="Solved clues you unlocked"
+                    rows={stats.handedOffTo}
+                  />
+                </div>
+              </section>
+            </div>
           </div>
         )}
       </div>

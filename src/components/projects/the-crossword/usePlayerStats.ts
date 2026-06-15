@@ -8,6 +8,23 @@ export interface RankedName {
   count: number;
 }
 
+export interface WorldStats {
+  // Deliberately NO total/remaining count — the puzzle size stays a mystery.
+  solved: number;
+  contributors: number;
+  letters: number;
+  acrossCount: number;
+  downCount: number;
+  totalWrongAttempts: number;
+  accuracy: number | null;
+  avgSolveMs: number | null;
+  quickestSolveMs: number | null;
+  longestSolveMs: number | null;
+  firstResponderCount: number;
+  topCategory: string | null;
+  mostContestedClue: { clue: string; word: string; wrongAttempts: number } | null;
+}
+
 export interface PlayerStatsView {
   totalSolves: number;
   totalLetters: number;
@@ -25,6 +42,7 @@ export interface PlayerStatsView {
   totalWrongAttempts: number;
   accuracy: number | null;
   hardestClue: { clue: string; word: string; wrongAttempts: number } | null;
+  world: WorldStats;
 }
 
 function rank(counts: Map<string, number>): RankedName[] {
@@ -46,8 +64,16 @@ export function usePlayerStats(
   uid: string | null,
   entries: Map<string, EntryData>,
   solveHistory: SolveEvent[],
+  launchAt: Date | null,
 ): PlayerStatsView | null {
   const [wrongAttempts, setWrongAttempts] = useState(0);
+
+  // A clue can't be solved before the puzzle launches, so "wait" time is
+  // measured from the later of (clue unlocked, puzzle launched). Without this,
+  // the start clue — unlocked at seed time, well before launch — reports a bogus
+  // seed-to-solve wait that dominates the longest/avg numbers. Kept as a
+  // primitive (ms) so the memo doesn't rerun on every meta snapshot's fresh Date.
+  const launchMs = launchAt ? launchAt.getTime() : 0;
 
   useEffect(() => {
     if (!uid) return;
@@ -98,7 +124,8 @@ export function usePlayerStats(
       else downCount++;
 
       if (entry.solvedAt && entry.unlockedAt) {
-        const ms = entry.solvedAt.getTime() - entry.unlockedAt.getTime();
+        const startMs = Math.max(entry.unlockedAt.getTime(), launchMs);
+        const ms = entry.solvedAt.getTime() - startMs;
         if (ms >= 0) {
           durations.push(ms);
           if (ms < 60000) firstResponderCount++;
@@ -147,6 +174,71 @@ export function usePlayerStats(
       }
     }
 
+    // --- World aggregates: the whole puzzle, derived from already-loaded
+    // entries (no extra Firestore reads). Independent of the current player. ---
+    let worldSolved = 0;
+    let worldLetters = 0;
+    let worldAcross = 0;
+    let worldDown = 0;
+    let worldWrong = 0;
+    let worldFirstResponder = 0;
+    const worldDurations: number[] = [];
+    const worldCategoryCounts = new Map<string, number>();
+    let mostContestedClue: WorldStats["mostContestedClue"] = null;
+    for (const entry of entries.values()) {
+      worldWrong += entry.wrongAttempts || 0;
+      if (!entry.solvedBy) continue;
+      worldSolved++;
+      worldLetters += entry.length;
+      if (entry.direction === "across") worldAcross++;
+      else worldDown++;
+
+      if (entry.solvedAt && entry.unlockedAt) {
+        const startMs = Math.max(entry.unlockedAt.getTime(), launchMs);
+        const ms = entry.solvedAt.getTime() - startMs;
+        if (ms >= 0) {
+          worldDurations.push(ms);
+          if (ms < 60000) worldFirstResponder++;
+        }
+      }
+
+      const cat = entry.category || "Uncategorized";
+      worldCategoryCounts.set(cat, (worldCategoryCounts.get(cat) ?? 0) + 1);
+
+      // Only solved clues are eligible so the revealed word can't spoil an
+      // unsolved answer.
+      if (
+        entry.wrongAttempts > 0 &&
+        (!mostContestedClue ||
+          entry.wrongAttempts > mostContestedClue.wrongAttempts)
+      ) {
+        mostContestedClue = {
+          clue: entry.clue,
+          word: entry.word,
+          wrongAttempts: entry.wrongAttempts,
+        };
+      }
+    }
+
+    let worldTopCategory: string | null = null;
+    let worldTopCatCount = 0;
+    for (const [cat, count] of worldCategoryCounts) {
+      if (count > worldTopCatCount) {
+        worldTopCatCount = count;
+        worldTopCategory = cat;
+      }
+    }
+
+    let contributors = new Set(solveHistory.map((e) => e.solverUid)).size;
+    if (contributors === 0 && worldSolved > 0) {
+      // Fallback if solveHistory hasn't loaded yet: distinct solver names.
+      const names = new Set<string>();
+      for (const entry of entries.values()) {
+        if (entry.solvedBy) names.add(entry.solvedBy);
+      }
+      contributors = names.size;
+    }
+
     const timestamps = mySolves
       .map((e) => e.timestamp)
       .filter((t): t is Date => !!t)
@@ -176,6 +268,30 @@ export function usePlayerStats(
           ? totalSolves / (totalSolves + wrongAttempts)
           : null,
       hardestClue,
+      world: {
+        solved: worldSolved,
+        contributors,
+        letters: worldLetters,
+        acrossCount: worldAcross,
+        downCount: worldDown,
+        totalWrongAttempts: worldWrong,
+        accuracy:
+          worldSolved + worldWrong > 0
+            ? worldSolved / (worldSolved + worldWrong)
+            : null,
+        avgSolveMs: worldDurations.length
+          ? worldDurations.reduce((a, b) => a + b, 0) / worldDurations.length
+          : null,
+        quickestSolveMs: worldDurations.length
+          ? Math.min(...worldDurations)
+          : null,
+        longestSolveMs: worldDurations.length
+          ? Math.max(...worldDurations)
+          : null,
+        firstResponderCount: worldFirstResponder,
+        topCategory: worldTopCategory,
+        mostContestedClue,
+      },
     };
-  }, [uid, entries, solveHistory, wrongAttempts]);
+  }, [uid, entries, solveHistory, wrongAttempts, launchMs]);
 }

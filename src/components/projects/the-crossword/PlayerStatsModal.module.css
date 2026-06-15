@@ -66,7 +66,23 @@
 .body {
   display: flex;
   flex-direction: column;
+  gap: 1.75rem;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
   gap: 1.25rem;
+}
+
+.groupTitle {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--accent, #2a3d5c);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding-bottom: 0.45rem;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .section {

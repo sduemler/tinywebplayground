@@ -87,6 +87,22 @@ export default function ClueListView({
     };
   }, [entries]);
 
+  // The 10 most-recently unlocked, still-unsolved clues, newest first. Pinned at
+  // the top of the list as a "spotlight"; these clues ALSO remain in their
+  // category sections below. Purely derived from already-loaded entry state — no
+  // extra Firestore reads, nothing that scales with puzzle size.
+  const newlyUnlocked = useMemo(() => {
+    return entries
+      .filter((e) => !e.solvedBy)
+      .sort((a, b) => {
+        const at = a.unlockedAt ? a.unlockedAt.getTime() : 0;
+        const bt = b.unlockedAt ? b.unlockedAt.getTime() : 0;
+        if (bt !== at) return bt - at; // newest first; null unlockedAt sorts last
+        return a.id.localeCompare(b.id); // stable order for same-solve unlocks
+      })
+      .slice(0, 10);
+  }, [entries]);
+
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
 
   const toggleSection = (key: string) => {
@@ -106,8 +122,60 @@ export default function ClueListView({
     }
   };
 
+  // A pinned "Newly Unlocked" item jumps to the CANONICAL clue rather than
+  // hosting its own solver (so a clue can never open two inline editors at
+  // once). On mobile: expand it inline in its category, un-collapsing that
+  // section first — the existing inlineEntryId scroll effect brings it into
+  // view. On desktop: hand off to the normal clue-click (grid focus).
+  const handleJumpToClue = (entry: EntryData) => {
+    if (isMobile && onSolve) {
+      const cat = entry.category || "General";
+      setCollapsed((prev) => {
+        if (!prev.has(cat)) return prev;
+        const next = new Set(prev);
+        next.delete(cat);
+        return next;
+      });
+      setInlineEntryId(entry.id);
+    } else {
+      onClueClick(entry.id);
+    }
+  };
+
   return (
     <div className={styles.container}>
+      {newlyUnlocked.length > 0 && (
+        <section>
+          <button
+            type="button"
+            className={styles.sectionTitle}
+            onClick={() => toggleSection("__newly__")}
+            aria-expanded={!collapsed.has("__newly__")}
+          >
+            <span className={`${styles.chevron} ${collapsed.has("__newly__") ? styles.chevronCollapsed : ""}`}>▾</span>
+            Newly Unlocked
+            <span className={styles.categoryCount}>{newlyUnlocked.length}</span>
+          </button>
+          {!collapsed.has("__newly__") && (
+            <ul className={styles.list}>
+              {newlyUnlocked.map((entry) => (
+                <li key={`new-${entry.id}`} className={styles.item}>
+                  <button
+                    className={styles.clueButton}
+                    onClick={() => handleJumpToClue(entry)}
+                  >
+                    <span className={styles.clueText}>{entry.clue}</span>
+                    {entry.category && (
+                      <span className={styles.solvedCategory}>{entry.category}</span>
+                    )}
+                    <span className={styles.jumpArrow} aria-hidden="true">→</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
       {unsolvedByCategory.map(([category, clues]) => (
         <section key={category}>
           <button
