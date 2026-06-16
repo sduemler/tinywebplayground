@@ -336,9 +336,13 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
 
   const selectedEntry = selectedEntryId ? entries.get(selectedEntryId) : null;
 
-  const unsolvedIds = useMemo(() => {
+  // All unlocked clues in a stable reading order (solved + unsolved). Navigation
+  // walks this list so that solving the current clue doesn't lose your place: the
+  // just-solved clue still has a slot here, so we can resume from its position
+  // instead of snapping back to the start.
+  const orderedUnlockedIds = useMemo(() => {
     return [...entries.values()]
-      .filter((e) => e.unlocked && !e.solvedBy)
+      .filter((e) => e.unlocked)
       .sort((a, b) => {
         if (a.row !== b.row) return a.row - b.row;
         if (a.col !== b.col) return a.col - b.col;
@@ -347,19 +351,34 @@ export default function GridView({ puzzleData, entries, onSolve, resetViewTrigge
       .map((e) => e.id);
   }, [entries]);
 
+  const unsolvedIds = useMemo(
+    () => orderedUnlockedIds.filter((id) => !entries.get(id)?.solvedBy),
+    [orderedUnlockedIds, entries],
+  );
+
   const navigateClue = useCallback(
     (delta: number) => {
-      if (unsolvedIds.length === 0) return;
-      const currentIdx = selectedEntryId ? unsolvedIds.indexOf(selectedEntryId) : -1;
-      let nextIdx: number;
-      if (currentIdx === -1) {
-        nextIdx = delta > 0 ? 0 : unsolvedIds.length - 1;
-      } else {
-        nextIdx = (currentIdx + delta + unsolvedIds.length) % unsolvedIds.length;
+      const n = orderedUnlockedIds.length;
+      if (n === 0) return;
+      // Anchor on the current clue's slot in the full ordered list — this works
+      // even when it was just solved (still present here), so we continue from
+      // where it sat rather than jumping to the beginning. No selection: start
+      // just outside the list so the first step lands on the first/last clue.
+      let idx = selectedEntryId
+        ? orderedUnlockedIds.indexOf(selectedEntryId)
+        : -1;
+      if (idx === -1) idx = delta > 0 ? -1 : 0;
+      // Step in the travel direction to the next still-unsolved clue, wrapping.
+      for (let step = 0; step < n; step++) {
+        idx = (idx + delta + n) % n;
+        const id = orderedUnlockedIds[idx];
+        if (!entries.get(id)?.solvedBy) {
+          setSelectedEntry(id);
+          return;
+        }
       }
-      setSelectedEntry(unsolvedIds[nextIdx]);
     },
-    [unsolvedIds, selectedEntryId, setSelectedEntry],
+    [orderedUnlockedIds, selectedEntryId, setSelectedEntry, entries],
   );
 
   const prefilled = useMemo(() => {
