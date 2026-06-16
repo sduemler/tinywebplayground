@@ -361,6 +361,7 @@ export default function TheCrossword() {
         <CompletionOverlay
           solveCount={solveCount}
           entries={entries}
+          launchAt={launchAt}
           onPlayTimelapse={() => setShowFullTimelapse(true)}
         />
       )}

@@ -5,14 +5,32 @@ import type { EntryData } from "./types";
 interface Props {
   solveCount: number;
   entries: Map<string, EntryData>;
+  launchAt: Date | null;
   onPlayTimelapse: () => void;
 }
 
 const MEDALS = ["🥇", "🥈", "🥉"];
 
+// "2 days, 5 hours and 13 minutes" — friendly elapsed-time phrasing.
+function formatElapsed(ms: number): string {
+  const totalMin = Math.max(0, Math.round(ms / 60000));
+  const days = Math.floor(totalMin / 1440);
+  const hours = Math.floor((totalMin % 1440) / 60);
+  const mins = totalMin % 60;
+  const parts: string[] = [];
+  if (days) parts.push(`${days} day${days === 1 ? "" : "s"}`);
+  if (hours) parts.push(`${hours} hour${hours === 1 ? "" : "s"}`);
+  if (mins || parts.length === 0) {
+    parts.push(`${mins} minute${mins === 1 ? "" : "s"}`);
+  }
+  if (parts.length === 1) return parts[0];
+  return `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+}
+
 export default function CompletionOverlay({
   solveCount,
   entries,
+  launchAt,
   onPlayTimelapse,
 }: Props) {
   const [showAllContributors, setShowAllContributors] = useState(false);
@@ -42,6 +60,32 @@ export default function CompletionOverlay({
     }
     return best;
   }, [entries]);
+
+  // A few whole-puzzle totals, summed from the (now fully solved) entries.
+  const worldStats = useMemo(() => {
+    let letters = 0;
+    let wrong = 0;
+    let across = 0;
+    let down = 0;
+    for (const entry of entries.values()) {
+      wrong += entry.wrongAttempts || 0;
+      if (entry.solvedBy) {
+        letters += entry.length;
+        if (entry.direction === "across") across++;
+        else down++;
+      }
+    }
+    return { letters, wrong, across, down };
+  }, [entries]);
+
+  const contributors = allSolvers.length;
+
+  // Time from launch to the final solve.
+  const timeText = useMemo(() => {
+    const end = lastSolve?.solvedAt ?? null;
+    if (!end || !launchAt) return "record time";
+    return formatElapsed(end.getTime() - launchAt.getTime());
+  }, [lastSolve, launchAt]);
 
   return (
     <div className={styles.overlay}>
@@ -91,11 +135,50 @@ export default function CompletionOverlay({
             </div>
           )}
         </div>
+
+        <div className={styles.worldStats}>
+          <div className={styles.worldStat}>
+            <span className={styles.worldStatValue}>{contributors}</span>
+            <span className={styles.worldStatLabel}>Contributors</span>
+          </div>
+          <div className={styles.worldStat}>
+            <span className={styles.worldStatValue}>
+              {worldStats.letters.toLocaleString()}
+            </span>
+            <span className={styles.worldStatLabel}>Letters filled</span>
+          </div>
+          <div className={styles.worldStat}>
+            <span className={styles.worldStatValue}>
+              {worldStats.across} / {worldStats.down}
+            </span>
+            <span className={styles.worldStatLabel}>Across / Down</span>
+          </div>
+          <div className={styles.worldStat}>
+            <span className={styles.worldStatValue}>
+              {worldStats.wrong.toLocaleString()}
+            </span>
+            <span className={styles.worldStatLabel}>Wrong guesses</span>
+          </div>
+        </div>
+
         <div className={styles.comingSoon}>
-          <p className={styles.comingSoonText}>Coming Soon</p>
           <p className={styles.comingSoonSub}>
-            A new puzzle is being prepared. Check back or get notified when it's
-            ready!
+            Wow, that was fast! This one was two and a half times the size of the
+            first crossword, but you all managed to finish it in {timeText}. I'm
+            already hard at work on the next one, but if you have any suggestions
+            for categories I overlooked or game mechanics that would be fun, let
+            me know! You can email me at{" "}
+            <a
+              className={styles.comingSoonLink}
+              href="mailto:samduemler@protonmail.com"
+            >
+              samduemler@protonmail.com
+            </a>
+            .
+          </p>
+          <p className={styles.comingSoonSub}>
+            If you want to join in on the next one, make sure to add your email
+            to the subscribe list!
           </p>
           <SubscribeForm />
         </div>
