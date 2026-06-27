@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260" viewBox="0 0 400 260" role="img" aria-label="Typing Terror">
+  <defs>
+    <radialGradient id="vig" cx="50%" cy="42%" r="75%">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#1a0c0c" stop-opacity="0.78"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <linearGradient id="drip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c62828"/>
+      <stop offset="100%" stop-color="#7a0f0f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- parchment base -->
+  <rect width="400" height="260" fill="#f2e8cf"/>
+  <rect width="400" height="260" filter="url(#grain)" opacity="0.06"/>
+
+  <!-- faint typed lines -->
+  <g fill="#2b211a" opacity="0.16" font-family="'Courier New', monospace" font-size="12">
+    <text x="40" y="58">During the whole of a dull, dark, and</text>
+    <text x="40" y="78">soundless day in the autumn of the year</text>
+    <text x="40" y="98">the castle is a veritable prison, and I</text>
+  </g>
+
+  <!-- title -->
+  <g font-family="'Permanent Marker', 'Comic Sans MS', cursive" text-anchor="middle">
+    <text x="202" y="158" font-size="46" fill="#2b211a" opacity="0.9" transform="rotate(-2 200 150)">TYPING</text>
+    <text x="200" y="156" font-size="46" fill="#2b211a" transform="rotate(-2 200 150)">TYPING</text>
+    <text x="201" y="206" font-size="52" fill="url(#drip)" transform="rotate(-1.5 200 200)">TERROR</text>
+  </g>
+
+  <!-- caret -->
+  <rect x="296" y="178" width="4" height="30" fill="#c62828">
+    <animate attributeName="opacity" values="1;1;0;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+
+  <rect width="400" height="260" fill="url(#vig)"/>
+</svg>

@@ -1,0 +1,511 @@
+/* Typing Terror — layout + the per-tier "decay" engine.
+   Base (parchment + blood-red accent) tokens are set on .project-wrapper by the
+   page's scoped <style is:global>. The stage darkens as the tier rises. */
+
+.stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-height: 60vh;
+  margin: -2rem -1.5rem; /* bleed to the edges of ProjectLayout's padding */
+  padding: 2.5rem 1.5rem 3rem;
+  overflow: hidden;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  transition: background-color 700ms ease, color 700ms ease, filter 700ms ease;
+}
+
+.stageInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 760px;
+}
+
+/* Vignette + grain overlays, strengthening with the tier. */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  opacity: 0;
+  transition: opacity 700ms ease, background 700ms ease;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  mix-blend-mode: multiply;
+  transition: opacity 700ms ease;
+}
+
+/* ---- Tier 2: the strange arrives ---- */
+.stage[data-tier="2"] {
+  background: #ece0c2;
+  color: #43301c;
+  filter: saturate(0.85);
+}
+.stage[data-tier="2"]::before {
+  opacity: 1;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(40, 24, 10, 0.45) 100%);
+}
+.stage[data-tier="2"] {
+  animation: flicker 5s ease-in-out infinite;
+}
+
+/* ---- Tier 3: the horror ---- */
+.stage[data-tier="3"] {
+  background: #150c0c;
+  color: #e9d8d1;
+  --color-accent: #d23030;
+  --color-border: #4a2222;
+  --color-muted: #9c7a72;
+}
+.stage[data-tier="3"]::before {
+  opacity: 1;
+  background: radial-gradient(ellipse at center, transparent 28%, rgba(0, 0, 0, 0.92) 100%);
+  animation: vignettePulse 3.2s ease-in-out infinite;
+}
+.stage[data-tier="3"]::after {
+  opacity: 0.16;
+}
+
+/* ===================== Start screen ===================== */
+
+/* The start screen rests on a slightly darker "desk" so the parchment sheet
+   below reads as a distinct, lighter piece of paper. */
+.stageStart {
+  background: #e3d2a8;
+}
+
+/* The home screen rendered as an aged sheet of parchment: mottled paper,
+   darkened/aged edges, a soft deckle border and a drop shadow. */
+.start {
+  position: relative;
+  text-align: center;
+  max-width: 600px;
+  margin: 0.5rem auto 1rem;
+  padding: clamp(1.75rem, 5vw, 3rem) clamp(1.25rem, 5vw, 2.75rem)
+    clamp(2rem, 5vw, 3.25rem);
+  color: #2b211a;
+  background-color: #f6ecc9;
+  background-image:
+    radial-gradient(ellipse at 28% 18%, rgba(255, 253, 240, 0.65), transparent 55%),
+    radial-gradient(ellipse at 78% 82%, rgba(120, 80, 30, 0.12), transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(176, 138, 70, 0.08), transparent 75%);
+  border: 1px solid #cbb486;
+  border-radius: 5px;
+  transform: rotate(-0.5deg);
+  box-shadow:
+    0 14px 30px rgba(50, 33, 12, 0.26),
+    0 3px 8px rgba(50, 33, 12, 0.2),
+    inset 0 0 70px rgba(120, 80, 30, 0.13); /* aged inner edges */
+}
+
+/* Paper grain over the sheet. */
+.start::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+}
+
+.start > * {
+  position: relative;
+  z-index: 1;
+}
+
+.startTitle {
+  font-family: "Permanent Marker", var(--font-display);
+  font-size: clamp(2rem, 7vw, 3.4rem);
+  line-height: 1.12;
+  max-width: 14ch;
+  margin: 0.5rem auto 2rem;
+  color: var(--color-accent);
+  letter-spacing: 0.5px;
+  transform: rotate(-1.5deg);
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.beginButton {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  padding: 0.85rem 2.2rem;
+  color: var(--color-rich-text);
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
+}
+.beginButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+.beginButton:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.startStats {
+  margin: 2.5rem auto 0;
+  max-width: 420px;
+  text-align: left;
+}
+.startBest {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-text);
+  margin: 0 0 0.75rem;
+}
+.startBest strong {
+  color: var(--color-accent);
+  font-family: var(--font-display);
+}
+.runList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--color-border);
+}
+.runItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.25rem;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+.runBook {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.runMeta {
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+.startNote {
+  margin: 2.5rem auto 0;
+  max-width: 40ch;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* ===================== Typing test ===================== */
+.test {
+  position: relative;
+  padding: 1.5rem 0;
+}
+
+.testMeta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+.passageCount {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.liveStats {
+  display: flex;
+  gap: 1rem;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.prompt {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: clamp(1.05rem, 2.4vw, 1.45rem);
+  line-height: 2;
+  letter-spacing: 0.3px;
+  margin: 0;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* A frozen, non-wrapping line (tier 3). text-align:center on the prompt keeps it
+   centered, so as letter-spacing grows the line spreads outward both ways and
+   overflows rather than re-wrapping onto new lines. */
+.line {
+  display: block;
+  white-space: nowrap;
+}
+
+.pending {
+  color: var(--color-muted);
+  opacity: 0.55;
+}
+.correct {
+  color: var(--color-text);
+}
+.incorrect {
+  color: #fff;
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+.caret {
+  color: var(--color-muted);
+  opacity: 0.55;
+  border-left: 2px solid var(--color-accent);
+  margin-left: -2px;
+  animation: blink 1s steps(1) infinite;
+}
+
+.hiddenInput {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.focusHint {
+  margin-top: 1.5rem;
+  padding: 0.55rem 1.2rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--color-accent);
+  background: transparent;
+  border: 2px dashed var(--color-accent);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.testControls {
+  margin-top: 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.ghostButton {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+.ghostButton:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.primaryButton {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  padding: 0.7rem 1.6rem;
+  color: var(--color-rich-text);
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform var(--transition), filter var(--transition);
+}
+.primaryButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+/* Tier-driven text treatment on the prompt itself. */
+.test[data-tier="2"] .prompt {
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+}
+.test[data-tier="3"] .prompt {
+  --amp: calc(0.15px + var(--progress, 0) * 0.85px);
+  color: #e9d8d1;
+  text-shadow: calc(var(--amp) * 0.4) 0 rgba(210, 48, 48, 0.4),
+    calc(var(--amp) * -0.4) 0 rgba(60, 160, 200, 0.25);
+  animation: tremor 0.42s steps(2) infinite;
+  /* Letters slowly drift apart as the passage is typed — noticeable, but
+     never so wide that word gaps become ambiguous. Centering the text anchors
+     the spread at the middle, so characters drift both left AND right outward
+     from the centerline rather than only pushing rightward. */
+  text-align: center;
+  letter-spacing: calc(0.3px + var(--progress, 0) * 4px);
+  transition: letter-spacing 450ms ease;
+}
+.test[data-tier="3"] .correct {
+  color: #f3e7e2;
+}
+.test[data-tier="3"] .pending {
+  color: #7a5c55;
+}
+
+/* ===================== Results ===================== */
+.results {
+  text-align: center;
+  padding: 1rem 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+.resultsKicker {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-accent);
+  margin: 0 0 1.5rem;
+}
+.scoreRow {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.bigScore {
+  display: flex;
+  flex-direction: column;
+}
+.bigScoreValue {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 7vw, 3.2rem);
+  line-height: 1.1;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+.bigScoreLabel {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-muted);
+}
+.tierBest {
+  color: #f0c419;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+.tierBreakdown {
+  list-style: none;
+  margin: 1.5rem auto;
+  padding: 0;
+  max-width: 380px;
+}
+.tierRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.tierName {
+  font-weight: 600;
+}
+.tierRow[data-tier="3"] {
+  color: #d23030;
+}
+.tierStat {
+  color: var(--color-muted);
+}
+.reveal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin: 2rem auto 2.25rem;
+}
+.revealLabel {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-muted);
+}
+.revealBook {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-accent);
+}
+.revealAuthor {
+  color: var(--color-muted);
+}
+
+/* ===================== Animations ===================== */
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  48% { opacity: 1; }
+  50% { opacity: 0.92; }
+  52% { opacity: 1; }
+  80% { opacity: 0.96; }
+}
+@keyframes vignettePulse {
+  0%, 100% { opacity: 0.92; }
+  50% { opacity: 1; }
+}
+@keyframes tremor {
+  0% { transform: translate(calc(var(--amp) * -1), 0); }
+  50% { transform: translate(var(--amp), calc(var(--amp) * -0.5)); }
+  100% { transform: translate(calc(var(--amp) * -0.4), var(--amp)); }
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width: 600px) {
+  .stage {
+    margin: -1.25rem -0.75rem;
+    padding: 1.5rem 0.9rem 2.25rem;
+  }
+  .scoreRow {
+    gap: 1.5rem;
+  }
+  .testMeta {
+    margin-bottom: 1rem;
+  }
+  .prompt {
+    line-height: 1.9;
+  }
+  .testControls .primaryButton,
+  .testControls .ghostButton {
+    flex: 1 1 auto;
+  }
+}
+
+/* ===================== Reduced motion ===================== */
+@media (prefers-reduced-motion: reduce) {
+  .stage[data-tier="2"],
+  .stage[data-tier="3"]::before,
+  .test[data-tier="3"] .prompt,
+  .caret {
+    animation: none !important;
+  }
+  .test[data-tier="3"] .prompt {
+    text-shadow: none;
+  }
+}

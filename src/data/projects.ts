@@ -151,4 +151,14 @@ export const projects: Project[] = [
     status: "live",
     tags: ["movies", "language", "data"],
   },
+  {
+    slug: "typing-terror",
+    title: "Typing Terror",
+    description:
+      "A typing test that refuses to stay normal — three passages from one book, each stranger than the last.",
+    image: "/images/projects/typing-terror.svg",
+    accentColor: "#a01b1b",
+    status: "live",
+    tags: ["typing", "horror", "game"],
+  },
 ];
