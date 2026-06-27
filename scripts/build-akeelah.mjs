@@ -61,16 +61,33 @@ function makeAcc() {
   return { letters: new Set(), example: {}, wordCount: 0 };
 }
 
+// Strip leading/trailing non-letters but keep internal apostrophes/hyphens
+// (so "X-ray" and "don't" survive, but "XF-" → "XF" and "X's'" → "X's").
+const cleanCore = (raw) => raw.replace(/^[^a-zA-Z]+/, "").replace(/[^a-zA-Z]+$/, "");
+
+// Single-letter words that can legitimately precede another word. Anything else
+// that's a lone letter before a word means the word was split by a stray space
+// (the scraped scripts do this a lot, e.g. "our very e xistence" → "existence").
+const ALLOWED_PREV = new Set(["a", "i"]);
+
 // Reject tokens that aren't real words, so a letter isn't "earned" by junk:
 //   - a repeated single char ("xxx", "zzzz" — censoring/emphasis)
+//   - a single-letter code ("X-Z" — really "Malcolm X" garbled)
 //   - an uppercase Roman numeral ("XVI", "XX", "XL" — read as a number)
-//   - a long all-consonant blob ("xqt+kfj'k" — corrupted/garbled text)
+//   - a consonant blob ("xkb", "xqt+kfj'k" — corrupted/garbled), keeping acronyms ("XYZ")
+//   - specific scraped-script garbage ("xou" = "you", "xeen" = phonetic gibberish)
 const ROMAN = /^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
+const BAD_TOKENS = new Set(["xou", "xeen"]);
 function isJunk(core) {
+  if (BAD_TOKENS.has(core.toLowerCase())) return true;
+  if (/[^\p{L}'\-]/u.test(core)) return true; // internal symbol → mojibake ("x;k", "xqt+kfj")
   if (/^(.)\1{2,}$/i.test(core)) return true;
+  if (/^[a-z]-[a-z]$/i.test(core)) return true;
   if (core === core.toUpperCase() && /^[IVXLCDM]{2,}$/.test(core) && ROMAN.test(core)) return true;
   const lettersOnly = core.replace(/[^a-zA-Z]/g, "");
-  if (lettersOnly.length >= 4 && !/[aeiouy]/i.test(core)) return true;
+  const hasVowel = /[aeiouy]/i.test(core);
+  if (!hasVowel && lettersOnly.length >= 4) return true;
+  if (!hasVowel && lettersOnly.length === 3 && core !== core.toUpperCase()) return true;
   if (lettersOnly.length > 18) return true;
   return false;
 }
@@ -92,8 +109,7 @@ function makeSnippet(words, i, core) {
 function addText(acc, text) {
   const words = text.split(/\s+/);
   for (let i = 0; i < words.length; i++) {
-    // strip leading/trailing non-letters, keep internal apostrophes/hyphens
-    const core = words[i].replace(/^[^a-zA-Z]+/, "").replace(/[^a-zA-Z'\-]+$/, "");
+    const core = cleanCore(words[i]);
     if (!core) continue;
     if (/[0-9]/.test(core)) continue; // codes like "X22", "MP3"
     const first = core[0].toLowerCase();
@@ -102,6 +118,12 @@ function addText(acc, text) {
     // a bare single letter only counts if it's a real one-letter word (a/i/o)
     if (lettersOnly.length < 2 && !ONE_LETTER_WORDS.has(first)) continue;
     if (isJunk(core)) continue;
+    // a word split by a stray space ("e xistence" → "existence"): if the prior
+    // token is a lone non-word letter, this is a fragment — don't count it.
+    if (i > 0) {
+      const prev = cleanCore(words[i - 1]);
+      if (prev.length === 1 && !ALLOWED_PREV.has(prev.toLowerCase())) continue;
+    }
     acc.wordCount++;
     if (!acc.letters.has(first)) {
       acc.letters.add(first);
@@ -315,6 +337,8 @@ const OVERRIDES = new Map([
 // Drop known-bad entries (corpus mislabels with junk evidence). Keyed the same way.
 const EXCLUDE = new Set([
   "innerspace|JOE", // no "Joe" in Innerspace; only x-evidence was the non-word "xuki"
+  "killersoftheflowermoon|MOLLIE", // x-tokens are Osage phonetic spellings, not English words
+  "haider|KHURRAM", // script is encoding-corrupted (mojibake); every token is garbled
 ]);
 
 const norm = (s) =>
