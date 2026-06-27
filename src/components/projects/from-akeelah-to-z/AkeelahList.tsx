@@ -167,6 +167,7 @@ export default function AkeelahList() {
           one letter short, mined from ~{data.totalMovies.toLocaleString()} screenplays.
           Tap any letter tile to see the actual word they said.
         </p>
+        <div className={styles.credit}>~inspired by michael leeann norris~</div>
       </section>
 
       <section className={styles.section}>
