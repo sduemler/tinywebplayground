@@ -141,4 +141,14 @@ export const projects: Project[] = [
     tags: ["data-viz", "demographics"],
     imagePosition: "center 65%",
   },
+  {
+    slug: "from-akeelah-to-z",
+    title: "From Akeelah to Z",
+    description:
+      "Actors who said at least one word starting with every letter A–Z in a single movie.",
+    image: "/images/projects/from-akeelah-to-z.webp",
+    accentColor: "#3f72a4",
+    status: "live",
+    tags: ["movies", "language", "data"],
+  },
 ];

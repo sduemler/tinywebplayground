@@ -9,6 +9,7 @@
     "astro": "astro",
     "download-posters": "node scripts/download-preset-posters.mjs",
     "build-life-tables": "node scripts/build-life-tables.mjs",
+    "build-akeelah": "node --env-file=.env scripts/build-akeelah.mjs",
     "build-crossword": "node scripts/build-layout.mjs --shape cat",
     "preview-crossword": "node scripts/preview-puzzle.mjs",
     "preview-media": "node scripts/preview-media.mjs",

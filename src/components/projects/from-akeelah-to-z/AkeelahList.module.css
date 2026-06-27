@@ -1,0 +1,368 @@
+.wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ---------- intro ---------- */
+.intro {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  font-weight: 400;
+  color: var(--color-accent);
+  margin: 0 0 0.75rem;
+  line-height: 1.05;
+}
+
+.lede {
+  font-size: 1.1rem;
+  color: var(--color-text);
+  margin: 0 0 0.75rem;
+  line-height: 1.55;
+}
+
+.lede em {
+  font-style: italic;
+  color: var(--color-rich);
+}
+
+.sub {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* ---------- sections ---------- */
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: var(--color-rich);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.4rem;
+}
+
+.medal {
+  color: var(--color-accent);
+}
+
+.sectionCount {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  background: var(--color-accent-light);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+}
+
+.sectionNote {
+  color: var(--color-muted);
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+}
+
+/* ---------- filters ---------- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.filter {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  min-height: 36px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.filter:hover {
+  border-color: var(--color-accent);
+  color: var(--color-rich);
+}
+
+.filterActive {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-rich-text);
+}
+
+.filterCount {
+  opacity: 0.7;
+  font-weight: 700;
+  margin-left: 0.15rem;
+}
+
+.filterActive .filterCount {
+  opacity: 0.9;
+}
+
+/* ---------- grid + cards ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  gap: 0.9rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.9rem;
+  box-shadow: 0 1px 2px rgba(31, 49, 72, 0.08);
+}
+
+.poster {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 96px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.posterFallback {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--color-accent);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.actor {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--color-text);
+  margin: 0 0 0.15rem;
+  line-height: 1.2;
+}
+
+.meta {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  margin: 0 0 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.role {
+  color: var(--color-rich);
+}
+
+.roleUnknown {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.movie {
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+/* ---------- alphabet strip ---------- */
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.tile {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  border-radius: 7px;
+  cursor: pointer;
+  padding: 0;
+  transition: transform var(--transition), background var(--transition);
+}
+
+.tileSaid {
+  background: var(--color-accent-light);
+  color: var(--color-rich);
+  border: 1px solid var(--color-border);
+}
+
+.tileSaid:hover {
+  transform: translateY(-1px);
+  background: #cfe0f1;
+}
+
+.tileMissing {
+  background: transparent;
+  color: var(--color-muted);
+  border: 1px dashed var(--color-border);
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+.tileActive {
+  background: var(--color-accent);
+  color: var(--color-rich-text);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(63, 114, 164, 0.38);
+}
+
+.tileMissing.tileActive {
+  background: var(--color-rich);
+  color: var(--color-rich-text);
+  border-style: solid;
+  border-color: var(--color-rich);
+  opacity: 1;
+}
+
+/* ---------- readout ---------- */
+.readout {
+  margin: 0;
+  min-height: 2.6rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.readoutLetter {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-accent);
+  flex: 0 0 auto;
+}
+
+.readoutSnippet {
+  color: var(--color-text);
+  line-height: 1.45;
+}
+
+.dim {
+  color: var(--color-muted);
+}
+
+.readoutWord {
+  color: var(--color-rich);
+  font-weight: 700;
+  background: var(--color-accent-light);
+  border-radius: 4px;
+  padding: 0 0.2rem;
+}
+
+.readoutMissing,
+.readoutHint {
+  color: var(--color-muted);
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+/* ---------- show more ---------- */
+.moreWrap {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.moreBtn {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-rich-text);
+  background: var(--color-accent);
+  border: none;
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem;
+  min-height: 40px;
+  cursor: pointer;
+  transition: filter var(--transition);
+}
+
+.moreBtn:hover {
+  filter: brightness(1.06);
+}
+
+/* ---------- source note ---------- */
+.source {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionTitle {
+    font-size: 1.35rem;
+  }
+
+  .tile {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  .card {
+    padding: 0.75rem;
+    gap: 0.7rem;
+  }
+
+  .poster {
+    flex-basis: 56px;
+    width: 56px;
+    height: 84px;
+  }
+}
+
+@media (max-width: 360px) {
+  .tile {
+    width: 28px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+}
