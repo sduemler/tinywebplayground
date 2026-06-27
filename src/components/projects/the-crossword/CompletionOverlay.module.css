@@ -9,6 +9,31 @@
   padding: 1rem;
 }
 
+.backLink {
+  position: fixed;
+  top: 0.75rem;
+  left: 1rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--accent, #2a3d5c);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.backLink:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
 .card {
   background: var(--color-surface);
   border-radius: var(--radius);

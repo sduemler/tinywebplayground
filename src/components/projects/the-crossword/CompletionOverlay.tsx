@@ -89,6 +89,9 @@ export default function CompletionOverlay({
 
   return (
     <div className={styles.overlay}>
+      <a href="/" className={styles.backLink} aria-label="Back to projects">
+        <span aria-hidden="true">←</span> Back to projects
+      </a>
       <div className={styles.card}>
         <h1 className={styles.title}>Congratulations!</h1>
         <p className={styles.stat}>
