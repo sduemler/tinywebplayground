@@ -112,11 +112,11 @@ Provides the full HTML shell: `<html>`, `<head>` (meta, OG tags, Google Fonts, f
 
 ### `ProjectLayout.astro`
 Wraps project pages. Uses `BaseLayout`. Provides:
-- Sticky header with a `← Back` button (styled with the project's `accentColor`)
+- Header with a `← Back` button (hover color from the project's `accentColor`)
 - Project title in Fredoka One display font
 - `<slot />` for the main content
 
-**Props:** `title`, `description`, `accentColor`.
+**Props:** `project` (a full `Project` object from `src/data/projects.ts` — pages look themselves up with `projects.find((p) => p.slug === "...")!`), optional `subtitle`.
 
 ---
 
@@ -151,14 +151,13 @@ Create `src/pages/projects/my-new-project.astro`:
 ---
 export const prerender = true;
 import ProjectLayout from "@layouts/ProjectLayout.astro";
+import { projects } from "@data/projects";
 // import your main component
+
+const project = projects.find((p) => p.slug === "my-new-project")!;
 ---
 
-<ProjectLayout
-  title="My New Project"
-  description="One-line summary."
-  accentColor="#hex"
->
+<ProjectLayout project={project}>
   <!-- React component with client:load, or static Astro content -->
 </ProjectLayout>
 ```
@@ -198,11 +197,11 @@ export const GET: APIRoute = async ({ url }) => {
 
 ## Footer
 
-The footer lives in `src/pages/index.astro` (not in a shared layout — only appears on the hub). It must be included in any new top-level pages.
+The footer is the shared `src/components/SiteFooter.astro` component. `ProjectLayout` renders it automatically on every project page, and the hub (`src/pages/index.astro`) includes it directly — so do **not** add a footer inside individual project pages. Include `<SiteFooter />` in any new top-level page that doesn't use `ProjectLayout`.
 
 **Content:** `© 2026 sduemler` + GitHub icon linking to `https://github.com/sduemler`
 
-**Style:** `--color-accent-light` background, `--color-border` top border, `--color-muted` text, icon turns `--color-accent` on hover. Centered flex row.
+**Style:** `--color-accent-light` background, `--color-border` top border, `--color-muted` text, icon turns `--color-accent` on hover. Centered flex row. It styles itself from the theme CSS variables, so pages with scoped palette overrides (e.g. akeelah, typing-terror) retint it automatically.
 
 ---
 
@@ -243,8 +242,18 @@ Any new eurorack module you add **must** follow this pattern.
 
 | Slug | Title | Status | Notes |
 |---|---|---|---|
+| `the-crossword` | CROSSWORLD | live | Collaborative realtime crossword on Firebase (Firestore + Auth + Functions, config via `PUBLIC_FIREBASE_*` env vars). Has a completion overlay with a newsletter signup (`/api/subscribe` → Buttondown) and an archive page at `/projects/the-crossword-archive`. |
+| `music-guesser` | Music Guesser | live | Heardle-style daily song game. Audio previews come from Deezer via `/api/music/*`; preview URLs expire ~15 min, so the client fetches a fresh one per song via `/api/music/preview`. |
 | `howlongtowatch` | HowLongToWatch | live | TMDB API, Zustand, 18 presets |
-| `eurorack` | Tine Eurorack | live | Tone.js-based mini modular synth. Every module must include `<ModuleHelp>` — see Eurorack Module Convention above. |
+| `historyofrock` | History of Rock | live | Interactive d3-force diagram of rock genre evolution (`useSimulation.ts`). Note the page file is `historyofrock.astro` (no hyphens). |
+| `osrs-pet-chance-guesser` | OSRS Pet Chance Guesser | live | Boss pet drop-rate RNG simulator; pet icons in `public/images/projects/pets/`. |
+| `who-are-you` | Who Are You? | live | Humor quiz — a dog detective asks 10 questions. Static data in `questions.ts`. |
+| `haiku` | HAIKU | live | Joke "AI" haiku generator. |
+| `dice-roller` | Tabletop Dice Roller | live | Keyboard-first dice notation parser (`2d6 + 3`). |
+| `human-maintenance-guide` | Human Maintenance Guide | live | Static reference compendium (health/home/car/finance cadences). |
+| `so-you-want-to-build-a-snowman` | So You Want to Build a Snowman | wip | Snowman builder driven by real snowfall data; has a no-snow fallback screen. |
+| `drum-machine` | Tiny Drum Machine | wip | Vertical Linndrum-inspired step sequencer, twin to eurorack. |
+| `eurorack` | Tiny Eurorack | wip | Tone.js-based mini modular synth. Every module must include `<ModuleHelp>` — see Eurorack Module Convention above. |
 | `still-here` | Still Here | live | WHO life-table survival pyramid. Data fetched at build time via `npm run build-life-tables` → `src/data/still-here/life-tables.json` (committed). Re-run if you want fresher numbers. |
 | `from-akeelah-to-z` | From Akeelah to Z | live | Informational. Characters who say a word for every letter A–Z in one movie (26/26) plus 25/26 near-misses. Built via `npm run build-akeelah` from two sources — Cornell Movie-Dialogs Corpus + MovieSum (~2,200 screenplays, carries `imdb_id`) — downloaded to gitignored `scripts/.cache/` (~550MB); actors matched via TMDB (by `imdb_id` when available, cached on disk). Output `src/data/akeelah/pangram-actors.json` (committed, ~1.2MB / ~180KB brotli): ships all perfects (65) + a curated 400 of ~1,674 near-misses (actor-matched, most talkative). Each `examples[letter]` is a `[before, word, after]` context snippet so the UI can show the fulfilling word bolded in surrounding dialogue. Rule: case-insensitive; names/hyphenated words count, but bare single letters, digit-codes, Roman numerals, and junk tokens do NOT count for rare letters (see `isJunk`/`OVERRIDES`/`EXCLUDE` in the script). Needs `TMDB_API_KEY` in `.env`. **Intentional exception to the earthy palette:** this project uses a scoped warm-blue theme (per user request) — color tokens overridden on `.project-wrapper` via a page-scoped `<style is:global>` in `from-akeelah-to-z.astro` (accent `#3f72a4`); do NOT "correct" it back to gold/brown. |
 | `typing-terror` | Typing Terror | live | A real WPM/accuracy typing test with a twist: each run gives 3 escalating passages from **one** public-domain book (innocuous → strange → very weird), and the UI **decays** across the three prompts. Random book-set per run; Zustand-`persist` store (`typing-terror-store`) keeps personal-best WPM + last 5 runs. Passages are a **curated static file** `src/data/typing-terror/passages.ts` (10 books × 3 tiers, normalized to clean ASCII, ~140–320 chars each) — tier selection is editorial, so there is **no build script**; source text was verified against the Project Gutenberg editions noted by each set's `gutenbergId`. The decay engine is CSS-only in `TypingTerror.module.css`, keyed off `data-tier="1|2|3"` on `.stage`/`.test` with a `--progress` ramp on tier 3; honors `prefers-reduced-motion`. **Intentional exception to the earthy palette:** scoped aged-parchment + blood-red (`#a01b1b`) theme via page `<style is:global>`, darkening to near-black/red at tier 3 — do NOT "correct" it back to gold/brown. To add/replace books, edit `passages.ts` (keep tiers 1-2-3, pure ASCII, ≤~320 chars). |
@@ -254,6 +263,8 @@ Any new eurorack module you add **must** follow this pattern.
 ## Environment Variables
 
 - `TMDB_API_KEY` — Required for HowLongToWatch API routes. Set in Netlify environment settings (not committed).
+- `BUTTONDOWN_API_KEY` — Required for the newsletter signup (`/api/subscribe`).
+- `PUBLIC_FIREBASE_API_KEY`, `PUBLIC_FIREBASE_AUTH_DOMAIN`, `PUBLIC_FIREBASE_PROJECT_ID`, `PUBLIC_FIREBASE_STORAGE_BUCKET`, `PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `PUBLIC_FIREBASE_APP_ID` — Client-side Firebase config for CROSSWORLD (public by design).
 
 ---
 
