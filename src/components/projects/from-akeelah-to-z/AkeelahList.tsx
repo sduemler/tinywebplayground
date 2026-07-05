@@ -18,7 +18,7 @@ interface Entry {
   actor?: string | null;
 }
 
-const entries = (data.entries as Entry[]) || [];
+const entries = (data.entries as unknown as Entry[]) || [];
 const counts = data.counts;
 const perfect = entries.filter((e) => e.coverage === 26);
 const near = entries.filter((e) => e.coverage === 25);

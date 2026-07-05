@@ -12,7 +12,7 @@ export default function NoSnowFallback() {
       }}
     >
       <img
-        src="/images/projects/snowmanpuddle.png"
+        src="/images/projects/snowmanpuddle.webp"
         alt="A melted snowman puddle"
         style={{
           width: "100%",

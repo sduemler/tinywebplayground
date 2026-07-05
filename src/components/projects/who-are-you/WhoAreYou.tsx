@@ -73,7 +73,7 @@ export default function WhoAreYou() {
       {/* Character */}
       <div className={styles.characterArea}>
         <img
-          src="/images/projects/droop-character.png"
+          src="/images/projects/droop-character.webp"
           alt="Droop the Dog Detective"
           className={styles.characterImage}
         />

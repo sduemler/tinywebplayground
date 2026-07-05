@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
-  const { email } = await request.json();
+  const { email } = await request.json().catch(() => ({}));
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return new Response(
@@ -36,7 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  const data = await res.json();
+  const data = await res.json().catch(() => null);
   const alreadySubscribed =
     res.status === 400 && JSON.stringify(data).toLowerCase().includes('already');
 

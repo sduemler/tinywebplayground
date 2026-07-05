@@ -74,7 +74,7 @@ export const projects: Project[] = [
     title: "Who Are You?",
     description:
       "A mysterious dog detective asks 10 questions to figure out who you really are.",
-    image: "/images/projects/who-are-you.jpg",
+    image: "/images/projects/who-are-you.webp",
     imagePosition: "70% top",
     accentColor: "#4a2d6e",
     status: "live",
@@ -85,7 +85,7 @@ export const projects: Project[] = [
     title: "HAIKU",
     titleHtml: 'H<span style="color:#2d8e4a">AI</span>KU',
     description: "The world's most advanced AI haiku generator. Probably.",
-    image: "/images/projects/haiku.jpg",
+    image: "/images/projects/haiku.webp",
     accentColor: "#8b2020",
     status: "live",
     tags: ["ai", "poetry", "humor"],
@@ -95,7 +95,7 @@ export const projects: Project[] = [
     title: "Tabletop Dice Roller",
     description:
       "Keyboard-first dice roller — type notation like 2d6 + 3, hit Enter, copy the result.",
-    image: "/images/projects/dice-roller.jpg",
+    image: "/images/projects/dice-roller.webp",
     accentColor: "#b8860b",
     status: "live",
     tags: ["tabletop", "dice", "rpg"],
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     title: "Human Maintenance Guide",
     description:
       "A reference compendium for how often to do the things that keep life running — health, home, car, finances, and personal care.",
-    image: "/images/projects/human-maintenance-guide.jpg",
+    image: "/images/projects/human-maintenance-guide.webp",
     accentColor: "#2e6b6b",
     status: "live",
     tags: ["reference", "health", "lifestyle"],
