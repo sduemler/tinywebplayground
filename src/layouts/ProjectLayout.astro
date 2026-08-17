@@ -11,7 +11,12 @@ interface Props {
 const { project, subtitle } = Astro.props;
 ---
 
-<BaseLayout title={`${project.title} — tinywebplayground`} description={project.description}>
+<BaseLayout
+  title={`${project.title} — tinywebplayground`}
+  description={project.description}
+  manifestUrl={`/manifests/${project.slug}.json`}
+  themeColor={project.accentColor}
+>
   <div class="project-wrapper" style={`--accent: ${project.accentColor};`}>
     <header class="project-header">
       <a href="/" class="back-link" aria-label="Back to hub">

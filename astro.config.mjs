@@ -9,19 +9,7 @@ export default defineConfig({
     react(),
     AstroPWA({
       registerType: 'autoUpdate',
-      manifest: {
-        name: 'tinywebplayground',
-        short_name: 'twp',
-        description: 'A personal hub of tiny interactive web projects.',
-        theme_color: '#fef9e7',
-        background_color: '#fef9e7',
-        display: 'standalone',
-        icons: [
-          { src: '/pwa-192x192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/pwa-512x512.png', sizes: '512x512', type: 'image/png' },
-          { src: '/pwa-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
-        ],
-      },
+      manifest: false,
       workbox: {
         navigateFallback: undefined,
         globPatterns: ['**/*.{css,js,html,svg,png,webp,ico,woff,woff2}'],

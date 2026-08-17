@@ -4,9 +4,16 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  manifestUrl?: string;
+  themeColor?: string;
 }
 
-const { title, description = 'A personal hub of tiny interactive web projects.' } = Astro.props;
+const {
+  title,
+  description = 'A personal hub of tiny interactive web projects.',
+  manifestUrl = '/manifest.webmanifest',
+  themeColor = '#fef9e7',
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -18,7 +25,8 @@ const { title, description = 'A personal hub of tiny interactive web projects.' 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#fef9e7" />
+    <link rel="manifest" href={manifestUrl} />
+    <meta name="theme-color" content={themeColor} />
     <link rel="apple-touch-icon" href="/pwa-192x192.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
