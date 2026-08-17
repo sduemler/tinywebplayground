@@ -25,6 +25,7 @@
     "@types/d3-force": "^3.0.10",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
+    "@vite-pwa/astro": "^1.2.0",
     "astro": "^5.16.10",
     "d3-force": "^3.0.0",
     "firebase": "^12.13.0",
