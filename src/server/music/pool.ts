@@ -40,11 +40,18 @@ export async function fetchPlaylistTracks(playlistId: string): Promise<SpotifyTr
   const tracks: SpotifyTrack[] = [];
   let path: string | null = `/playlists/${playlistId}/tracks?limit=100&fields=items(track(id,name,artists(id,name),album(images,release_date))),next`;
 
-  while (path) {
+  // Callers only shuffle down to a small candidate set, so cap pagination: an
+  // attacker-supplied 10k-track playlist would otherwise trigger ~100 sequential
+  // Spotify calls per request, draining quota and serverless time.
+  const MAX_PAGES = 3;
+  let pages = 0;
+
+  while (path && pages < MAX_PAGES) {
     const data: PlaylistItemsResponse = await spotifyFetch<PlaylistItemsResponse>(path);
     for (const item of data.items) {
       if (item.track && item.track.id) tracks.push(item.track);
     }
+    pages++;
     if (data.next) {
       const url = new URL(data.next);
       path = url.pathname.replace('/v1', '') + url.search;
