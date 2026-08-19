@@ -6,7 +6,10 @@ const TMDB_BASE = 'https://api.themoviedb.org/3';
 
 export const GET: APIRoute = async ({ url }) => {
   const query = url.searchParams.get('query');
-  const page = url.searchParams.get('page') ?? '1';
+  // Normalize `page` to a plain integer before it goes into the TMDB URL, so it
+  // can't inject extra query params into the upstream request.
+  const pageParam = url.searchParams.get('page');
+  const page = pageParam && /^\d+$/.test(pageParam) ? pageParam : '1';
 
   if (!query || query.trim().length < 2) {
     return new Response(JSON.stringify({ success: false, error: 'Query must be at least 2 characters' }), {

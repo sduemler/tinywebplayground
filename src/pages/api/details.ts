@@ -8,7 +8,9 @@ export const GET: APIRoute = async ({ url }) => {
   const id = url.searchParams.get('id');
   const type = url.searchParams.get('type');
 
-  if (!id || !['movie', 'tv'].includes(type ?? '')) {
+  // `id` is interpolated into the TMDB URL path — restrict it to digits so it
+  // can't inject extra path segments or query params into the upstream request.
+  if (!id || !/^\d+$/.test(id) || !['movie', 'tv'].includes(type ?? '')) {
     return new Response(JSON.stringify({ success: false, error: 'id and type (movie|tv) are required' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },

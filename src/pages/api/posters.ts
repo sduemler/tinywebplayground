@@ -6,7 +6,10 @@ const TMDB_BASE = 'https://api.themoviedb.org/3';
 
 export const GET: APIRoute = async ({ url }) => {
   const raw = url.searchParams.get('ids') ?? '';
-  const ids = raw.split(',').map(Number).filter(Boolean);
+  // Dedupe and cap the fan-out: each id triggers one outbound TMDB fetch, so an
+  // uncapped list would let a single request amplify into thousands of calls.
+  const MAX_IDS = 50;
+  const ids = [...new Set(raw.split(',').map(Number).filter(Boolean))].slice(0, MAX_IDS);
 
   if (ids.length === 0) {
     return new Response(JSON.stringify({ success: true, posters: [] }), {
