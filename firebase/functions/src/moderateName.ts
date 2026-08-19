@@ -28,44 +28,52 @@ export const moderateName = onCall({ invoker: "public" }, async (request) => {
     };
   }
 
+  const trimmed = name.trim();
   const nickRef = db.doc(`nicknames/${uid}`);
-  const existing = await nickRef.get();
-  if (existing.exists) {
-    const lastChange = existing.data()?.createdAt?.toDate();
-    if (lastChange && Date.now() - lastChange.getTime() < 60000) {
-      return { approved: false, reason: "Please wait before changing your name" };
+
+  // The uniqueness check and the write share one transaction so two concurrent
+  // requests can't both pass the dup check and mint the same displayName. All
+  // reads (nick doc + dup queries) run before the single write.
+  return db.runTransaction(async (tx) => {
+    const existing = await tx.get(nickRef);
+    if (existing.exists) {
+      const lastChange = existing.data()?.createdAt?.toDate();
+      if (lastChange && Date.now() - lastChange.getTime() < 60000) {
+        return { approved: false, reason: "Please wait before changing your name" };
+      }
+      if (existing.data()?.name === trimmed) {
+        return { approved: true, displayName: existing.data()?.displayName };
+      }
     }
-    if (existing.data()?.name === name.trim()) {
-      return { approved: true, displayName: existing.data()?.displayName };
+
+    if (filter.isProfane(name)) {
+      return { approved: false, reason: "Please choose an appropriate name" };
     }
-  }
 
-  if (filter.isProfane(name)) {
-    return { approved: false, reason: "Please choose an appropriate name" };
-  }
+    let suffix = 0;
+    let displayName = "";
+    let attempts = 0;
+    do {
+      suffix = Math.floor(1000 + Math.random() * 9000);
+      displayName = `${trimmed}#${suffix}`;
+      const dup = await tx.get(
+        db
+          .collection("nicknames")
+          .where("displayName", "==", displayName)
+          .limit(1),
+      );
+      if (dup.empty) break;
+      attempts++;
+    } while (attempts < 10);
 
-  let suffix: number;
-  let displayName: string;
-  let attempts = 0;
-  do {
-    suffix = Math.floor(1000 + Math.random() * 9000);
-    displayName = `${name.trim()}#${suffix}`;
-    const dup = await db
-      .collection("nicknames")
-      .where("displayName", "==", displayName)
-      .limit(1)
-      .get();
-    if (dup.empty) break;
-    attempts++;
-  } while (attempts < 10);
+    tx.set(nickRef, {
+      name: trimmed,
+      suffix,
+      displayName,
+      approved: true,
+      createdAt: FieldValue.serverTimestamp(),
+    });
 
-  await nickRef.set({
-    name: name.trim(),
-    suffix,
-    displayName,
-    approved: true,
-    createdAt: FieldValue.serverTimestamp(),
+    return { approved: true, displayName };
   });
-
-  return { approved: true, displayName };
 });

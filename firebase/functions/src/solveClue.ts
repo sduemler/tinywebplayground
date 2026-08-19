@@ -14,6 +14,13 @@ interface SolveRequest {
 // Entries unlocked per solve when fresh locked neighbors exist.
 const UNLOCKS_PER_SOLVE = 2;
 
+// Server-side throttle between *incorrect* guesses, so answers can't be
+// brute-forced by scripting solveClue directly (bypassing the client's cooldown
+// and recordWrongAttempt). Kept under the client's 3s wrong-answer cadence so
+// legitimate play never hits it. Tracked on its own player field, independent
+// of recordWrongAttempt's stats pipeline.
+const WRONG_GUESS_COOLDOWN_MS = 2000;
+
 export const solveClue = onCall({ invoker: "public" }, async (request) => {
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "Must be signed in");
@@ -30,11 +37,13 @@ export const solveClue = onCall({ invoker: "public" }, async (request) => {
     const entryRef = db.doc(`puzzles/${puzzleId}/entries/${entryId}`);
     const metaRef = db.doc(`puzzles/${puzzleId}`);
     const nickRef = db.doc(`nicknames/${uid}`);
+    const playerRef = db.doc(`puzzles/${puzzleId}/players/${uid}`);
 
-    const [entrySnap, metaSnap, nickSnap] = await Promise.all([
+    const [entrySnap, metaSnap, nickSnap, playerSnap] = await Promise.all([
       tx.get(entryRef),
       tx.get(metaRef),
       tx.get(nickRef),
+      tx.get(playerRef),
     ]);
 
     if (!entrySnap.exists || !metaSnap.exists) {
@@ -59,6 +68,18 @@ export const solveClue = onCall({ invoker: "public" }, async (request) => {
     }
 
     if (answer.trim().toUpperCase() !== entry.word) {
+      // Throttle only incorrect guesses; a correct answer is never blocked.
+      const lastAttempt = playerSnap.exists
+        ? playerSnap.data()!.lastSolveAttemptAt?.toDate?.()
+        : null;
+      if (lastAttempt && Date.now() - lastAttempt.getTime() < WRONG_GUESS_COOLDOWN_MS) {
+        throw new HttpsError("resource-exhausted", "Too many attempts, slow down");
+      }
+      tx.set(
+        playerRef,
+        { lastSolveAttemptAt: FieldValue.serverTimestamp() },
+        { merge: true },
+      );
       return { correct: false };
     }
 
