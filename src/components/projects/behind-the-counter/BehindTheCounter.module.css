@@ -1,0 +1,52 @@
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 24px;
+  height: clamp(420px, calc(100vh - 220px), 760px);
+}
+
+/* Grid items default to min-width:auto, which floors them at their min-content
+   width. The episode names are nowrap+ellipsis, so without min-width:0 that
+   floor pushes the column past the viewport and the page scrolls sideways. */
+.sidebar {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mapArea {
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+}
+
+.credit {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 55vh minmax(200px, 40vh) auto;
+    height: auto;
+  }
+
+  /* Map first on small screens — it's the point of the page. */
+  .mapArea {
+    order: -1;
+  }
+
+  .sidebar {
+    max-height: 40vh;
+  }
+}

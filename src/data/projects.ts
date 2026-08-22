@@ -161,4 +161,14 @@ export const projects: Project[] = [
     status: "live",
     tags: ["typing", "horror", "game"],
   },
+  {
+    slug: "behind-the-counter",
+    title: "Behind the Counter Map",
+    description:
+      "Every Japanese shop from Paolo fromTOKYO's Behind the Counter series, mapped \u2014 pin to episode.",
+    image: "/images/projects/behind-the-counter.webp",
+    accentColor: "#b8352d",
+    status: "live",
+    tags: ["map", "japan", "food"],
+  },
 ];

@@ -1,0 +1,23 @@
+{
+  "_comment": "Manual fixes for episodes whose description has no usable Google Maps link. Supply either {lat, lng} or a {query} string to geocode. shopName overrides the name parsed from the resolved URL.",
+  "1dJAIvCk0MA": {
+    "shopName": "Tempura Mikaku",
+    "_note": "g.page/tempuramikaku resolves to a place ID with no coordinates. Roppongi, Tokyo. Needs lat/lng filled in by hand."
+  },
+  "lRIMBk4ysvQ": {
+    "shopName": "Ichimi Rinrin",
+    "_note": "g.page/gyozatokyo is dead (redirects to a plain Google search). Multiple branches exist, so the filmed one is ambiguous. Needs lat/lng by hand."
+  },
+  "gvuEbFM-KxQ": {
+    "shopName": "Onigiri Haruchan",
+    "_note": "Description has no shop map link at all, only the vending-machine promo. Asakusa, Tokyo. Needs lat/lng by hand."
+  },
+  "iUJLDOzQV28": {
+    "shopName": "Toriyoshi (Nakameguro)",
+    "_note": "Share link returns a Japanese address, not coordinates; GSI geocodes it to the exact building. Only the name needs supplying."
+  },
+  "V2pARScobU8": {
+    "shopName": "Menya Miyabi (yatai stand)",
+    "_note": "Share link resolves to bare /maps/search/<lat>,<lng> with no place name, so the name comes from the description. Coordinates resolve fine."
+  }
+}
