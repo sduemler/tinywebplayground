@@ -16,7 +16,7 @@ A personal portfolio/playground site that hosts small interactive web tools. The
 
 | Layer | Choice |
 |---|---|
-| Framework | Astro 5 (static + React islands) |
+| Framework | Astro 7 (static + React islands) |
 | Interactive UI | React 19 (`client:load`) |
 | State management | Zustand 5 (with persist middleware) |
 | Styling | Custom CSS with CSS variables (no Tailwind) |

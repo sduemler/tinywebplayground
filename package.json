@@ -21,13 +21,13 @@
     "build-behind-the-counter": "node scripts/build-behind-the-counter.mjs"
   },
   "dependencies": {
-    "@astrojs/netlify": "^6.0.0",
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/netlify": "^8.2.3",
+    "@astrojs/react": "^6.0.4",
     "@types/d3-force": "^3.0.10",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@vite-pwa/astro": "^1.2.0",
-    "astro": "^5.16.10",
+    "astro": "^7.2.4",
     "d3-force": "^3.0.0",
     "firebase": "^12.13.0",
     "leaflet": "^1.9.4",
@@ -40,5 +40,13 @@
     "@types/leaflet": "^1.9.22",
     "canvas": "^3.2.3",
     "firebase-admin": "^12.7.0"
+  },
+  "overrides": {
+    "@vite-pwa/astro": {
+      "astro": "$astro"
+    }
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
