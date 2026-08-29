@@ -315,6 +315,12 @@
 .tcg-root .qg-hint{min-height:14px; text-align:center; font-family:var(--mono); font-size:10px;
   letter-spacing:.1em; color:var(--vellum-3);}
 .tcg-root .qg-hint.qg-error{color:#d98c6a; text-transform:none; letter-spacing:.04em; font-size:11px;}
+.tcg-root .qg-remark{font-family:var(--serif); font-style:italic; font-size:26px; line-height:1.3;
+  color:var(--vellum); margin:6px 0 4px; max-width:480px; text-wrap:balance;
+  animation:qgRemarkIn .5s cubic-bezier(.2,.7,.2,1) both;}
+.tcg-root .qg-remark-genuine{color:var(--brass-hi);
+  text-shadow:0 0 18px rgba(243,222,170,.35), 0 0 40px rgba(201,161,74,.18);}
+@keyframes qgRemarkIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
 
 .tcg-root .daily-locked{margin:auto; max-width:440px; padding:24px; text-align:center;
   display:flex; flex-direction:column; align-items:center; gap:12px;}

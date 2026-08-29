@@ -25,3 +25,46 @@ export const QUESTIONS: string[] = [
 export function questionForToday(): string {
   return QUESTIONS[dayNumber() % QUESTIONS.length];
 }
+
+// The grimoire's reaction to a submitted reflection. Almost always snark —
+// see QuestionGate for the 1-in-10 genuine-compliment roll (long answers only).
+export const SNARKY_REMARKS: string[] = [
+  "Huh. I guess everyone's entitled to their own opinion.",
+  "Didn't know I was in a Philosophy 101 classroom today.",
+  "Maybe just keep that one between you and me.",
+  "Socrates died for this.",
+  "Interesting. Wrong, probably, but interesting.",
+  "I've read fortune cookies with more rigor.",
+  "Somewhere, Kant just sighed.",
+  "That's certainly… a sequence of words.",
+  "The unexamined life might've been the safer call here.",
+  "Groundbreaking. Alert the academies.",
+  "I'll file that under 'attempts.'",
+  "Your barista has stronger takes.",
+  "A for effort. C-minus for everything else.",
+  "The grimoire has seen worse. Not much worse, but worse.",
+  "Truly the shower thought of a generation.",
+  "Diogenes lived in a barrel and still had better takes.",
+  "I'd debate you, but it feels unsporting.",
+  "Hot take: lukewarm at best.",
+  "You typed that with such confidence, too.",
+  "Ah yes, the philosophy of vibes.",
+  "Plato wrote dialogues. You wrote… this.",
+  "Let's hope your enemies never read this paragraph.",
+  "The Oracle at Delphi would like a word. Several, actually.",
+  "I've seen margin doodles with more thesis.",
+  "Somewhere a philosophy department just felt a chill.",
+  "Descartes doubted everything. Start with this.",
+  "The Stoics teach acceptance of what cannot be changed. Like this answer.",
+  "Bold of you to write that where the grimoire can read it.",
+  "Every word of that was legible. That's something.",
+  "Nietzsche stared into the abyss. The abyss showed him this.",
+];
+
+export const GENUINE_REMARKS: string[] = [
+  "…Huh. That one actually stopped me for a moment. Well said.",
+  "Genuinely thoughtful. The grimoire keeps a page for answers like this.",
+  "Now that is an examined life. Socrates would have bought you a drink.",
+  "A careful mind at work. This one deserved the ink.",
+  "You didn't just answer — you actually thought. It shows.",
+];
