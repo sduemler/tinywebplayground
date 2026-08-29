@@ -141,6 +141,19 @@ export default function PackOpener({ onFocus }: Props) {
     markBonusPackOpened,
   ]);
 
+  // Once the fan lands, make sure the Continue row is actually on-screen —
+  // on viewport heights between the CSS height-ladder steps it can end up
+  // just below the fold, which reads as "the button is missing".
+  const actionsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (packState !== "fanned") return;
+    const t = setTimeout(
+      () => actionsRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" }),
+      400,
+    );
+    return () => clearTimeout(t);
+  }, [packState]);
+
   const reset = () => {
     timers.current.forEach(clearTimeout);
     timers.current = [];
@@ -235,7 +248,7 @@ export default function PackOpener({ onFocus }: Props) {
               <div className="hint">
                 Click a card to view it · <span className="key">Esc</span> to close
               </div>
-              <div className="actions">
+              <div className="actions" ref={actionsRef}>
                 <button className="btn primary" onClick={reset}>
                   Continue
                 </button>
