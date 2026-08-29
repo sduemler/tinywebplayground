@@ -34,6 +34,8 @@ function Countdown() {
 export default function PackOpener({ onFocus }: Props) {
   const [packState, setPackState] = useState<PackState>("idle");
   const [pulled, setPulled] = useState<PhilosopherCard[]>([]);
+  /** ids in the current pull that weren't owned before it (drives "New" badges) */
+  const [newIds, setNewIds] = useState<Set<string>>(() => new Set());
   const [today, setToday] = useState(() => ymd());
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   /** commits the in-flight pack open; null once recorded */
@@ -93,6 +95,10 @@ export default function PackOpener({ onFocus }: Props) {
     if (!slot) return;
 
     const cards = drawPack(PHILOSOPHERS);
+    // Newness is judged against ownership at draw time, before the pull is
+    // recorded into the store.
+    const ownedNow = useTcgStore.getState().owned;
+    setNewIds(new Set(cards.filter((c) => !(ownedNow[c.id] > 0)).map((c) => c.id)));
     setPulled(cards);
     const ids = cards.map((c) => c.id);
     // Record the pull, fire achievements, and consume the day's slot only once
@@ -139,6 +145,7 @@ export default function PackOpener({ onFocus }: Props) {
     timers.current.forEach(clearTimeout);
     timers.current = [];
     setPulled([]);
+    setNewIds(new Set());
     setPackState("idle");
   };
 
@@ -214,6 +221,9 @@ export default function PackOpener({ onFocus }: Props) {
                         data={p}
                         onClick={() => packState === "fanned" && onFocus(p)}
                       />
+                      {packState === "fanned" && newIds.has(p.id) && (
+                        <span className="tcg-new-badge">New</span>
+                      )}
                     </div>
                   );
                 })}

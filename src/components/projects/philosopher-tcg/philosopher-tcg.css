@@ -147,6 +147,16 @@
 .card-slot.show-fanned.pos-1:hover{transform:translateY(-14px) scale(1) rotateZ(0deg);}
 .card-slot.show-fanned.pos-2:hover{transform:translateY(-14px) scale(1) rotateZ(6deg);}
 
+/* "New to your collection" tag on freshly fanned cards */
+.card-slot .tcg-new-badge{position:absolute; top:-9px; left:-11px; z-index:8; pointer-events:none;
+  font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--ink); background:linear-gradient(180deg, var(--brass-hi) 0%, var(--brass) 100%);
+  border:1px solid var(--brass-2); border-radius:3px; padding:4px 9px 3px 11px;
+  box-shadow:0 3px 8px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.35);
+  transform:rotate(-7deg); animation:tcgNewIn .38s cubic-bezier(.2,.8,.3,1.35) 1s both;}
+@keyframes tcgNewIn{from{opacity:0; transform:rotate(-7deg) scale(.5);}
+  to{opacity:1; transform:rotate(-7deg) scale(1);}}
+
 .pack .pocket-front{position:absolute; left:26px; right:26px; bottom:22px; height:388px; z-index:3; pointer-events:none;
   opacity:0; transition:opacity .5s ease;
   background:linear-gradient(180deg, #d6b06d 0%, #b88c46 55%, #8a6128 100%);
