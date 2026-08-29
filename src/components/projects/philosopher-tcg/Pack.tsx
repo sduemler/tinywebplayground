@@ -15,7 +15,10 @@ export default function Pack({ onOpen, state, children }: Props) {
       tabIndex={0}
       onClick={state === "idle" ? onOpen : undefined}
       onKeyDown={(e) => {
-        if ((e.key === "Enter" || e.key === " ") && state === "idle") onOpen();
+        if ((e.key === "Enter" || e.key === " ") && state === "idle") {
+          e.preventDefault();
+          onOpen();
+        }
       }}
     >
       <div className="pack">

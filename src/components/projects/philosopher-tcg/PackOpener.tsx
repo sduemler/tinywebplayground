@@ -34,7 +34,31 @@ function Countdown() {
 export default function PackOpener({ onFocus }: Props) {
   const [packState, setPackState] = useState<PackState>("idle");
   const [pulled, setPulled] = useState<PhilosopherCard[]>([]);
+  const [today, setToday] = useState(() => ymd());
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  /** commits the in-flight pack open; null once recorded */
+  const pendingFinish = useRef<(() => void) | null>(null);
+
+  // Roll `today` over at local midnight so the locked screen unlocks without a
+  // refresh; also re-check on tab focus (sleep/wake can outlive the timer).
+  useEffect(() => {
+    let t: ReturnType<typeof setTimeout>;
+    const arm = () => {
+      t = setTimeout(() => {
+        setToday(ymd());
+        arm();
+      }, msUntilMidnight() + 1000);
+    };
+    arm();
+    const onVisible = () => {
+      if (!document.hidden) setToday(ymd());
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      clearTimeout(t);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, []);
 
   const recordPull = useTcgStore((s) => s.recordPull);
   const lastFreePackDate = useTcgStore((s) => s.lastFreePackDate);
@@ -45,7 +69,6 @@ export default function PackOpener({ onFocus }: Props) {
   const markBonusPackOpened = useTcgStore((s) => s.markBonusPackOpened);
   const resetDaily = useTcgStore((s) => s.resetDaily);
 
-  const today = ymd();
   const freeReady = lastFreePackDate !== today;
   const questionReady = !freeReady && bonusAnsweredDate !== today;
   const bonusReady = bonusAnsweredDate === today && lastBonusPackDate !== today;
@@ -72,14 +95,17 @@ export default function PackOpener({ onFocus }: Props) {
     const cards = drawPack(PHILOSOPHERS);
     setPulled(cards);
     const ids = cards.map((c) => c.id);
-    // record the pull, fire achievements, and consume the day's slot only once
-    // the cards are revealed — so the achievement popup never spoils the reveal,
-    // and an aborted/navigated-away open doesn't burn the slot.
+    // Record the pull, fire achievements, and consume the day's slot only once
+    // the cards are revealed, so the achievement popup never spoils the reveal.
+    // The pending ref lets the unmount cleanup commit an in-flight open — the
+    // cards are visible mid-animation, so bailing out must not offer a re-roll.
     const finish = () => {
+      pendingFinish.current = null;
       recordPull(ids);
       if (slot === "free") markFreePackOpened();
       else if (slot === "bonus") markBonusPackOpened();
     };
+    pendingFinish.current = finish;
 
     const reduce =
       typeof window !== "undefined" &&
@@ -116,7 +142,15 @@ export default function PackOpener({ onFocus }: Props) {
     setPackState("idle");
   };
 
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+  useEffect(
+    () => () => {
+      timers.current.forEach(clearTimeout);
+      // Commit a pack that was opened but not yet recorded (unmounted
+      // mid-animation) — only touches the store, safe after unmount.
+      pendingFinish.current?.();
+    },
+    [],
+  );
 
   const phaseLabels: Record<PackState, string> = {
     idle: slotLabel,

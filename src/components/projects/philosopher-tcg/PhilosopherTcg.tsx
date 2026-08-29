@@ -106,10 +106,14 @@ export default function PhilosopherTcg() {
           if ((e.target as HTMLElement).classList.contains("focus-veil")) setFocused(null);
         }}
       >
-        <button className="close" onClick={() => setFocused(null)}>
-          ✕ Close
-        </button>
-        {focused && <Card data={focused} onClick={() => setFocused(null)} />}
+        {focused && (
+          <>
+            <button className="close" onClick={() => setFocused(null)}>
+              ✕ Close
+            </button>
+            <Card data={focused} onClick={() => setFocused(null)} />
+          </>
+        )}
       </div>
     </div>
   );

@@ -178,7 +178,7 @@ export const projects: Project[] = [
       "A philosopher trading-card game. Open a grimoire booster pack and build your collection.",
     image: "/images/projects/philosopher-tcg.svg",
     accentColor: "#7a2222",
-    status: "wip",
+    status: "live",
     tags: ["game", "cards", "collection"],
   },
 ];
