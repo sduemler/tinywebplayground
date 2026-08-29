@@ -21,7 +21,9 @@
   background-image:
     radial-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
     radial-gradient(rgba(0,0,0,.06) 1px, transparent 1px);
-  background-size:3px 3px,7px 7px; background-position:0 0,1px 2px; mix-blend-mode:overlay;
+  /* no mix-blend-mode here: blending a viewport-sized layer forces the
+     compositor to re-read the backdrop on every animation frame */
+  background-size:3px 3px,7px 7px; background-position:0 0,1px 2px; opacity:.8;
 }
 .app{position:relative; z-index:1; max-width:1280px; margin:0 auto; padding:28px 32px 48px;
   min-height:100vh; display:flex; flex-direction:column;}
@@ -127,25 +129,30 @@
   display:flex; align-items:flex-end; justify-content:center; perspective:1800px; padding-bottom:30px;
   transform:scale(var(--pack-scale)); transform-origin:top center;
   margin-bottom:calc((var(--pack-scale) - 1) * (550px + var(--card-rise)));}
+/* Slot choreography is transform-only (never left/top) so the whole reveal
+   runs on the compositor — animating layout properties repainted the three
+   card images every frame and caused visible jank on slower devices. All
+   slots share one anchor (50% - 160px, 84px); each phase moves them with a
+   leading translate() that reproduces the old per-phase left/top offsets. */
 .card-slot{position:absolute; opacity:1; pointer-events:none;
   left:calc(50% - 160px); top:84px; transform:scale(.8) rotateZ(0deg); transform-origin:center top; z-index:2;
-  transition:left .9s cubic-bezier(.45,.05,.35,1), top .9s cubic-bezier(.45,.05,.35,1), transform .9s cubic-bezier(.45,.05,.35,1);}
+  transition:transform .9s cubic-bezier(.45,.05,.35,1);}
 .card-slot.show-pocket{z-index:2;}
 .card-slot.show-pocket.pos-0{transform:scale(.8) translate(-6px,2px) rotateZ(-1.5deg);}
 .card-slot.show-pocket.pos-1{transform:scale(.8) translate(0,0) rotateZ(0deg);}
 .card-slot.show-pocket.pos-2{transform:scale(.8) translate(6px,2px) rotateZ(1.5deg);}
-.card-slot.show-emerged{top:calc(-1 * var(--card-rise)); z-index:2;}
-.card-slot.show-emerged.pos-0{transform:scale(1) translate(-4px,0) rotateZ(-1deg);}
-.card-slot.show-emerged.pos-1{transform:scale(1) translate(0,-2px) rotateZ(0deg);}
-.card-slot.show-emerged.pos-2{transform:scale(1) translate(4px,0) rotateZ(1deg);}
+.card-slot.show-emerged{z-index:2;}
+.card-slot.show-emerged.pos-0{transform:translateY(calc(-84px - var(--card-rise))) scale(1) translate(-4px,0) rotateZ(-1deg);}
+.card-slot.show-emerged.pos-1{transform:translateY(calc(-84px - var(--card-rise))) scale(1) translate(0,-2px) rotateZ(0deg);}
+.card-slot.show-emerged.pos-2{transform:translateY(calc(-84px - var(--card-rise))) scale(1) translate(4px,0) rotateZ(1deg);}
 .card-slot.show-fanned{pointer-events:auto; z-index:6;}
-.card-slot.show-fanned.pos-0{left:calc(50% - 360px); top:30px; transform:scale(1) rotateZ(-6deg); transition-delay:0s;}
-.card-slot.show-fanned.pos-1{left:calc(50% - 160px); top:0px; transform:scale(1) rotateZ(0deg); transition-delay:.12s;}
-.card-slot.show-fanned.pos-2{left:calc(50% + 40px); top:30px; transform:scale(1) rotateZ(6deg); transition-delay:.24s;}
+.card-slot.show-fanned.pos-0{transform:translate(-200px,-54px) scale(1) rotateZ(-6deg); transition-delay:0s;}
+.card-slot.show-fanned.pos-1{transform:translate(0,-84px) scale(1) rotateZ(0deg); transition-delay:.12s;}
+.card-slot.show-fanned.pos-2{transform:translate(200px,-54px) scale(1) rotateZ(6deg); transition-delay:.24s;}
 .card-slot.show-fanned:hover{z-index:7;}
-.card-slot.show-fanned.pos-0:hover{transform:translateY(-14px) scale(1) rotateZ(-6deg);}
-.card-slot.show-fanned.pos-1:hover{transform:translateY(-14px) scale(1) rotateZ(0deg);}
-.card-slot.show-fanned.pos-2:hover{transform:translateY(-14px) scale(1) rotateZ(6deg);}
+.card-slot.show-fanned.pos-0:hover{transform:translate(-200px,-68px) scale(1) rotateZ(-6deg);}
+.card-slot.show-fanned.pos-1:hover{transform:translate(0,-98px) scale(1) rotateZ(0deg);}
+.card-slot.show-fanned.pos-2:hover{transform:translate(200px,-68px) scale(1) rotateZ(6deg);}
 
 /* "New to your collection" tag on freshly fanned cards */
 .card-slot .tcg-new-badge{position:absolute; top:-12px; left:50%; z-index:8; pointer-events:none;
@@ -174,7 +181,7 @@
 
 /* ===== Card ===== */
 .card{width:320px; height:460px; border-radius:12px; position:relative; cursor:pointer;
-  transition:transform .35s cubic-bezier(.2,.7,.2,1); transform-style:preserve-3d; will-change:transform;}
+  transition:transform .35s cubic-bezier(.2,.7,.2,1); transform-style:preserve-3d;}
 .card:hover{transform:translateY(-8px) rotateX(2deg);}
 .card-inner{position:absolute; inset:0; border-radius:12px; overflow:hidden;
   background:linear-gradient(180deg, var(--vellum) 0%, var(--vellum-2) 100%);
@@ -220,9 +227,10 @@
 .wax-seal{display:block; filter:drop-shadow(1px 2px 2px rgba(0,0,0,.4));}
 
 /* focused overlay */
-.focus-veil{position:fixed; inset:0; background:rgba(7,11,26,.78); backdrop-filter:blur(6px);
+.focus-veil{position:fixed; inset:0; background:rgba(7,11,26,.78);
   display:flex; align-items:center; justify-content:center; z-index:50; opacity:0; pointer-events:none; transition:opacity .3s ease;}
-.focus-veil.open{opacity:1; pointer-events:auto;}
+/* blur only while open — an always-on backdrop-filter taxes every repaint */
+.focus-veil.open{opacity:1; pointer-events:auto; backdrop-filter:blur(6px);}
 .focus-veil .card{transform:scale(1.4);}
 .focus-veil .card:hover{transform:scale(1.4);}
 .focus-veil .close{position:absolute; top:24px; right:24px; font-family:var(--mono); font-size:11px; letter-spacing:.25em;

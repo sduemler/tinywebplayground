@@ -6,7 +6,7 @@ import {
   GENUINE_REMARKS,
 } from "./data/questions";
 
-const MIN_WORDS = 25;
+const MIN_WORDS = 10;
 /** Answers at least this long are eligible for the rare genuine compliment. */
 const GENUINE_MIN_WORDS = 60;
 const GENUINE_CHANCE = 0.1;

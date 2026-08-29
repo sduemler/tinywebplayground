@@ -23,7 +23,12 @@ export default function Card({ data, onClick }: Props) {
         </div>
         <div className="card-portrait">
           {data.portraitSrc ? (
-            <img src={data.portraitSrc} alt={data.name} style={{ objectPosition: data.portraitPos }} />
+            <img
+              src={data.portraitSrc}
+              alt={data.name}
+              decoding="async"
+              style={{ objectPosition: data.portraitPos }}
+            />
           ) : null}
           <div className="vignette"></div>
         </div>
