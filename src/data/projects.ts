@@ -171,4 +171,14 @@ export const projects: Project[] = [
     status: "live",
     tags: ["map", "japan", "food"],
   },
+  {
+    slug: "philosopher-tcg",
+    title: "First Principles",
+    description:
+      "A philosopher trading-card game. Open a grimoire booster pack and build your collection.",
+    image: "/images/projects/philosopher-tcg.svg",
+    accentColor: "#7a2222",
+    status: "wip",
+    tags: ["game", "cards", "collection"],
+  },
 ];

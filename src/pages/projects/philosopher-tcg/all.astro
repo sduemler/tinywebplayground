@@ -1,0 +1,25 @@
+---
+export const prerender = true;
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import CardGallery from "../../../components/projects/philosopher-tcg/CardGallery";
+---
+
+<BaseLayout
+  title="First Principles — Card Index"
+  description="Review gallery: all 50 philosopher cards rendered full-size."
+  noindex={true}
+>
+  <div class="tcg-index-page">
+    <CardGallery client:load />
+  </div>
+</BaseLayout>
+
+<style>
+  :global(body) {
+    background: #070b1a;
+  }
+  .tcg-index-page {
+    min-height: 100vh;
+    background: #070b1a;
+  }
+</style>
