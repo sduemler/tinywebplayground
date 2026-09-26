@@ -211,31 +211,40 @@ async function buildCard(sheetPng) {
   g.fillStyle = glow;
   g.fillRect(0, 0, W, H);
 
-  // The scroll, with a soft shadow on the desk.
-  const sh = H - 56;
-  const sw = (sheet.width * sh) / sheet.height;
-  const sx = (W - sw) / 2, sy = 22;
+  // The scroll, widened to nearly fill the card. The left and right edges
+  // (with their curls) keep their true proportions; only the plain middle of
+  // the sheet is stretched, which also lengthens the rolled ends naturally.
+  const MARGIN_X = 22, MARGIN_Y = 20;
+  const sw = W - MARGIN_X * 2, sh = H - MARGIN_Y * 2;
+  const scale = sh / sheet.height;
+  const edgeSrc = sheet.width * 0.22;
+  const edgeDst = edgeSrc * scale;
+  const paper = createCanvas(sw, sh);
+  const p = paper.getContext("2d");
+  p.drawImage(sheet, 0, 0, edgeSrc, sheet.height, 0, 0, edgeDst + 1, sh);
+  p.drawImage(sheet, edgeSrc, 0, sheet.width - edgeSrc * 2, sheet.height, edgeDst, 0, sw - edgeDst * 2 + 1, sh);
+  p.drawImage(sheet, sheet.width - edgeSrc, 0, edgeSrc, sheet.height, sw - edgeDst, 0, edgeDst, sh);
+
   g.save();
   g.shadowColor = "rgba(0,0,0,0.55)";
-  g.shadowBlur = 28;
-  g.shadowOffsetY = 10;
-  g.drawImage(sheet, sx, sy, sw, sh);
+  g.shadowBlur = 24;
+  g.shadowOffsetY = 8;
+  g.drawImage(paper, MARGIN_X, MARGIN_Y);
   g.restore();
 
-  // Title, stacked, in ink.
+  // Title, stacked, in ink — as large as the sheet comfortably allows.
   g.fillStyle = "#3a2413";
   g.textAlign = "center";
   g.textBaseline = "alphabetic";
   const lines = [
-    { text: "History", size: 104 },
-    { text: "of the", size: 74 },
-    { text: "World", size: 112 },
+    { text: "History", size: 168, y: 268, dx: -6 },
+    { text: "of the", size: 112, y: 392, dx: 8 },
+    { text: "World", size: 180, y: 560, dx: 0 },
   ];
-  const baselines = [258, 348, 460];
-  lines.forEach((l, i) => {
+  for (const l of lines) {
     g.font = `${l.size}px "Pinyon Script"`;
-    g.fillText(l.text, W / 2 + (i === 1 ? 6 : 0), sy + baselines[i]);
-  });
+    g.fillText(l.text, W / 2 + l.dx, l.y);
+  }
 
   const card = await sharp(c.toBuffer("image/png")).webp({ quality: 86 }).toBuffer();
   const cardPath = path.join(ROOT, "public/images/projects/history-of-the-world.webp");
