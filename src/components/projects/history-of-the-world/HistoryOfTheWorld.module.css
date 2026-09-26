@@ -388,9 +388,11 @@
 /* The fold-up button rides along while you scroll through an unrolled gap. */
 .stickyRail {
   position: sticky;
-  top: 42vh;
+  top: 38vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
   padding-top: 1rem;
   pointer-events: none;
 }
@@ -417,6 +419,73 @@
   font-style: italic;
   font-size: 0.9rem;
   color: var(--ink-ghost);
+}
+
+/* What the world was doing during an unrolled gap. */
+.meanwhile {
+  position: relative;
+  z-index: 1;
+  max-width: 24rem;
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  border-radius: 8px;
+  background: rgba(240, 216, 172, 0.94);
+  box-shadow: 0 0 0 5px rgba(240, 216, 172, 0.94);
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  text-align: center;
+  color: var(--ink);
+}
+
+.meanwhileLabel {
+  font-family: var(--font-fell-sc);
+  font-style: normal;
+  letter-spacing: 0.02em;
+}
+
+/* ── Era headings ────────────────────────────────────────────────────────── */
+
+.era {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 1.75rem 0 2rem;
+}
+
+.eraCard {
+  position: relative;
+  z-index: 1;
+  max-width: 30rem;
+  padding: 0.9rem 1.4rem 1rem;
+  border-top: 3px double rgba(58, 36, 19, 0.75);
+  border-bottom: 3px double rgba(58, 36, 19, 0.75);
+  background: rgba(240, 216, 172, 0.96);
+  text-align: center;
+}
+
+.eraName {
+  margin: 0;
+  font-family: var(--font-fell-sc);
+  font-weight: 400;
+  font-size: clamp(1.45rem, 3.4vw, 1.9rem);
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.eraSpan {
+  margin: 0.1rem 0 0.45rem;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-faded);
+}
+
+.eraText {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
 }
 
 /* ── Ending ──────────────────────────────────────────────────────────────── */
@@ -525,10 +594,30 @@
     right: auto;
   }
 
-  .fold,
-  .stickyRail {
+  .fold {
     justify-content: flex-start;
     padding-left: calc(var(--gutter) - 6px);
+  }
+
+  .stickyRail {
+    align-items: flex-start;
+    padding-left: calc(var(--gutter) - 6px);
+  }
+
+  .meanwhile {
+    text-align: left;
+    font-size: 0.94rem;
+  }
+
+  .era {
+    justify-content: flex-start;
+    margin: 1.5rem 0 1.75rem;
+  }
+
+  .eraCard {
+    margin-left: calc(var(--gutter) - 8px);
+    padding: 0.75rem 0.9rem 0.85rem;
+    text-align: left;
   }
 
   .eventBlurb {

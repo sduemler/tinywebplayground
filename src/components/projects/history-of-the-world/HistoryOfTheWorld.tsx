@@ -2,9 +2,11 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import type { CSSProperties } from "react";
 import {
   CATEGORIES,
+  ERAS,
   EVENTS,
   NOW_YEAR,
   type CategoryId,
+  type Era,
   type HistoryEvent,
 } from "@data/history-of-the-world/events";
 import {
@@ -19,6 +21,7 @@ import styles from "./HistoryOfTheWorld.module.css";
 
 const COLOR = Object.fromEntries(CATEGORIES.map((c) => [c.id, c.color])) as Record<CategoryId, string>;
 const LABEL = Object.fromEntries(CATEGORIES.map((c) => [c.id, c.label])) as Record<CategoryId, string>;
+const INDEX = new Map(EVENTS.map((e, i) => [e.id, i]));
 
 interface Gap {
   key: string;
@@ -27,11 +30,14 @@ interface Gap {
   years: number;
   approx: boolean;
   foldable: boolean;
+  /** Only set when no hidden events fall inside the gap, so it stays accurate. */
+  meanwhile?: string;
 }
 
 type Row =
   | { kind: "event"; ev: HistoryEvent; side: "left" | "right" }
-  | { kind: "gap"; gap: Gap };
+  | { kind: "gap"; gap: Gap }
+  | { kind: "era"; era: Era };
 
 /** Where to put the viewport after a render that changes the scroll's length. */
 type PendingScroll =
@@ -47,11 +53,19 @@ export default function HistoryOfTheWorld() {
 
   const rows = useMemo<Row[]>(() => {
     const visible = EVENTS.filter((e) => !hidden.has(e.category));
+    // Each era heading sits above its anchor event, or the next visible one.
+    const erasBefore = new Map<string, Era[]>();
+    for (const era of ERAS) {
+      const anchor = INDEX.get(era.before)!;
+      const host = visible.find((e) => INDEX.get(e.id)! >= anchor);
+      if (host) erasBefore.set(host.id, [...(erasBefore.get(host.id) ?? []), era]);
+    }
     const out: Row[] = [];
     visible.forEach((ev, i) => {
       if (i > 0) {
         const prev = visible[i - 1];
         const years = ev.year - prev.year;
+        const adjacent = INDEX.get(ev.id)! - INDEX.get(prev.id)! === 1;
         out.push({
           kind: "gap",
           gap: {
@@ -61,9 +75,11 @@ export default function HistoryOfTheWorld() {
             years,
             approx: prev.approx || ev.approx,
             foldable: isFoldable(years),
+            meanwhile: adjacent ? ev.meanwhile : undefined,
           },
         });
       }
+      for (const era of erasBefore.get(ev.id) ?? []) out.push({ kind: "era", era });
       out.push({ kind: "event", ev, side: i % 2 === 0 ? "left" : "right" });
     });
     return out;
@@ -196,7 +212,7 @@ export default function HistoryOfTheWorld() {
 
           <section className={styles.intro} aria-label="How to read this scroll">
             <p>
-              Unrolled before you is the whole story of our planet, some <em>four and a half billion years</em> of
+              Unrolled before you is the whole story of our planet, some four and a half billion years of
               it. It begins with a ball of molten rock settling into orbit around a young Sun and ends with the year
               you are reading this. Each entry marks one great turning point, and the coloured line beneath it tells
               you what kind of event it was:
@@ -224,9 +240,10 @@ export default function HistoryOfTheWorld() {
 
             <p>
               Between the entries you will find <strong>folds</strong> in the scroll, each marked with how much time
-              it hides. They begin folded so you can read the whole story in a few minutes. Tap one to{" "}
-              <em>unroll</em> it, and the parchment will stretch out to show the time that passed. Faint ink marks
-              keep count as you scroll through, and the seal in the corner always tells you <em>when</em> you are.
+              it hides. They begin folded so you can read the whole story in one sitting. Tap one to unroll it, and
+              the parchment will stretch out to show the time that passed, with a note on what the world was doing in
+              the meantime. Faint ink marks keep count as you scroll through, and the seal in the corner always tells
+              you <em>when</em> you are. Headings along the way mark the great ages of the Earth and of people.
             </p>
             <p>
               <strong>Why?</strong> Because deep time is almost impossible to feel. If Earth's history were a single
@@ -234,6 +251,12 @@ export default function HistoryOfTheWorld() {
               final tenth of a second. Drawn truly to scale, everything from the first farmers onward would crowd
               into the scroll's last hair's breadth, after miles of empty parchment. Unroll a fold and keep
               scrolling. That emptiness is the point.
+            </p>
+            <p className={styles.scaleNote}>
+              A note on dates: <em>c.</em> (circa) means approximate, and spans marked ≈ are rounded. The oldest
+              dates come from measuring the slow radioactive decay of elements in rocks and fossils and can be off
+              by millions of years; most dates before writing are estimates that scholars still debate. And this is
+              a selection, not a complete record: {EVENTS.length} turning points out of countless others.
             </p>
             <p className={styles.scaleNote}>
               A note on scale: unrolled folds grow with the time they hold, but compressed, so a gap ten times
@@ -260,6 +283,8 @@ export default function HistoryOfTheWorld() {
               {rows.map((row) =>
                 row.kind === "event" ? (
                   <EventEntry key={row.ev.id} ev={row.ev} side={row.side} />
+                ) : row.kind === "era" ? (
+                  <EraEntry key={row.era.name} era={row.era} />
                 ) : (
                   <GapEntry
                     key={row.gap.key}
@@ -275,7 +300,7 @@ export default function HistoryOfTheWorld() {
 
           <div className={styles.ending}>
             <span className={styles.endingDate}>{NOW_YEAR}</span>
-            <span className={styles.endingText}>…and the scroll is still being written.</span>
+            <span className={styles.endingText}>what will happen next?</span>
           </div>
 
           <div className={styles.tornEnd} aria-hidden="true" />
@@ -302,12 +327,24 @@ function EventEntry({ ev, side }: { ev: HistoryEvent; side: "left" | "right" }) 
     >
       <div className={styles.eventBody}>
         <p className={styles.eventDate}>{formatEventDate(ev)}</p>
-        <h2 className={styles.eventTitle}>{ev.title}</h2>
+        <h3 className={styles.eventTitle}>{ev.title}</h3>
         <div className={styles.rule} aria-hidden="true">
           <span className={styles.dot} />
         </div>
         <span className={styles.srOnly}>{LABEL[ev.category]}.</span>
         <p className={styles.eventBlurb}>{ev.blurb}</p>
+      </div>
+    </li>
+  );
+}
+
+function EraEntry({ era }: { era: Era }) {
+  return (
+    <li className={styles.era}>
+      <div className={styles.eraCard}>
+        <h2 className={styles.eraName}>{era.name}</h2>
+        <p className={styles.eraSpan}>{era.span}</p>
+        <p className={styles.eraText}>{era.text}</p>
       </div>
     </li>
   );
@@ -379,6 +416,11 @@ function GapEntry({
           <span className={styles.foldSpan}>{span}</span>
           <span className={styles.foldAction}>tap to fold up</span>
         </button>
+        {gap.meanwhile && (
+          <p className={styles.meanwhile}>
+            <span className={styles.meanwhileLabel}>Meanwhile…</span> {gap.meanwhile}
+          </p>
+        )}
       </div>
     </li>
   );

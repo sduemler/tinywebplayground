@@ -46,12 +46,14 @@ function formatAgoTick(ago: number, step: number) {
   return `${n} ${unit === 1e9 ? "billion" : "million"} years ago`;
 }
 
-/** A calendar year: "9500 BCE", "79 CE", "1492". */
+/**
+ * A calendar year: "9500 BCE", "79 CE", "1492 CE". Always tagged, so the
+ * seal doesn't visibly drop "CE" as it scrolls past the year 1000.
+ */
 export function formatYear(year: number) {
   const y = Math.round(year);
   if (y < 0) return `${Math.abs(y) >= 10000 ? groupDigits(-y) : -y} BCE`;
-  if (y < 1000) return `${Math.max(1, y)} CE`;
-  return String(y);
+  return `${Math.max(1, y)} CE`;
 }
 
 export function formatEventDate(ev: HistoryEvent) {
