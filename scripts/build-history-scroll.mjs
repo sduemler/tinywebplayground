@@ -184,98 +184,64 @@ fs.mkdirSync(CACHE, { recursive: true });
 fs.mkdirSync(OUT, { recursive: true });
 const parchment = await fetchSource("parchment", SOURCES.parchment);
 const torn = await fetchSource("torn", SOURCES.torn);
-await buildParchment(parchment);
+const { trimmed: fullSheet } = await buildParchment(parchment);
 await buildTornBottom(torn);
 
 // ── Hub card (public/images/projects/history-of-the-world.webp) ─────────────
-// Built from the same parchment pieces plus the page's two OFL fonts, so the
-// card matches the page. Fonts are fetched from the google/fonts repo.
+// The whole parchment sheet (rolled top and bottom, curled sides) as a single
+// opened scroll on the dark desk, with the title stacked in the page's
+// calligraphy font. The hub shows card images at roughly 1.16:1 with
+// object-fit: cover, so the canvas matches that and keeps the scroll centred.
 const FONTS = {
   "PinyonScript-Regular.ttf": "https://github.com/google/fonts/raw/main/ofl/pinyonscript/PinyonScript-Regular.ttf",
-  "IMFeENsc28P.ttf": "https://github.com/google/fonts/raw/main/ofl/imfellenglishsc/IMFeENsc28P.ttf",
 };
 
-async function buildCard() {
+async function buildCard(sheetPng) {
   const { createCanvas, loadImage, registerFont } = await import("canvas");
   for (const [name, url] of Object.entries(FONTS)) await fetchSource(name.replace(/\.ttf$/, ""), url, name);
   registerFont(path.join(CACHE, "PinyonScript-Regular.ttf"), { family: "Pinyon Script" });
-  registerFont(path.join(CACHE, "IMFeENsc28P.ttf"), { family: "IM Fell English SC" });
 
-  const png = async (f) => loadImage(await sharp(path.join(OUT, f)).png().toBuffer());
-  const top = await png("scroll-top.webp");
-  const tile = await png("scroll-tile.webp");
-
-  const W = 800, H = 520;
+  const sheet = await loadImage(sheetPng);
+  const W = 800, H = 690;
   const c = createCanvas(W, H);
   const g = c.getContext("2d");
-  const glow = g.createRadialGradient(W / 2, 0, 20, W / 2, 0, W * 0.8);
+  const glow = g.createRadialGradient(W / 2, H * 0.4, 40, W / 2, H * 0.4, W * 0.75);
   glow.addColorStop(0, "#3a2717");
-  glow.addColorStop(1, "#1f140d");
+  glow.addColorStop(1, "#1a110b");
   g.fillStyle = glow;
   g.fillRect(0, 0, W, H);
 
-  const sw = 640, sx = (W - sw) / 2, sy = 26;
-  const capH = (top.height * sw) / top.width;
-  const tileH = (tile.height * sw) / tile.width;
-  g.drawImage(tile, sx, sy + capH - 1, sw, tileH);
-  g.drawImage(top, sx, sy, sw, capH);
+  // The scroll, with a soft shadow on the desk.
+  const sh = H - 56;
+  const sw = (sheet.width * sh) / sheet.height;
+  const sx = (W - sw) / 2, sy = 22;
+  g.save();
+  g.shadowColor = "rgba(0,0,0,0.55)";
+  g.shadowBlur = 28;
+  g.shadowOffsetY = 10;
+  g.drawImage(sheet, sx, sy, sw, sh);
+  g.restore();
 
-  const ink = "#3a2413";
-  g.fillStyle = ink;
+  // Title, stacked, in ink.
+  g.fillStyle = "#3a2413";
   g.textAlign = "center";
-  g.font = '66px "Pinyon Script"';
-  g.fillText("History of the World", W / 2, 200);
-  g.fillStyle = "#6e4d2c";
-  g.font = '21px "IM Fell English SC"';
-  g.fillText("4.54 billion years ago — today", W / 2, 250);
+  g.textBaseline = "alphabetic";
+  const lines = [
+    { text: "History", size: 104 },
+    { text: "of the", size: 74 },
+    { text: "World", size: 112 },
+  ];
+  const baselines = [258, 348, 460];
+  lines.forEach((l, i) => {
+    g.font = `${l.size}px "Pinyon Script"`;
+    g.fillText(l.text, W / 2 + (i === 1 ? 6 : 0), sy + baselines[i]);
+  });
 
-  // A little spine with colour-coded rules and a fold marker.
-  const spineX = W / 2;
-  g.strokeStyle = "rgba(58,36,19,0.8)";
-  g.lineWidth = 2;
-  g.beginPath();
-  g.moveTo(spineX, 286);
-  g.lineTo(spineX, H);
-  g.stroke();
-  const rule = (y, side, color) => {
-    const len = 150;
-    const x0 = side < 0 ? spineX - len : spineX;
-    const grad = g.createLinearGradient(side < 0 ? x0 : x0 + len, 0, side < 0 ? spineX : spineX, 0);
-    grad.addColorStop(0, "rgba(0,0,0,0)");
-    grad.addColorStop(0.45, color);
-    grad.addColorStop(1, color);
-    g.fillStyle = grad;
-    g.fillRect(x0, y - 1.5, len, 3);
-    g.beginPath();
-    g.arc(spineX, y, 7, 0, Math.PI * 2);
-    g.fillStyle = color;
-    g.fill();
-    g.lineWidth = 2;
-    g.strokeStyle = ink;
-    g.stroke();
-  };
-  rule(318, -1, "#4b4453");
-  rule(372, 1, "#3d7a45");
-  rule(492, -1, "#c4561a");
-
-  // Fold marker.
-  const pw = 210, ph = 40, px = spineX - pw / 2, py = 412;
-  g.fillStyle = "#f0d8ac";
-  g.fillRect(px - 4, py - 4, pw + 8, ph + 8);
-  g.setLineDash([4, 3]);
-  g.strokeStyle = "rgba(58,36,19,0.7)";
-  g.lineWidth = 1.5;
-  g.strokeRect(px, py, pw, ph);
-  g.setLineDash([]);
-  g.fillStyle = ink;
-  g.font = '20px "IM Fell English SC"';
-  g.fillText("≈ 900 million years", spineX, py + 26);
-
-  const card = await sharp(c.toBuffer("image/png")).webp({ quality: 84 }).toBuffer();
+  const card = await sharp(c.toBuffer("image/png")).webp({ quality: 86 }).toBuffer();
   const cardPath = path.join(ROOT, "public/images/projects/history-of-the-world.webp");
   fs.writeFileSync(cardPath, card);
   console.log(`history-of-the-world.webp (card) ${W}×${H}  ${(card.length / 1024).toFixed(0)} KB`);
 }
 
-await buildCard();
+await buildCard(fullSheet);
 console.log("Done.");
