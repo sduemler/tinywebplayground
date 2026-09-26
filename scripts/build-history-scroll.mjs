@@ -232,18 +232,22 @@ async function buildCard(sheetPng) {
   g.drawImage(paper, MARGIN_X, MARGIN_Y);
   g.restore();
 
-  // Title, stacked, in ink — as large as the sheet comfortably allows.
+  // Title, stacked, in ink — as large as the sheet comfortably allows. Script
+  // swashes make the font's advance width a poor guide, so each line is
+  // centred on its actual ink bounds instead of textAlign: "center".
   g.fillStyle = "#3a2413";
-  g.textAlign = "center";
+  g.textAlign = "left";
   g.textBaseline = "alphabetic";
   const lines = [
-    { text: "History", size: 168, y: 268, dx: -6 },
-    { text: "of the", size: 112, y: 392, dx: 8 },
-    { text: "World", size: 180, y: 560, dx: 0 },
+    { text: "History", size: 168, y: 268 },
+    { text: "of the", size: 112, y: 392 },
+    { text: "World", size: 180, y: 560 },
   ];
   for (const l of lines) {
     g.font = `${l.size}px "Pinyon Script"`;
-    g.fillText(l.text, W / 2 + l.dx, l.y);
+    const m = g.measureText(l.text);
+    const inkWidth = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+    g.fillText(l.text, W / 2 - inkWidth / 2 + m.actualBoundingBoxLeft, l.y);
   }
 
   const card = await sharp(c.toBuffer("image/png")).webp({ quality: 86 }).toBuffer();
