@@ -168,7 +168,7 @@ const RAW: RawEvent[] = [
   },
   {
     ago: 1.5e8, approx: true, category: "life", title: "Feathers Take Flight",
-    blurb: "Archaeopteryx, a feathered dinosaur with teeth, claws and wings, flaps through the Jurassic. Birds are dinosaurs. Found in 1861, two years after Darwin's Origin of Species, it became a famous link between reptiles and birds.",
+    blurb: "Archaeopteryx, a feathered dinosaur with teeth, claws and wings, flaps through the Jurassic.xf Found in 1861, two years after Darwin's Origin of Species, it became a famous link between reptiles and birds.",
     meanwhile: "Dinosaurs grow into giants. Long-necked sauropods like Brachiosaurus become the largest animals ever to walk the land.",
   },
   {
@@ -227,7 +227,7 @@ const RAW: RawEvent[] = [
   },
   {
     ago: 6.5e4, approx: true, category: "migration", title: "Out of Africa, Again",
-    blurb: "Small bands of modern humans leave Africa. Over tens of thousands of years their descendants reach every continent but Antarctica. Nearly every non-African person alive today descends mainly from these migrants.",
+    blurb: "Small bands of modern humans leave Africa. Over tens of thousands of years their descendants reach every continent but Antarctica.",
   },
   {
     ago: 5.12e4, approx: true, category: "culture", title: "The Oldest Story",
@@ -303,7 +303,7 @@ const RAW: RawEvent[] = [
   },
   {
     year: -2560, approx: true, category: "culture", title: "The Great Pyramid",
-    blurb: "It is built at Giza for the pharaoh Khufu, and will stand as the tallest human-made structure for nearly four thousand years. It was raised not by slaves, as legend says, but largely by paid and conscripted Egyptian workers.",
+    blurb: "It is built at Giza for the pharaoh Khufu, and will stand as the tallest human-made structure for nearly four thousand years.",
   },
   {
     year: -2334, approx: true, category: "empire", title: "The First Empire",
@@ -315,7 +315,7 @@ const RAW: RawEvent[] = [
   },
   {
     year: -1754, approx: true, category: "empire", title: "The Code of Hammurabi",
-    blurb: "A Babylonian king carves 282 laws into stone, 'an eye for an eye' among them. It is one of the earliest written legal codes. Punishments depend on rank: harming a noble costs far more than harming a slave.",
+    blurb: "A Babylonian king carves 282 laws into stone, 'an eye for an eye' among them. It is one of the earliest written legal codes.",
     meanwhile: "Bronze Age kingdoms trade tin, copper and luxuries across Eurasia. Minoan palaces rise on Crete, and Stonehenge takes its final form.",
   },
   {
@@ -532,7 +532,7 @@ const RAW: RawEvent[] = [
   },
   {
     year: 1526, category: "empire", title: "The Transatlantic Slave Trade",
-    blurb: "The first direct slaving voyage sails from Africa to the Americas, beginning one of the greatest crimes in human history. Over 350 years, some 12.5 million Africans are torn from their homes and shipped across the Atlantic in brutal conditions, and nearly two million die at sea. Their forced labour builds the wealth of colonial empires, and the racism invented to justify it outlives abolition.",
+    blurb: "The first direct slaving voyage sails from Africa to the Americas, beginning one of the greatest crimes in human history. Over 350 years, some 12.5 million Africans are torn from their homes and shipped across the Atlantic in brutal conditions, and nearly two million die at sea. Their forced labour builds the wealth of colonial empires."
   },
   {
     year: 1526, category: "empire", title: "The Mughal Empire",
