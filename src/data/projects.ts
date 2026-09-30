@@ -181,4 +181,14 @@ export const projects: Project[] = [
     status: "live",
     tags: ["game", "cards", "collection"],
   },
+  {
+    slug: "history-of-the-world",
+    title: "History of the World",
+    description:
+      "4.54 billion years on one parchment scroll. Unroll the folds to feel how much time passed between the big moments.",
+    image: "/images/projects/history-of-the-world.webp",
+    accentColor: "#a0692e",
+    status: "wip",
+    tags: ["history", "timeline", "science"],
+  },
 ];
