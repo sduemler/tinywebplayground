@@ -28,7 +28,7 @@ export const projects: Project[] = [
     description: "A simplistic modular synth with oscilloscope visualization.",
     image: "/images/projects/eurorack.webp",
     accentColor: "#8b5e3c",
-    status: "wip",
+    status: "live",
     tags: ["audio", "synth", "interactive"],
   },
   {
@@ -117,7 +117,7 @@ export const projects: Project[] = [
       "Roll snowballs through real snowfall data, stack them up, and build a snowman.",
     image: "/images/projects/samthensnowman.webp",
     accentColor: "#5BA4CF",
-    status: "wip",
+    status: "live",
     tags: ["weather", "game", "interactive"],
   },
   {
@@ -127,7 +127,7 @@ export const projects: Project[] = [
       "A vertical, scalable drum sequencer inspired by the Linndrum.",
     image: "/images/projects/drum-machine.webp",
     accentColor: "#c97b2e",
-    status: "wip",
+    status: "live",
     tags: ["audio", "sequencer", "interactive"],
   },
   {
@@ -188,7 +188,7 @@ export const projects: Project[] = [
       "4.54 billion years on one parchment scroll. Unroll the folds to feel how much time passed between the big moments.",
     image: "/images/projects/history-of-the-world.webp",
     accentColor: "#a0692e",
-    status: "wip",
+    status: "live",
     tags: ["history", "timeline", "science"],
   },
 ];
