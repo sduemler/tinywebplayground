@@ -1,0 +1,169 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* The unfolded tape insert, filled in by hand. */
+.insert {
+  padding: 1.4rem 1.5rem 1.2rem;
+  background:
+    linear-gradient(180deg, #e8a93a 0 8px, #d9622b 8px 16px, #9c3b22 16px 24px, transparent 24px),
+    #f2e6c6;
+  color: #2b1d15;
+  box-shadow: 0 12px 28px rgba(20, 10, 4, 0.5);
+  transform: rotate(-0.6deg);
+}
+
+.insertHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0 0.6rem;
+  border-bottom: 2px solid #2b1d15;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: 'Gochi Hand', cursive;
+  font-weight: 400;
+  font-size: 2.3rem;
+  line-height: 1.05;
+}
+
+.date {
+  font-size: 1.3rem;
+  color: #5a3d2a;
+}
+
+/* Score circled in marker, like a grade. */
+.score {
+  flex-shrink: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  min-width: 6.5rem;
+  padding: 0.3rem 0.9rem;
+  border: 3px solid #9c3b22;
+  border-radius: 50% 46% 52% 48% / 55% 50% 50% 45%;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 3.2rem;
+  line-height: 1;
+  color: #9c3b22;
+  transform: rotate(-5deg);
+}
+
+.scoreOf {
+  margin-left: 0.35rem;
+  font-family: 'Barlow Semi Condensed', var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.perfect {
+  display: inline-block;
+  margin-top: 0.9rem;
+  padding: 0.1rem 0.7rem;
+  border: 3px solid #3f6b2a;
+  border-radius: 4px;
+  color: #3f6b2a;
+  font-weight: 700;
+  font-size: 1.2rem;
+  transform: rotate(-3deg);
+}
+
+.tracklist {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 1.8rem minmax(0, 1fr) 2rem;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(43, 29, 21, 0.15);
+}
+
+.trackNo {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #8c6d4f;
+  text-align: right;
+}
+
+.trackName {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.6rem;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.trackArtist {
+  font-family: 'Barlow Semi Condensed', var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #7a5a3f;
+}
+
+.mark {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.track[data-outcome='correct'] .mark {
+  color: #3f6b2a;
+}
+
+.track[data-outcome='failed'] .mark,
+.track[data-outcome='skipped'] .mark {
+  color: #9c3b22;
+}
+
+.track[data-outcome='failed'] .trackName,
+.track[data-outcome='skipped'] .trackName {
+  color: #6b4f38;
+}
+
+.footnote {
+  margin: 0.9rem 0 0;
+  font-weight: 600;
+  color: #6b4f38;
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .insert {
+    padding: 1.1rem 1rem 1rem;
+    transform: none;
+  }
+
+  .heading {
+    font-size: 1.9rem;
+  }
+
+  .score {
+    min-width: 5rem;
+    font-size: 2.5rem;
+  }
+
+  .buttonRow > button {
+    flex: 1 1 100%;
+  }
+}

@@ -1,12 +1,9 @@
 .cover {
   position: relative;
-  width: 240px;
-  max-width: 100%;
+  width: 100%;
   aspect-ratio: 1;
-  border-radius: var(--radius);
   overflow: hidden;
-  background: var(--color-rich);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  background: #2b1d15;
 }
 
 .image {
@@ -34,24 +31,28 @@
   transform: scale(1.2);
 }
 
+/* Unknown cover: a blank J-card front with a scrawled question mark. */
 .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  background:
+    linear-gradient(180deg, transparent 72%, #e8a93a 72% 78%, #d9622b 78% 84%, #9c3b22 84% 90%, transparent 90%),
+    #ebdcb6;
 }
 
 .questionMark {
-  font-family: var(--font-display);
-  font-size: 6rem;
-  color: var(--color-rich-text);
-  opacity: 0.55;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 7rem;
+  line-height: 1;
+  color: #2b1d15;
+  transform: rotate(-6deg) translateY(-10%);
 }
 
-@media (max-width: 560px) {
+@media (max-width: 600px) {
   .questionMark {
-    font-size: 4.5rem;
+    font-size: 3.5rem;
   }
 }

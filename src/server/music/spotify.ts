@@ -66,7 +66,6 @@ export interface SpotifyTrack {
   artists: Array<{ id: string; name: string }>;
   album: {
     images: Array<{ url: string; width: number; height: number }>;
-    release_date: string;
   };
 }
 
@@ -81,19 +80,9 @@ export interface SpotifyPlaylistResponse {
   };
 }
 
-export interface SpotifyArtist {
-  id: string;
-  name: string;
-  genres: string[];
-}
-
 export async function searchTracks(query: string, limit = 8): Promise<SpotifyTrack[]> {
   const data = await spotifyFetch<SpotifySearchResponse>(
     `/search?q=${encodeURIComponent(query)}&type=track&limit=${limit}`
   );
   return data.tracks.items;
-}
-
-export async function getArtist(artistId: string): Promise<SpotifyArtist> {
-  return spotifyFetch<SpotifyArtist>(`/artists/${artistId}`);
 }

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
+import Cassette from './Cassette';
 import GameScreen from './GameScreen';
 import HomeScreen from './HomeScreen';
 import PlaylistPicker from './PlaylistPicker';
 import ResultsScreen from './ResultsScreen';
 import { TOTAL_LIFELINES, buildInitialState, gameReducer, isGameComplete } from './gameReducer';
-import { useMusicGuesserStore } from './store';
+import { useMixtapeMixupStore } from './store';
 import { apiFetch, getLocalDateString } from './utils';
-import styles from './MusicGuesser.module.css';
+import styles from './MixtapeMixup.module.css';
 import type { GameState, Mode, Phase, Track } from './types';
 
 interface DailyResponse {
@@ -16,17 +17,17 @@ interface DailyResponse {
   error?: string;
 }
 
-export default function MusicGuesser() {
+export default function MixtapeMixup() {
   const [phase, setPhase] = useState<Phase>('home');
   const [mode, setMode] = useState<Mode>('daily');
   const [error, setError] = useState<string | null>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
 
   const today = getLocalDateString();
-  const dailyResults = useMusicGuesserStore((s) => s.dailyResults);
-  const stats = useMusicGuesserStore((s) => s.stats);
-  const recordGame = useMusicGuesserStore((s) => s.recordGame);
-  const saveDailyProgress = useMusicGuesserStore((s) => s.saveDailyProgress);
+  const dailyResults = useMixtapeMixupStore((s) => s.dailyResults);
+  const stats = useMixtapeMixupStore((s) => s.stats);
+  const recordGame = useMixtapeMixupStore((s) => s.recordGame);
+  const saveDailyProgress = useMixtapeMixupStore((s) => s.saveDailyProgress);
 
   const todayResult = dailyResults[today];
 
@@ -39,7 +40,7 @@ export default function MusicGuesser() {
       return;
     }
 
-    const saved = useMusicGuesserStore.getState().dailyInProgress;
+    const saved = useMixtapeMixupStore.getState().dailyInProgress;
     if (saved && saved.date === today) {
       setGameState(saved);
       setPhase('playing');
@@ -136,8 +137,11 @@ export default function MusicGuesser() {
   if (phase === 'loading') {
     return (
       <div className={styles.root}>
-        <div className={styles.loadingBlock}>
-          Loading {mode === 'daily' ? "today's songs" : 'songs'}…
+        <div className={styles.loadingBlock} role="status">
+          <div className={styles.loadingTape}>
+            <Cassette title={mode === 'daily' ? "Today's mix" : 'Practice tape'} spinning />
+          </div>
+          Loading {mode === 'daily' ? "today's songs" : 'the tape'}…
         </div>
       </div>
     );

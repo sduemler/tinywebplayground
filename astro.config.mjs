@@ -36,6 +36,10 @@ export default defineConfig({
       },
     }),
   ],
+  // Old project URLs. The Netlify adapter writes these out as 301s.
+  redirects: {
+    '/projects/music-guesser': '/projects/mixtape-mixup',
+  },
   output: 'static',
   adapter: netlify({
     // This project has no edge functions (no edgeMiddleware, no edge handlers),

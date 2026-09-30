@@ -11,8 +11,6 @@ export interface Track {
   title: string;
   artist: string;
   albumArt: string;
-  decade: string;
-  genre: string;
   previewUrl: string;
 }
 

@@ -1,0 +1,120 @@
+.root {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  color: #f2e6c6;
+  font-family: 'Barlow Semi Condensed', var(--font-body);
+  font-size: 1.05rem;
+}
+
+/* ── Home ─────────────────────────────────────────── */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-family: 'Gochi Hand', cursive;
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 4.75rem);
+  line-height: 1;
+  color: #f2e6c6;
+  transform: rotate(-2deg);
+  text-shadow: 0 3px 0 #2b190e;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #d9c29c;
+}
+
+.tapes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.75rem;
+}
+
+.tapeButton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tapeButton > svg {
+  transition: transform 200ms ease;
+}
+
+.tapeButton:nth-child(1) > svg {
+  transform: rotate(-1.5deg);
+}
+
+.tapeButton:nth-child(2) > svg {
+  transform: rotate(1.2deg);
+}
+
+.tapeButton:hover > svg,
+.tapeButton:focus-visible > svg {
+  transform: translateY(-6px) rotate(0deg);
+}
+
+.tapeButton:focus-visible {
+  outline: 3px solid #e8a93a;
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+
+.tapeCaption {
+  padding: 0 0.25rem;
+  line-height: 1.45;
+  color: #d9c29c;
+}
+
+@media (max-width: 600px) {
+  .tapes {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* ── Loading / error ─────────────────────────────── */
+
+.loadingBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 0;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.5rem;
+  color: #d9c29c;
+}
+
+.loadingTape {
+  width: min(100%, 320px);
+}
+
+.errorBlock {
+  padding: 0.9rem 1.1rem;
+  border-left: 5px solid #d9622b;
+  border-radius: 3px;
+  background: #3b2415;
+  color: #f2e6c6;
+  font-weight: 600;
+}

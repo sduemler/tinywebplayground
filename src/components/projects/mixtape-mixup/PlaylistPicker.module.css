@@ -1,0 +1,132 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.heading {
+  margin: 0;
+  font-family: 'Gochi Hand', cursive;
+  font-weight: 400;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: #f2e6c6;
+  transform: rotate(-1.5deg);
+}
+
+/* Tape cases stacked edge-on; each spine is a smoked-plastic case with a paper insert. */
+.shelf {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+}
+
+.spine {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 56px;
+  padding: 7px;
+  border: 0;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #4a372b, #33251c 45%, #2a1e17);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 230, 190, 0.18),
+    0 4px 8px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transition: transform 140ms ease;
+}
+
+.spine:hover,
+.spine:focus-visible {
+  transform: translateX(6px);
+}
+
+.spine:focus-visible {
+  outline: 3px solid #e8a93a;
+  outline-offset: 2px;
+}
+
+.spineLabel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0.2rem 0.8rem 0.2rem 1.4rem;
+  border-radius: 2px;
+  background:
+    linear-gradient(90deg, var(--spine) 0 0.7rem, transparent 0.7rem),
+    #f2e6c6;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.35rem;
+  line-height: 1.1;
+  color: #2b1d15;
+  text-align: left;
+}
+
+/* The blank tape: write your own playlist on it. */
+.blank {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 2px dashed rgba(242, 230, 198, 0.35);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.blankLabel {
+  font-weight: 600;
+  color: #d9c29c;
+}
+
+.blankRow {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.blankInput {
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0.5rem 0.8rem;
+  border: 0;
+  border-radius: 2px;
+  background: #e9d9a9;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.2rem;
+  color: #2b1d15;
+}
+
+.blankInput::placeholder {
+  color: #8c6d4f;
+}
+
+.blankInput:focus-visible {
+  outline: 3px solid #e8a93a;
+  outline-offset: 2px;
+}
+
+.blankError {
+  font-weight: 600;
+  color: #f0b75a;
+}
+
+@media (max-width: 600px) {
+  .shelf {
+    grid-template-columns: 1fr;
+  }
+
+  .blankRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

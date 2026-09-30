@@ -4,7 +4,7 @@ import type { DailyResult, GameState, LifetimeStats, Mode, SongResult } from './
 
 const WIN_THRESHOLD = 5;
 
-interface MusicGuesserStore {
+interface MixtapeMixupStore {
   dailyResults: Record<string, DailyResult>;
   stats: LifetimeStats;
   volume: number;
@@ -37,7 +37,26 @@ function previousDateString(dateStr: string): string {
   return `${y}-${m}-${day}`;
 }
 
-export const useMusicGuesserStore = create<MusicGuesserStore>()(
+const STORAGE_KEY = 'mixtape-mixup';
+/** Where saves lived before the game was renamed from Music Guesser. */
+const LEGACY_STORAGE_KEY = 'music-guesser';
+
+// Runs before the store hydrates, so existing streaks and stats carry over.
+function migrateLegacyStorage() {
+  try {
+    if (typeof localStorage === 'undefined') return;
+    const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (legacy === null) return;
+    if (localStorage.getItem(STORAGE_KEY) === null) localStorage.setItem(STORAGE_KEY, legacy);
+    localStorage.removeItem(LEGACY_STORAGE_KEY);
+  } catch {
+    // Storage blocked (private mode etc.): nothing to migrate.
+  }
+}
+
+migrateLegacyStorage();
+
+export const useMixtapeMixupStore = create<MixtapeMixupStore>()(
   persist(
     (set, get) => ({
       dailyResults: {},
@@ -80,7 +99,7 @@ export const useMusicGuesserStore = create<MusicGuesserStore>()(
         });
       },
     }),
-    { name: 'music-guesser' }
+    { name: STORAGE_KEY }
   )
 );
 
