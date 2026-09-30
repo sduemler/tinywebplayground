@@ -242,21 +242,7 @@ export default function HistoryOfTheWorld() {
               Between the entries you will find <strong>folds</strong> in the scroll, each marked with how much time
               it hides. They begin folded so you can read the whole story in one sitting. Tap one to unroll it, and
               the parchment will stretch out to show the time that passed, with a note on what the world was doing in
-              the meantime. Faint ink marks keep count as you scroll through, and the seal in the corner always tells
-              you <em>when</em> you are. Headings along the way mark the great ages of the Earth and of people.
-            </p>
-            <p>
-              <strong>Why?</strong> Because deep time is almost impossible to feel. If Earth's history were a single
-              day, our species would appear in its last six seconds, and all of written history would fit in the
-              final tenth of a second. Drawn truly to scale, everything from the first farmers onward would crowd
-              into the scroll's last hair's breadth, after miles of empty parchment. Unroll a fold and keep
-              scrolling. That emptiness is the point.
-            </p>
-            <p className={styles.scaleNote}>
-              A note on dates: <em>c.</em> (circa) means approximate, and spans marked ≈ are rounded. The oldest
-              dates come from measuring the slow radioactive decay of elements in rocks and fossils and can be off
-              by millions of years; most dates before writing are estimates that scholars still debate. And this is
-              a selection, not a complete record: {EVENTS.length} turning points out of countless others.
+              the meantime.
             </p>
             <p className={styles.scaleNote}>
               A note on scale: unrolled folds grow with the time they hold, but compressed, so a gap ten times
