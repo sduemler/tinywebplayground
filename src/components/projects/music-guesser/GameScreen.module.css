@@ -1,331 +1,216 @@
 .root {
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.statusRow {
-    display: flex;
-    align-items: baseline;
-    font-size: 0.9rem;
-    color: var(--color-muted);
+/* ── J-card flap contents ─────────────────────────── */
+
+.tries {
+  margin: 0;
+  font-family: 'Barlow Semi Condensed', var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #7a5a3f;
 }
 
-.songCounter {
-    font-weight: 600;
+.emptyNote {
+  margin: 0;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.35rem;
+  line-height: 1.4;
+  color: #5a3d2a;
 }
 
-.revealBlock {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 1rem;
+.blanks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  padding: 0.25rem 0 0.35rem;
 }
 
-.revealBadge {
-    font-family: var(--font-display);
-    padding: 0.3rem 0.9rem;
-    border-radius: 999px;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+.blankWord {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 4px;
 }
 
-.badge_correct {
-    background: var(--mg-correct, #2f7d4a);
-    color: var(--color-rich-text);
+.blank,
+.blankShown {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 0.9rem;
+  height: 2rem;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #2b1d15;
 }
 
-.badge_failed,
-.badge_skipped {
-    background: var(--mg-wrong, #a83a2e);
-    color: var(--color-rich-text);
+.blank {
+  width: 0.95rem;
+  border-bottom: 2.5px solid #2b1d15;
+  border-radius: 1px;
 }
 
-.revealTitle {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    text-align: center;
-    color: var(--color-text);
-}
-
-.revealArtist {
-    color: var(--color-muted);
-    font-size: 1.05rem;
-}
-
-.nextButton {
-    margin-top: 0.6rem;
-    padding: 0.6rem 1.4rem;
-    background: var(--mg-primary, #1f5c3a);
-    color: var(--color-rich-text);
-    border: none;
-    border-radius: var(--radius);
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        background var(--transition),
-        transform var(--transition);
-}
-
-.nextButton:hover {
-    background: #2f7d4a;
-    transform: translateY(-1px);
-}
-
-.hintBanner {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.55rem 0.9rem;
-    background: var(--mg-secondary-light, #f5e8b8);
-    border-radius: var(--radius);
-    color: var(--color-text);
-    font-size: 0.95rem;
-}
-
-.hintLabel {
-    font-weight: 700;
-    color: var(--mg-primary, #1f5c3a);
-    text-transform: uppercase;
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-}
-
-.hintDot {
-    color: var(--color-muted);
-}
-
-.feedbackWrong {
-    background: #f8e0db;
-    border: 1px solid var(--mg-wrong, #a83a2e);
-    color: var(--mg-wrong, #a83a2e);
-    padding: 0.4rem 0.75rem;
-    border-radius: var(--radius);
-    text-align: center;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.playArea {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-end;
-    justify-content: center;
-}
-
-.sidePanel {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
-    width: 10rem;
-    flex-shrink: 0;
-}
-
-.attemptLabel {
-    font-family: var(--font-display);
-    font-size: 0.85rem;
-    color: var(--mg-primary, #1f5c3a);
-    text-align: center;
-}
-
-.lifelinesField {
-    margin: 0;
-    padding: 0.6rem 0.75rem 0.75rem;
-    border: 2px solid var(--mg-secondary, #c9a227);
-    border-radius: 1.1rem;
-    background: transparent;
-    width: 100%;
-}
-
-.lifelinesLegend {
-    padding: 0 0.5rem;
-    margin-left: auto;
-    margin-right: auto;
-    font-family: var(--font-display);
-    font-size: 0.9rem;
-    color: var(--mg-primary, #1f5c3a);
-    letter-spacing: 0.02em;
-}
-
-.lifelineButtons {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-}
-
-.lifelineButton {
-    width: 100%;
-    padding: 0.45rem 0.6rem;
-    background: var(--color-surface);
-    border: 2px solid var(--mg-secondary, #c9a227);
-    border-radius: var(--radius);
-    font: inherit;
-    font-size: 0.82rem;
-    color: var(--color-text);
-    cursor: pointer;
-    transition:
-        background var(--transition),
-        color var(--transition);
-}
-
-.lifelineButton:hover:not(:disabled) {
-    background: var(--mg-secondary, #c9a227);
-    color: var(--color-rich-text);
-}
-
-.lifelineButton:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-}
-
-.lifelineButton[data-used="true"] {
-    text-decoration: line-through;
-}
-
-.lifelineRemaining {
-    margin-top: 0.3rem;
-    text-align: center;
-    color: var(--color-muted);
-    font-size: 0.75rem;
-}
-
-.skipButton {
-    width: 100%;
-    padding: 0.5rem 0.6rem;
-    background: var(--mg-wrong, #a83a2e);
-    color: var(--color-rich-text);
-    border: 2px solid var(--mg-wrong, #a83a2e);
-    border-radius: var(--radius);
-    font: inherit;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        background var(--transition),
-        border-color var(--transition);
-}
-
-.skipButton:hover {
-    background: #7d2c22;
-    border-color: #7d2c22;
-}
-
-.volumeSlider {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    height: 240px;
-}
-
-.volumeIcon {
-    color: var(--color-muted);
-    flex-shrink: 0;
-}
-
-.volumeRange {
-    writing-mode: vertical-lr;
-    direction: rtl;
-    flex: 1;
-    width: 28px;
-    min-height: 0;
-    accent-color: var(--mg-primary, #1f5c3a);
-    cursor: pointer;
-}
-
-.skipGuessButton {
-    align-self: center;
-    padding: 0.4rem 1rem;
-    background: transparent;
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius);
-    font: inherit;
-    font-size: 0.85rem;
-    color: var(--color-muted);
-    cursor: pointer;
-    transition:
-        color var(--transition),
-        border-color var(--transition);
-}
-
-.skipGuessButton:hover:not(:disabled) {
-    color: var(--mg-primary, #1f5c3a);
-    border-color: var(--mg-primary, #1f5c3a);
-}
-
-.skipGuessButton:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
+.blankShown {
+  min-width: 0;
 }
 
 .wrongList {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
 }
 
 .wrongItem {
-    display: flex;
-    align-items: baseline;
-    gap: 0.45rem;
-    padding: 0.35rem 0.65rem;
-    border-radius: calc(var(--radius) - 4px);
-    background: #f8e0db;
-    font-size: 0.88rem;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: #7a5a3f;
+  overflow-wrap: anywhere;
 }
 
-.wrongX {
-    color: var(--mg-wrong, #a83a2e);
-    font-weight: 700;
-    flex-shrink: 0;
+.wrongItem s {
+  text-decoration-color: #9c3b22;
+  text-decoration-thickness: 2.5px;
 }
 
-.wrongTitle {
-    font-weight: 600;
-    color: var(--color-text);
+/* ── Reveal ───────────────────────────────────────── */
+
+.reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
 }
 
-.wrongArtist {
-    color: var(--color-muted);
+.stamp {
+  margin-bottom: 0.5rem;
+  padding: 0.1rem 0.7rem;
+  border: 3px solid currentColor;
+  border-radius: 4px;
+  font-family: 'Barlow Semi Condensed', var(--font-body);
+  font-size: 1.25rem;
+  font-weight: 700;
+  transform: rotate(-4deg);
+  opacity: 0.88;
+  animation: stamp 260ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
 }
 
-@media (max-width: 560px) {
-    .playArea {
-        flex-direction: column;
-        align-items: stretch;
-    }
+.stamp[data-outcome='correct'] {
+  color: #3f6b2a;
+}
 
-    .sidePanel {
-        width: auto;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: stretch;
-    }
+.stamp[data-outcome='failed'],
+.stamp[data-outcome='skipped'] {
+  color: #9c3b22;
+}
 
-    .lifelinesField {
-        flex: 1;
-        min-width: 0;
-    }
+@keyframes stamp {
+  from {
+    transform: rotate(-4deg) scale(1.6);
+    opacity: 0;
+  }
+}
 
-    .skipButton {
-        flex: 1;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .stamp {
+    animation: none;
+  }
+}
 
-    .volumeSlider {
-        flex-direction: row;
-        height: auto;
-    }
+.revealTitle {
+  font-family: 'Gochi Hand', cursive;
+  font-size: 2.1rem;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
 
-    .volumeRange {
-        writing-mode: horizontal-tb;
-        direction: ltr;
-        flex: 1;
-        width: auto;
-    }
+.revealArtist {
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.4rem;
+  color: #5a3d2a;
+}
+
+.nextButton {
+  margin-top: 1rem;
+}
+
+/* ── Guessing ─────────────────────────────────────── */
+
+.guessArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.feedbackWrong {
+  align-self: stretch;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.4rem;
+  color: #f0b75a;
+  text-align: center;
+  animation: shake 320ms ease;
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedbackWrong {
+    animation: none;
+  }
+}
+
+.skipGuessButton {
+  align-self: center;
+}
+
+@media (max-width: 600px) {
+  .root {
+    gap: 1.2rem;
+  }
+
+  .revealTitle {
+    font-size: 1.5rem;
+  }
+
+  .revealArtist {
+    font-size: 1.15rem;
+  }
+
+  .blanks {
+    gap: 0.3rem 0.8rem;
+  }
+
+  .blank,
+  .blankShown {
+    height: 1.6rem;
+    font-size: 1.4rem;
+  }
+
+  .blank {
+    width: 0.75rem;
+  }
+
+  .emptyNote,
+  .wrongItem {
+    font-size: 1.15rem;
+  }
+
+  .reveal .nextButton {
+    align-self: stretch;
+  }
 }

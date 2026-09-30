@@ -13,9 +13,9 @@ export function normalize(str: string): string {
     .trim();
 }
 
-function stripTitleSuffix(title: string): string {
+export function stripTitleSuffix(title: string): string {
   return title
-    .replace(/\s*[-–—]\s*((\d{4}\s+)?remaster(ed)?|deluxe|bonus|expanded|anniversary|mono|stereo|live|single|album|radio)\b.*/i, '')
+    .replace(/\s*[-–—]\s*((\d{4}\s+)?remaster(ed)?|remix(ed)?|deluxe|bonus|expanded|anniversary|mono|stereo|live|single|album|radio)\b.*/i, '')
     .replace(/\s*\(([^)]*\b(remaster(ed)?|deluxe|bonus|expanded|anniversary|edition|version|mono|stereo|live|single|radio|mix|feat\.?|ft\.?|with)\b[^)]*)\)/gi, '')
     .replace(/\s*\[([^\]]*\b(remaster(ed)?|deluxe|bonus|expanded|anniversary|edition|version|mono|stereo|live|single|radio|mix|feat\.?|ft\.?|with)\b[^\]]*)\]/gi, '')
     .trim();
@@ -46,11 +46,39 @@ export function typedFullTitle(query: string, title: string): boolean {
   return t.length > 0 && normalize(query).includes(t);
 }
 
+/**
+ * The "title blanks" lifeline: each word keeps its first letter, remaining
+ * letters become blanks, and digits/punctuation stay as-is. Returned per word
+ * so the UI can wrap between words only. "Don't Stop Me Now" →
+ * [["D","_","_","'","_"], ["S","_","_","_"], ...].
+ */
+export function titleBlanks(title: string): string[][] {
+  const words = stripTitleSuffix(title).split(/\s+/).filter(Boolean);
+  return words.map((word) => {
+    let firstShown = false;
+    return Array.from(word).map((ch) => {
+      if (!/\p{L}/u.test(ch)) return ch;
+      if (!firstShown) {
+        firstShown = true;
+        return ch.toUpperCase();
+      }
+      return '_';
+    });
+  });
+}
+
 export function getLocalDateString(date = new Date()): string {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');
   const d = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
+}
+
+/** "2026-09-30" → "Sep 30", the way you'd scrawl it on a tape label. */
+export function formatTapeDate(dateStr: string): string {
+  const d = new Date(`${dateStr}T00:00:00`);
+  if (Number.isNaN(d.getTime())) return dateStr;
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
 export function getSnippetSeconds(attempt: number, extendActive: boolean): number {

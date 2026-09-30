@@ -3,33 +3,30 @@ import type { LifetimeStats } from './types';
 
 interface StatsPanelProps {
   stats: LifetimeStats;
+  heading?: string;
 }
 
-export default function StatsPanel({ stats }: StatsPanelProps) {
+export default function StatsPanel({ stats, heading = 'Your daily tapes' }: StatsPanelProps) {
   if (stats.gamesPlayed === 0) return null;
 
   const winRate = Math.round((stats.gamesWon / stats.gamesPlayed) * 100);
+  const items = [
+    { value: stats.gamesPlayed, label: 'Played' },
+    { value: `${winRate}%`, label: 'Won' },
+    { value: stats.currentStreak, label: 'Streak' },
+    { value: stats.maxStreak, label: 'Best streak' },
+  ];
 
   return (
-    <section className={styles.panel} aria-label="Lifetime stats">
-      <h3 className={styles.heading}>Your stats</h3>
+    <section className={styles.panel} aria-label={heading}>
+      <h3 className={styles.heading}>{heading}</h3>
       <div className={styles.grid}>
-        <div className={styles.stat}>
-          <div className={styles.value}>{stats.gamesPlayed}</div>
-          <div className={styles.label}>Games</div>
-        </div>
-        <div className={styles.stat}>
-          <div className={styles.value}>{winRate}%</div>
-          <div className={styles.label}>Win rate</div>
-        </div>
-        <div className={styles.stat}>
-          <div className={styles.value}>{stats.currentStreak}</div>
-          <div className={styles.label}>Streak</div>
-        </div>
-        <div className={styles.stat}>
-          <div className={styles.value}>{stats.maxStreak}</div>
-          <div className={styles.label}>Max streak</div>
-        </div>
+        {items.map((it) => (
+          <div key={it.label} className={styles.stat}>
+            <div className={styles.value}>{it.value}</div>
+            <div className={styles.label}>{it.label}</div>
+          </div>
+        ))}
       </div>
     </section>
   );

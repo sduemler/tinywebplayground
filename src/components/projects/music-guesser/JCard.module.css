@@ -1,0 +1,63 @@
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) 38px minmax(0, 1fr);
+  background: #f2e6c6;
+  color: #2b1d15;
+  box-shadow:
+    0 10px 24px rgba(20, 10, 4, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.4) inset;
+}
+
+.front {
+  padding: 10px;
+  align-self: start;
+}
+
+/* Fold lines either side of the spine. */
+.spine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px dashed rgba(43, 29, 21, 0.3);
+  border-right: 1px dashed rgba(43, 29, 21, 0.3);
+  background: linear-gradient(90deg, rgba(43, 29, 21, 0.05), transparent 30%, transparent 70%, rgba(43, 29, 21, 0.05));
+}
+
+.spineText {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.15rem;
+  white-space: nowrap;
+  color: #5a3d2a;
+}
+
+.flap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem 1.1rem;
+  min-width: 0;
+  background-image: repeating-linear-gradient(180deg, transparent 0 31px, rgba(43, 29, 21, 0.12) 31px 32px);
+  background-position: 0 14px;
+}
+
+@media (max-width: 600px) {
+  /* Keep the guess box in reach: cover shrinks to a thumbnail beside the flap. */
+  .card {
+    grid-template-columns: 118px minmax(0, 1fr);
+  }
+
+  .front {
+    padding: 8px 0 8px 8px;
+  }
+
+  .spine {
+    display: none;
+  }
+
+  .flap {
+    padding: 0.7rem 0.8rem 0.8rem;
+    gap: 0.5rem;
+  }
+}

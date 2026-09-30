@@ -1,48 +1,55 @@
 .panel {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .heading {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  color: var(--mg-primary, #1f5c3a);
-  margin: 0 0 0.75rem 0;
+  margin: 0;
+  font-family: 'Gochi Hand', cursive;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: #f2e6c6;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
-}
-
-@media (max-width: 460px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #2b190e;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6);
 }
 
 .stat {
-  text-align: center;
-  padding: 0.55rem 0.3rem;
-  background: var(--color-accent-light);
-  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.6rem 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: #1c130d;
 }
 
 .value {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: var(--mg-primary, #1f5c3a);
+  font-size: 1.8rem;
+  font-weight: 700;
   line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: #ffb347;
+  text-shadow: 0 0 8px rgba(255, 170, 60, 0.5);
 }
 
 .label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-muted);
-  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #b48a4f;
+  text-align: center;
+}
+
+@media (max-width: 420px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

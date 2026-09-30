@@ -1,106 +1,120 @@
 .root {
-  --mg-primary: #1f5c3a;
-  --mg-primary-light: #c8dccd;
-  --mg-secondary: #c9a227;
-  --mg-secondary-light: #f5e8b8;
-  --mg-correct: #2f7d4a;
-  --mg-wrong: #a83a2e;
-
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  color: var(--color-text);
+  gap: 1.75rem;
+  color: #f2e6c6;
+  font-family: 'Barlow Semi Condensed', var(--font-body);
+  font-size: 1.05rem;
+}
+
+/* ── Home ─────────────────────────────────────────── */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
 }
 
 .title {
-  font-family: var(--font-display);
-  font-size: 2.25rem;
-  color: var(--mg-primary);
   margin: 0;
-  text-align: center;
+  font-family: 'Gochi Hand', cursive;
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 4.75rem);
+  line-height: 1;
+  color: #f2e6c6;
+  transform: rotate(-2deg);
+  text-shadow: 0 3px 0 #2b190e;
 }
 
 .subtitle {
-  text-align: center;
-  color: var(--color-muted);
   margin: 0;
-  font-size: 1rem;
+  max-width: 34rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #d9c29c;
 }
 
-.modeGrid {
+.tapes {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 1.75rem;
 }
 
-@media (max-width: 560px) {
-  .modeGrid {
+.tapeButton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tapeButton > svg {
+  transition: transform 200ms ease;
+}
+
+.tapeButton:nth-child(1) > svg {
+  transform: rotate(-1.5deg);
+}
+
+.tapeButton:nth-child(2) > svg {
+  transform: rotate(1.2deg);
+}
+
+.tapeButton:hover > svg,
+.tapeButton:focus-visible > svg {
+  transform: translateY(-6px) rotate(0deg);
+}
+
+.tapeButton:focus-visible {
+  outline: 3px solid #e8a93a;
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+
+.tapeCaption {
+  padding: 0 0.25rem;
+  line-height: 1.45;
+  color: #d9c29c;
+}
+
+@media (max-width: 600px) {
+  .tapes {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
-.modeCard {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 1.5rem 1.25rem;
-  cursor: pointer;
-  text-align: left;
-  font: inherit;
-  color: inherit;
-  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
-}
-
-.modeCard:hover:not(:disabled) {
-  transform: translateY(-3px);
-  border-color: var(--mg-primary);
-  box-shadow: 0 6px 16px rgba(31, 92, 58, 0.18);
-}
-
-.modeCard:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.modeCardTitle {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  color: var(--mg-primary);
-  margin: 0 0 0.4rem 0;
-}
-
-.modeCardBody {
-  margin: 0;
-  color: var(--color-muted);
-  font-size: 0.95rem;
-}
-
-.modeCardBadge {
-  display: inline-block;
-  margin-top: 0.6rem;
-  background: var(--mg-secondary-light);
-  color: var(--color-text);
-  padding: 0.15rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 600;
-}
+/* ── Loading / error ─────────────────────────────── */
 
 .loadingBlock {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: var(--color-muted);
-  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 0;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.5rem;
+  color: #d9c29c;
+}
+
+.loadingTape {
+  width: min(100%, 320px);
 }
 
 .errorBlock {
-  background: #f8e0db;
-  border: 2px solid var(--mg-wrong);
-  color: var(--mg-wrong);
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  border-left: 5px solid #d9622b;
+  border-radius: 3px;
+  background: #3b2415;
+  color: #f2e6c6;
   font-weight: 600;
 }

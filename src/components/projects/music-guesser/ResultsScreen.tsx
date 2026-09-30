@@ -1,4 +1,7 @@
+import StatsPanel from './StatsPanel';
+import { formatTapeDate, stripTitleSuffix } from './utils';
 import styles from './ResultsScreen.module.css';
+import ui from './ui.module.css';
 import type { DailyResult, LifetimeStats, Mode, SongResult } from './types';
 
 interface ResultsScreenProps {
@@ -10,6 +13,12 @@ interface ResultsScreenProps {
   onPlayAgain: () => void;
   onBackHome: () => void;
 }
+
+const MARKS = {
+  correct: { symbol: '✓', label: 'got it' },
+  failed: { symbol: '✗', label: 'missed' },
+  skipped: { symbol: '–', label: 'skipped' },
+} as const;
 
 export default function ResultsScreen({
   mode,
@@ -24,75 +33,55 @@ export default function ResultsScreen({
   const total = songResults.length;
   const perfect = correct === total && total > 0;
 
-  const winRate = stats.gamesPlayed > 0 ? Math.round((stats.gamesWon / stats.gamesPlayed) * 100) : 0;
-
   return (
     <div className={styles.root}>
-      <div className={styles.summaryCard}>
-        <h2 className={styles.heading}>{mode === 'daily' ? "Today's Result" : 'Practice Result'}</h2>
-        {dailyResult && <div className={styles.subline}>{dailyResult.date}</div>}
-
-        <div className={styles.scoreRow}>
-          <div className={styles.scoreNumber}>
+      <article className={styles.insert}>
+        <header className={styles.insertHead}>
+          <h2 className={styles.heading}>
+            {mode === 'daily' ? "Today's mix" : 'Practice tape'}
+            {dailyResult && <span className={styles.date}>{formatTapeDate(dailyResult.date)}</span>}
+          </h2>
+          <div className={styles.score} aria-label={`${correct} out of ${total} correct`}>
             {correct}
-            <span className={styles.scoreSlash}> / {total}</span>
+            <span className={styles.scoreOf}>of {total}</span>
           </div>
-          <div className={styles.scoreLabel}>correct</div>
-        </div>
+        </header>
 
-        {perfect && <div className={styles.perfectBadge}>★ Perfect game ★</div>}
+        {perfect && <div className={styles.perfect}>Perfect tape</div>}
 
-        <div className={styles.metaRow}>
-          <span>{lifelinesUsed} lifeline{lifelinesUsed === 1 ? '' : 's'} used</span>
-        </div>
-
-        <ol className={styles.songList}>
+        <ol className={styles.tracklist}>
           {songResults.map((r, i) => (
-            <li key={i} className={styles.songItem} data-outcome={r.outcome}>
-              <span className={styles.songIndex}>{i + 1}.</span>
-              <span className={styles.songTitle}>{r.title}</span>
-              <span className={styles.songArtist}>{r.artist}</span>
-              <span className={styles.songOutcome}>
-                {r.outcome === 'correct' ? '✓' : r.outcome === 'skipped' ? '↷' : '✗'}
+            <li key={i} className={styles.track} data-outcome={r.outcome}>
+              <span className={styles.trackNo}>{i + 1}</span>
+              <span className={styles.trackName}>
+                {stripTitleSuffix(r.title)}
+                <span className={styles.trackArtist}>{r.artist}</span>
+              </span>
+              <span className={styles.mark} aria-label={MARKS[r.outcome].label}>
+                {MARKS[r.outcome].symbol}
               </span>
             </li>
           ))}
         </ol>
-      </div>
 
-      {mode === 'daily' && (
-        <div className={styles.statsCard}>
-          <h3 className={styles.statsHeading}>Lifetime stats</h3>
-          <div className={styles.statsGrid}>
-            <div className={styles.stat}>
-              <div className={styles.statValue}>{stats.gamesPlayed}</div>
-              <div className={styles.statLabel}>Games</div>
-            </div>
-            <div className={styles.stat}>
-              <div className={styles.statValue}>{winRate}%</div>
-              <div className={styles.statLabel}>Win rate</div>
-            </div>
-            <div className={styles.stat}>
-              <div className={styles.statValue}>{stats.currentStreak}</div>
-              <div className={styles.statLabel}>Streak</div>
-            </div>
-            <div className={styles.stat}>
-              <div className={styles.statValue}>{stats.maxStreak}</div>
-              <div className={styles.statLabel}>Max streak</div>
-            </div>
-          </div>
-          <p className={styles.comeBack}>Come back tomorrow for the next daily challenge.</p>
-        </div>
-      )}
+        <p className={styles.footnote}>
+          {lifelinesUsed === 0
+            ? 'No lifelines used.'
+            : `${lifelinesUsed} lifeline${lifelinesUsed === 1 ? '' : 's'} used.`}
+          {mode === 'daily' && ' A new tape arrives tomorrow.'}
+        </p>
+      </article>
+
+      {mode === 'daily' && <StatsPanel stats={stats} />}
 
       <div className={styles.buttonRow}>
         {mode === 'practice' && (
-          <button type="button" className={styles.primaryButton} onClick={onPlayAgain}>
-            Play another
+          <button type="button" className={ui.primary} onClick={onPlayAgain}>
+            Pick another tape
           </button>
         )}
-        <button type="button" className={styles.secondaryButton} onClick={onBackHome}>
-          Back to home
+        <button type="button" className={ui.secondary} onClick={onBackHome}>
+          Back to start
         </button>
       </div>
     </div>

@@ -7,7 +7,7 @@
  * accessible — to fetch metadata.
  */
 
-import { spotifyFetch, type SpotifyTrack, type SpotifyArtist } from './spotify';
+import { spotifyFetch, type SpotifyTrack } from './spotify';
 import { findPreviewUrl } from './deezer';
 import { PLAYLIST_BUCKETS } from './tracks-data';
 
@@ -16,8 +16,6 @@ export interface EnrichedTrack {
   title: string;
   artist: string;
   albumArt: string;
-  decade: string;
-  genre: string;
   previewUrl: string;
 }
 
@@ -38,7 +36,7 @@ interface PlaylistItemsResponse {
 /** Used only for user-created playlists pasted as a URL/ID — editorial IDs route through buckets. */
 export async function fetchPlaylistTracks(playlistId: string): Promise<SpotifyTrack[]> {
   const tracks: SpotifyTrack[] = [];
-  let path: string | null = `/playlists/${playlistId}/tracks?limit=100&fields=items(track(id,name,artists(id,name),album(images,release_date))),next`;
+  let path: string | null = `/playlists/${playlistId}/tracks?limit=100&fields=items(track(id,name,artists(id,name),album(images))),next`;
 
   // Callers only shuffle down to a small candidate set, so cap pagination: an
   // attacker-supplied 10k-track playlist would otherwise trigger ~100 sequential
@@ -101,34 +99,10 @@ export async function fetchTracksByIds(ids: string[]): Promise<SpotifyTrack[]> {
   return out;
 }
 
-function getDecade(releaseDate: string): string {
-  const year = parseInt(releaseDate.slice(0, 4), 10);
-  if (Number.isNaN(year)) return 'unknown';
-  const decade = Math.floor(year / 10) * 10;
-  return `${decade}s`;
-}
-
 function bestAlbumArt(images: Array<{ url: string; width: number; height: number }>): string {
   if (!images || images.length === 0) return '';
   const sorted = [...images].sort((a, b) => b.width - a.width);
   return sorted[0]?.url ?? '';
-}
-
-export async function batchFetchArtists(artistIds: string[]): Promise<Map<string, SpotifyArtist>> {
-  const out = new Map<string, SpotifyArtist>();
-  const unique = Array.from(new Set(artistIds));
-
-  for (let i = 0; i < unique.length; i += 50) {
-    const chunk = unique.slice(i, i + 50);
-    const data = await spotifyFetch<{ artists: SpotifyArtist[] }>(
-      `/artists?ids=${chunk.join(',')}`
-    );
-    for (const a of data.artists) {
-      if (a) out.set(a.id, a);
-    }
-  }
-
-  return out;
 }
 
 /**
@@ -147,9 +121,6 @@ export async function enrichTracks(
   candidates: SpotifyTrack[],
   desiredCount: number
 ): Promise<EnrichedTrack[]> {
-  const artistIds = candidates.flatMap((t) => t.artists.map((a) => a.id));
-  const artistMap = await batchFetchArtists(artistIds);
-
   const enriched: EnrichedTrack[] = [];
 
   for (const t of candidates) {
@@ -159,17 +130,11 @@ export async function enrichTracks(
     const previewUrl = await findPreviewUrl(t.name, artistName);
     if (!previewUrl) continue;
 
-    const primaryArtistId = t.artists[0]?.id;
-    const genres = primaryArtistId ? artistMap.get(primaryArtistId)?.genres ?? [] : [];
-    const genre = genres[0] ?? 'unknown';
-
     enriched.push({
       id: t.id,
       title: t.name,
       artist: artistName,
       albumArt: bestAlbumArt(t.album.images),
-      decade: getDecade(t.album.release_date),
-      genre,
       previewUrl,
     });
   }

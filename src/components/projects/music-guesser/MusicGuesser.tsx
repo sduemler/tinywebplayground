@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Cassette from './Cassette';
 import GameScreen from './GameScreen';
 import HomeScreen from './HomeScreen';
 import PlaylistPicker from './PlaylistPicker';
@@ -136,8 +137,11 @@ export default function MusicGuesser() {
   if (phase === 'loading') {
     return (
       <div className={styles.root}>
-        <div className={styles.loadingBlock}>
-          Loading {mode === 'daily' ? "today's songs" : 'songs'}…
+        <div className={styles.loadingBlock} role="status">
+          <div className={styles.loadingTape}>
+            <Cassette label={mode === 'daily' ? "Today's mix" : 'Practice'} note="winding…" spinning />
+          </div>
+          Loading {mode === 'daily' ? "today's songs" : 'the tape'}…
         </div>
       </div>
     );

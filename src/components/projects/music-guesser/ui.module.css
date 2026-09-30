@@ -1,0 +1,98 @@
+/* Shared button styles: chunky hardware buttons that sit up off the surface and press down. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.55rem 1.2rem;
+  border: 0;
+  border-radius: 5px;
+  font-family: 'Barlow Semi Condensed', var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transform: translateY(-3px);
+  transition: transform 90ms ease, box-shadow 90ms ease, background var(--transition);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.button:focus-visible {
+  outline: 3px solid #e8a93a;
+  outline-offset: 3px;
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.primary {
+  composes: button;
+  background: linear-gradient(180deg, #f0b75a, #d9922b);
+  color: #2b1d15;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 200, 0.7),
+    0 3px 0 #8a531b,
+    0 5px 8px rgba(0, 0, 0, 0.35);
+}
+
+.primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #f5c36e, #e19d38);
+}
+
+.primary:active:not(:disabled) {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 #8a531b;
+}
+
+.secondary {
+  composes: button;
+  background: linear-gradient(180deg, #efe6cf, #d9cba9);
+  color: #2b1d15;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 3px 0 #8f7a55,
+    0 5px 8px rgba(0, 0, 0, 0.35);
+}
+
+.secondary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #f6eedb, #e2d5b5);
+}
+
+.secondary:active:not(:disabled) {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 #8f7a55;
+}
+
+/* Text-only action on the walnut ground. */
+.quiet {
+  min-height: 40px;
+  padding: 0.4rem 0.6rem;
+  border: 0;
+  background: none;
+  color: #c9ab85;
+  font-family: 'Barlow Semi Condensed', var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(201, 171, 133, 0.45);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.quiet:hover:not(:disabled) {
+  color: #f2e6c6;
+}
+
+.quiet:focus-visible {
+  outline: 3px solid #e8a93a;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.quiet:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

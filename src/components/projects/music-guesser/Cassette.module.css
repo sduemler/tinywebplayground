@@ -1,0 +1,116 @@
+.cassette {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(20, 10, 4, 0.45));
+}
+
+.shell {
+  fill: #3a2a20;
+}
+
+.shellEdge {
+  fill: none;
+  stroke: rgba(255, 230, 190, 0.14);
+  stroke-width: 2;
+}
+
+.screw {
+  fill: #8d7a5c;
+  stroke: #2a1d15;
+  stroke-width: 1;
+}
+
+.screwSlot {
+  stroke: #2a1d15;
+  stroke-width: 1.4;
+}
+
+.label {
+  fill: #f2e6c6;
+}
+
+.ruling {
+  stroke: rgba(43, 29, 21, 0.18);
+  stroke-width: 1;
+}
+
+.sideBox {
+  fill: #2b1d15;
+}
+
+.sideLetter {
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  fill: #f2e6c6;
+}
+
+.labelText {
+  font-family: 'Gochi Hand', cursive;
+  font-size: 30px;
+  fill: #2b1d15;
+}
+
+.noteText {
+  font-family: 'Gochi Hand', cursive;
+  font-size: 19px;
+  fill: #5a3d2a;
+}
+
+.window {
+  fill: #1f1611;
+}
+
+.windowGlass {
+  fill: rgba(255, 235, 200, 0.06);
+  stroke: #1a120d;
+  stroke-width: 3;
+}
+
+.tapePack {
+  fill: #5b3321;
+  transition: r 400ms ease;
+}
+
+.hubRing {
+  fill: #efe4c8;
+}
+
+.hubTooth {
+  fill: #1f1611;
+}
+
+.hubHole {
+  fill: #1f1611;
+}
+
+.hub {
+  transform-box: view-box;
+}
+
+.cassette[data-spinning='true'] .hub {
+  animation: spin 1.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cassette[data-spinning='true'] .hub {
+    animation-duration: 6s;
+  }
+}
+
+.headPlate {
+  fill: #2c2019;
+  stroke: rgba(255, 230, 190, 0.1);
+  stroke-width: 1.5;
+}
+
+.headHole {
+  fill: #140d09;
+}

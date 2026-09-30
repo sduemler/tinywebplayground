@@ -8,5 +8,35 @@ const project = projects.find((p) => p.slug === 'music-guesser')!;
 ---
 
 <ProjectLayout project={project}>
+  <link
+    slot="head"
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Gochi+Hand&display=swap"
+  />
   <MusicGuesser client:load />
 </ProjectLayout>
+
+<style is:global>
+  /* Hi-fi cabinet: walnut veneer ground, champagne hardware, cream paper labels. */
+  body {
+    background-color: #4a2f1d;
+  }
+
+  .project-wrapper {
+    --color-bg: #4a2f1d;
+    --color-text: #f2e6c6;
+    --color-muted: #c9ab85;
+    --color-surface: #3b2415;
+    --color-border: #2b190e;
+    --color-accent: #e8a93a;
+    --color-accent-light: #3b2415;
+    --color-rich: #2b190e;
+    --color-rich-text: #f2e6c6;
+
+    background-color: #4a2f1d;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0 2px, transparent 2px 9px),
+      repeating-linear-gradient(90deg, rgba(255, 220, 170, 0.04) 0 1px, transparent 1px 23px),
+      linear-gradient(90deg, #4f321f, #452b1a 40%, #4d311e 70%, #432918);
+  }
+</style>
