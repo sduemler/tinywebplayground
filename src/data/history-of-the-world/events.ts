@@ -23,19 +23,21 @@ export type CategoryId =
 export interface Category {
   id: CategoryId;
   label: string;
+  /** One-word name for the compact key beside the seal. */
+  short: string;
   /** Ink color of the event's underline and spine dot. */
   color: string;
 }
 
 export const CATEGORIES: Category[] = [
-  { id: "cosmic", label: "Cosmic & Geological", color: "#4b4453" },
-  { id: "life", label: "Life & Evolution", color: "#3d7a45" },
-  { id: "disaster", label: "Disasters & Plagues", color: "#c4561a" },
-  { id: "war", label: "Wars & Conflict", color: "#8e1b1b" },
-  { id: "invention", label: "Inventions & Science", color: "#2d5a7b" },
-  { id: "migration", label: "Migrations & Exploration", color: "#b08209" },
-  { id: "empire", label: "Empires & Politics", color: "#6d2a6b" },
-  { id: "culture", label: "Culture & Religion", color: "#b5476f" },
+  { id: "cosmic", label: "Cosmic & Geological", short: "Cosmic", color: "#4b4453" },
+  { id: "life", label: "Life & Evolution", short: "Life", color: "#3d7a45" },
+  { id: "disaster", label: "Disasters & Plagues", short: "Disasters", color: "#c4561a" },
+  { id: "war", label: "Wars & Conflict", short: "Wars", color: "#8e1b1b" },
+  { id: "invention", label: "Inventions & Science", short: "Inventions", color: "#2d5a7b" },
+  { id: "migration", label: "Migrations & Exploration", short: "Migrations", color: "#b08209" },
+  { id: "empire", label: "Empires & Politics", short: "Empires", color: "#6d2a6b" },
+  { id: "culture", label: "Culture & Religion", short: "Culture", color: "#b5476f" },
 ];
 
 interface RawEvent {

@@ -307,9 +307,24 @@ export default function HistoryOfTheWorld() {
         </div>
       </div>
 
-      <div className={styles.seal} aria-live="off" data-visible={moment ? "true" : "false"}>
-        <span className={styles.sealWax} aria-hidden="true" />
-        <span className={styles.sealText}>{moment ?? ""}</span>
+      <div className={styles.hud} data-visible={moment ? "true" : "false"}>
+        <ul className={styles.key} aria-label="Colour key">
+          {CATEGORIES.map((c) => (
+            <li
+              key={c.id}
+              className={styles.keyItem}
+              data-hidden={hidden.has(c.id) ? "true" : "false"}
+              style={{ "--cat": c.color } as CSSProperties}
+            >
+              <span className={styles.keySwatch} aria-hidden="true" />
+              {c.short}
+            </li>
+          ))}
+        </ul>
+        <div className={styles.seal} aria-live="off">
+          <span className={styles.sealWax} aria-hidden="true" />
+          <span className={styles.sealText}>{moment ?? ""}</span>
+        </div>
       </div>
     </div>
   );

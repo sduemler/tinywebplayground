@@ -514,15 +514,70 @@
 
 /* ── Floating "you are here" seal ────────────────────────────────────────── */
 
-.seal {
+.hud {
   position: fixed;
   right: 16px;
   bottom: 16px;
   z-index: 20;
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  max-width: calc(100vw - 32px);
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.hud[data-visible="false"] {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* A small reminder of what each line colour means. */
+.key {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem 0.55rem 0.6rem;
+  list-style: none;
+  border-radius: 10px;
+  background: rgba(36, 24, 16, 0.88);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  color: #f5e3bf;
+  font-family: var(--font-fell);
+  font-size: 0.86rem;
+  line-height: 1.25;
+}
+
+.keyItem {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  transition: opacity 160ms ease;
+}
+
+.keyItem[data-hidden="true"] {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+
+.keySwatch {
+  width: 1.1rem;
+  height: 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  background: var(--cat);
+  /* Lift the darkest inks off the dark panel. */
+  box-shadow: 0 0 0 1px rgba(245, 227, 191, 0.35);
+}
+
+.seal {
+  display: flex;
   align-items: center;
   gap: 0.55rem;
-  max-width: calc(100vw - 32px);
+  max-width: 100%;
   padding: 0.35rem 0.95rem 0.35rem 0.35rem;
   border-radius: 999px;
   background: rgba(36, 24, 16, 0.9);
@@ -530,13 +585,6 @@
   font-family: var(--font-fell);
   font-size: 1rem;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-  pointer-events: none;
-  transition: opacity 200ms ease, transform 200ms ease;
-}
-
-.seal[data-visible="false"] {
-  opacity: 0;
-  transform: translateY(10px);
 }
 
 .sealWax {
@@ -642,9 +690,25 @@
     font-size: 0.82rem;
   }
 
-  .seal {
+  .hud {
     right: 10px;
     bottom: 10px;
+    max-width: calc(100vw - 20px);
+  }
+
+  /* Two columns on phones so the key stays short and out of the way. */
+  .key {
+    grid-template-columns: auto auto;
+    column-gap: 0.75rem;
+    font-size: 0.76rem;
+    padding: 0.4rem 0.6rem 0.45rem 0.5rem;
+  }
+
+  .keySwatch {
+    width: 0.85rem;
+  }
+
+  .seal {
     font-size: 0.92rem;
   }
 }
