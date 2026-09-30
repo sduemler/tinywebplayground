@@ -1,0 +1,41 @@
+---
+export const prerender = true;
+import ProjectLayout from "@layouts/ProjectLayout.astro";
+import { projects } from "@data/projects";
+import HistoryOfTheWorld from "../../components/projects/history-of-the-world/HistoryOfTheWorld";
+
+const project = projects.find((p) => p.slug === "history-of-the-world")!;
+---
+
+<ProjectLayout project={project}>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pinyon+Script&display=swap"
+  />
+  <link rel="preload" as="image" href="/images/history-of-the-world/scroll-top.webp" />
+  <link rel="preload" as="image" href="/images/history-of-the-world/scroll-tile.webp" />
+  <HistoryOfTheWorld client:load />
+</ProjectLayout>
+
+<!-- The scroll lies on a dark walnut writing desk; the header and footer take
+     the same palette. Still warm and earthy, just after dark. -->
+<style is:global>
+  body {
+    background-color: #241810;
+  }
+
+  .project-wrapper {
+    --color-bg: #241810;
+    --color-text: #f1e2c2;
+    --color-muted: #c4a57a;
+    --color-surface: #2e1f15;
+    --color-border: #4a3322;
+    --color-accent: #e0a95c;
+    --color-accent-light: #2e1f15;
+    --color-rich: #1a110b;
+    --color-rich-text: #f5e3bf;
+    background: radial-gradient(ellipse at 50% 0%, #34231679 0%, transparent 60%), #241810;
+  }
+</style>

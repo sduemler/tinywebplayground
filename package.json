@@ -18,7 +18,8 @@
     "gen-clues": "node --env-file=.env scripts/gen-clues.mjs",
     "gen-clues:finalize": "node --env-file=.env scripts/gen-clues.mjs --finalize",
     "gen-clues:finalize-shuffled": "node --env-file=.env scripts/gen-clues.mjs --finalize --shuffle",
-    "build-behind-the-counter": "node scripts/build-behind-the-counter.mjs"
+    "build-behind-the-counter": "node scripts/build-behind-the-counter.mjs",
+    "build-history-scroll": "node scripts/build-history-scroll.mjs"
   },
   "dependencies": {
     "@astrojs/netlify": "^8.2.3",

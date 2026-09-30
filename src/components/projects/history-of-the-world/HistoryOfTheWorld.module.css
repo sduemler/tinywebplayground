@@ -1,0 +1,714 @@
+/* History of the World — a parchment scroll on a dark writing desk.
+ * All paper artwork is from two CC0 images (see scripts/build-history-scroll.mjs):
+ * the rolled top, a mirrored middle tile that repeats forever, and a torn-edge
+ * mask for the bottom. Nothing here draws the paper by hand. */
+
+.page {
+  --ink: #3a2413;
+  --ink-faded: #6e4d2c;
+  --ink-ghost: rgba(74, 46, 22, 0.55);
+  --desk: #241810;
+  --paper-wash: rgba(247, 226, 188, 0.92);
+  --font-script: "Pinyon Script", "Snell Roundhand", cursive;
+  --font-fell: "IM Fell English", "Iowan Old Style", Georgia, serif;
+  --font-fell-sc: "IM Fell English SC", "IM Fell English", Georgia, serif;
+  --spine-x: 50%;
+  --gutter: 34px;
+
+  padding: 0.5rem 0 2rem;
+  color: var(--ink);
+  font-family: var(--font-fell);
+}
+
+/* ── The scroll ──────────────────────────────────────────────────────────── */
+
+.scroll {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.scrollTop {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+  /* Only the short cap gets a shadow — a filter on the (potentially
+     hundreds-of-thousands-px tall) body would be far too expensive. */
+  filter: drop-shadow(0 -4px 10px rgba(0, 0, 0, 0.35));
+}
+
+.scrollBody {
+  position: relative;
+  display: flow-root; /* keep the title's margin from opening a seam */
+  /* Butts against the cap's last row; overlap 1px to hide sub-pixel seams. */
+  margin-top: -1px;
+  padding: 0 10.5% calc(10.5% + 3rem);
+  background: url("/images/history-of-the-world/scroll-tile.webp") top center / 100% auto repeat-y;
+  overflow-anchor: none;
+}
+
+/* The torn bottom: paint the desk colour through the torn-paper mask. */
+.tornEnd {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  aspect-ratio: 1100 / 115;
+  background: var(--desk);
+  -webkit-mask: url("/images/history-of-the-world/torn-bottom-mask.png") center / 100% 100% no-repeat;
+  mask: url("/images/history-of-the-world/torn-bottom-mask.png") center / 100% 100% no-repeat;
+}
+
+/* ── Heading & introduction ──────────────────────────────────────────────── */
+
+.title {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(2.9rem, 10vw, 6.2rem);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 240, 210, 0.35);
+}
+
+.subtitle {
+  margin: 0.25rem 0 1.75rem;
+  text-align: center;
+  font-family: var(--font-fell);
+  font-style: italic;
+  font-size: clamp(1rem, 2.4vw, 1.2rem);
+  color: var(--ink-faded);
+}
+
+.intro {
+  max-width: 44rem;
+  margin: 0 auto;
+  font-size: clamp(1rem, 2.1vw, 1.12rem);
+  line-height: 1.6;
+}
+
+.intro p {
+  margin: 0 0 1rem;
+}
+
+.intro p:first-child::first-letter {
+  float: left;
+  font-family: var(--font-script);
+  font-size: 4.2em;
+  line-height: 0.8;
+  padding: 0.12em 0.22em 0 0;
+  color: var(--ink);
+}
+
+.intro strong {
+  font-family: var(--font-fell-sc);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 0.5rem;
+  margin: 0.25rem 0 0.35rem;
+  padding: 0;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 36px;
+  padding: 0.3rem 0.75rem 0.3rem 0.55rem;
+  border: 1px solid rgba(58, 36, 19, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 244, 222, 0.35);
+  color: var(--ink);
+  font-family: var(--font-fell);
+  font-size: 0.98rem;
+  cursor: pointer;
+  transition: background var(--transition), opacity var(--transition), border-color var(--transition);
+}
+
+.legendItem:hover {
+  background: rgba(255, 244, 222, 0.7);
+  border-color: var(--cat);
+}
+
+.legendItem:focus-visible,
+.controlButton:focus-visible,
+.foldButton:focus-visible,
+.rollUpButton:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.legendItem[aria-pressed="false"] {
+  opacity: 0.45;
+  text-decoration: line-through;
+  text-decoration-color: rgba(58, 36, 19, 0.6);
+}
+
+.legendSwatch {
+  width: 1.6rem;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--cat);
+  flex-shrink: 0;
+}
+
+.legendHint {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-faded);
+  margin-bottom: 1.25rem !important;
+}
+
+.scaleNote {
+  font-size: 0.92em;
+  font-style: italic;
+  color: var(--ink-faded);
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.controlButton {
+  min-height: 40px;
+  padding: 0.45rem 1.2rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  background: rgba(255, 244, 222, 0.45);
+  color: var(--ink);
+  font-family: var(--font-fell-sc);
+  font-size: 1.02rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.controlButton:hover {
+  background: var(--ink);
+  color: #f5e3bf;
+}
+
+.flourish {
+  margin: 2.25rem 0 1.5rem;
+  text-align: center;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--ink-faded);
+}
+
+.empty {
+  text-align: center;
+  font-style: italic;
+  margin: 3rem 0;
+}
+
+/* ── Timeline ────────────────────────────────────────────────────────────── */
+
+.timeline {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* The spine: one continuous line of ink down the middle. */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0;
+  left: var(--spine-x);
+  width: 2px;
+  margin-left: -1px;
+  background: linear-gradient(to bottom, rgba(58, 36, 19, 0) 0, rgba(58, 36, 19, 0.75) 2rem);
+}
+
+.event {
+  position: relative;
+  display: flex;
+}
+
+.eventBody {
+  position: relative;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.event[data-side="left"] .eventBody {
+  padding-right: var(--gutter);
+  text-align: right;
+}
+
+.event[data-side="right"] {
+  justify-content: flex-end;
+}
+
+.event[data-side="right"] .eventBody {
+  padding-left: var(--gutter);
+}
+
+.eventDate {
+  margin: 0;
+  font-family: var(--font-fell-sc);
+  font-size: 0.98rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-faded);
+}
+
+.eventTitle {
+  margin: 0.05rem 0 0.2rem;
+  font-family: var(--font-fell);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 2.8vw, 1.6rem);
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+/* The colour-coded line: runs from the text to a dot on the spine. */
+.rule {
+  position: relative;
+  height: 3px;
+  margin: 0.15rem 0 0.5rem;
+  border-radius: 2px;
+}
+
+.event[data-side="left"] .rule {
+  margin-right: calc(-1 * var(--gutter));
+  background: linear-gradient(to right, transparent 0, var(--cat) 45%, var(--cat) 100%);
+}
+
+.event[data-side="right"] .rule {
+  margin-left: calc(-1 * var(--gutter));
+  background: linear-gradient(to left, transparent 0, var(--cat) 45%, var(--cat) 100%);
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  margin-top: -6.5px;
+  border-radius: 50%;
+  background: var(--cat);
+  box-shadow: 0 0 0 2px #f1dab0, 0 0 0 3.5px var(--ink);
+}
+
+.event[data-side="left"] .dot {
+  right: -6.5px;
+}
+
+.event[data-side="right"] .dot {
+  left: -6.5px;
+}
+
+.eventBlurb {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ── Gaps ────────────────────────────────────────────────────────────────── */
+
+.gapShort {
+  position: relative;
+}
+
+.fold {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 1.1rem 0;
+}
+
+.unrolled {
+  position: relative;
+}
+
+.foldButton,
+.rollUpButton {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.35rem 1.1rem 0.4rem;
+  border: 1.5px dashed rgba(58, 36, 19, 0.7);
+  border-radius: 10px;
+  background: #f0d8ac;
+  box-shadow: 0 0 0 5px #f0d8ac;
+  color: var(--ink);
+  font-family: var(--font-fell);
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+.foldButton:hover,
+.rollUpButton:hover {
+  background: #f7e4c0;
+  border-style: solid;
+  transform: translateY(-1px);
+}
+
+.foldSpan {
+  font-family: var(--font-fell-sc);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.foldAction {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-faded);
+}
+
+/* The fold-up button rides along while you scroll through an unrolled gap. */
+.stickyRail {
+  position: sticky;
+  top: 38vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding-top: 1rem;
+  pointer-events: none;
+}
+
+.rollUpButton {
+  pointer-events: auto;
+}
+
+.tick {
+  position: absolute;
+  left: var(--spine-x);
+  width: 14px;
+  height: 1.5px;
+  margin-left: -7px;
+  background: var(--ink-ghost);
+}
+
+.tickLabel {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-ghost);
+}
+
+/* What the world was doing during an unrolled gap. */
+.meanwhile {
+  position: relative;
+  z-index: 1;
+  max-width: 24rem;
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  border-radius: 8px;
+  background: rgba(240, 216, 172, 0.94);
+  box-shadow: 0 0 0 5px rgba(240, 216, 172, 0.94);
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  text-align: center;
+  color: var(--ink);
+}
+
+.meanwhileLabel {
+  font-family: var(--font-fell-sc);
+  font-style: normal;
+  letter-spacing: 0.02em;
+}
+
+/* ── Era headings ────────────────────────────────────────────────────────── */
+
+.era {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 1.75rem 0 2rem;
+}
+
+.eraCard {
+  position: relative;
+  z-index: 1;
+  max-width: 30rem;
+  padding: 0.9rem 1.4rem 1rem;
+  border-top: 3px double rgba(58, 36, 19, 0.75);
+  border-bottom: 3px double rgba(58, 36, 19, 0.75);
+  background: rgba(240, 216, 172, 0.96);
+  text-align: center;
+}
+
+.eraName {
+  margin: 0;
+  font-family: var(--font-fell-sc);
+  font-weight: 400;
+  font-size: clamp(1.45rem, 3.4vw, 1.9rem);
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.eraSpan {
+  margin: 0.1rem 0 0.45rem;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-faded);
+}
+
+.eraText {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* ── Ending ──────────────────────────────────────────────────────────────── */
+
+.ending {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.endingDate {
+  font-family: var(--font-script);
+  font-size: clamp(2.4rem, 7vw, 3.4rem);
+  line-height: 1;
+}
+
+.endingText {
+  font-style: italic;
+  color: var(--ink-faded);
+  font-size: 1.1rem;
+}
+
+/* ── Floating "you are here" seal ────────────────────────────────────────── */
+
+.hud {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  max-width: calc(100vw - 32px);
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.hud[data-visible="false"] {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* A small reminder of what each line colour means. */
+.key {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem 0.55rem 0.6rem;
+  list-style: none;
+  border-radius: 10px;
+  background: rgba(36, 24, 16, 0.88);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  color: #f5e3bf;
+  font-family: var(--font-fell);
+  font-size: 0.86rem;
+  line-height: 1.25;
+}
+
+.keyItem {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  transition: opacity 160ms ease;
+}
+
+.keyItem[data-hidden="true"] {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+
+.keySwatch {
+  width: 1.1rem;
+  height: 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  background: var(--cat);
+  /* Lift the darkest inks off the dark panel. */
+  box-shadow: 0 0 0 1px rgba(245, 227, 191, 0.35);
+}
+
+.seal {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  max-width: 100%;
+  padding: 0.35rem 0.95rem 0.35rem 0.35rem;
+  border-radius: 999px;
+  background: rgba(36, 24, 16, 0.9);
+  color: #f5e3bf;
+  font-family: var(--font-fell);
+  font-size: 1rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.sealWax {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 46% 54% 50% 50% / 52% 48% 52% 48%;
+  background: radial-gradient(circle at 38% 35%, #c4453a 0, #8e1f1a 55%, #5e1210 100%);
+  box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.18), inset 0 0 0 6px rgba(255, 180, 160, 0.12);
+}
+
+.sealText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Phones: one column, spine on the left ───────────────────────────────── */
+
+@media (max-width: 640px) {
+  .page {
+    --spine-x: 10px;
+    --gutter: 26px;
+  }
+
+  .scrollBody {
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+
+  .event,
+  .event[data-side="right"] {
+    justify-content: flex-start;
+  }
+
+  .eventBody,
+  .event[data-side="left"] .eventBody,
+  .event[data-side="right"] .eventBody {
+    width: 100%;
+    padding-left: var(--gutter);
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .event[data-side="left"] .rule,
+  .event[data-side="right"] .rule {
+    margin-left: calc(-1 * var(--gutter) + var(--spine-x));
+    margin-right: 0;
+    background: linear-gradient(to left, transparent 0, var(--cat) 45%, var(--cat) 100%);
+  }
+
+  .event[data-side="left"] .dot,
+  .event[data-side="right"] .dot {
+    left: -6.5px;
+    right: auto;
+  }
+
+  .fold {
+    justify-content: flex-start;
+    padding-left: calc(var(--gutter) - 6px);
+  }
+
+  .stickyRail {
+    align-items: flex-start;
+    padding-left: calc(var(--gutter) - 6px);
+  }
+
+  .meanwhile {
+    text-align: left;
+    font-size: 0.94rem;
+  }
+
+  .era {
+    justify-content: flex-start;
+    margin: 1.5rem 0 1.75rem;
+  }
+
+  .eraCard {
+    margin-left: calc(var(--gutter) - 8px);
+    padding: 0.75rem 0.9rem 0.85rem;
+    text-align: left;
+  }
+
+  .eventBlurb {
+    font-size: 0.98rem;
+  }
+
+  .legend {
+    gap: 0.35rem;
+  }
+
+  .legendItem {
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem 0.25rem 0.45rem;
+    font-size: 0.86rem;
+  }
+
+  .legendSwatch {
+    width: 1.1rem;
+  }
+
+  .tickLabel {
+    font-size: 0.82rem;
+  }
+
+  .hud {
+    right: 10px;
+    bottom: 10px;
+    max-width: calc(100vw - 20px);
+  }
+
+  /* Two columns on phones so the key stays short and out of the way. */
+  .key {
+    grid-template-columns: auto auto;
+    column-gap: 0.75rem;
+    font-size: 0.76rem;
+    padding: 0.4rem 0.6rem 0.45rem 0.5rem;
+  }
+
+  .keySwatch {
+    width: 0.85rem;
+  }
+
+  .seal {
+    font-size: 0.92rem;
+  }
+}
