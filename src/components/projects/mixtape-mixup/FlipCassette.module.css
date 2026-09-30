@@ -1,0 +1,52 @@
+.stage {
+  perspective: 900px;
+}
+
+.flipper {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  transform-style: preserve-3d;
+}
+
+button.flipper {
+  cursor: pointer;
+}
+
+button.flipper:focus-visible {
+  outline: 3px solid #e8a93a;
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+/* Edge-on at the midpoint, where the label swaps, then round to face the player. */
+.flipper[data-flipping='true'] {
+  animation: flip 520ms cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  49.9% {
+    transform: rotateY(90deg);
+  }
+  50% {
+    transform: rotateY(-90deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+.hint {
+  margin: 0.45rem 0 0;
+  font-family: 'Barlow Semi Condensed', var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  color: #b48a4f;
+}

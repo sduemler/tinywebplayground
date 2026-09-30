@@ -2,9 +2,9 @@
 export const prerender = true;
 import ProjectLayout from '../../layouts/ProjectLayout.astro';
 import { projects } from '../../data/projects';
-import MusicGuesser from '../../components/projects/music-guesser/MusicGuesser';
+import MixtapeMixup from '../../components/projects/mixtape-mixup/MixtapeMixup';
 
-const project = projects.find((p) => p.slug === 'music-guesser')!;
+const project = projects.find((p) => p.slug === 'mixtape-mixup')!;
 ---
 
 <ProjectLayout project={project}>
@@ -13,7 +13,7 @@ const project = projects.find((p) => p.slug === 'music-guesser')!;
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Gochi+Hand&display=swap"
   />
-  <MusicGuesser client:load />
+  <MixtapeMixup client:load />
 </ProjectLayout>
 
 <style is:global>

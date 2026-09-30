@@ -32,12 +32,12 @@ export const projects: Project[] = [
     tags: ["audio", "synth", "interactive"],
   },
   {
-    slug: "music-guesser",
-    title: "Music Guesser",
+    slug: "mixtape-mixup",
+    title: "Mixtape Mixup",
     description:
-      "Heardle-style daily song guessing game. Three guesses, three lifelines, ten songs.",
-    image: "/images/projects/music-guesser.webp",
-    accentColor: "#1f5c3a",
+      "Name the song from a few seconds of tape. Ten songs a day, three guesses each, three lifelines.",
+    image: "/images/projects/mixtape-mixup.webp",
+    accentColor: "#e8a93a",
     status: "live",
     tags: ["music", "game", "daily"],
   },

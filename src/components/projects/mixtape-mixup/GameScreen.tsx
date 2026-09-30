@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { LINES_PER_SIDE } from './Cassette';
 import AlbumCover from './AlbumCover';
 import Deck from './Deck';
 import GuessInput from './GuessInput';
@@ -6,9 +7,10 @@ import JCard from './JCard';
 import ProgressBar from './ProgressBar';
 import { MAX_ATTEMPTS } from './gameReducer';
 import { formatTapeDate, getSnippetSeconds, stripTitleSuffix, titleBlanks } from './utils';
-import { useMusicGuesserStore } from './store';
+import { useMixtapeMixupStore } from './store';
 import styles from './GameScreen.module.css';
 import ui from './ui.module.css';
+import type { TapeSide } from './FlipCassette';
 import type { GameState, LifelineKind, SearchResult } from './types';
 
 interface GameScreenProps {
@@ -38,10 +40,13 @@ export default function GameScreen({
   const songResult = state.songResults[state.currentIndex];
   const songFinished = !!songResult;
 
-  const volume = useMusicGuesserStore((s) => s.volume);
-  const setVolume = useMusicGuesserStore((s) => s.setVolume);
+  const volume = useMixtapeMixupStore((s) => s.volume);
+  const setVolume = useMixtapeMixupStore((s) => s.setVolume);
   const [feedback, setFeedback] = useState<'right' | 'wrong' | null>(null);
   const [wrongGuesses, setWrongGuesses] = useState<SearchResult[]>([]);
+  // Songs already on the label when this screen opened (e.g. after a refresh)
+  // appear as-is; only ones finished from here on get written out.
+  const writtenRef = useRef(new Set(state.songResults.map((_, i) => i)));
 
   useEffect(() => {
     setFeedback(null);
@@ -63,6 +68,25 @@ export default function GameScreen({
   const spine =
     state.mode === 'daily' && state.date ? `Daily mix, ${formatTapeDate(state.date)}` : 'Practice tape';
   const guessesLeft = MAX_ATTEMPTS - state.attempt;
+
+  // Five songs to a side: the tape turns over for track 6.
+  const sideCount = Math.max(1, Math.ceil(state.tracks.length / LINES_PER_SIDE));
+  const sides: TapeSide[] = Array.from({ length: sideCount }, (_, s) => ({
+    letter: s === 0 ? 'A' : 'B',
+    lines: Array.from({ length: LINES_PER_SIDE }, (_, i) => {
+      const index = s * LINES_PER_SIDE + i;
+      const result = state.songResults[index];
+      if (!result) return null;
+      return {
+        text: stripTitleSuffix(result.title),
+        tone: result.outcome === 'correct' ? 'right' : 'wrong',
+        animate: !writtenRef.current.has(index),
+        onWritten: () => writtenRef.current.add(index),
+      };
+    }),
+    currentLine:
+      Math.floor(state.currentIndex / LINES_PER_SIDE) === s ? state.currentIndex % LINES_PER_SIDE : null,
+  }));
 
   const handleGuess = (selected: SearchResult) => {
     if (selected.id === track.id) {
@@ -88,8 +112,12 @@ export default function GameScreen({
         resetKey={`${state.currentIndex}-${state.attempt}-${state.extendActive ? 'ext' : 'norm'}-${songFinished}`}
         volume={volume}
         onVolumeChange={setVolume}
-        cassetteLabel={`Track ${trackNumber}`}
-        cassetteNote={`of ${state.tracks.length} on this tape`}
+        tape={{
+          title: spine,
+          sides,
+          activeSide: Math.min(sideCount - 1, Math.floor(state.currentIndex / LINES_PER_SIDE)),
+          resetKey: `${state.currentIndex}-${state.songResults.length}`,
+        }}
         lifelines={
           songFinished
             ? undefined

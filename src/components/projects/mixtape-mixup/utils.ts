@@ -15,9 +15,9 @@ export function normalize(str: string): string {
 
 export function stripTitleSuffix(title: string): string {
   return title
-    .replace(/\s*[-–—]\s*((\d{4}\s+)?remaster(ed)?|remix(ed)?|deluxe|bonus|expanded|anniversary|mono|stereo|live|single|album|radio)\b.*/i, '')
-    .replace(/\s*\(([^)]*\b(remaster(ed)?|deluxe|bonus|expanded|anniversary|edition|version|mono|stereo|live|single|radio|mix|feat\.?|ft\.?|with)\b[^)]*)\)/gi, '')
-    .replace(/\s*\[([^\]]*\b(remaster(ed)?|deluxe|bonus|expanded|anniversary|edition|version|mono|stereo|live|single|radio|mix|feat\.?|ft\.?|with)\b[^\]]*)\]/gi, '')
+    .replace(/\s*[-–—]\s*((\d{4}\s+)?remaster(ed)?|remix(ed)?|from|deluxe|bonus|expanded|anniversary|mono|stereo|live|single|album|radio)\b.*/i, '')
+    .replace(/\s*\(([^)]*\b(remaster(ed)?|deluxe|bonus|expanded|anniversary|edition|version|mono|stereo|live|single|radio|mix|from|feat\.?|ft\.?|with)\b[^)]*)\)/gi, '')
+    .replace(/\s*\[([^\]]*\b(remaster(ed)?|deluxe|bonus|expanded|anniversary|edition|version|mono|stereo|live|single|radio|mix|from|feat\.?|ft\.?|with)\b[^\]]*)\]/gi, '')
     .trim();
 }
 

@@ -31,8 +31,13 @@
 }
 
 .ruling {
-  stroke: rgba(43, 29, 21, 0.18);
+  stroke: rgba(43, 29, 21, 0.16);
   stroke-width: 1;
+}
+
+.headerRule {
+  stroke: rgba(43, 29, 21, 0.55);
+  stroke-width: 1.5;
 }
 
 .sideBox {
@@ -42,20 +47,44 @@
 .sideLetter {
   font-family: 'Barlow Semi Condensed', sans-serif;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 20px;
   fill: #f2e6c6;
 }
 
-.labelText {
+.titleText {
   font-family: 'Gochi Hand', cursive;
-  font-size: 30px;
+  font-size: 22px;
   fill: #2b1d15;
 }
 
-.noteText {
+.lineNumber {
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  fill: #8c6d4f;
+}
+
+/* Pencil ring around the number of the song playing now. */
+.currentCircle {
+  fill: none;
+  stroke: #2b1d15;
+  stroke-width: 1.6;
+  transform: rotate(-8deg);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.lineText {
   font-family: 'Gochi Hand', cursive;
   font-size: 19px;
-  fill: #5a3d2a;
+}
+
+.lineText[data-tone='right'] {
+  fill: #2f6b2a;
+}
+
+.lineText[data-tone='wrong'] {
+  fill: #b0301e;
 }
 
 .window {

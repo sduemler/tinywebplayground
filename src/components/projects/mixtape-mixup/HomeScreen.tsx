@@ -3,7 +3,7 @@ import Cassette from './Cassette';
 import StatsPanel from './StatsPanel';
 import { GAME_NAME } from './brand';
 import { formatTapeDate, getLocalDateString } from './utils';
-import styles from './MusicGuesser.module.css';
+import styles from './MixtapeMixup.module.css';
 import type { LifetimeStats } from './types';
 
 interface HomeScreenProps {
@@ -38,8 +38,7 @@ export default function HomeScreen({ onPickDaily, onPickPractice, dailyAlreadyPl
       <div className={styles.tapes}>
         <button type="button" className={styles.tapeButton} onClick={onPickDaily} {...hoverProps('daily')}>
           <Cassette
-            label="Today's mix"
-            note={formatTapeDate(getLocalDateString())}
+            title={`Today's mix, ${formatTapeDate(getLocalDateString())}`}
             side="A"
             spinning={active === 'daily'}
           />
@@ -52,8 +51,7 @@ export default function HomeScreen({ onPickDaily, onPickPractice, dailyAlreadyPl
 
         <button type="button" className={styles.tapeButton} onClick={onPickPractice} {...hoverProps('practice')}>
           <Cassette
-            label="Practice"
-            note="pick any tape"
+            title="Practice tape"
             side="B"
             spinning={active === 'practice'}
             stripes={['#c9b37a', '#8aa84a', '#5d6b2a']}

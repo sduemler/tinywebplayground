@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import Cassette from './Cassette';
+import FlipCassette, { type TapeSide } from './FlipCassette';
 import { fetchFreshPreview, isPreviewUrlFresh } from './utils';
 import styles from './Deck.module.css';
 import type { LifelineKind } from './types';
@@ -23,8 +23,13 @@ interface DeckProps {
   resetKey: number | string;
   volume: number;
   onVolumeChange: (v: number) => void;
-  cassetteLabel: string;
-  cassetteNote?: string;
+  /** What's written on the cassette, per side. */
+  tape: {
+    title: string;
+    sides: TapeSide[];
+    activeSide: number;
+    resetKey: string;
+  };
   /** Omit once the song is over: the lifeline and skip keys are hidden. */
   lifelines?: {
     remaining: number;
@@ -121,8 +126,7 @@ export default function Deck({
   resetKey,
   volume,
   onVolumeChange,
-  cassetteLabel,
-  cassetteNote,
+  tape,
   lifelines,
   onSkipSong,
 }: DeckProps) {
@@ -238,12 +242,7 @@ export default function Deck({
       <audio ref={audioRef} preload="none" />
 
       <div className={styles.well}>
-        <Cassette
-          label={cassetteLabel}
-          note={cassetteNote}
-          spinning={playing}
-          progress={progress / PREVIEW_SECONDS}
-        />
+        <FlipCassette {...tape} spinning={playing} progress={progress / PREVIEW_SECONDS} />
       </div>
 
       <div className={styles.controls}>
