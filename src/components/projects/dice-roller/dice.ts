@@ -6,6 +6,7 @@ export interface RollResult {
 
 type Token =
   | { type: "num"; value: number }
+  | { type: "dice"; count: number; sides: number }
   | { type: "op"; value: "+" | "-" | "*" | "/" }
   | { type: "lparen" }
   | { type: "rparen" };
@@ -24,6 +25,10 @@ function rollDice(numDice: number, numSides: number): number {
   return total;
 }
 
+function isDigit(c: string | undefined): boolean {
+  return c !== undefined && c >= "0" && c <= "9";
+}
+
 function tokenize(expr: string): Token[] {
   const tokens: Token[] = [];
   let i = 0;
@@ -33,9 +38,19 @@ function tokenize(expr: string): Token[] {
       i++;
       continue;
     }
-    if (c >= "0" && c <= "9") {
+    if (isDigit(c) || ((c === "d" || c === "D") && isDigit(expr[i + 1]))) {
       let j = i;
-      while (j < expr.length && expr[j] >= "0" && expr[j] <= "9") j++;
+      while (j < expr.length && isDigit(expr[j])) j++;
+      // Dice notation: "2d6", or "d20" as shorthand for "1d20". Each one is its
+      // own token so repeated or overlapping notations roll independently.
+      if ((expr[j] === "d" || expr[j] === "D") && isDigit(expr[j + 1])) {
+        const count = j > i ? parseInt(expr.slice(i, j), 10) : 1;
+        let k = j + 1;
+        while (k < expr.length && isDigit(expr[k])) k++;
+        tokens.push({ type: "dice", count, sides: parseInt(expr.slice(j + 1, k), 10) });
+        i = k;
+        continue;
+      }
       if (j < expr.length && expr[j] === ".") {
         j++;
         while (j < expr.length && expr[j] >= "0" && expr[j] <= "9") j++;
@@ -64,7 +79,10 @@ function tokenize(expr: string): Token[] {
   return tokens;
 }
 
-function evaluate(tokens: Token[]): number {
+function evaluate(
+  tokens: Token[],
+  onRoll: (notation: string, value: number) => void,
+): number {
   let pos = 0;
 
   const peek = () => tokens[pos];
@@ -113,6 +131,12 @@ function evaluate(tokens: Token[]): number {
       consume();
       return t.value;
     }
+    if (t.type === "dice") {
+      consume();
+      const value = rollDice(t.count, t.sides);
+      onRoll(`${t.count}d${t.sides}`, value);
+      return value;
+    }
     if (t.type === "lparen") {
       consume();
       const v = parseExpr();
@@ -133,36 +157,12 @@ export function parseDiceRoll(input: string): RollResult {
   const trimmed = input.trim();
   if (!trimmed) throw new Error("Empty expression");
 
-  const diceRegex = /(\d+)d(\d+)/gi;
-  const rolls = new Map<string, number>();
-  let expression = trimmed;
+  const rolls: string[] = [];
+  const result = evaluate(tokenize(trimmed), (notation, value) => {
+    rolls.push(`${notation} = ${value}`);
+  });
 
-  let match: RegExpExecArray | null;
-  while ((match = diceRegex.exec(trimmed)) !== null) {
-    const notation = match[0].toLowerCase();
-    if (!rolls.has(notation)) {
-      const numDice = parseInt(match[1], 10);
-      const numSides = parseInt(match[2], 10);
-      rolls.set(notation, rollDice(numDice, numSides));
-    }
-  }
-
-  for (const [notation, value] of rolls) {
-    expression = expression.replace(
-      new RegExp(notation, "gi"),
-      value.toString(),
-    );
-  }
-
-  const tokens = tokenize(expression);
-  const result = evaluate(tokens);
-
-  const breakdown =
-    rolls.size > 0
-      ? `(${Array.from(rolls.entries())
-          .map(([dice, value]) => `${dice} = ${value}`)
-          .join(", ")})`
-      : "";
+  const breakdown = rolls.length > 0 ? `(${rolls.join(", ")})` : "";
 
   return { input: trimmed, result, breakdown };
 }

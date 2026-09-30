@@ -14,7 +14,7 @@
  * Requires: GOOGLE_APPLICATION_CREDENTIALS or firebase-admin default credentials
  */
 
-import { initializeApp, cert } from "firebase-admin/app";
+import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import removedIds from "../src/data/the-crossword/removed-entry-ids.json";
 

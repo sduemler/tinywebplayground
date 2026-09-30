@@ -4,9 +4,12 @@ import styles from './ProjectCard.module.css';
 
 interface Props {
   project: Project;
+  /** Load the image eagerly (cards in the first row, above the fold). */
+  eager?: boolean;
 }
 
-const { project } = Astro.props;
+const { project, eager = false } = Astro.props;
+const statusLabel = { live: null, wip: 'WIP', 'coming-soon': 'Soon' }[project.status];
 ---
 
 <a
@@ -14,12 +17,15 @@ const { project } = Astro.props;
   class={styles.card}
   style={`--card-accent: ${project.accentColor};`}
 >
+  {statusLabel && <span class={styles.status}>{statusLabel}</span>}
   {project.image ? (
     <img
       src={project.image}
-      alt={project.title}
+      alt=""
       width="800"
       height="600"
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
       class={styles.image}
       style={[
         project.imagePosition ? `object-position: ${project.imagePosition}` : null,
@@ -37,9 +43,3 @@ const { project } = Astro.props;
     )}
   </div>
 </a>
-
-<style define:vars={{ cardAccent: project.accentColor }}>
-  a:hover {
-    border-color: var(--card-accent) !important;
-  }
-</style>

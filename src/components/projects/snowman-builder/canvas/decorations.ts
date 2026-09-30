@@ -7,7 +7,7 @@ export function drawDecorations(
 ): void {
   if (stack.length < 3) return;
 
-  const [bottom, middle, top] = stack;
+  const [, middle, top] = stack;
 
   ctx.save();
   ctx.globalAlpha = alpha;

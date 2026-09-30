@@ -5,6 +5,9 @@ import netlify from '@astrojs/netlify';
 import AstroPWA from '@vite-pwa/astro';
 
 export default defineConfig({
+  // Netlify sets URL to the site's primary URL at build time. It drives the
+  // absolute canonical / og:image URLs in BaseLayout (skipped when unset).
+  site: process.env.URL,
   integrations: [
     react(),
     AstroPWA({
@@ -15,7 +18,21 @@ export default defineConfig({
       outDir: 'dist',
       workbox: {
         navigateFallback: undefined,
-        globPatterns: ['**/*.{css,js,html,svg,png,webp,ico,woff,woff2}'],
+        // Images are left out of the precache: it runs on a visitor's first page
+        // view and would pull every project's art (~5 MB). They're cached on
+        // demand below instead, so pages already visited still work offline.
+        globPatterns: ['**/*.{css,js,html,svg,ico,woff,woff2}'],
+        runtimeCaching: [
+          {
+            urlPattern: ({ request, sameOrigin }) =>
+              sameOrigin && request.destination === 'image',
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'images',
+              expiration: { maxEntries: 300, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+        ],
       },
     }),
   ],
@@ -31,7 +48,9 @@ export default defineConfig({
     // Dev-only setting; production builds are unaffected. Re-enable if this
     // project ever gains an edge function (and expect the error back until
     // the upstream flag bug is fixed — it is still present in 2.0.1).
-    devFeatures: { edgeFunctions: false },
+    // `images` and `environmentVariables` are the adapter defaults; the type
+    // requires all three keys once any is given.
+    devFeatures: { edgeFunctions: false, images: true, environmentVariables: false },
   }),
   image: {
     service: passthroughImageService(),

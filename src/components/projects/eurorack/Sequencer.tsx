@@ -18,8 +18,6 @@ const BPM_MAX = 240;
 const GATE_STEPS = 1000;
 const GATE_MIN = 0.05;
 const GATE_MAX = 1;
-const MIN_OCT = 1;
-const MAX_OCT = 7;
 
 const palette: React.CSSProperties = {
   ["--module-bg" as string]:

@@ -1,5 +1,3 @@
-import styles from "./SnowmanBuilder.module.css";
-
 interface Props {
   totalCm: number;
   totalInches: number;

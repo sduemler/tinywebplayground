@@ -25,6 +25,8 @@ pnpm-debug.log*
 
 # Local Netlify folder
 .netlify
+# Written by the Netlify edge-functions dev server (Deno)
+deno.lock
 
 # Firebase Cloud Functions build output
 firebase/functions/lib/
@@ -35,3 +37,7 @@ media-preview.html
 
 # Akeelah build cache (downloaded Cornell corpus + TMDB cache)
 scripts/.cache/
+
+# Timelapse recorder output (scripts/record-timelapse.mjs)
+.timelapse-frames/
+timelapse.mp4

@@ -40,6 +40,12 @@ export function isDuplicateVersion(
   return artistA === artistB || artistA.includes(artistB) || artistB.includes(artistA);
 }
 
+/** True when `query` contains the track's full title (ignoring suffixes like "- Remastered"). */
+export function typedFullTitle(query: string, title: string): boolean {
+  const t = normalize(stripTitleSuffix(title));
+  return t.length > 0 && normalize(query).includes(t);
+}
+
 export function getLocalDateString(date = new Date()): string {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');
