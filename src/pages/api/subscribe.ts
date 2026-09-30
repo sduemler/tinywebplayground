@@ -5,7 +5,7 @@ export const prerender = false;
 export const POST: APIRoute = async ({ request }) => {
   const { email } = await request.json().catch(() => ({}));
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return new Response(
       JSON.stringify({ success: false, error: 'Please enter a valid email address.' }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -20,14 +20,22 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  const res = await fetch('https://api.buttondown.com/v1/subscribers', {
-    method: 'POST',
-    headers: {
-      Authorization: `Token ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email_address: email }),
-  });
+  let res: Response;
+  try {
+    res = await fetch('https://api.buttondown.com/v1/subscribers', {
+      method: 'POST',
+      headers: {
+        Authorization: `Token ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email_address: email }),
+    });
+  } catch {
+    return new Response(
+      JSON.stringify({ success: false, error: 'Something went wrong. Please try again.' }),
+      { status: 502, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
 
   if (res.ok) {
     return new Response(

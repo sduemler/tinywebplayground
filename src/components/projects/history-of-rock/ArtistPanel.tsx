@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect } from 'react';
 import type { GenreNode } from './types';
 import styles from './ArtistPanel.module.css';
 

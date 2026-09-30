@@ -7,6 +7,8 @@ interface Props {
   manifestUrl?: string;
   themeColor?: string;
   noindex?: boolean;
+  /** Site-relative preview image for link unfurls (og:image). */
+  image?: string;
 }
 
 const {
@@ -15,7 +17,16 @@ const {
   manifestUrl = '/manifest.webmanifest',
   themeColor = '#fef9e7',
   noindex = false,
+  image,
 } = Astro.props;
+
+// Absolute URLs need `site` (set from Netlify's URL at build time). Most
+// unfurlers can't render SVG, so those fall back to the app icon.
+const site = Astro.site;
+const canonical = site ? new URL(Astro.url.pathname, site).href : null;
+const hasPreviewImage = !!image && !image.endsWith('.svg');
+const previewImage = hasPreviewImage ? image : '/pwa-512x512.png';
+const ogImage = site ? new URL(previewImage, site).href : null;
 ---
 
 <!doctype html>
@@ -27,12 +38,24 @@ const {
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={hasPreviewImage ? 'summary_large_image' : 'summary'} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600&display=swap"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href={manifestUrl} />
     <meta name="theme-color" content={themeColor} />
     <link rel="apple-touch-icon" href="/pwa-192x192.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <slot name="head" />
   </head>
   <body>
     <slot />

@@ -18,7 +18,9 @@ import { projects } from "../data/projects";
 
         <main class="hub">
             <div class="grid">
-                {projects.map((project) => <ProjectCard project={project} />)}
+                {projects.map((project, i) => (
+                    <ProjectCard project={project} eager={i < 3} />
+                ))}
             </div>
         </main>
 

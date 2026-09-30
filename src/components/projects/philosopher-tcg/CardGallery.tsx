@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./philosopher-tcg.css";
 import { PHILOSOPHERS } from "./data/cards";
 import { FACTIONS } from "./data/factions";
@@ -8,22 +7,6 @@ import Card from "./Card";
 // independent of what's been pulled from packs. Used to proof the portraits and
 // their framing. Mounted at /projects/philosopher-tcg/all.
 export default function CardGallery() {
-  // Same font injection the main app uses (Cormorant Garamond + IBM Plex Mono).
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
-    document.head.appendChild(link);
-    return () => {
-      try {
-        document.head.removeChild(link);
-      } catch {
-        /* noop */
-      }
-    };
-  }, []);
-
   return (
     <div className="tcg-root">
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "28px 20px 80px" }}>

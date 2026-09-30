@@ -24,11 +24,15 @@ function PresetCard({ preset }: { preset: Preset }) {
     return map;
   });
   const addItem = useWatchlist((s) => s.addItem);
-  const hasMedia = useWatchlist((s) => s.hasMedia);
-  const allAdded = preset.movies.every((m) => hasMedia(m.id));
+  // Subscribe to `items` so the card re-renders when the list changes.
+  const items = useWatchlist((s) => s.items);
+  const hasMovie = (id: number) =>
+    items.some((i) => i.mediaType === "movie" && i.mediaId === id);
+  const allAdded = preset.movies.every((m) => hasMovie(m.id));
 
   const handleAdd = () => {
-    preset.movies.forEach((movie) => {
+    // Only add the films that aren't already on the list.
+    preset.movies.filter((m) => !hasMovie(m.id)).forEach((movie) => {
       addItem({
         mediaId: movie.id,
         mediaType: "movie",
@@ -143,7 +147,11 @@ export default function SearchPane() {
   }, [query]);
 
   const handleAdd = async (item: SearchResult) => {
-    if (item.media_type === "movie" && watchlistItems.some((w) => w.mediaId === item.id)) return;
+    if (
+      item.media_type === "movie" &&
+      watchlistItems.some((w) => w.mediaType === "movie" && w.mediaId === item.id)
+    )
+      return;
     setPendingId(item.id);
     try {
       if (item.media_type === "movie") {
@@ -196,7 +204,9 @@ export default function SearchPane() {
             const year = getYear(item);
             const already =
               item.media_type === "movie" &&
-              watchlistItems.some((w) => w.mediaId === item.id);
+              watchlistItems.some(
+                (w) => w.mediaType === "movie" && w.mediaId === item.id,
+              );
             const pending = pendingId === item.id;
 
             return (

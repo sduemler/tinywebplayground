@@ -23,7 +23,6 @@ function solveColor(index: number, total: number): string {
 }
 
 export default function TimelapsePlayer({
-  puzzleData,
   entries,
   solveHistory,
   fullscreen = false,

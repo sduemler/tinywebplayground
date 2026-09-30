@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { apiFetch, isDuplicateVersion, normalize } from './utils';
+import { apiFetch, isDuplicateVersion, typedFullTitle } from './utils';
 import type { SearchResult, Track } from './types';
 import styles from './GuessInput.module.css';
 
@@ -31,15 +31,24 @@ export default function GuessInput({ disabled, onSubmit, placeholder, currentTra
         const data = await apiFetch<{ success: boolean; results: SearchResult[] }>(
           `/api/music/search?q=${encodeURIComponent(query.trim())}`
         );
-        let filtered = currentTrack
-          ? (data.results || []).filter((r) => !isDuplicateVersion(r, currentTrack))
-          : (data.results || []);
-        if (currentTrack && !filtered.some((r) => r.id === currentTrack.id)) {
-          const q = normalize(query.trim());
-          const matchesTitle = normalize(currentTrack.title).includes(q);
-          const matchesArtist = normalize(currentTrack.artist).includes(q);
-          if (matchesTitle || matchesArtist) {
-            filtered = [{ id: currentTrack.id, title: currentTrack.title, artist: currentTrack.artist }, ...filtered];
+        let filtered = data.results || [];
+        if (currentTrack) {
+          // Search may return a different release of the answer (remaster, live,
+          // single...). Swap any such version for the exact answer track, in the
+          // spot search put it, so the right pick is selectable without the list
+          // revealing anything search itself didn't.
+          const answer = { id: currentTrack.id, title: currentTrack.title, artist: currentTrack.artist };
+          let answerShown = false;
+          filtered = filtered.flatMap((r) => {
+            if (r.id !== answer.id && !isDuplicateVersion(r, currentTrack)) return [r];
+            if (answerShown) return [];
+            answerShown = true;
+            return [answer];
+          });
+          // If search missed it entirely, only surface it once the player has
+          // typed its whole title. Artist names or partial words never do.
+          if (!answerShown && typedFullTitle(query, currentTrack.title)) {
+            filtered = [answer, ...filtered];
           }
         }
         setResults(filtered);

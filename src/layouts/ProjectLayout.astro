@@ -16,7 +16,9 @@ const { project, subtitle } = Astro.props;
   description={project.description}
   manifestUrl={`/manifests/${project.slug}.json`}
   themeColor={project.accentColor}
+  image={project.image}
 >
+  <slot name="head" slot="head" />
   <div class="project-wrapper" style={`--accent: ${project.accentColor};`}>
     <header class="project-header">
       <a href="/" class="back-link" aria-label="Back to hub">

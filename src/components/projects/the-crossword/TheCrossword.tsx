@@ -62,7 +62,6 @@ export default function TheCrossword() {
   const {
     uid,
     nickname: nicknameData,
-    loading: nickLoading,
     submitNickname,
   } = useNickname();
   const solveHistory = useSolveHistory(PUZZLE_ID);

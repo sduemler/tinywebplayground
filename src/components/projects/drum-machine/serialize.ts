@@ -1,8 +1,10 @@
 import type { PatternState, TrackState, Subdivision } from "./types";
-import { findSample, getDefaultPack } from "./drum-packs";
+import { findPack, findSample, getDefaultPack } from "./drum-packs";
 import { LIMITS, SUBDIVISIONS } from "./store";
 
 const VERSION = 1;
+// Shared links are untrusted input; cap how many tracks one can create.
+const MAX_SHARED_TRACKS = 64;
 
 interface CompactTrack {
   s: string;
@@ -34,6 +36,11 @@ function clamp(n: number, lo: number, hi: number): number {
   return Math.max(lo, Math.min(hi, n));
 }
 
+/** `v` if it's a finite number, else `fallback` (guards NaN/strings from malformed links). */
+function num(v: unknown, fallback: number): number {
+  return typeof v === "number" && Number.isFinite(v) ? v : fallback;
+}
+
 function stepsToHex(steps: boolean[]): string {
   if (steps.length === 0) return "0";
   let bits = "";
@@ -44,6 +51,7 @@ function stepsToHex(steps: boolean[]): string {
 
 function hexToSteps(hex: string, length: number): boolean[] {
   if (length === 0) return [];
+  if (typeof hex !== "string" || !/^[0-9a-f]*$/i.test(hex)) hex = "0";
   const bigint = BigInt("0x" + (hex || "0"));
   const out: boolean[] = new Array(length).fill(false);
   for (let i = 0; i < length; i++) {
@@ -74,9 +82,9 @@ function expandTrack(ct: CompactTrack, totalSteps: number): TrackState {
   return {
     id: uid(),
     sampleId: safeSampleId,
-    volume: clamp(ct.v ?? 0.85, 0, 1),
-    pan: clamp(ct.pn ?? 0, -1, 1),
-    pitch: clamp(Math.round(ct.pt ?? 0), -24, 24),
+    volume: clamp(num(ct.v, 0.85), 0, 1),
+    pan: clamp(num(ct.pn, 0), -1, 1),
+    pitch: clamp(Math.round(num(ct.pt, 0)), -24, 24),
     mute: ct.m === 1,
     solo: ct.so === 1,
     steps: hexToSteps(ct.st ?? "0", totalSteps),
@@ -104,12 +112,12 @@ export function decodePattern(json: string): PatternState {
     throw new Error(`Unsupported pattern version: ${raw.v}`);
   }
   const bars = clamp(
-    Math.round(raw.b ?? 4),
+    Math.round(num(raw.b, 4)),
     LIMITS.MIN_BARS,
     LIMITS.MAX_BARS
   );
   const beatsPerBar = clamp(
-    Math.round(raw.bb ?? 4),
+    Math.round(num(raw.bb, 4)),
     LIMITS.MIN_BEATS_PER_BAR,
     LIMITS.MAX_BEATS_PER_BAR
   );
@@ -118,16 +126,19 @@ export function decodePattern(json: string): PatternState {
     ? (rawSub as Subdivision)
     : 1;
   const totalSteps = bars * beatsPerBar * subdivision;
-  const tracks = (raw.t ?? []).map((ct) => expandTrack(ct, totalSteps));
+  const tracks = (Array.isArray(raw.t) ? raw.t : [])
+    .slice(0, MAX_SHARED_TRACKS)
+    .map((ct) => expandTrack(ct, totalSteps));
 
   return {
     bars,
     beatsPerBar,
     subdivision,
-    bpm: clamp(Math.round(raw.bpm ?? 110), LIMITS.MIN_BPM, LIMITS.MAX_BPM),
-    swing: clamp(raw.sw ?? 0, 0, 1),
-    masterVolume: clamp(raw.mv ?? 0.85, 0, 1),
-    defaultPackSlug: raw.p ?? getDefaultPack().slug,
+    bpm: clamp(Math.round(num(raw.bpm, 110)), LIMITS.MIN_BPM, LIMITS.MAX_BPM),
+    swing: clamp(num(raw.sw, 0), 0, 1),
+    masterVolume: clamp(num(raw.mv, 0.85), 0, 1),
+    defaultPackSlug:
+      typeof raw.p === "string" && findPack(raw.p) ? raw.p : getDefaultPack().slug,
     tracks,
   };
 }

@@ -26,6 +26,7 @@ export default function MusicGuesser() {
   const dailyResults = useMusicGuesserStore((s) => s.dailyResults);
   const stats = useMusicGuesserStore((s) => s.stats);
   const recordGame = useMusicGuesserStore((s) => s.recordGame);
+  const saveDailyProgress = useMusicGuesserStore((s) => s.saveDailyProgress);
 
   const todayResult = dailyResults[today];
 
@@ -35,6 +36,13 @@ export default function MusicGuesser() {
 
     if (todayResult) {
       setPhase('results');
+      return;
+    }
+
+    const saved = useMusicGuesserStore.getState().dailyInProgress;
+    if (saved && saved.date === today) {
+      setGameState(saved);
+      setPhase('playing');
       return;
     }
 
@@ -71,6 +79,13 @@ export default function MusicGuesser() {
       setPhase('picking');
     }
   };
+
+  // Save daily progress as it happens (recordGame clears it on completion).
+  useEffect(() => {
+    if (gameState?.mode === 'daily' && !isGameComplete(gameState)) {
+      saveDailyProgress(gameState);
+    }
+  }, [gameState, saveDailyProgress]);
 
   // When the in-game state finishes the last song, persist + transition to results.
   useEffect(() => {

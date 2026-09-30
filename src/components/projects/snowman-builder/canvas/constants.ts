@@ -3,7 +3,6 @@ export const FRICTION = 0.92;
 export const CLEAR_RATE = 0.35;
 export const MIN_SNOWBALL_RADIUS = 12;
 export const MAX_SNOWBALL_RADIUS_FRACTION = 0.13;
-export const STACK_TOLERANCE = 8;
 export const STACK_BALANCE_THRESHOLD = 0.7;
 export const MAX_SNOW_FRACTION = 0.35;
 export const MAX_REAL_SNOW_CM = 30;

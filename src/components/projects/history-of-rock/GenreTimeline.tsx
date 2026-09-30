@@ -1,6 +1,6 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { GENRES, CONNECTIONS } from "./data";
-import type { Genre, Connection } from "./types";
+import type { Genre } from "./types";
 import styles from "./GenreTimeline.module.css";
 
 interface Props {

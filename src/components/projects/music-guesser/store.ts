@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { DailyResult, LifetimeStats, Mode, SongResult } from './types';
+import type { DailyResult, GameState, LifetimeStats, Mode, SongResult } from './types';
 
 const WIN_THRESHOLD = 5;
 
@@ -9,6 +9,9 @@ interface MusicGuesserStore {
   stats: LifetimeStats;
   volume: number;
   setVolume: (v: number) => void;
+  /** Unfinished daily game, so a refresh resumes it rather than starting over. */
+  dailyInProgress: GameState | null;
+  saveDailyProgress: (state: GameState | null) => void;
   recordGame: (params: {
     mode: Mode;
     date?: string;
@@ -41,6 +44,8 @@ export const useMusicGuesserStore = create<MusicGuesserStore>()(
       stats: emptyStats,
       volume: 0.75,
       setVolume: (v) => set({ volume: v }),
+      dailyInProgress: null,
+      saveDailyProgress: (state) => set({ dailyInProgress: state }),
 
       recordGame: ({ mode, date, songResults, lifelinesUsed }) => {
         if (mode !== 'daily' || !date) return;
@@ -63,6 +68,7 @@ export const useMusicGuesserStore = create<MusicGuesserStore>()(
         const newStreak = won ? (continuingStreak ? prev.currentStreak + 1 : 1) : 0;
 
         set({
+          dailyInProgress: null,
           dailyResults: { ...get().dailyResults, [date]: result },
           stats: {
             gamesPlayed: prev.gamesPlayed + 1,

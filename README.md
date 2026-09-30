@@ -15,7 +15,7 @@ A home for small ideas that don't fit anywhere else — a personal playground of
 
 ## Stack
 
-Astro 5 + React 19 islands, Zustand for state, plain CSS with CSS variables, deployed on Netlify.
+Astro 7 + React 19 islands, Zustand for state, plain CSS with CSS variables, deployed on Netlify.
 
 ## Run it locally
 

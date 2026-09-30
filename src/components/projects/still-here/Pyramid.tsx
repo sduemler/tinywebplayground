@@ -66,8 +66,6 @@ export default function Pyramid({
   currentAge,
   currentBandIndex,
   lxAtCurrent,
-  medianDeathAge,
-  lxAtMedian,
   caption,
 }: Props) {
   const totalH = H_TOP_PAD + rows.length * H_BAND + H_BOTTOM_PAD;

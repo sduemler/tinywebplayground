@@ -31,23 +31,6 @@ export default function PhilosopherTcg() {
     }
   }, [setDevMode]);
 
-  // Load the display + mono fonts this project uses (the rest of the site uses
-  // different families). Injected as a <link> and cleaned up on unmount.
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
-    document.head.appendChild(link);
-    return () => {
-      try {
-        document.head.removeChild(link);
-      } catch {
-        /* noop */
-      }
-    };
-  }, []);
-
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setFocused(null);

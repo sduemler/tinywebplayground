@@ -8,6 +8,11 @@ const project = projects.find((p) => p.slug === "typing-terror")!;
 ---
 
 <ProjectLayout project={project}>
+  <link
+    slot="head"
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+  />
   <TypingTerror client:load />
 </ProjectLayout>
 
