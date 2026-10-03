@@ -18,6 +18,25 @@ const TOKYO_ZOOM = 11;
 // A safe starting view, replaced by a real fit once the container has a size.
 const JAPAN_CENTER: L.LatLngTuple = [36.2, 137.5];
 const JAPAN_ZOOM = 5;
+
+const OSM_ATTRIBUTION =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+// CARTO basemaps need a key since Sept 2026; without one every tile is an
+// "API KEY REQUIRED" watermark. Fall back to standard OSM tiles if it's unset
+// so the map still works (it just won't have the Voyager styling).
+const CARTO_KEY = import.meta.env.PUBLIC_CARTO_BASEMAPS_KEY as
+  | string
+  | undefined;
+const TILES = CARTO_KEY
+  ? {
+      url: `https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_KEY)}`,
+      attribution: `${OSM_ATTRIBUTION} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
+    }
+  : {
+      url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      attribution: OSM_ATTRIBUTION,
+    };
 const FIT_PADDING: L.PointTuple = [40, 40];
 
 function pinIcon(selected: boolean) {
@@ -62,15 +81,10 @@ export default function MapView({ places, selectedId, onSelect }: Props) {
       zoomControl: true,
     });
 
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-      {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: "abcd",
-        maxZoom: 19,
-      },
-    ).addTo(map);
+    L.tileLayer(TILES.url, {
+      attribution: TILES.attribution,
+      maxZoom: 19,
+    }).addTo(map);
 
     for (const place of places) {
       const marker = L.marker([place.lat, place.lng], {
