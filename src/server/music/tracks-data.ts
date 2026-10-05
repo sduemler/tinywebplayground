@@ -2,7 +2,7 @@
  * Hardcoded track IDs scraped from Spotify's public embed pages.
  * Source playlists are editorial (37i9dQZF1...) and not accessible via the Web API
  * for apps registered after Nov 2024 — so we extract the IDs once and look up
- * per-track metadata at runtime via /tracks?ids=... (which is still allowed).
+ * per-track metadata at runtime via /tracks/{id}.
  */
 
 export interface PlaylistBucket {

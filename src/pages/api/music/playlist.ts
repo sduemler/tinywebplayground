@@ -1,10 +1,5 @@
 import type { APIRoute } from 'astro';
-import {
-  enrichTrackIds,
-  enrichTracks,
-  fetchPlaylistTracks,
-  getBucketIds,
-} from '../../../server/music/pool';
+import { enrichTrackIds, getBucketIds } from '../../../server/music/pool';
 
 export const prerender = false;
 
@@ -31,28 +26,23 @@ export const GET: APIRoute = async ({ url }) => {
   }
 
   try {
+    // Only the preset tapes: reading a pasted Spotify playlist needs its owner
+    // signed in, which this app's client-credentials flow can't do.
     const bucketIds = getBucketIds(id);
-    let tracks;
-    if (bucketIds) {
-      const candidates = shuffle(bucketIds).slice(0, CANDIDATE_BUFFER);
-      tracks = await enrichTrackIds(candidates, SONGS_PER_GAME);
-    } else {
-      const playlistTracks = await fetchPlaylistTracks(id);
-      if (playlistTracks.length === 0) {
-        return new Response(
-          JSON.stringify({ success: false, error: 'Playlist is empty or unavailable' }),
-          { status: 404, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-      const candidates = shuffle(playlistTracks).slice(0, CANDIDATE_BUFFER);
-      tracks = await enrichTracks(candidates, SONGS_PER_GAME);
+    if (!bucketIds) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unknown tape' }),
+        { status: 404, headers: { 'Content-Type': 'application/json' } }
+      );
     }
+    const candidates = shuffle(bucketIds).slice(0, CANDIDATE_BUFFER);
+    const tracks = await enrichTrackIds(candidates, SONGS_PER_GAME);
 
     if (tracks.length < SONGS_PER_GAME) {
       return new Response(
         JSON.stringify({
           success: false,
-          error: `Only found ${tracks.length} playable tracks in this playlist. Try a different one.`,
+          error: `Only found ${tracks.length} playable tracks on this tape. Try a different one.`,
         }),
         { status: 422, headers: { 'Content-Type': 'application/json' } }
       );

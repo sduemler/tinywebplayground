@@ -70,63 +70,8 @@
   text-align: left;
 }
 
-/* The blank tape: write your own playlist on it. */
-.blank {
-  width: 100%;
-  margin-top: 0.75rem;
-  padding: 1rem;
-  border: 2px dashed rgba(242, 230, 198, 0.35);
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.blankLabel {
-  font-weight: 600;
-  color: #d9c29c;
-}
-
-.blankRow {
-  display: flex;
-  gap: 0.6rem;
-  align-items: center;
-}
-
-.blankInput {
-  flex: 1;
-  min-width: 0;
-  min-height: 46px;
-  padding: 0.5rem 0.8rem;
-  border: 0;
-  border-radius: 2px;
-  background: #e9d9a9;
-  font-family: 'Gochi Hand', cursive;
-  font-size: 1.2rem;
-  color: #2b1d15;
-}
-
-.blankInput::placeholder {
-  color: #8c6d4f;
-}
-
-.blankInput:focus-visible {
-  outline: 3px solid #e8a93a;
-  outline-offset: 2px;
-}
-
-.blankError {
-  font-weight: 600;
-  color: #f0b75a;
-}
-
 @media (max-width: 600px) {
   .shelf {
     grid-template-columns: 1fr;
-  }
-
-  .blankRow {
-    flex-direction: column;
-    align-items: stretch;
   }
 }

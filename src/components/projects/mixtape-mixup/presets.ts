@@ -10,12 +10,3 @@ export const PRESET_PLAYLISTS: Array<{ id: string; label: string }> = [
   { id: '37i9dQZF1DXb69UWhjrXsW', label: 'Hits From The Movies' },
   { id: '37i9dQZF1DWZBCPUIUs2iR', label: "Country's Greatest Hits" },
 ];
-
-export function parsePlaylistInput(input: string): string | null {
-  const trimmed = input.trim();
-  if (!trimmed) return null;
-  const urlMatch = trimmed.match(/playlist\/([A-Za-z0-9]+)/);
-  if (urlMatch) return urlMatch[1];
-  if (/^[A-Za-z0-9]{15,}$/.test(trimmed)) return trimmed;
-  return null;
-}
