@@ -57,7 +57,7 @@ export default function HomeScreen({ onPickDaily, onPickPractice, dailyAlreadyPl
             stripes={['#c9b37a', '#8aa84a', '#5d6b2a']}
           />
           <span className={styles.tapeCaption}>
-            Choose a playlist or paste your own Spotify link. Play as often as you like.
+            Pick from ten themed tapes, from 60s hits to country. Play as often as you like.
           </span>
         </button>
       </div>

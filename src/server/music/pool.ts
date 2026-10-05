@@ -3,8 +3,8 @@
  * hydrates per-track metadata + Deezer previews on demand.
  *
  * Editorial playlist endpoints are blocked for new Spotify apps (Nov 2024 policy),
- * so we keep the IDs in tracks-data.ts and rely on /tracks?ids=... — which is still
- * accessible — to fetch metadata.
+ * so we keep the IDs in tracks-data.ts and fetch metadata per track via
+ * /tracks/{id} (the batch /tracks?ids= endpoint is gone for apps made after Feb 2026).
  */
 
 import { spotifyFetch, type SpotifyTrack } from './spotify';
@@ -26,39 +26,6 @@ export const PRESET_PLAYLISTS: Array<{ id: string; label: string }> = PLAYLIST_B
 export function getBucketIds(spotifyId: string): string[] | null {
   const bucket = PLAYLIST_BUCKETS.find((b) => b.spotifyId === spotifyId);
   return bucket ? [...bucket.trackIds] : null;
-}
-
-interface PlaylistItemsResponse {
-  items: Array<{ track: SpotifyTrack | null }>;
-  next: string | null;
-}
-
-/** Used only for user-created playlists pasted as a URL/ID — editorial IDs route through buckets. */
-export async function fetchPlaylistTracks(playlistId: string): Promise<SpotifyTrack[]> {
-  const tracks: SpotifyTrack[] = [];
-  let path: string | null = `/playlists/${playlistId}/tracks?limit=100&fields=items(track(id,name,artists(id,name),album(images))),next`;
-
-  // Callers only shuffle down to a small candidate set, so cap pagination: an
-  // attacker-supplied 10k-track playlist would otherwise trigger ~100 sequential
-  // Spotify calls per request, draining quota and serverless time.
-  const MAX_PAGES = 3;
-  let pages = 0;
-
-  while (path && pages < MAX_PAGES) {
-    const data: PlaylistItemsResponse = await spotifyFetch<PlaylistItemsResponse>(path);
-    for (const item of data.items) {
-      if (item.track && item.track.id) tracks.push(item.track);
-    }
-    pages++;
-    if (data.next) {
-      const url = new URL(data.next);
-      path = url.pathname.replace('/v1', '') + url.search;
-    } else {
-      path = null;
-    }
-  }
-
-  return tracks;
 }
 
 let pooledIdsCache: { ids: string[]; cachedAt: number } | null = null;
@@ -85,18 +52,16 @@ export function buildDailyPool(): string[] {
   return ids;
 }
 
-export async function fetchTracksByIds(ids: string[]): Promise<SpotifyTrack[]> {
-  const out: SpotifyTrack[] = [];
-  for (let i = 0; i < ids.length; i += 50) {
-    const chunk = ids.slice(i, i + 50);
-    const data = await spotifyFetch<{ tracks: Array<SpotifyTrack | null> }>(
-      `/tracks?ids=${chunk.join(',')}`
-    );
-    for (const t of data.tracks) {
-      if (t) out.push(t);
-    }
+// Spotify apps created after Feb 2026 can't use the batch /tracks?ids= endpoint,
+// so tracks are looked up one at a time, a few in parallel.
+const LOOKUP_CONCURRENCY = 4;
+
+async function fetchTrack(id: string): Promise<SpotifyTrack | null> {
+  try {
+    return await spotifyFetch<SpotifyTrack>(`/tracks/${id}`);
+  } catch {
+    return null;
   }
-  return out;
 }
 
 function bestAlbumArt(images: Array<{ url: string; width: number; height: number }>): string {
@@ -113,11 +78,18 @@ export async function enrichTrackIds(
   candidateIds: string[],
   desiredCount: number
 ): Promise<EnrichedTrack[]> {
-  const tracks = await fetchTracksByIds(candidateIds);
-  return enrichTracks(tracks, desiredCount);
+  const enriched: EnrichedTrack[] = [];
+  // Look up in candidate order and stop as soon as there are enough, so the
+  // daily pick stays the same for everyone and spends as few calls as possible.
+  for (let i = 0; i < candidateIds.length && enriched.length < desiredCount; i += LOOKUP_CONCURRENCY) {
+    const batch = await Promise.all(candidateIds.slice(i, i + LOOKUP_CONCURRENCY).map(fetchTrack));
+    const found = batch.filter((t): t is SpotifyTrack => t !== null);
+    enriched.push(...(await enrichTracks(found, desiredCount - enriched.length)));
+  }
+  return enriched;
 }
 
-export async function enrichTracks(
+async function enrichTracks(
   candidates: SpotifyTrack[],
   desiredCount: number
 ): Promise<EnrichedTrack[]> {
