@@ -1,18 +1,29 @@
 /**
- * Server-only. Deezer's free public API — no auth. Used to look up 30s preview MP3s
+ * Server-only. Deezer's free public API — no auth. Used to find 30s preview MP3s
  * for tracks identified via Spotify (since Spotify's preview_url is mostly null now).
+ *
+ * Matching is strict on purpose: a preview is only ever taken from the same
+ * recording (by ISRC) or the same song by the same artist. If neither turns up,
+ * the track is skipped rather than played with some other song's audio.
  */
 
 interface DeezerTrack {
   id: number;
   title: string;
+  readable: boolean;
   preview: string;
   artist: { name: string };
 }
 
-interface DeezerSearchResponse {
-  data: DeezerTrack[];
+export interface DeezerMatch {
+  id: string;
+  previewUrl: string;
 }
+
+// Release-version suffixes that differ between services, e.g. Spotify's
+// "A Hard Day's Night - Remastered 2009" vs Deezer's "A Hard Day's Night (Remastered 2009)".
+const VERSION_SUFFIX =
+  /\s+[-–—]\s+.*\b(remaster(ed)?|remix(ed)?|live|from|version|edit|mono|stereo|single|radio|deluxe|anniversary|mix|soundtrack|\d{4})\b.*$/i;
 
 function normalize(s: string): string {
   return s
@@ -20,44 +31,68 @@ function normalize(s: string): string {
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/\(.*?\)|\[.*?\]/g, '')
-    .replace(/feat\.?|ft\.?/g, '')
+    .replace(/\b(feat|ft)\b\.?.*$/, '')
     .replace(/[^a-z0-9]+/g, '')
     .trim();
 }
 
-export async function findPreviewUrl(title: string, artist: string): Promise<string | null> {
-  const primaryArtist = artist.split(',')[0].trim();
-  const query = `artist:"${primaryArtist}" track:"${title}"`;
+function normalizeTitle(title: string): string {
+  return normalize(title.replace(VERSION_SUFFIX, ''));
+}
 
-  let res = await fetch(
-    `https://api.deezer.com/search?q=${encodeURIComponent(query)}&limit=10`
-  );
+function normalizeArtist(artist: string): string {
+  return normalize(artist.replace(/^(the|ms\.?|mr\.?)\s+/i, ''));
+}
+
+function playable(t: DeezerTrack | null | undefined): t is DeezerTrack {
+  return !!t && t.readable !== false && !!t.preview;
+}
+
+function toMatch(t: DeezerTrack): DeezerMatch {
+  return { id: String(t.id), previewUrl: t.preview };
+}
+
+async function deezerGet<T>(path: string): Promise<T | null> {
+  const res = await fetch(`https://api.deezer.com${path}`);
   if (!res.ok) return null;
-  let data = (await res.json()) as DeezerSearchResponse;
+  const data = (await res.json()) as T & { error?: unknown };
+  return data.error ? null : data;
+}
 
-  if (!data.data || data.data.length === 0) {
-    res = await fetch(
-      `https://api.deezer.com/search?q=${encodeURIComponent(`${primaryArtist} ${title}`)}&limit=10`
-    );
-    if (!res.ok) return null;
-    data = (await res.json()) as DeezerSearchResponse;
+/** A specific Deezer track with a freshly signed preview URL (they expire after ~15 min). */
+export async function getDeezerTrack(id: string): Promise<DeezerMatch | null> {
+  if (!/^\d+$/.test(id)) return null;
+  const t = await deezerGet<DeezerTrack>(`/track/${id}`);
+  return playable(t) ? toMatch(t) : null;
+}
+
+/**
+ * The Deezer track for a song: the exact recording by ISRC first, then another
+ * release of the same song by the same artist. Never a different song.
+ */
+export async function findDeezerTrack(song: {
+  isrc?: string | null;
+  title: string;
+  artist: string;
+}): Promise<DeezerMatch | null> {
+  if (song.isrc) {
+    const byIsrc = await deezerGet<DeezerTrack>(`/track/isrc:${encodeURIComponent(song.isrc)}`);
+    if (playable(byIsrc)) return toMatch(byIsrc);
   }
 
-  if (!data.data || data.data.length === 0) return null;
-
-  const targetTitle = normalize(title);
-  const targetArtist = normalize(primaryArtist);
-
-  const exact = data.data.find(
-    (t) => normalize(t.title) === targetTitle && normalize(t.artist.name) === targetArtist
+  const primaryArtist = song.artist.split(',')[0].trim();
+  const cleanTitle = song.title.replace(VERSION_SUFFIX, '').replace(/\(.*?\)|\[.*?\]/g, '').trim();
+  const results = await deezerGet<{ data?: DeezerTrack[] }>(
+    `/search/track?q=${encodeURIComponent(`${primaryArtist} ${cleanTitle}`)}&limit=25`
   );
-  if (exact && exact.preview) return exact.preview;
 
-  const partial = data.data.find(
-    (t) => normalize(t.artist.name) === targetArtist && t.preview
+  const targetTitle = normalizeTitle(song.title);
+  const targetArtist = normalizeArtist(primaryArtist);
+  const hit = results?.data?.find(
+    (t) =>
+      playable(t) &&
+      normalizeTitle(t.title) === targetTitle &&
+      normalizeArtist(t.artist.name) === targetArtist
   );
-  if (partial) return partial.preview;
-
-  const first = data.data.find((t) => t.preview);
-  return first?.preview ?? null;
+  return hit ? toMatch(hit) : null;
 }

@@ -12,6 +12,8 @@ export interface Track {
   artist: string;
   albumArt: string;
   previewUrl: string;
+  /** Deezer track the preview comes from. Missing on games saved before it existed. */
+  deezerId?: string;
 }
 
 export interface SearchResult {

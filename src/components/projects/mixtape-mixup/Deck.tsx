@@ -16,6 +16,8 @@ interface DeckProps {
   /** Track identity used to resolve a fresh preview URL on demand. */
   title: string;
   artist: string;
+  /** Exact Deezer track to refresh the preview from (absent on older saved games). */
+  deezerId?: string;
   /** Preview URL baked into the game payload; used only while still unexpired. */
   fallbackUrl?: string;
   maxSeconds: number;
@@ -121,6 +123,7 @@ function KeyIcon({ kind }: { kind: 'play' | 'stop' | 'skip' | LifelineKind }) {
 export default function Deck({
   title,
   artist,
+  deezerId,
   fallbackUrl,
   maxSeconds,
   resetKey,
@@ -166,7 +169,7 @@ export default function Deck({
         return fallbackUrl!;
       }
     }
-    const fresh = await fetchFreshPreview(title, artist);
+    const fresh = await fetchFreshPreview({ deezerId, title, artist });
     resolvedRef.current = fresh;
     return fresh;
   };
@@ -217,7 +220,7 @@ export default function Deck({
   useEffect(() => {
     resolvedRef.current = null;
     setError(false);
-  }, [title, artist]);
+  }, [title, artist, deezerId]);
 
   useEffect(() => () => stop(), []);
 

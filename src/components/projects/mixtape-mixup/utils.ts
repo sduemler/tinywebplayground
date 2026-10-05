@@ -109,8 +109,14 @@ interface PreviewResponse {
 }
 
 /** Fetches a freshly-signed preview URL for a track from the server. */
-export async function fetchFreshPreview(title: string, artist: string): Promise<string> {
-  const params = new URLSearchParams({ title, artist });
+export async function fetchFreshPreview(track: {
+  deezerId?: string;
+  title: string;
+  artist: string;
+}): Promise<string> {
+  const params = track.deezerId
+    ? new URLSearchParams({ id: track.deezerId })
+    : new URLSearchParams({ title: track.title, artist: track.artist });
   const data = await apiFetch<PreviewResponse>(`/api/music/preview?${params.toString()}`);
   if (!data.success || !data.previewUrl) {
     throw new Error(data.error || 'No preview available');

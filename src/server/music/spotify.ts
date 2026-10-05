@@ -67,6 +67,8 @@ export interface SpotifyTrack {
   album: {
     images: Array<{ url: string; width: number; height: number }>;
   };
+  /** Single-track lookups include the ISRC; search results may too. */
+  external_ids?: { isrc?: string };
 }
 
 export interface SpotifySearchResponse {

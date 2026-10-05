@@ -8,7 +8,7 @@
  */
 
 import { spotifyFetch, type SpotifyTrack } from './spotify';
-import { findPreviewUrl } from './deezer';
+import { findDeezerTrack } from './deezer';
 import { PLAYLIST_BUCKETS } from './tracks-data';
 
 export interface EnrichedTrack {
@@ -17,6 +17,8 @@ export interface EnrichedTrack {
   artist: string;
   albumArt: string;
   previewUrl: string;
+  /** The exact Deezer track the preview comes from, so the client can refresh it by ID. */
+  deezerId: string;
 }
 
 export const PRESET_PLAYLISTS: Array<{ id: string; label: string }> = PLAYLIST_BUCKETS.map(
@@ -99,15 +101,20 @@ async function enrichTracks(
     if (enriched.length >= desiredCount) break;
 
     const artistName = t.artists.map((a) => a.name).join(', ');
-    const previewUrl = await findPreviewUrl(t.name, artistName);
-    if (!previewUrl) continue;
+    const match = await findDeezerTrack({
+      isrc: t.external_ids?.isrc,
+      title: t.name,
+      artist: artistName,
+    });
+    if (!match) continue;
 
     enriched.push({
       id: t.id,
       title: t.name,
       artist: artistName,
       albumArt: bestAlbumArt(t.album.images),
-      previewUrl,
+      previewUrl: match.previewUrl,
+      deezerId: match.id,
     });
   }
 

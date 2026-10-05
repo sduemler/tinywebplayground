@@ -107,6 +107,7 @@ export default function GameScreen({
       <Deck
         title={track.title}
         artist={track.artist}
+        deezerId={track.deezerId}
         fallbackUrl={track.previewUrl}
         maxSeconds={snippetSeconds}
         resetKey={`${state.currentIndex}-${state.attempt}-${state.extendActive ? 'ext' : 'norm'}-${songFinished}`}

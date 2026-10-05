@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { findPreviewUrl } from '../../../server/music/deezer';
+import { findDeezerTrack, getDeezerTrack } from '../../../server/music/deezer';
 
 export const prerender = false;
 
@@ -11,18 +11,22 @@ export const prerender = false;
  * game. The client calls this right before playing each song to get a live token.
  */
 export const GET: APIRoute = async ({ url }) => {
+  // `id` is the exact Deezer track picked when the game was built. `title` +
+  // `artist` only serve games saved before tracks carried that ID.
+  const id = url.searchParams.get('id');
   const title = url.searchParams.get('title');
   const artist = url.searchParams.get('artist');
 
-  if (!title || !artist) {
+  if (!id && (!title || !artist)) {
     return new Response(
-      JSON.stringify({ success: false, error: 'title and artist params required' }),
+      JSON.stringify({ success: false, error: 'id, or title and artist, required' }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
   }
 
   try {
-    const previewUrl = await findPreviewUrl(title, artist);
+    const match = id ? await getDeezerTrack(id) : await findDeezerTrack({ title: title!, artist: artist! });
+    const previewUrl = match?.previewUrl;
     if (!previewUrl) {
       return new Response(
         JSON.stringify({ success: false, error: 'No preview found for this track' }),
