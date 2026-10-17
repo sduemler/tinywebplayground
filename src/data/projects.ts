@@ -200,6 +200,7 @@ export const projects: Project[] = [
     description:
       "Everyone picks songs from their phone, then the group votes them through a bracket until one is crowned champion.",
     image: "/images/projects/song-tournament.webp",
+    imagePosition: "70% top",
     accentColor: "#c026d3",
     status: "live",
     tags: ["music", "party", "multiplayer"],
