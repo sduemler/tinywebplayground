@@ -205,4 +205,14 @@ export const projects: Project[] = [
     tags: ["music", "party", "multiplayer"],
     externalUrl: "https://song-tournament.netlify.app",
   },
+  {
+    slug: "morning-rounds",
+    title: "Morning Rounds",
+    description:
+      "Your daily puzzle circuit in one place. Tap through Wordle, Worldle, Framed and friends, or open them all at once.",
+    image: "/images/projects/morning-rounds.webp",
+    accentColor: "#c0622b",
+    status: "live",
+    tags: ["games", "daily", "puzzle"],
+  },
 ];
