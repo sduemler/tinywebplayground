@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Renders the hub card for Song Tournament (public/images/projects/song-tournament.webp):
-// a neon eight-song bracket narrowing to a trophy, in the app's own dark style. The app
+// a neon eight-song bracket (each song row marked with a music note) narrowing to a trophy
+// inscribed CHAMP, in the app's own dark style. The app
 // itself lives on its own site; see `externalUrl` in src/data/projects.ts.
 import fs from "fs";
 import path from "path";
@@ -22,6 +23,20 @@ bg.addColorStop(1, "#09090b");
 ctx.fillStyle = bg;
 ctx.fillRect(0, 0, W, H);
 
+// An eighth note whose head sits at (x, y), `h` tall.
+function note(x, y, h, color) {
+  ctx.fillStyle = color;
+  ctx.strokeStyle = color;
+  ctx.beginPath(); ctx.ellipse(x, y, h * 0.24, h * 0.17, -0.45, 0, Math.PI * 2); ctx.fill();
+  const sx = x + h * 0.2;
+  ctx.fillRect(sx - h * 0.04, y - h, h * 0.08, h);
+  ctx.lineWidth = h * 0.09;
+  ctx.beginPath();
+  ctx.moveTo(sx, y - h);
+  ctx.quadraticCurveTo(sx + h * 0.45, y - h * 0.72, sx + h * 0.28, y - h * 0.38);
+  ctx.stroke();
+}
+
 function roundRect(x, y, w, h, r) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -32,8 +47,8 @@ function roundRect(x, y, w, h, r) {
   ctx.closePath();
 }
 
-const CARD_W = 150, ROW = 34, CARD_H = ROW * 2 + 10, COL_GAP = 46;
-const cols = [70, 70 + CARD_W + COL_GAP, 70 + 2 * (CARD_W + COL_GAP)];
+const CARD_W = 146, ROW = 34, CARD_H = ROW * 2 + 10, COL_GAP = 40;
+const cols = [38, 38 + CARD_W + COL_GAP, 38 + 2 * (CARD_W + COL_GAP)];
 const top = 90, span = H - 2 * top;
 // match centres per round: 4 → 2 → 1
 const centres = [
@@ -60,7 +75,7 @@ for (let r = 0; r < 2; r++) {
 }
 const finalY = centres[2][0];
 ctx.beginPath();
-ctx.moveTo(cols[2] + CARD_W, finalY); ctx.lineTo(cols[2] + CARD_W + 40, finalY);
+ctx.moveTo(cols[2] + CARD_W, finalY); ctx.lineTo(cols[2] + CARD_W + 34, finalY);
 ctx.stroke();
 
 let k = 0;
@@ -87,8 +102,13 @@ centres.forEach((ys, r) => ys.forEach((cy, i) => {
       ctx.fillRect(x + 2, ry, CARD_W - 4, ROW);
     }
     if (row === 1) { ctx.fillStyle = "#27272a"; ctx.fillRect(x + 10, ry, CARD_W - 20, 2); }
+    // the song: a note, then its "title"
+    ctx.save();
+    if (win) { ctx.shadowColor = "rgba(110, 231, 183, 0.7)"; ctx.shadowBlur = 8; }
+    note(x + 18, ry + ROW / 2 + 6, 17, win ? "#6ee7b7" : "#71717a");
+    ctx.restore();
     ctx.fillStyle = win ? "#6ee7b7" : "#71717a";
-    roundRect(x + 14, ry + ROW / 2 - 5, (CARD_W - 50) * len[row], 10, 5);
+    roundRect(x + 34, ry + ROW / 2 - 5, (CARD_W - 70) * len[row], 10, 5);
     ctx.fill();
     ctx.fillStyle = win ? "#6ee7b7" : "#52525b";
     roundRect(x + CARD_W - 26, ry + ROW / 2 - 5, 12, 10, 3);
@@ -96,42 +116,42 @@ centres.forEach((ys, r) => ys.forEach((cy, i) => {
   }
 }));
 
-// trophy: a glowing gold cup drawn from shapes (no emoji font needed)
-const tx = cols[2] + CARD_W + 92, ty = finalY;
-ctx.save();
-ctx.shadowColor = "rgba(252, 211, 77, 0.8)";
-ctx.shadowBlur = 36;
-const gold = ctx.createLinearGradient(tx - 40, ty - 50, tx + 40, ty + 50);
+// trophy: a glowing gold cup drawn from shapes, with CHAMP engraved on the cup
+const tx = cols[2] + CARD_W + 116, ty = finalY + 6;
+const gold = ctx.createLinearGradient(tx - 70, ty - 90, tx + 70, ty + 80);
 gold.addColorStop(0, "#fde68a");
 gold.addColorStop(1, "#f59e0b");
+ctx.save();
+ctx.shadowColor = "rgba(252, 211, 77, 0.75)";
+ctx.shadowBlur = 40;
 ctx.fillStyle = gold;
 ctx.strokeStyle = gold;
-ctx.lineWidth = 9;
+ctx.lineWidth = 12;
+ctx.beginPath(); // handles
+ctx.arc(tx - 66, ty - 52, 24, Math.PI * 0.5, Math.PI * 1.5);
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(tx + 66, ty - 52, 24, Math.PI * 1.5, Math.PI * 0.5);
+ctx.stroke();
 ctx.beginPath(); // cup
-ctx.moveTo(tx - 38, ty - 50);
-ctx.lineTo(tx + 38, ty - 50);
-ctx.quadraticCurveTo(tx + 36, ty + 6, tx, ty + 14);
-ctx.quadraticCurveTo(tx - 36, ty + 6, tx - 38, ty - 50);
+ctx.moveTo(tx - 66, ty - 92);
+ctx.lineTo(tx + 66, ty - 92);
+ctx.quadraticCurveTo(tx + 62, ty + 4, tx, ty + 16);
+ctx.quadraticCurveTo(tx - 62, ty + 4, tx - 66, ty - 92);
 ctx.fill();
-ctx.beginPath(); ctx.arc(tx - 40, ty - 28, 17, Math.PI * 0.5, Math.PI * 1.5); ctx.stroke(); // handles
-ctx.beginPath(); ctx.arc(tx + 40, ty - 28, 17, Math.PI * 1.5, Math.PI * 0.5); ctx.stroke();
-ctx.fillRect(tx - 7, ty + 10, 14, 26); // stem
-roundRect(tx - 30, ty + 34, 60, 16, 4); // base
+ctx.fillRect(tx - 10, ty + 12, 20, 34); // stem
+roundRect(tx - 44, ty + 42, 88, 22, 6); // base
 ctx.fill();
 ctx.restore();
 
-// a few music notes drifting up from the trophy
-ctx.fillStyle = "rgba(125, 211, 252, 0.9)";
-ctx.shadowColor = "rgba(56, 189, 248, 0.8)";
-ctx.shadowBlur = 14;
-for (const [nx, ny, s] of [[tx - 30, ty - 110, 1], [tx + 22, ty - 150, 0.8], [tx - 6, ty - 200, 0.65]]) {
-  ctx.beginPath(); ctx.ellipse(nx, ny, 11 * s, 8 * s, -0.4, 0, Math.PI * 2); ctx.fill();
-  ctx.fillRect(nx + 8 * s, ny - 38 * s, 4 * s, 38 * s);
-  ctx.beginPath();
-  ctx.moveTo(nx + 12 * s, ny - 38 * s);
-  ctx.quadraticCurveTo(nx + 30 * s, ny - 28 * s, nx + 22 * s, ny - 14 * s);
-  ctx.lineWidth = 4 * s; ctx.strokeStyle = ctx.fillStyle; ctx.stroke();
-}
+// the engraving: dark letters with a light lower edge, as if cut into the gold
+ctx.font = 'bold 26px "Helvetica Neue", Helvetica, Arial, sans-serif';
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.fillStyle = "rgba(255, 250, 220, 0.55)";
+ctx.fillText("CHAMP", tx, ty - 58 + 1.5);
+ctx.fillStyle = "#7c2d12";
+ctx.fillText("CHAMP", tx, ty - 58);
 
 const webp = await sharp(c.toBuffer("image/png")).webp({ quality: 86 }).toBuffer();
 fs.writeFileSync(OUT, webp);
