@@ -234,6 +234,15 @@ export const GAMES: Game[] = [
     blurb: "Guess the Pokémon from silhouettes, blurry cards and clues.",
     monogram: "Pd",
   },
+  {
+    id: "nerdle",
+    group: "Misc",
+    name: "Nerdle",
+    url: "https://nerdlegame.com/",
+    tag: "Misc",
+    blurb: "Test request from setup, safe to close.",
+    monogram: "Ne",
+  },
 ];
 
 /** One color per group: it fills the group's box and the letter tiles of games without a favicon. */
