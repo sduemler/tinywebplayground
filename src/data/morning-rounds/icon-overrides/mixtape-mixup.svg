@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+  <!-- Mixtape Mixup's cassette (see Cassette.tsx), simplified to read at icon size -->
+  <rect x="4" y="16" width="88" height="64" rx="7" fill="#3a2a20"/>
+  <rect x="4.75" y="16.75" width="86.5" height="62.5" rx="6.5" fill="none" stroke="#ffe6be" stroke-opacity="0.18" stroke-width="1.5"/>
+  <circle cx="10" cy="22" r="1.8" fill="#8d7a5c"/>
+  <circle cx="86" cy="22" r="1.8" fill="#8d7a5c"/>
+  <!-- label -->
+  <rect x="11" y="21" width="74" height="44" rx="3" fill="#f2e6c6"/>
+  <rect x="11" y="27" width="74" height="4" fill="#e8a93a"/>
+  <rect x="11" y="31" width="74" height="4" fill="#d9622b"/>
+  <rect x="11" y="35" width="74" height="4" fill="#9c3b22"/>
+  <!-- reel window -->
+  <rect x="25" y="43" width="46" height="17" rx="5" fill="#1f1611"/>
+  <circle cx="36" cy="51.5" r="7" fill="#5b3321"/>
+  <circle cx="60" cy="51.5" r="5" fill="#5b3321"/>
+  <g fill="#f2e6c6">
+    <circle cx="36" cy="51.5" r="3.6"/>
+    <circle cx="60" cy="51.5" r="3.6"/>
+  </g>
+  <g fill="#1f1611">
+    <circle cx="36" cy="51.5" r="1.3"/>
+    <circle cx="60" cy="51.5" r="1.3"/>
+  </g>
+  <!-- head opening -->
+  <path d="M27 80 L31 69 H65 L69 80 Z" fill="#2b1d15"/>
+  <circle cx="40" cy="74.5" r="1.8" fill="#8d7a5c"/>
+  <circle cx="56" cy="74.5" r="1.8" fill="#8d7a5c"/>
+</svg>

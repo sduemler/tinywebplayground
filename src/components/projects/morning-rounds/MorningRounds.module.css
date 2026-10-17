@@ -1,0 +1,578 @@
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Masthead ─────────────────────────────────────────── */
+
+.masthead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px dashed var(--color-border);
+}
+
+.date {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  line-height: 1.15;
+  color: var(--color-rich);
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.count {
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.bar {
+  flex: 1;
+  min-width: 160px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-accent-light);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: inherit;
+  transition: width 320ms ease;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.primary,
+.secondary,
+.ghost,
+.small {
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: background var(--transition), color var(--transition),
+    border-color var(--transition), transform var(--transition);
+}
+
+.primary,
+.secondary,
+.ghost {
+  min-height: 42px;
+  padding: 0.5rem 1.15rem;
+}
+
+.primary {
+  background: var(--accent);
+  color: var(--color-rich-text);
+  border: 2px solid var(--accent);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--color-rich);
+  border-color: var(--color-rich);
+  transform: translateY(-1px);
+}
+
+.secondary {
+  background: var(--color-surface);
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--color-accent-light);
+  transform: translateY(-1px);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-muted);
+  border: 2px solid var(--color-border);
+}
+
+.ghost:hover,
+.ghost[aria-pressed="true"] {
+  color: var(--color-text);
+  border-color: var(--color-muted);
+}
+
+.primary:disabled,
+.secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.primary:focus-visible,
+.secondary:focus-visible,
+.ghost:focus-visible,
+.small:focus-visible,
+.link:focus-visible,
+.linkButton:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.blocked {
+  position: relative;
+  margin: 0;
+  padding: 0.7rem 2.6rem 0.7rem 0.95rem;
+  font-size: 0.92rem;
+  color: var(--color-text);
+  background: var(--color-accent-light);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+}
+
+.dismiss {
+  position: absolute;
+  top: 50%;
+  right: 0.3rem;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--color-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ── Groups: a box filled with the group's color (--group, set inline), its name in a
+   pill sitting on the top border ── */
+
+.group {
+  position: relative;
+  margin-top: 0.8rem;
+  padding: 1.8rem 1rem 1rem;
+  background: var(--group);
+  border: 2px solid var(--group);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.groupLabel {
+  position: absolute;
+  top: 0;
+  left: 1.1rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.2rem 0.9rem;
+  font-family: var(--font-display);
+  font-weight: normal;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--color-rich);
+  background: var(--color-surface);
+  border: 2px solid var(--group);
+  border-radius: 999px;
+}
+
+.groupCount {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.groupOpen {
+  position: absolute;
+  top: 0;
+  right: 1.1rem;
+  transform: translateY(-50%);
+  min-height: 34px;
+  padding: 0.2rem 0.85rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-rich);
+  background: var(--color-surface);
+  border: 2px solid var(--group);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition),
+    background var(--transition);
+}
+
+.groupOpen:hover:not(:disabled) {
+  background: var(--color-accent-light);
+}
+
+.groupOpen:disabled {
+  color: var(--color-muted);
+  cursor: not-allowed;
+}
+
+.groupOpen:focus-visible {
+  outline: 3px solid var(--color-surface);
+  outline-offset: 2px;
+}
+
+/* ── Game cards ───────────────────────────────────────── */
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 0.9rem;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition), background var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-rich-text);
+  box-shadow: 0 8px 18px rgba(59, 42, 26, 0.28);
+}
+
+.link {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 0.9rem;
+  color: inherit;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.link:hover {
+  text-decoration: none;
+}
+
+.tile {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  color: var(--color-rich-text);
+  background: var(--group);
+  border-radius: 12px;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.16);
+}
+
+/* on a colored group box an orange focus ring would vanish, so use cream */
+.group .link:focus-visible,
+.group .small:focus-visible {
+  outline-color: var(--color-surface);
+}
+
+/* a site's own favicon: no colored backing, just the icon */
+.tileIcon {
+  background: none;
+  box-shadow: none;
+}
+
+.tileIcon img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+.meta {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--color-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.blurb {
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.actions {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-right: 0.7rem;
+}
+
+.actions:empty {
+  display: none;
+}
+
+.small {
+  min-height: 34px;
+  padding: 0.2rem 0.8rem;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+}
+
+.small:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* played: the tile turns into a tick and the card settles back */
+.card[data-played] {
+  background: var(--color-accent-light);
+}
+
+.card[data-played] .tile {
+  background: var(--color-surface);
+  color: var(--group);
+  border: 2px solid var(--group);
+  box-shadow: none;
+}
+
+.card[data-played] .name {
+  text-decoration: line-through;
+  text-decoration-color: var(--group);
+  text-decoration-thickness: 2px;
+}
+
+.card[data-played] .blurb {
+  color: var(--color-muted);
+}
+
+.card[data-hidden] {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+/* ── Edit panel + request form ────────────────────────── */
+
+.editPanel,
+.requestPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius);
+}
+
+.editFooter {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.requestTeaser {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem 1rem;
+  padding: 1rem;
+  color: var(--color-muted);
+  font-weight: 600;
+  text-align: center;
+}
+
+.requestTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: normal;
+  font-size: 1.25rem;
+  color: var(--color-rich);
+}
+
+.requestFields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.field {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.groupField {
+  flex: 0 1 170px;
+}
+
+.wideField {
+  flex-basis: 100%;
+}
+
+.field input,
+.field select {
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  min-height: 42px;
+  padding: 0.45rem 0.75rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: 10px;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* kept off-screen for people; only bots fill it in */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #a03a1e;
+}
+
+.requestFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.requestButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.linkButton {
+  font: inherit;
+  padding: 0;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    padding: 1.1rem 0.9rem 2rem;
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+
+  .group {
+    padding: 1.4rem 0.6rem 0.6rem;
+  }
+
+  .groupLabel {
+    left: 0.8rem;
+    font-size: 1.15rem;
+  }
+
+  .groupField {
+    flex: 1 1 100%;
+  }
+
+  .toolbar > * {
+    flex: 1 1 auto;
+  }
+
+  .tile {
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+
+  .tileIcon img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .requestButtons,
+  .requestButtons > * {
+    flex: 1 1 auto;
+  }
+
+  .groupOpen {
+    right: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .bar span {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}

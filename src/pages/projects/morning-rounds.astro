@@ -1,0 +1,13 @@
+---
+export const prerender = true;
+import ProjectLayout from "@layouts/ProjectLayout.astro";
+import { projects } from "@data/projects";
+import MorningRounds from "@components/projects/morning-rounds/MorningRounds";
+
+const project = projects.find((p) => p.slug === "morning-rounds")!;
+---
+
+<ProjectLayout project={project} subtitle="Your daily puzzle circuit">
+  <!-- client:only: progress and the date are per-device, so there's nothing useful to prerender -->
+  <MorningRounds client:only="react" />
+</ProjectLayout>

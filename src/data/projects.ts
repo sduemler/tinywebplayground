@@ -200,9 +200,20 @@ export const projects: Project[] = [
     description:
       "Everyone picks songs from their phone, then the group votes them through a bracket until one is crowned champion.",
     image: "/images/projects/song-tournament.webp",
+    imagePosition: "70% top",
     accentColor: "#c026d3",
     status: "live",
     tags: ["music", "party", "multiplayer"],
     externalUrl: "https://song-tournament.netlify.app",
+  },
+  {
+    slug: "morning-rounds",
+    title: "Morning Rounds",
+    description:
+      "Your daily puzzle circuit in one place. Tap through Wordle, Worldle, Framed and friends, or open them all at once.",
+    image: "/images/projects/morning-rounds.webp",
+    accentColor: "#c0622b",
+    status: "live",
+    tags: ["games", "daily", "puzzle"],
   },
 ];

@@ -1,0 +1,245 @@
+// The starter list of daily games for Morning Rounds. Each one opens in its own tab,
+// so any site works here (embedding isn't needed). To swap a game, edit its url/name.
+
+/** The labelled boxes the grid is split into, in display order. */
+export const GROUPS = ["Words", "Music", "Games", "Misc"] as const;
+export type Group = (typeof GROUPS)[number];
+
+export interface Game {
+  id: string;
+  group: Group;
+  name: string;
+  url: string;
+  /** Short kind label shown on the card ("Word", "Geography"…). */
+  tag: string;
+  blurb: string;
+  /** One or two letters shown on the card's tile when the site has no favicon. */
+  monogram: string;
+}
+
+export const GAMES: Game[] = [
+  {
+    id: "wordle",
+    group: "Words",
+    name: "Wordle",
+    url: "https://www.nytimes.com/games/wordle/index.html",
+    tag: "Word",
+    blurb: "Guess the five-letter word in six tries.",
+    monogram: "W",
+  },
+  {
+    id: "connections",
+    group: "Words",
+    name: "Connections",
+    url: "https://www.nytimes.com/games/connections",
+    tag: "Word",
+    blurb: "Sort sixteen words into four hidden groups.",
+    monogram: "Co",
+  },
+  {
+    id: "strands",
+    group: "Words",
+    name: "Strands",
+    url: "https://www.nytimes.com/games/strands",
+    tag: "Word",
+    blurb: "Find the themed words snaking through a letter grid.",
+    monogram: "St",
+  },
+  {
+    id: "the-mini",
+    group: "Words",
+    name: "The Mini",
+    url: "https://www.nytimes.com/crosswords/game/mini",
+    tag: "Crossword",
+    blurb: "A five-by-five crossword you can finish with your coffee.",
+    monogram: "Mi",
+  },
+  {
+    id: "contexto",
+    group: "Words",
+    name: "Contexto",
+    url: "https://contexto.me/",
+    tag: "Word",
+    blurb: "Hunt the secret word by how close in meaning your guesses are.",
+    monogram: "Cx",
+  },
+  {
+    id: "worldle",
+    group: "Misc",
+    name: "Worldle",
+    url: "https://worldle.teuteuf.fr/",
+    tag: "Geography",
+    blurb: "Name the country from its silhouette.",
+    monogram: "Wo",
+  },
+  {
+    id: "globle",
+    group: "Misc",
+    name: "Globle",
+    url: "https://globle-game.com/",
+    tag: "Geography",
+    blurb: "Find the mystery country on a globe that runs hot and cold.",
+    monogram: "G",
+  },
+  {
+    id: "framed",
+    group: "Misc",
+    name: "Framed",
+    url: "https://framed.wtf/",
+    tag: "Movies",
+    blurb: "Guess the movie one still frame at a time.",
+    monogram: "F",
+  },
+  {
+    id: "bandle",
+    group: "Music",
+    name: "Bandle",
+    url: "https://www.bandle.app/",
+    tag: "Music",
+    blurb: "Name the song as the band adds instruments.",
+    monogram: "B",
+  },
+  {
+    id: "costcodle",
+    group: "Misc",
+    name: "Costcodle",
+    url: "https://costcodle.com/",
+    tag: "Prices",
+    blurb: "Guess the price of a Costco item, higher or lower.",
+    monogram: "$",
+  },
+  {
+    id: "krillion",
+    group: "Misc",
+    name: "Krillion",
+    url: "https://krillion.io/",
+    tag: "Prompts",
+    blurb: "Seven prompts a day: the rarer your answers, the deeper you dive.",
+    monogram: "K",
+  },
+  {
+    id: "spotle",
+    group: "Music",
+    name: "Spotle",
+    url: "https://spotle.io/",
+    tag: "Music",
+    blurb: "Guess the artist from their genre, debut and listeners.",
+    monogram: "Sp",
+  },
+  {
+    id: "heardle",
+    group: "Music",
+    name: "Heardle",
+    url: "https://www.heardledecades.com/",
+    tag: "Music",
+    blurb: "Name the song from its opening second, then a little more.",
+    monogram: "H",
+  },
+  {
+    id: "beadle",
+    group: "Music",
+    name: "Beadle",
+    url: "https://beadle.games/",
+    tag: "Music",
+    blurb: "Name the Beatles song from a short clip.",
+    monogram: "Be",
+  },
+  {
+    id: "songtosong",
+    group: "Music",
+    name: "SongToSong",
+    url: "https://songtosong.app/",
+    tag: "Music",
+    blurb: "Link two artists through their collaborations in as few steps as you can.",
+    monogram: "S2",
+  },
+  {
+    id: "harmonies",
+    group: "Music",
+    name: "Harmonies",
+    url: "https://harmonies.io/",
+    tag: "Music",
+    blurb: "Connections for music: sort the artists and songs into hidden groups.",
+    monogram: "Ha",
+  },
+  {
+    id: "musicle",
+    group: "Music",
+    name: "Musicle",
+    url: "https://musicle.app/",
+    tag: "Music",
+    blurb: "Hear a song and pick it from four options, with genre and decade flavors.",
+    monogram: "Mu",
+  },
+  {
+    id: "crosstune",
+    group: "Music",
+    name: "Crosstune",
+    url: "https://crosstune.io/",
+    tag: "Music",
+    blurb: "A crossword where every clue is about music.",
+    monogram: "Ct",
+  },
+  {
+    id: "mixtape-mixup",
+    group: "Music",
+    name: "Mixtape Mixup",
+    url: "https://tinywebplayground.com/projects/mixtape-mixup/",
+    tag: "Music",
+    blurb: "Name ten songs from a few seconds of tape, with three lifelines.",
+    monogram: "MM",
+  },
+  {
+    id: "pokedoku",
+    group: "Games",
+    name: "PokeDoku",
+    url: "https://pokedoku.com/",
+    tag: "Video games",
+    blurb: "Fill a 3×3 grid with Pokémon that fit both clues.",
+    monogram: "Pk",
+  },
+  {
+    id: "gamedle",
+    group: "Games",
+    name: "Gamedle",
+    url: "https://www.gamedle.wtf/",
+    tag: "Video games",
+    blurb: "Guess the video game from its cover, characters and clues.",
+    monogram: "Gd",
+  },
+  {
+    id: "daily-red",
+    group: "Games",
+    name: "Daily Red",
+    url: "https://dailyredgame.org/",
+    tag: "Video games",
+    blurb: "Take six random Pokémon into a battle against Red, fresh every day.",
+    monogram: "DR",
+  },
+  {
+    id: "loldle",
+    group: "Games",
+    name: "LoLdle",
+    url: "https://loldle.net/",
+    tag: "Video games",
+    blurb: "Guess the League of Legends champion from clues, quotes and emoji.",
+    monogram: "Lo",
+  },
+  {
+    id: "pokedle",
+    group: "Games",
+    name: "Pokédle",
+    url: "https://pokedle.net/",
+    tag: "Video games",
+    blurb: "Guess the Pokémon from silhouettes, blurry cards and clues.",
+    monogram: "Pd",
+  },
+];
+
+/** One color per group: it fills the group's box and the letter tiles of games without a favicon. */
+export const GROUP_COLORS: Record<Group, string> = {
+  Words: "#b5562f",
+  Music: "#8a5470",
+  Games: "#7d5a3a",
+  Misc: "#a0782a",
+};
