@@ -207,6 +207,15 @@ export const GAMES: Game[] = [
     blurb: "Guess the video game from its cover, characters and clues.",
     monogram: "Gd",
   },
+  {
+    id: "daily-red",
+    group: "Games",
+    name: "Daily Red",
+    url: "https://dailyredgame.org/",
+    tag: "Video games",
+    blurb: "Take six random Pokémon into a battle against Red, fresh every day.",
+    monogram: "DR",
+  },
 ];
 
 /** One color per group: it fills the group's box and the letter tiles of games without a favicon. */
