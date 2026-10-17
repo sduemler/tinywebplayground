@@ -1,22 +1,26 @@
 // The starter list of daily games for Morning Rounds. Each one opens in its own tab,
 // so any site works here (embedding isn't needed). To swap a game, edit its url/name.
 
+/** The labelled boxes the grid is split into, in display order. */
+export const GROUPS = ["Words", "Music", "Games", "Geography", "Misc"] as const;
+export type Group = (typeof GROUPS)[number];
+
 export interface Game {
   id: string;
+  group: Group;
   name: string;
   url: string;
-  /** Short kind label shown on the card ("Word", "Geography"…); also picks the tile color. */
+  /** Short kind label shown on the card ("Word", "Geography"…). */
   tag: string;
   blurb: string;
-  /** One or two letters shown on the card's tile. */
+  /** One or two letters shown on the card's tile when the site has no favicon. */
   monogram: string;
-  /** Set on games the player added themselves. */
-  custom?: boolean;
 }
 
 export const GAMES: Game[] = [
   {
     id: "wordle",
+    group: "Words",
     name: "Wordle",
     url: "https://www.nytimes.com/games/wordle/index.html",
     tag: "Word",
@@ -25,6 +29,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "connections",
+    group: "Words",
     name: "Connections",
     url: "https://www.nytimes.com/games/connections",
     tag: "Word",
@@ -33,6 +38,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "strands",
+    group: "Words",
     name: "Strands",
     url: "https://www.nytimes.com/games/strands",
     tag: "Word",
@@ -41,6 +47,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "the-mini",
+    group: "Words",
     name: "The Mini",
     url: "https://www.nytimes.com/crosswords/game/mini",
     tag: "Crossword",
@@ -49,6 +56,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "quordle",
+    group: "Words",
     name: "Quordle",
     url: "https://www.merriam-webster.com/games/quordle/",
     tag: "Word",
@@ -57,6 +65,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "waffle",
+    group: "Words",
     name: "Waffle",
     url: "https://wafflegame.net/daily",
     tag: "Word",
@@ -65,6 +74,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "squaredle",
+    group: "Words",
     name: "Squaredle",
     url: "https://squaredle.app/",
     tag: "Word",
@@ -73,6 +83,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "contexto",
+    group: "Words",
     name: "Contexto",
     url: "https://contexto.me/",
     tag: "Word",
@@ -81,6 +92,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "worldle",
+    group: "Geography",
     name: "Worldle",
     url: "https://worldle.teuteuf.fr/",
     tag: "Geography",
@@ -89,6 +101,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "globle",
+    group: "Geography",
     name: "Globle",
     url: "https://globle-game.com/",
     tag: "Geography",
@@ -97,6 +110,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "travle",
+    group: "Geography",
     name: "Travle",
     url: "https://travle.earth/",
     tag: "Geography",
@@ -105,6 +119,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "framed",
+    group: "Misc",
     name: "Framed",
     url: "https://framed.wtf/",
     tag: "Movies",
@@ -113,6 +128,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "bandle",
+    group: "Music",
     name: "Bandle",
     url: "https://www.bandle.app/",
     tag: "Music",
@@ -121,6 +137,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "costcodle",
+    group: "Misc",
     name: "Costcodle",
     url: "https://costcodle.com/",
     tag: "Prices",
@@ -129,6 +146,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "nerdle",
+    group: "Misc",
     name: "Nerdle",
     url: "https://nerdlegame.com/",
     tag: "Math",
@@ -137,24 +155,56 @@ export const GAMES: Game[] = [
   },
   {
     id: "immaculate-grid",
+    group: "Misc",
     name: "Immaculate Grid",
     url: "https://www.immaculategrid.com/",
     tag: "Sports",
     blurb: "Fill a baseball grid with players who match both clues.",
     monogram: "IG",
   },
+  {
+    id: "spotle",
+    group: "Music",
+    name: "Spotle",
+    url: "https://spotle.io/",
+    tag: "Music",
+    blurb: "Guess the artist from their genre, debut and listeners.",
+    monogram: "Sp",
+  },
+  {
+    id: "heardle",
+    group: "Music",
+    name: "Heardle",
+    url: "https://www.heardledecades.com/",
+    tag: "Music",
+    blurb: "Name the song from its opening second, then a little more.",
+    monogram: "H",
+  },
+  {
+    id: "pokedoku",
+    group: "Games",
+    name: "PokeDoku",
+    url: "https://pokedoku.com/",
+    tag: "Video games",
+    blurb: "Fill a 3×3 grid with Pokémon that fit both clues.",
+    monogram: "Pk",
+  },
+  {
+    id: "gamedle",
+    group: "Games",
+    name: "Gamedle",
+    url: "https://www.gamedle.wtf/",
+    tag: "Video games",
+    blurb: "Guess the video game from its cover, characters and clues.",
+    monogram: "Gd",
+  },
 ];
 
-/** Tile colors by tag, all from the site's warm palette. Unknown tags (custom games) use the fallback. */
-export const TAG_COLORS: Record<string, string> = {
-  Word: "#b5562f",
-  Crossword: "#9a4a2a",
-  Geography: "#6f7a3a",
-  Movies: "#7a4a5a",
+/** One color per group: it fills the group's box and the letter tiles of games without a favicon. */
+export const GROUP_COLORS: Record<Group, string> = {
+  Words: "#b5562f",
   Music: "#8a5470",
-  Prices: "#b8892b",
-  Math: "#a0782a",
-  Sports: "#5e6b4a",
+  Games: "#7d5a3a",
+  Geography: "#6f7a3a",
+  Misc: "#a0782a",
 };
-
-export const FALLBACK_COLOR = "#6b3a2e";
