@@ -4,6 +4,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { projects } from "../data/projects";
+
+// Newest first for the index modal. Reversing before the (stable) sort puts the
+// later registry entry first when two projects went up the same day.
+const indexEntries = [...projects]
+    .reverse()
+    .sort((a, b) => b.added.localeCompare(a.added))
+    .map((p) => ({
+        ...p,
+        href: p.externalUrl ?? `/projects/${p.slug}`,
+        addedLabel: new Date(`${p.added}T00:00:00Z`).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            timeZone: "UTC",
+        }),
+    }));
 ---
 
 <BaseLayout title="tinywebplayground">
@@ -14,7 +30,43 @@ import { projects } from "../data/projects";
                     >inywebplaygroun</span
                 ><span class="t-drop">d</span>
             </h1>
+            <button
+                type="button"
+                class="index-btn"
+                id="index-open"
+                aria-haspopup="dialog"
+                aria-controls="index-dialog">Index</button
+            >
         </header>
+
+        <dialog class="index-dialog" id="index-dialog" aria-labelledby="index-title">
+            <div class="index-head">
+                <h2 class="index-title" id="index-title">Index</h2>
+                <span class="index-count">{projects.length} projects</span>
+                <button
+                    type="button"
+                    class="index-close"
+                    id="index-close"
+                    aria-label="Close index">×</button
+                >
+            </div>
+            <ol class="index-list">
+                {indexEntries.map((p) => (
+                    <li class="index-item" style={`--item-accent: ${p.accentColor};`}>
+                        <a
+                            class="index-link"
+                            href={p.href}
+                            {...(p.externalUrl ? { target: "_blank", rel: "noopener" } : {})}
+                        >
+                            {p.title}
+                            {p.externalUrl && <span class="index-ext" aria-label="(opens its own site)"> ↗</span>}
+                        </a>
+                        <time class="index-date" datetime={p.added}>{p.addedLabel}</time>
+                        <p class="index-desc">{p.description}</p>
+                    </li>
+                ))}
+            </ol>
+        </dialog>
 
         <main class="hub">
             <div class="grid">
@@ -84,6 +136,162 @@ import { projects } from "../data/projects";
         text-decoration-color: var(--color-accent);
         text-decoration-thickness: 3px;
         text-underline-offset: 4px;
+    }
+
+    .index-btn {
+        margin-top: 1.25rem;
+        padding: 0.4rem 1.1rem;
+        min-height: 34px;
+        border: 2px solid var(--color-border);
+        border-radius: 999px;
+        background: var(--color-surface);
+        color: var(--color-text);
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        transition:
+            border-color var(--transition),
+            color var(--transition),
+            transform var(--transition);
+    }
+
+    .index-btn:hover {
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+        transform: translateY(-1px);
+    }
+
+    .index-btn:focus-visible,
+    .index-close:focus-visible,
+    .index-link:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+    }
+
+    .index-dialog {
+        width: min(640px, calc(100vw - 2rem));
+        max-height: min(80vh, 760px);
+        padding: 0;
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius);
+        background: var(--color-surface);
+        color: var(--color-text);
+        box-shadow: 0 16px 48px rgba(59, 42, 26, 0.25);
+        overflow: hidden;
+    }
+
+    .index-dialog[open] {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .index-dialog::backdrop {
+        background: rgba(59, 42, 26, 0.45);
+    }
+
+    :global(body:has(.index-dialog[open])) {
+        overflow: hidden;
+    }
+
+    .index-head {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
+        padding: 1rem 1rem 0.75rem 1.5rem;
+        border-bottom: 2px solid var(--color-border);
+        background: var(--color-accent-light);
+    }
+
+    .index-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .index-count {
+        color: var(--color-muted);
+        font-size: 0.9rem;
+    }
+
+    .index-close {
+        margin-left: auto;
+        align-self: center;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--color-muted);
+        font-size: 1.6rem;
+        line-height: 1;
+        cursor: pointer;
+        transition:
+            background var(--transition),
+            color var(--transition);
+    }
+
+    .index-close:hover {
+        background: var(--color-surface);
+        color: var(--color-accent);
+    }
+
+    .index-list {
+        list-style: none;
+        margin: 0;
+        padding: 0.25rem 1.5rem 1rem;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .index-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        column-gap: 1rem;
+        padding: 0.85rem 0 0.85rem 0.85rem;
+        border-bottom: 1px dashed var(--color-border);
+        border-left: 3px solid var(--item-accent);
+        margin: 0.5rem 0;
+    }
+
+    .index-item:last-child {
+        border-bottom: none;
+    }
+
+    .index-link {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        color: var(--color-text);
+        text-decoration: none;
+        transition: color var(--transition);
+    }
+
+    .index-link:hover {
+        color: var(--color-accent);
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 3px;
+    }
+
+    .index-ext {
+        color: var(--color-muted);
+        font-size: 0.9em;
+    }
+
+    .index-date {
+        color: var(--color-muted);
+        font-size: 0.85rem;
+        white-space: nowrap;
+        align-self: baseline;
+    }
+
+    .index-desc {
+        grid-column: 1 / -1;
+        margin: 0.2rem 0 0;
+        color: var(--color-muted);
+        font-size: 0.92rem;
+        line-height: 1.45;
     }
 
     .hub {
@@ -234,10 +442,46 @@ import { projects } from "../data/projects";
         .subscribe-form {
             flex-direction: column;
         }
+
+        .index-dialog {
+            max-height: 85vh;
+        }
+
+        .index-head {
+            padding-left: 1rem;
+        }
+
+        .index-list {
+            padding: 0.25rem 1rem 1rem;
+        }
+
+        .index-item {
+            grid-template-columns: 1fr;
+        }
+
+        .index-date {
+            grid-row: 2;
+            margin-top: 0.1rem;
+        }
     }
 </style>
 
 <script>
+    const indexDialog = document.getElementById(
+        "index-dialog",
+    ) as HTMLDialogElement;
+    document
+        .getElementById("index-open")!
+        .addEventListener("click", () => indexDialog.showModal());
+    document
+        .getElementById("index-close")!
+        .addEventListener("click", () => indexDialog.close());
+    // The dialog's children fill it edge to edge, so a click that lands on the
+    // dialog element itself is a click on the backdrop.
+    indexDialog.addEventListener("click", (e) => {
+        if (e.target === indexDialog) indexDialog.close();
+    });
+
     const form = document.getElementById("subscribe-form") as HTMLFormElement;
     const input = document.getElementById(
         "subscribe-email",

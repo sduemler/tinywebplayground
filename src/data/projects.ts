@@ -5,6 +5,8 @@ export interface Project {
   image: string;
   accentColor: string;
   status: "live" | "wip" | "coming-soon";
+  /** Day the project first went up on the site (YYYY-MM-DD), shown in the hub index. */
+  added: string;
   tags?: string[];
   imagePosition?: string;
   imageFit?: "cover" | "contain";
@@ -23,6 +25,7 @@ export const projects: Project[] = [
     image: "/images/projects/the-crossword.png",
     accentColor: "#2a3d5c",
     status: "live",
+    added: "2026-05-10",
     tags: ["puzzle", "collaborative", "realtime"],
   },
   {
@@ -32,6 +35,7 @@ export const projects: Project[] = [
     image: "/images/projects/eurorack.webp",
     accentColor: "#8b5e3c",
     status: "live",
+    added: "2026-03-26",
     tags: ["audio", "synth", "interactive"],
   },
   {
@@ -42,6 +46,7 @@ export const projects: Project[] = [
     image: "/images/projects/mixtape-mixup.webp",
     accentColor: "#e8a93a",
     status: "live",
+    added: "2026-04-25",
     tags: ["music", "game", "daily"],
   },
   {
@@ -52,6 +57,7 @@ export const projects: Project[] = [
     image: "/images/projects/how-long-to-watch.webp",
     accentColor: "#6b3a2e",
     status: "live",
+    added: "2026-03-21",
   },
   {
     slug: "historyofrock",
@@ -61,6 +67,7 @@ export const projects: Project[] = [
     image: "/images/projects/history-of-rock.webp",
     accentColor: "#2d5a27",
     status: "live",
+    added: "2026-03-22",
   },
   {
     slug: "osrs-pet-chance-guesser",
@@ -70,6 +77,7 @@ export const projects: Project[] = [
     image: "/images/projects/osrs-pet-chance-guesser.png",
     accentColor: "#2b2118",
     status: "live",
+    added: "2026-03-26",
     tags: ["osrs", "simulation", "rng"],
   },
   {
@@ -81,6 +89,7 @@ export const projects: Project[] = [
     imagePosition: "70% top",
     accentColor: "#4a2d6e",
     status: "live",
+    added: "2026-04-11",
     tags: ["game", "security", "humor"],
   },
   {
@@ -91,6 +100,7 @@ export const projects: Project[] = [
     image: "/images/projects/haiku.webp",
     accentColor: "#8b2020",
     status: "live",
+    added: "2026-04-12",
     tags: ["ai", "poetry", "humor"],
   },
   {
@@ -101,6 +111,7 @@ export const projects: Project[] = [
     image: "/images/projects/dice-roller.webp",
     accentColor: "#b8860b",
     status: "live",
+    added: "2026-04-12",
     tags: ["tabletop", "dice", "rpg"],
   },
   {
@@ -111,6 +122,7 @@ export const projects: Project[] = [
     image: "/images/projects/human-maintenance-guide.webp",
     accentColor: "#2e6b6b",
     status: "live",
+    added: "2026-04-19",
     tags: ["reference", "health", "lifestyle"],
   },
   {
@@ -121,6 +133,7 @@ export const projects: Project[] = [
     image: "/images/projects/samthensnowman.webp",
     accentColor: "#5BA4CF",
     status: "live",
+    added: "2026-05-04",
     tags: ["weather", "game", "interactive"],
   },
   {
@@ -131,6 +144,7 @@ export const projects: Project[] = [
     image: "/images/projects/drum-machine.webp",
     accentColor: "#c97b2e",
     status: "live",
+    added: "2026-05-16",
     tags: ["audio", "sequencer", "interactive"],
   },
   {
@@ -141,6 +155,7 @@ export const projects: Project[] = [
     image: "/images/projects/still-here.webp",
     accentColor: "#a85e2e",
     status: "live",
+    added: "2026-05-23",
     tags: ["data-viz", "demographics"],
     imagePosition: "center 65%",
   },
@@ -152,6 +167,7 @@ export const projects: Project[] = [
     image: "/images/projects/from-akeelah-to-z.webp",
     accentColor: "#3f72a4",
     status: "live",
+    added: "2026-06-27",
     tags: ["movies", "language", "data"],
   },
   {
@@ -162,6 +178,7 @@ export const projects: Project[] = [
     image: "/images/projects/typing-terror.svg",
     accentColor: "#a01b1b",
     status: "live",
+    added: "2026-06-27",
     tags: ["typing", "horror", "game"],
   },
   {
@@ -172,6 +189,7 @@ export const projects: Project[] = [
     image: "/images/projects/behind-the-counter.webp",
     accentColor: "#b8352d",
     status: "live",
+    added: "2026-08-22",
     tags: ["map", "japan", "food"],
   },
   {
@@ -182,6 +200,7 @@ export const projects: Project[] = [
     image: "/images/projects/philosopher-tcg.svg",
     accentColor: "#7a2222",
     status: "live",
+    added: "2026-08-29",
     tags: ["game", "cards", "collection"],
   },
   {
@@ -192,6 +211,7 @@ export const projects: Project[] = [
     image: "/images/projects/history-of-the-world.webp",
     accentColor: "#a0692e",
     status: "live",
+    added: "2026-09-30",
     tags: ["history", "timeline", "science"],
   },
   {
@@ -200,9 +220,10 @@ export const projects: Project[] = [
     description:
       "Everyone picks songs from their phone, then the group votes them through a bracket until one is crowned champion.",
     image: "/images/projects/song-tournament.webp",
-    imagePosition: "70% top",
+    imagePosition: "60% center",
     accentColor: "#c026d3",
     status: "live",
+    added: "2026-10-17",
     tags: ["music", "party", "multiplayer"],
     externalUrl: "https://song-tournament.netlify.app",
   },
@@ -214,6 +235,7 @@ export const projects: Project[] = [
     image: "/images/projects/morning-rounds.webp",
     accentColor: "#c0622b",
     status: "live",
+    added: "2026-10-17",
     tags: ["games", "daily", "puzzle"],
   },
 ];
