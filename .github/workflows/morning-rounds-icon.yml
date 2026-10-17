@@ -35,8 +35,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      # sharp comes with the production dependencies; skipping dev ones avoids building canvas
-      - run: npm ci --omit=dev --no-audit --no-fund
+      # sharp comes with the production dependencies; skipping dev ones avoids building canvas.
+      # `npm install`, not `npm ci`: the lockfile is written by npm 11 locally, and the runner's
+      # npm 10 `ci` rejects it as missing Linux-only optional packages. Only icon files are
+      # committed below, so any lockfile change made here never leaves the runner.
+      - run: npm install --omit=dev --no-audit --no-fund
 
       - run: npm run build-morning-rounds-icons
 
