@@ -15,7 +15,6 @@ const DEFAULT_TAGS: Record<Group, string> = {
   Words: "Word",
   Music: "Music",
   Games: "Video games",
-  Geography: "Geography",
   Misc: "Misc",
 };
 

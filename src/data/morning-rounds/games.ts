@@ -2,7 +2,7 @@
 // so any site works here (embedding isn't needed). To swap a game, edit its url/name.
 
 /** The labelled boxes the grid is split into, in display order. */
-export const GROUPS = ["Words", "Music", "Games", "Geography", "Misc"] as const;
+export const GROUPS = ["Words", "Music", "Games", "Misc"] as const;
 export type Group = (typeof GROUPS)[number];
 
 export interface Game {
@@ -55,33 +55,6 @@ export const GAMES: Game[] = [
     monogram: "Mi",
   },
   {
-    id: "quordle",
-    group: "Words",
-    name: "Quordle",
-    url: "https://www.merriam-webster.com/games/quordle/",
-    tag: "Word",
-    blurb: "Four Wordles at once, nine guesses to crack them all.",
-    monogram: "Q",
-  },
-  {
-    id: "waffle",
-    group: "Words",
-    name: "Waffle",
-    url: "https://wafflegame.net/daily",
-    tag: "Word",
-    blurb: "Swap letters around a waffle-shaped grid to fix six words.",
-    monogram: "Wa",
-  },
-  {
-    id: "squaredle",
-    group: "Words",
-    name: "Squaredle",
-    url: "https://squaredle.app/",
-    tag: "Word",
-    blurb: "Chain neighbouring letters to find every word in the square.",
-    monogram: "Sq",
-  },
-  {
     id: "contexto",
     group: "Words",
     name: "Contexto",
@@ -92,7 +65,7 @@ export const GAMES: Game[] = [
   },
   {
     id: "worldle",
-    group: "Geography",
+    group: "Misc",
     name: "Worldle",
     url: "https://worldle.teuteuf.fr/",
     tag: "Geography",
@@ -101,21 +74,12 @@ export const GAMES: Game[] = [
   },
   {
     id: "globle",
-    group: "Geography",
+    group: "Misc",
     name: "Globle",
     url: "https://globle-game.com/",
     tag: "Geography",
     blurb: "Find the mystery country on a globe that runs hot and cold.",
     monogram: "G",
-  },
-  {
-    id: "travle",
-    group: "Geography",
-    name: "Travle",
-    url: "https://travle.earth/",
-    tag: "Geography",
-    blurb: "Plot the shortest overland route between two countries.",
-    monogram: "Tr",
   },
   {
     id: "framed",
@@ -145,24 +109,6 @@ export const GAMES: Game[] = [
     monogram: "$",
   },
   {
-    id: "nerdle",
-    group: "Misc",
-    name: "Nerdle",
-    url: "https://nerdlegame.com/",
-    tag: "Math",
-    blurb: "Wordle, but the answer is an equation.",
-    monogram: "=",
-  },
-  {
-    id: "immaculate-grid",
-    group: "Misc",
-    name: "Immaculate Grid",
-    url: "https://www.immaculategrid.com/",
-    tag: "Sports",
-    blurb: "Fill a baseball grid with players who match both clues.",
-    monogram: "IG",
-  },
-  {
     id: "krillion",
     group: "Misc",
     name: "Krillion",
@@ -188,6 +134,24 @@ export const GAMES: Game[] = [
     tag: "Music",
     blurb: "Name the song from its opening second, then a little more.",
     monogram: "H",
+  },
+  {
+    id: "beadle",
+    group: "Music",
+    name: "Beadle",
+    url: "https://beadle.games/",
+    tag: "Music",
+    blurb: "Name the Beatles song from a short clip.",
+    monogram: "Be",
+  },
+  {
+    id: "songtosong",
+    group: "Music",
+    name: "SongToSong",
+    url: "https://songtosong.app/",
+    tag: "Music",
+    blurb: "Link two artists through their collaborations in as few steps as you can.",
+    monogram: "S2",
   },
   {
     id: "pokedoku",
@@ -216,6 +180,24 @@ export const GAMES: Game[] = [
     blurb: "Take six random Pokémon into a battle against Red, fresh every day.",
     monogram: "DR",
   },
+  {
+    id: "loldle",
+    group: "Games",
+    name: "LoLdle",
+    url: "https://loldle.net/",
+    tag: "Video games",
+    blurb: "Guess the League of Legends champion from clues, quotes and emoji.",
+    monogram: "Lo",
+  },
+  {
+    id: "pokedle",
+    group: "Games",
+    name: "Pokédle",
+    url: "https://pokedle.net/",
+    tag: "Video games",
+    blurb: "Guess the Pokémon from silhouettes, blurry cards and clues.",
+    monogram: "Pd",
+  },
 ];
 
 /** One color per group: it fills the group's box and the letter tiles of games without a favicon. */
@@ -223,6 +205,5 @@ export const GROUP_COLORS: Record<Group, string> = {
   Words: "#b5562f",
   Music: "#8a5470",
   Games: "#7d5a3a",
-  Geography: "#6f7a3a",
   Misc: "#a0782a",
 };
