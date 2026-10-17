@@ -163,6 +163,15 @@ export const GAMES: Game[] = [
     monogram: "IG",
   },
   {
+    id: "krillion",
+    group: "Misc",
+    name: "Krillion",
+    url: "https://krillion.io/",
+    tag: "Prompts",
+    blurb: "Seven prompts a day: the rarer your answers, the deeper you dive.",
+    monogram: "K",
+  },
+  {
     id: "spotle",
     group: "Music",
     name: "Spotle",
