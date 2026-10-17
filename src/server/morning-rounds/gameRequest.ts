@@ -177,7 +177,7 @@ export async function openRequestPr(token: string, req: GameRequest): Promise<st
     `| Description | ${req.blurb ? quiet(req.blurb) : "_none given_"} |`,
     "",
     "Check the link works and is a real daily game, tweak the tag, blurb or monogram if needed, then merge.",
-    "To give it the site's favicon (otherwise it shows its letter), run `npm run build-morning-rounds-icons` on this branch and commit the result.",
+    "The **Morning Rounds request icon** workflow adds the site's favicon to this PR. If it finds none, the game shows its letter.",
     "",
     `<!-- url-key: ${urlKey(req.url)} -->`,
   ].join("\n");

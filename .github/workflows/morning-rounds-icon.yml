@@ -1,0 +1,53 @@
+# Adds the favicon to a Morning Rounds "Request a game" PR, so the icon is in the diff
+# before merge. Request PRs come from game-request/* branches opened by
+# /api/morning-rounds/request. If the site has no usable icon nothing is committed and the
+# game shows its letter tile. This workflow's own push uses GITHUB_TOKEN, which doesn't
+# trigger workflows, so it can't loop.
+name: Morning Rounds request icon
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: morning-rounds-icon-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  icon:
+    # only request branches in this repo (never forks)
+    if: >-
+      startsWith(github.head_ref, 'game-request/') &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # sharp comes with the production dependencies; skipping dev ones avoids building canvas
+      - run: npm ci --omit=dev --no-audit --no-fund
+
+      - run: npm run build-morning-rounds-icons
+
+      - name: Commit the icon
+        run: |
+          git add public/images/morning-rounds/icons src/data/morning-rounds/icons.json
+          if git diff --cached --quiet; then
+            echo "No new icon to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Morning Rounds: add favicon for requested game"
+          git push
