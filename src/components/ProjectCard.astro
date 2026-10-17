@@ -10,12 +10,19 @@ interface Props {
 
 const { project, eager = false } = Astro.props;
 const statusLabel = { live: null, wip: 'WIP', 'coming-soon': 'Soon' }[project.status];
+// Projects hosted on their own site open in a new tab, and the card says where it goes.
+const externalHost = project.externalUrl ? new URL(project.externalUrl).host : null;
 ---
 
 <a
-  href={`/projects/${project.slug}`}
+  href={project.externalUrl ?? `/projects/${project.slug}`}
   class={styles.card}
   style={`--card-accent: ${project.accentColor};`}
+  {...(externalHost ? {
+    target: '_blank',
+    rel: 'noopener',
+    'aria-label': `${project.title} (opens ${externalHost} in a new tab)`,
+  } : {})}
 >
   {statusLabel && <span class={styles.status}>{statusLabel}</span>}
   {project.image ? (
@@ -40,6 +47,9 @@ const statusLabel = { live: null, wip: 'WIP', 'coming-soon': 'Soon' }[project.st
       <h2 class={styles.title} set:html={project.titleHtml} />
     ) : (
       <h2 class={styles.title}>{project.title}</h2>
+    )}
+    {externalHost && (
+      <p class={styles.external}>↗ Opens on its own site</p>
     )}
   </div>
 </a>

@@ -9,6 +9,9 @@ export interface Project {
   imagePosition?: string;
   imageFit?: "cover" | "contain";
   titleHtml?: string;
+  /** The project lives on its own site: the hub card links there (in a new tab) and says
+   *  so, and there is no /projects/<slug> page or manifest for it. */
+  externalUrl?: string;
 }
 
 export const projects: Project[] = [
@@ -190,5 +193,16 @@ export const projects: Project[] = [
     accentColor: "#a0692e",
     status: "live",
     tags: ["history", "timeline", "science"],
+  },
+  {
+    slug: "song-tournament",
+    title: "Song Tournament",
+    description:
+      "Everyone picks songs from their phone, then the group votes them through a bracket until one is crowned champion.",
+    image: "/images/projects/song-tournament.webp",
+    accentColor: "#c026d3",
+    status: "live",
+    tags: ["music", "party", "multiplayer"],
+    externalUrl: "https://song-tournament.netlify.app",
   },
 ];
