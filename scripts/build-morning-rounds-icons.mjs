@@ -5,7 +5,10 @@
 //   npm run build-morning-rounds-icons            (only games without an icon yet)
 //   npm run build-morning-rounds-icons -- --all   (refetch everything)
 //
-// Order of preference: the site's own <link rel="apple-touch-icon"/"icon"> (largest first),
+// A hand-made icon in src/data/morning-rounds/icon-overrides/<id>.svg (or .png) always wins and is
+// re-rendered on every run; use it for games whose site icon is missing or wrong.
+//
+// Otherwise, in order of preference: the site's own <link rel="apple-touch-icon"/"icon"> (largest first),
 // then /favicon.ico, then Google's favicon service. ICO files are only used when they hold a
 // PNG image, since sharp can't read the older BMP kind.
 import fs from "fs";
@@ -17,6 +20,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const GAMES_TS = path.join(ROOT, "src/data/morning-rounds/games.ts");
 const OUT_DIR = path.join(ROOT, "public/images/morning-rounds/icons");
 const LIST = path.join(ROOT, "src/data/morning-rounds/icons.json");
+const OVERRIDES = path.join(ROOT, "src/data/morning-rounds/icon-overrides");
 const SIZE = 96;
 const UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36";
@@ -128,7 +132,27 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 const have = new Set(fs.existsSync(LIST) ? JSON.parse(fs.readFileSync(LIST, "utf8")) : []);
 const ids = new Set(games.map((g) => g.id));
 
+/** Path to a hand-made icon for this game, if there is one. */
+function overrideFor(id) {
+  for (const ext of ["svg", "png"]) {
+    const file = path.join(OVERRIDES, `${id}.${ext}`);
+    if (fs.existsSync(file)) return file;
+  }
+  return null;
+}
+
 for (const game of games) {
+  const override = overrideFor(game.id);
+  if (override) {
+    const png = await sharp(override, { density: 300 })
+      .resize(SIZE, SIZE, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .png()
+      .toBuffer();
+    fs.writeFileSync(path.join(OUT_DIR, `${game.id}.png`), png);
+    have.add(game.id);
+    console.log(`✓  ${game.id}  ← ${path.relative(ROOT, override)}`);
+    continue;
+  }
   if (!refetchAll && have.has(game.id)) {
     console.log(`·  ${game.id} (already have it)`);
     continue;
