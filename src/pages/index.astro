@@ -30,13 +30,6 @@ const indexEntries = [...projects]
                     >inywebplaygroun</span
                 ><span class="t-drop">d</span>
             </h1>
-            <button
-                type="button"
-                class="index-btn"
-                id="index-open"
-                aria-haspopup="dialog"
-                aria-controls="index-dialog">Index</button
-            >
         </header>
 
         <dialog class="index-dialog" id="index-dialog" aria-labelledby="index-title">
@@ -75,6 +68,16 @@ const indexEntries = [...projects]
                 ))}
             </div>
         </main>
+
+        <div class="index-row">
+            <button
+                type="button"
+                class="index-btn"
+                id="index-open"
+                aria-haspopup="dialog"
+                aria-controls="index-dialog">Index</button
+            >
+        </div>
 
         <section class="subscribe">
             <h2 class="subscribe-title">Stay in the loop</h2>
@@ -138,8 +141,13 @@ const indexEntries = [...projects]
         text-underline-offset: 4px;
     }
 
+    .index-row {
+        display: flex;
+        justify-content: center;
+        padding: 0 1.5rem;
+    }
+
     .index-btn {
-        margin-top: 1.25rem;
         padding: 0.4rem 1.1rem;
         min-height: 34px;
         border: 2px solid var(--color-border);

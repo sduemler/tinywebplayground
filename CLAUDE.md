@@ -140,7 +140,7 @@ Wraps project pages. Uses `BaseLayout`. Provides:
 
 Hub cards show a small "WIP" / "Soon" badge for projects whose `status` isn't `live`.
 
-The hub also has an **Index** button under the title that opens a `<dialog>` listing every project (newest first by `added`, then later registry entries first on the same day) with its description and date. It's all in `src/pages/index.astro`, built from `projects.ts`, so new projects show up there automatically once they have an `added` date.
+The hub also has an **Index** button between the project grid and the newsletter signup that opens a `<dialog>` listing every project (newest first by `added`, then later registry entries first on the same day) with its description and date. It's all in `src/pages/index.astro`, built from `projects.ts`, so new projects show up there automatically once they have an `added` date.
 
 ---
 
