@@ -4,7 +4,8 @@ import type { APIRoute, GetStaticPaths } from "astro";
 import { projects } from "@data/projects";
 
 export const getStaticPaths: GetStaticPaths = () =>
-  projects.map((p) => ({ params: { slug: p.slug } }));
+  // external projects have no page here to install
+  projects.filter((p) => !p.externalUrl).map((p) => ({ params: { slug: p.slug } }));
 
 export const GET: APIRoute = ({ params }) => {
   const project = projects.find((p) => p.slug === params.slug)!;
