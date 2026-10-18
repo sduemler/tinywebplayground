@@ -1,7 +1,7 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { GROUPS, type GroupId } from "@data/when-to-plant/crops";
 import { clampView, COUNTIES, COUNTY_SHAPES, isZoomedIn, MAP_WIDTH, NATION_OUTLINE, STATE_BORDERS, zoomView } from "./data";
-import type { Phase } from "./engine";
+import { groupSize, phaseFromCounts, type Phase } from "./engine";
 import { GROUP_COLORS, GROUP_HATCH, MUTED_COLOR, REST_COLOR, SURFACE } from "./palette";
 import styles from "./WhenToPlant.module.css";
 
@@ -13,8 +13,11 @@ interface Props {
   onViewChange: (view: Box) => void;
   /** Phase per county, in COUNTY_SHAPES order. */
   phases: Phase[];
-  /** Filter mode: open crops of the chosen group per county (COUNTY_SHAPES order), and the group size. */
-  filter: { group: GroupId; counts: number[]; size: number } | null;
+  /**
+   * Filter mode: the chosen groups, and open outdoor crops per group (GROUPS order) for
+   * every county (COUNTY_SHAPES order).
+   */
+  filter: { groups: GroupId[]; counts: number[][] } | null;
   patterns: boolean;
   selected: string | null;
   onCountyClick: (fips: string) => void;
@@ -36,6 +39,23 @@ interface Gesture {
 }
 
 const GROUP_NAME = Object.fromEntries(GROUPS.map((g) => [g.id, g.name])) as Record<GroupId, string>;
+const GROUP_INDEX = Object.fromEntries(GROUPS.map((g, i) => [g.id, i])) as Record<GroupId, number>;
+
+/** Plain-language list: "herbs", "herbs and alliums", "leafy greens, herbs and alliums". */
+function listNames(groups: GroupId[]) {
+  const names = groups.map((g) => GROUP_NAME[g].toLowerCase());
+  return names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
+}
+
+/**
+ * Filter mode: which chosen group a county shows (the one with the largest share of its
+ * crops open, as on the main map), or null when none of them can go in.
+ */
+function filteredGroup(counts: number[], groups: GroupId[]): GroupId | null {
+  const masked = counts.map((n, i) => (groups.includes(GROUPS[i].id) ? n : 0));
+  const phase = phaseFromCounts(masked);
+  return phase === "rest" ? null : phase;
+}
 
 function fillFor(phase: Phase, patterns: boolean): string {
   if (phase === "rest") return REST_COLOR;
@@ -125,11 +145,13 @@ export default function UsMap({ view, onViewChange, phases, filter, patterns, se
   // Memoized so hovering and zoom frames don't repaint every county.
   const { fills, opacities } = useMemo(() => {
     if (filter) {
-      const color = patterns && GROUP_HATCH[filter.group] ? `url(#hatch-${filter.group})` : GROUP_COLORS[filter.group];
+      const shown = filter.counts.map((c) => filteredGroup(c, filter.groups));
       return {
-        fills: filter.counts.map((n) => (n > 0 ? color : MUTED_COLOR)),
-        // Stronger where more of the group is open.
-        opacities: filter.counts.map((n) => (n > 0 ? 0.45 + 0.55 * Math.min(1, n / filter.size) : 1)),
+        fills: shown.map((g) => (g ? fillFor(g, patterns) : MUTED_COLOR)),
+        // Stronger where more of that group is open.
+        opacities: shown.map((g, i) =>
+          g ? 0.45 + 0.55 * Math.min(1, filter.counts[i][GROUP_INDEX[g]] / groupSize(g)) : 1,
+        ),
       };
     }
     return { fills: phases.map((p) => fillFor(p, patterns)), opacities: null };
@@ -167,7 +189,7 @@ export default function UsMap({ view, onViewChange, phases, filter, patterns, se
         role="img"
         aria-label={
           filter
-            ? `Map of US counties showing where ${GROUP_NAME[filter.group].toLowerCase()} can be planted`
+            ? `Map of US counties showing where ${listNames(filter.groups)} can be planted`
             : "Map of US counties colored by the main group of plants that can go in the ground"
         }
         onClick={(e) => {
@@ -274,13 +296,19 @@ export default function UsMap({ view, onViewChange, phases, filter, patterns, se
           <strong>
             {COUNTIES[hover.fips].n}, {COUNTIES[hover.fips].s}
           </strong>
-          <span>
-            {filter
-              ? filter.counts[hoverIndex] > 0
-                ? `${filter.counts[hoverIndex]} of ${filter.size} ${GROUP_NAME[filter.group].toLowerCase()} can go in`
-                : `No ${GROUP_NAME[filter.group].toLowerCase()} right now`
-              : phaseLabel(phases[hoverIndex])}
-          </span>
+          {filter ? (
+            (() => {
+              const ready = filter.groups.filter((g) => filter.counts[hoverIndex][GROUP_INDEX[g]] > 0);
+              if (ready.length === 0) return <span>No {listNames(filter.groups)} right now</span>;
+              return ready.map((g) => (
+                <span key={g}>
+                  {GROUP_NAME[g]}: {filter.counts[hoverIndex][GROUP_INDEX[g]]} of {groupSize(g)} can go in
+                </span>
+              ));
+            })()
+          ) : (
+            <span>{phaseLabel(phases[hoverIndex])}</span>
+          )}
         </div>
       )}
     </div>

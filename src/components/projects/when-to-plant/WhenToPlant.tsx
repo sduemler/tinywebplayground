@@ -6,7 +6,6 @@ import {
   dayOfYear,
   formatDayLong,
   groupCounts,
-  groupSize,
   MONTH_TICKS,
   phaseFromCounts,
   type Phase,
@@ -53,7 +52,8 @@ export default function WhenToPlant() {
   const today = useMemo(() => dayOfYear(new Date()), []);
   const [day, setDay] = useState(today);
   const [playing, setPlaying] = useState(false);
-  const [filter, setFilter] = useState<GroupId | null>(null);
+  // Chosen groups (GROUPS order); empty = the normal "main group" map.
+  const [filter, setFilter] = useState<GroupId[]>([]);
   const [patterns, setPatterns] = useState(() => readStore().patterns ?? false);
   const [selected, setSelected] = useState<string | null>(() => {
     const saved = readStore().county;
@@ -77,11 +77,10 @@ export default function WhenToPlant() {
   // Open crop counts per group for every county on this day.
   const counts = useMemo(() => COUNTY_SHAPES.map((c) => groupCounts(COUNTIES[c.fips], day)), [day]);
   const phases = useMemo(() => counts.map(phaseFromCounts), [counts]);
-  const filterData = useMemo(() => {
-    if (!filter) return null;
-    const i = GROUPS.findIndex((g) => g.id === filter);
-    return { group: filter, counts: counts.map((c) => c[i]), size: groupSize(filter) };
-  }, [filter, counts]);
+  const filterData = useMemo(() => (filter.length ? { groups: filter, counts } : null), [filter, counts]);
+
+  const toggleGroup = (id: GroupId) =>
+    setFilter((f) => (f.includes(id) ? f.filter((g) => g !== id) : GROUPS.map((g) => g.id).filter((g) => g === id || f.includes(g))));
 
   const animateTo = useCallback((to: Box) => {
     if (animRef.current) cancelAnimationFrame(animRef.current);
@@ -204,12 +203,12 @@ export default function WhenToPlant() {
         </div>
       </header>
 
-      <div className={styles.chips} role="group" aria-label="Show one plant group">
+      <div className={styles.chips} role="group" aria-label="Choose plant groups to show">
         <button
           type="button"
           className={styles.chip}
-          aria-pressed={filter === null}
-          onClick={() => setFilter(null)}
+          aria-pressed={filter.length === 0}
+          onClick={() => setFilter([])}
         >
           All groups
         </button>
@@ -218,8 +217,8 @@ export default function WhenToPlant() {
             key={g.id}
             type="button"
             className={styles.chip}
-            aria-pressed={filter === g.id}
-            onClick={() => setFilter((f) => (f === g.id ? null : g.id))}
+            aria-pressed={filter.includes(g.id)}
+            onClick={() => toggleGroup(g.id)}
           >
             <span
               className={styles.swatch}
@@ -270,6 +269,7 @@ export default function WhenToPlant() {
           phaseLabel={phaseLabel}
         />
         <p className={styles.mapHint}>
+          {filter.length > 1 && "Where more than one chosen group is ready, the county shows the one with the most crops ready. "}
           {zoomed
             ? `Drag to move around. ${coarsePointer ? "Tap" : "Click"} a county for its planting list.`
             : coarsePointer
@@ -292,8 +292,8 @@ export default function WhenToPlant() {
               start indoors, and what's coming up next.
             </p>
             <p>
-              Colors show the group with the most crops ready in each county. Pick a group above to see everywhere it
-              can go in.
+              Colors show the group with the most crops ready in each county. Pick one or more groups above to see
+              everywhere they can go in.
             </p>
           </div>
         )}
