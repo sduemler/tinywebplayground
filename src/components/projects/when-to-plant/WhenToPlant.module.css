@@ -358,6 +358,22 @@
   height: auto;
   aspect-ratio: 975 / 610;
   touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Zoomed in, the map takes drags (and pinches) itself instead of scrolling the page. */
+.map[data-zoomed] {
+  touch-action: none;
+  cursor: grab;
+}
+
+.map[data-zoomed] .counties path {
+  cursor: inherit;
+}
+
+.map[data-dragging] {
+  cursor: grabbing;
 }
 
 .counties path {
@@ -445,6 +461,51 @@
 .zoomOut:hover {
   background: var(--wtp-ink);
   color: var(--wtp-kraft);
+}
+
+.zoomControls {
+  position: absolute;
+  z-index: 1;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--wtp-ink);
+  border-radius: 8px;
+  background: var(--wtp-kraft);
+  overflow: hidden;
+}
+
+.zoomControls button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--wtp-ink);
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.zoomControls button + button {
+  border-top: 1.5px solid var(--wtp-rule);
+}
+
+.zoomControls button:hover:not(:disabled) {
+  background: var(--wtp-ink);
+  color: var(--wtp-kraft);
+}
+
+.zoomControls button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.zoomControls button:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: -3px;
 }
 
 .mapHint {
@@ -790,6 +851,11 @@
   .zoomOut {
     top: 0.4rem;
     left: 0.4rem;
+  }
+
+  .zoomControls {
+    top: 0.4rem;
+    right: 0.4rem;
   }
 }
 

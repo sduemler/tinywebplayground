@@ -64,6 +64,33 @@ export function countiesOf(stateFips: string): { fips: string; name: string }[] 
 }
 
 export const FULL_VIEW: Box = [0, 0, MAP_WIDTH, MAP_HEIGHT];
+/** Closest zoom: about 14× the whole map. */
+export const MIN_VIEW_WIDTH = MAP_WIDTH / 14;
+
+export const isZoomedIn = (view: Box) => view[2] < MAP_WIDTH * 0.98;
+
+/**
+ * Keeps a dragged or zoomed view sensible: aspect ratio fixed, zoom between the whole
+ * map and MIN_VIEW_WIDTH, and the view's center somewhere over the map.
+ */
+export function clampView([x, y, w, h]: Box): Box {
+  const aspect = MAP_WIDTH / MAP_HEIGHT;
+  const width = Math.min(MAP_WIDTH, Math.max(MIN_VIEW_WIDTH, w));
+  if (width >= MAP_WIDTH * 0.98) return FULL_VIEW;
+  const height = width / aspect;
+  const cx = Math.min(MAP_WIDTH, Math.max(0, x + w / 2));
+  const cy = Math.min(MAP_HEIGHT, Math.max(0, y + h / 2));
+  return [cx - width / 2, cy - height / 2, width, height];
+}
+
+/** Zoom by `factor` (>1 = closer) keeping the map point `anchor` where it is on screen. */
+export function zoomView(view: Box, factor: number, anchor?: [number, number]): Box {
+  const [x, y, w, h] = view;
+  const [ax, ay] = anchor ?? [x + w / 2, y + h / 2];
+  const nw = w / factor;
+  const nh = h / factor;
+  return clampView([ax - ((ax - x) / w) * nw, ay - ((ay - y) / h) * nh, nw, nh]);
+}
 
 /** A viewBox that frames a state with some margin, keeping the map's aspect ratio. */
 export function viewForState(stateFips: string): Box {

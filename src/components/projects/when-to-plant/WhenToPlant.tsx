@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GROUPS, type GroupId } from "@data/when-to-plant/crops";
 import CountyPanel from "./CountyPanel";
-import { COUNTIES, COUNTY_SHAPES, FULL_VIEW, STATE_BY_FIPS, viewForState } from "./data";
+import { COUNTIES, COUNTY_SHAPES, FULL_VIEW, isZoomedIn, MIN_VIEW_WIDTH, viewForState, zoomView } from "./data";
 import {
   dayOfYear,
   formatDayLong,
@@ -22,6 +22,7 @@ const STORE_KEY = "when-to-plant";
 const PLAY_STEP_DAYS = 3;
 const PLAY_TICK_MS = 90;
 const ZOOM_MS = 450;
+const ZOOM_STEP = 1.8;
 
 function readStore(): { county?: string; patterns?: boolean } {
   try {
@@ -58,8 +59,7 @@ export default function WhenToPlant() {
     const saved = readStore().county;
     return saved && COUNTIES[saved] ? saved : null;
   });
-  const [zoomState, setZoomState] = useState<string | null>(() => selected?.slice(0, 2) ?? null);
-  const [view, setView] = useState<Box>(() => (zoomState ? viewForState(zoomState) : FULL_VIEW));
+  const [view, setView] = useState<Box>(() => (selected ? viewForState(selected.slice(0, 2)) : FULL_VIEW));
   const [canPlay] = useState(() => !reducedMotion());
   const [coarsePointer] = useState(() => window.matchMedia?.("(pointer: coarse)").matches ?? false);
   const viewRef = useRef(view);
@@ -103,34 +103,38 @@ export default function WhenToPlant() {
     animRef.current = requestAnimationFrame(step);
   }, []);
 
+  // Dragging and pinching set the view directly (and stop any zoom animation).
+  const setViewNow = useCallback((v: Box) => {
+    if (animRef.current) cancelAnimationFrame(animRef.current);
+    viewRef.current = v;
+    setView(v);
+  }, []);
+
+  const zoomed = isZoomedIn(view);
+
+  // From the ZIP search or the lists: select the county and frame its state.
   const focusCounty = useCallback(
     (fips: string) => {
       setSelected(fips);
-      const state = fips.slice(0, 2);
-      if (state !== zoomState) {
-        setZoomState(state);
-        animateTo(viewForState(state));
-      }
+      animateTo(viewForState(fips.slice(0, 2)));
     },
-    [zoomState, animateTo],
+    [animateTo],
   );
 
-  // On touch screens counties are too small to aim at from the national view: the first tap zooms.
+  // From the map. At the whole-map view a click also frames the county's state; on touch
+  // screens counties are too small to aim at from there, so the first tap only zooms.
+  // Once zoomed in (maybe dragged somewhere else), a click just selects.
   const onMapClick = useCallback(
     (fips: string) => {
-      if (!zoomState && coarsePointer) {
-        const state = fips.slice(0, 2);
-        setZoomState(state);
-        animateTo(viewForState(state));
-      } else focusCounty(fips);
+      if (isZoomedIn(viewRef.current)) setSelected(fips);
+      else if (coarsePointer) animateTo(viewForState(fips.slice(0, 2)));
+      else focusCounty(fips);
     },
-    [zoomState, coarsePointer, animateTo, focusCounty],
+    [coarsePointer, animateTo, focusCounty],
   );
 
-  const zoomOut = () => {
-    setZoomState(null);
-    animateTo(FULL_VIEW);
-  };
+  const zoomBy = (factor: number) => animateTo(zoomView(viewRef.current, factor));
+  const zoomOut = () => animateTo(FULL_VIEW);
 
   const isToday = day === today;
 
@@ -140,7 +144,7 @@ export default function WhenToPlant() {
         <h1 className={styles.date}>{formatDayLong(day)}</h1>
         <p className={styles.lede}>
           {isToday
-            ? "What can go in the ground this week, county by county."
+            ? "What can go in the ground this week by county."
             : "What can go in the ground around this date in an average year."}
         </p>
         <div className={styles.timeline}>
@@ -237,13 +241,27 @@ export default function WhenToPlant() {
       </div>
 
       <div className={styles.mapArea}>
-        {zoomState && (
+        {zoomed && (
           <button type="button" className={styles.zoomOut} onClick={zoomOut}>
             ← All states
           </button>
         )}
+        <div className={styles.zoomControls}>
+          <button
+            type="button"
+            onClick={() => zoomBy(ZOOM_STEP)}
+            disabled={view[2] <= MIN_VIEW_WIDTH + 0.5}
+            aria-label="Zoom in"
+          >
+            +
+          </button>
+          <button type="button" onClick={() => zoomBy(1 / ZOOM_STEP)} disabled={!zoomed} aria-label="Zoom out">
+            −
+          </button>
+        </div>
         <UsMap
           view={view}
+          onViewChange={setViewNow}
           phases={phases}
           filter={filterData}
           patterns={patterns}
@@ -252,11 +270,11 @@ export default function WhenToPlant() {
           phaseLabel={phaseLabel}
         />
         <p className={styles.mapHint}>
-          {zoomState
-            ? `${STATE_BY_FIPS.get(zoomState)?.name ?? "One state"}. ${coarsePointer ? "Tap" : "Click"} a county for its planting list.`
+          {zoomed
+            ? `Drag to move around. ${coarsePointer ? "Tap" : "Click"} a county for its planting list.`
             : coarsePointer
               ? "Tap a state to zoom in, then a county for its planting list."
-              : "Click a county for its planting list."}
+              : "Click a county for its planting list, or zoom in with + and drag to look around."}
         </p>
       </div>
 
