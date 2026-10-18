@@ -238,4 +238,15 @@ export const projects: Project[] = [
     added: "2026-10-17",
     tags: ["games", "daily", "puzzle"],
   },
+  {
+    slug: "when-to-plant",
+    title: "When To Plant",
+    description:
+      "A map of every US county showing which vegetables and herbs can go in the ground this week. Slide through the year to watch the seasons move.",
+    image: "/images/projects/when-to-plant.webp",
+    accentColor: "#2e7a1e",
+    status: "live",
+    added: "2026-10-18",
+    tags: ["gardening", "map", "data"],
+  },
 ];

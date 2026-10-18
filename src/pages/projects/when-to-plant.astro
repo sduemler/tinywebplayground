@@ -1,0 +1,23 @@
+---
+export const prerender = true;
+import ProjectLayout from "@layouts/ProjectLayout.astro";
+import { projects } from "@data/projects";
+import WhenToPlant from "@components/projects/when-to-plant/WhenToPlant";
+
+const project = projects.find((p) => p.slug === "when-to-plant")!;
+---
+
+<ProjectLayout project={project} subtitle="What to plant now by county">
+  <link slot="head" rel="preconnect" href="https://fonts.googleapis.com" />
+  <link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    slot="head"
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap"
+  />
+  <!-- client:only: the map opens on the visitor's own date, so there's nothing useful to prerender -->
+  <WhenToPlant client:only="react" />
+  <noscript>
+    <p>When To Plant needs JavaScript to draw the map and work out planting dates.</p>
+  </noscript>
+</ProjectLayout>
