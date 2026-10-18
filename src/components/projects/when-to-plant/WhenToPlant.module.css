@@ -1,0 +1,800 @@
+/* When To Plant: a seed-packet / almanac page. Slab wood-type headings (Alfa Slab
+   One), Nunito body, printed-ink colors on kraft paper. The map is the loud part;
+   everything around it stays quiet. */
+
+.root {
+  --wtp-ink: #3b2a1a;
+  --wtp-kraft: #f6ecd3;
+  --wtp-kraft-deep: #ead9b2;
+  --wtp-rule: #cdb98d;
+  --wtp-slab: "Alfa Slab One", Georgia, serif;
+
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  grid-template-areas:
+    "head  side"
+    "chips side"
+    "map   side";
+  grid-template-rows: auto auto 1fr;
+  column-gap: 1.75rem;
+  row-gap: 1rem;
+  color: var(--wtp-ink);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ── Masthead: the date is the headline ─────────────────────────────── */
+
+.masthead {
+  grid-area: head;
+  min-width: 0;
+}
+
+.date {
+  margin: 0;
+  font-family: var(--wtp-slab);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 6.5vw, 4.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--wtp-ink);
+  font-variant-numeric: lining-nums;
+}
+
+.lede {
+  margin: 0.5rem 0 1.1rem;
+  font-size: 1.05rem;
+  color: var(--color-muted);
+}
+
+.timeline {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.playButton {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--wtp-ink);
+  background: var(--wtp-ink);
+  color: var(--wtp-kraft);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.playButton svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.playButton[aria-pressed="true"] {
+  background: var(--wtp-kraft);
+  color: var(--wtp-ink);
+}
+
+.sliderWrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding-top: 9px;
+}
+
+.slider {
+  width: 100%;
+  margin: 0;
+  height: 22px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--wtp-kraft-deep);
+  box-shadow: inset 0 0 0 1px var(--wtp-rule);
+}
+
+.slider::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--wtp-kraft-deep);
+  box-shadow: inset 0 0 0 1px var(--wtp-rule);
+}
+
+/* The thumb is a seed: a teardrop of ink. */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  margin-top: -8px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--wtp-ink);
+  border: 3px solid var(--wtp-kraft);
+  box-shadow: 0 0 0 1px var(--wtp-ink);
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--wtp-ink);
+  border: 3px solid var(--wtp-kraft);
+  box-shadow: 0 0 0 1px var(--wtp-ink);
+}
+
+.slider:focus-visible {
+  outline: none;
+}
+
+.slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 1px var(--wtp-ink), 0 0 0 4px var(--color-accent);
+}
+
+.slider:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 1px var(--wtp-ink), 0 0 0 4px var(--color-accent);
+}
+
+.ticks {
+  position: relative;
+  height: 1.4rem;
+  margin: 0 11px;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.ticks > span {
+  position: absolute;
+  top: 0.15rem;
+  transform: translateX(-2px);
+  white-space: nowrap;
+}
+
+.ticks > span::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: -0.45rem;
+  width: 1px;
+  height: 0.35rem;
+  background: var(--wtp-rule);
+}
+
+.tickShort {
+  display: none;
+}
+
+.ticks .todayTick {
+  top: -1.35rem;
+  width: 2px;
+  height: 0.5rem;
+  background: var(--color-accent);
+  transform: translateX(-1px);
+}
+
+.ticks .todayTick::before {
+  display: none;
+}
+
+/* ── Buttons & inputs ───────────────────────────────────────────────── */
+
+.button,
+.buttonQuiet {
+  min-height: 38px;
+  padding: 0 0.95rem;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.button {
+  border: 2px solid var(--wtp-ink);
+  background: var(--wtp-ink);
+  color: var(--wtp-kraft);
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-rich);
+  border-color: var(--color-rich);
+}
+
+.buttonQuiet {
+  border: 2px solid var(--wtp-rule);
+  background: transparent;
+  color: var(--wtp-ink);
+}
+
+.buttonQuiet:hover:not(:disabled) {
+  border-color: var(--wtp-ink);
+}
+
+.button:disabled,
+.buttonQuiet:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.button:focus-visible,
+.buttonQuiet:focus-visible,
+.playButton:focus-visible,
+.chip:focus-visible,
+.zoomOut:focus-visible,
+.closeButton:focus-visible,
+.zipInput:focus-visible,
+.select:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ── Group chips: the legend and the filter ─────────────────────────── */
+
+.chips {
+  grid-area: chips;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 34px;
+  padding: 0 0.7rem;
+  border: 1.5px solid var(--wtp-rule);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--wtp-ink);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.chip:hover {
+  border-color: var(--wtp-ink);
+}
+
+.chip[aria-pressed="true"] {
+  border-color: var(--wtp-ink);
+  background: var(--wtp-ink);
+  color: var(--wtp-kraft);
+}
+
+.swatch {
+  flex: none;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgb(59 42 26 / 0.25);
+}
+
+.swatch[data-hatch="45"] {
+  background-image: repeating-linear-gradient(45deg, rgb(246 236 211 / 0.75) 0 1.5px, transparent 1.5px 4px) !important;
+}
+
+.swatch[data-hatch="135"] {
+  background-image: repeating-linear-gradient(135deg, rgb(246 236 211 / 0.75) 0 1.5px, transparent 1.5px 4px) !important;
+}
+
+.chip[aria-pressed="true"] .swatch {
+  box-shadow: 0 0 0 1.5px var(--wtp-kraft);
+}
+
+.legendRest {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.patternToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 34px;
+  margin-left: auto;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.patternToggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--wtp-ink);
+}
+
+/* ── Map ────────────────────────────────────────────────────────────── */
+
+.mapArea {
+  grid-area: map;
+  position: relative;
+  min-width: 0;
+}
+
+.mapWrap {
+  position: relative;
+  background: var(--wtp-kraft);
+  border: 2px solid var(--wtp-ink);
+  border-radius: 6px;
+  padding: 0.5rem;
+  overflow: hidden;
+}
+
+.map {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 975 / 610;
+  touch-action: manipulation;
+}
+
+.counties path {
+  stroke: var(--wtp-kraft);
+  stroke-width: 0.35px;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  transition: fill 120ms linear;
+}
+
+.stateBorders {
+  fill: none;
+  stroke: var(--wtp-ink);
+  stroke-width: 0.9px;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.nationOutline {
+  fill: none;
+  stroke: var(--wtp-ink);
+  stroke-width: 1.4px;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.selectedCounty {
+  fill: none;
+  stroke: var(--wtp-ink);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px var(--wtp-kraft));
+}
+
+.hoverCounty {
+  fill: none;
+  stroke: var(--wtp-ink);
+  stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 2;
+  transform: translate(12px, -110%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  background: var(--wtp-ink);
+  color: var(--wtp-kraft);
+  font-size: 0.8rem;
+  line-height: 1.3;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.tooltip strong {
+  font-weight: 700;
+}
+
+.zoomOut {
+  position: absolute;
+  z-index: 1;
+  top: 0.75rem;
+  left: 0.75rem;
+  min-height: 34px;
+  padding: 0 0.75rem;
+  border: 2px solid var(--wtp-ink);
+  border-radius: 8px;
+  background: var(--wtp-kraft);
+  color: var(--wtp-ink);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zoomOut:hover {
+  background: var(--wtp-ink);
+  color: var(--wtp-kraft);
+}
+
+.mapHint {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* ── Side column: finder + seed packet ──────────────────────────────── */
+
+.side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  align-self: start;
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+}
+
+.find {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.zipForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.zipInput {
+  flex: 1 1 6rem;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 0.75rem;
+  border: 2px solid var(--wtp-rule);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--wtp-ink);
+  font: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.zipInput::placeholder {
+  letter-spacing: 0;
+  color: var(--color-muted);
+}
+
+.pickRow {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.select {
+  flex: 1;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 0.5rem;
+  border: 2px solid var(--wtp-rule);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--wtp-ink);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.select:disabled {
+  opacity: 0.55;
+}
+
+.findMessage {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-rich);
+}
+
+.intro {
+  padding: 1.1rem 1.2rem;
+  border: 2px dashed var(--wtp-rule);
+  border-radius: 6px;
+}
+
+.intro h2 {
+  margin: 0 0 0.4rem;
+  font-family: var(--wtp-slab);
+  font-weight: 400;
+  font-size: 1.35rem;
+}
+
+.intro p {
+  margin: 0 0 0.6rem;
+  font-size: 0.92rem;
+  color: var(--color-muted);
+}
+
+.intro p:last-child {
+  margin-bottom: 0;
+}
+
+.panelSlot {
+  min-height: 0;
+  display: flex;
+}
+
+/* The county panel is a seed packet: a colored band, the name in wood type, the list. */
+.packet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  border: 2px solid var(--wtp-ink);
+  border-radius: 6px;
+  background: var(--wtp-kraft);
+  overflow: hidden;
+}
+
+.packetBand {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.5rem 0.45rem 1rem;
+  border-bottom: 2px solid var(--wtp-ink);
+  color: #fffaf0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-shadow: 0 1px 0 rgb(0 0 0 / 0.25);
+}
+
+.packetBand[data-rest] {
+  color: var(--wtp-ink);
+  text-shadow: none;
+}
+
+.closeButton {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: rgb(255 250 240 / 0.2);
+  color: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: rgb(255 250 240 / 0.4);
+}
+
+.packetBody {
+  padding: 0.9rem 1rem 1.1rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.countyName {
+  margin: 0;
+  font-family: var(--wtp-slab);
+  font-weight: 400;
+  font-size: 1.7rem;
+  line-height: 1.05;
+}
+
+.countyState {
+  color: var(--color-muted);
+}
+
+.countyFacts {
+  margin: 0.45rem 0 0;
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+
+.packetSection {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1.5px solid var(--wtp-rule);
+}
+
+.packetSection h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--wtp-slab);
+  font-weight: 400;
+  font-size: 1.05rem;
+}
+
+.cropGroup + .cropGroup {
+  margin-top: 0.7rem;
+}
+
+.cropGroup h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+
+.cropGroup ul,
+.plainList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cropGroup li,
+.plainList li {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.4rem;
+  padding: 0.2rem 0;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.cropName {
+  font-weight: 700;
+}
+
+.cropMeta {
+  color: var(--color-muted);
+}
+
+.cropNote {
+  flex-basis: 100%;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--color-muted);
+}
+
+.emptyNote {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.dataNote {
+  margin: 1.1rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1.5px dashed var(--wtp-rule);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+
+/* ── Narrow screens: one column, finder up top, packet as a bottom sheet ─ */
+
+@media (max-width: 900px) {
+  .root {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .side {
+    display: contents;
+  }
+
+  .masthead { order: 1; }
+  .find { order: 2; }
+  .chips { order: 3; }
+  .mapArea { order: 4; }
+  .intro { order: 5; }
+
+  /* Room to scroll the map up above the open sheet. */
+  .root[data-sheet] {
+    padding-bottom: 52vh;
+  }
+
+  .panelSlot {
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 50vh;
+    padding: 0 0.5rem;
+    pointer-events: none;
+  }
+
+  .packet {
+    pointer-events: auto;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -8px 24px rgb(59 42 26 / 0.25);
+  }
+
+  .patternToggle {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .lede {
+    font-size: 0.95rem;
+  }
+
+  .timeline {
+    flex-wrap: wrap;
+  }
+
+  .sliderWrap {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .playButton {
+    order: 1;
+  }
+
+  .timeline .buttonQuiet {
+    order: 2;
+  }
+
+  /* Month initials only: twelve full names don't fit. */
+  .tickLong {
+    display: none;
+  }
+
+  .tickShort {
+    display: inline;
+  }
+
+  .chip {
+    font-size: 0.8rem;
+    padding: 0 0.6rem;
+  }
+
+  .mapWrap {
+    padding: 0.25rem;
+  }
+
+  .zoomOut {
+    top: 0.4rem;
+    left: 0.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .counties path {
+    transition: none;
+  }
+}

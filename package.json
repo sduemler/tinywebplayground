@@ -20,7 +20,8 @@
     "gen-clues:finalize-shuffled": "node --env-file=.env scripts/gen-clues.mjs --finalize --shuffle",
     "build-behind-the-counter": "node scripts/build-behind-the-counter.mjs",
     "build-history-scroll": "node scripts/build-history-scroll.mjs",
-    "build-morning-rounds-icons": "node scripts/build-morning-rounds-icons.mjs"
+    "build-morning-rounds-icons": "node scripts/build-morning-rounds-icons.mjs",
+    "build-when-to-plant": "node scripts/build-when-to-plant.mjs"
   },
   "dependencies": {
     "@astrojs/netlify": "^8.2.3",
@@ -31,17 +32,23 @@
     "@vite-pwa/astro": "^1.2.0",
     "astro": "^7.2.4",
     "d3-force": "^3.0.0",
+    "d3-geo": "^3.1.1",
     "firebase": "^12.13.0",
     "leaflet": "^1.9.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "tone": "^15.1.22",
+    "topojson-client": "^3.1.0",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@types/d3-geo": "^3.1.1",
     "@types/leaflet": "^1.9.22",
+    "@types/topojson-client": "^3.1.5",
     "canvas": "^3.2.3",
-    "firebase-admin": "^12.7.0"
+    "firebase-admin": "^12.7.0",
+    "topojson-simplify": "^3.0.3",
+    "us-atlas": "^3.0.1"
   },
   "overrides": {
     "@vite-pwa/astro": {
