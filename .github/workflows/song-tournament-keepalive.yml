@@ -1,0 +1,38 @@
+# Keeps Song Tournament's Supabase project awake. Free Supabase projects pause after a week
+# with no activity, so every 3 days this reads one row from the app's database with the
+# public (anon) key, the same read any visitor's browser makes. It lives here rather than in
+# the app's own repo because GitHub turns off scheduled workflows in public repos that go 60
+# days without a commit, and this repo stays active. A failed read fails the run, and GitHub
+# emails about failed runs, so a pause or an expired key gets noticed.
+name: Song Tournament keep-alive
+
+on:
+  schedule:
+    - cron: "23 14 */3 * *"   # 14:23 UTC on days 1, 4, 7 … of each month (never more than 3 days apart)
+  workflow_dispatch:
+  pull_request:
+    paths: [.github/workflows/song-tournament-keepalive.yml]   # test changes to this file
+
+permissions: {}
+
+jobs:
+  ping:
+    # pull requests from forks get no secrets
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Read one room from the database
+        env:
+          SUPABASE_URL: ${{ secrets.SONG_TOURNAMENT_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SONG_TOURNAMENT_SUPABASE_ANON_KEY }}
+        run: |
+          status=$(curl -sS -o body.json -w '%{http_code}' --retry 3 --retry-delay 20 \
+            "$SUPABASE_URL/rest/v1/rooms?select=id&limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" -H "Authorization: Bearer $SUPABASE_ANON_KEY")
+          echo "HTTP $status"
+          if [ "$status" != "200" ]; then
+            cat body.json
+            echo "::error::Song Tournament database read failed (HTTP $status). If the project paused, restore it in the Supabase dashboard."
+            exit 1
+          fi
