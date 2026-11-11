@@ -22,6 +22,9 @@ const externalHost = project.externalUrl ? new URL(project.externalUrl).host : n
     target: '_blank',
     rel: 'noopener',
     'aria-label': `${project.title} (opens ${externalHost} in a new tab)`,
+    // Counted as a GoatCounter click event, since the visit itself happens off-site.
+    'data-goatcounter-click': `outbound/${project.slug}`,
+    'data-goatcounter-title': `${project.title} (hub card)`,
   } : {})}
 >
   {statusLabel && <span class={styles.status}>{statusLabel}</span>}

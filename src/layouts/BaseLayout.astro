@@ -27,6 +27,15 @@ const canonical = site ? new URL(Astro.url.pathname, site).href : null;
 const hasPreviewImage = !!image && !image.endsWith('.svg');
 const previewImage = hasPreviewImage ? image : '/pwa-512x512.png';
 const ogImage = site ? new URL(previewImage, site).href : null;
+
+// GoatCounter visit counts (no cookies; see "Analytics" in CLAUDE.md). Only on
+// Netlify production builds, so local builds and deploy previews never count.
+// The script is a pinned copy served from our own domain, not loaded from theirs.
+const goatcounterCode =
+  process.env.CONTEXT === 'production' &&
+  /^[a-z0-9-]+$/.test(import.meta.env.PUBLIC_GOATCOUNTER_CODE ?? '')
+    ? import.meta.env.PUBLIC_GOATCOUNTER_CODE
+    : null;
 ---
 
 <!doctype html>
@@ -55,6 +64,15 @@ const ogImage = site ? new URL(previewImage, site).href : null;
     <link rel="apple-touch-icon" href="/pwa-192x192.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    {goatcounterCode && (
+      <script
+        is:inline
+        async
+        src="/js/goatcounter-count.js"
+        data-goatcounter={`https://${goatcounterCode}.goatcounter.com/count`}
+        data-goatcounter-settings='{"referrer":""}'
+      ></script>
+    )}
     <slot name="head" />
   </head>
   <body>

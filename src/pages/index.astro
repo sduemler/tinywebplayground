@@ -49,7 +49,12 @@ const indexEntries = [...projects]
                         <a
                             class="index-link"
                             href={p.href}
-                            {...(p.externalUrl ? { target: "_blank", rel: "noopener" } : {})}
+                            {...(p.externalUrl ? {
+                                target: "_blank",
+                                rel: "noopener",
+                                "data-goatcounter-click": `outbound/${p.slug}`,
+                                "data-goatcounter-title": `${p.title} (index)`,
+                            } : {})}
                         >
                             {p.title}
                             {p.externalUrl && <span class="index-ext" aria-label="(opens its own site)"> ↗</span>}
