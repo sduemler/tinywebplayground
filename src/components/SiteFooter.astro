@@ -18,14 +18,18 @@
       ></path>
     </svg>
   </a>
+  <p class="footer-note">
+    Visits counted with <a href="https://www.goatcounter.com" target="_blank" rel="noopener noreferrer">GoatCounter</a>, no cookies. Just want to see what people like :)
+  </p>
 </footer>
 
 <style>
   .site-footer {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.4rem 0.75rem;
     padding: 1.25rem 1.5rem;
     background: var(--color-accent-light);
     border-top: 2px solid var(--color-border);
@@ -44,5 +48,24 @@
   .footer-github:hover {
     color: var(--color-accent);
     text-decoration: none;
+  }
+
+  /* Its own row under the © line; wraps onto more lines on narrow screens. */
+  .footer-note {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  .footer-note a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color var(--transition);
+  }
+
+  .footer-note a:hover {
+    color: var(--color-accent);
   }
 </style>

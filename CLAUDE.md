@@ -232,6 +232,18 @@ The footer is the shared `src/components/SiteFooter.astro` component. `ProjectLa
 
 ---
 
+## Analytics (GoatCounter)
+
+Site-wide visit counts per page come from **GoatCounter** (hosted, free, no cookies, no stored IPs). The goal is small-web and minimal: only "how many people visit the site and each project." Don't add other trackers or collect more without asking.
+
+- **Script:** `public/js/goatcounter-count.js` is a pinned copy of GoatCounter's `count.js`, served from our own domain so no third-party code runs on the site. `BaseLayout.astro` loads it only when `process.env.CONTEXT === 'production'` (Netlify production deploys) **and** `PUBLIC_GOATCOUNTER_CODE` is set, so local builds/dev and deploy previews never count. To update the script, re-download `https://gc.zgo.at/count.js`, read the diff, and replace the file.
+- **Referrers aren't sent:** `data-goatcounter-settings='{"referrer":""}'` stops the script from sending them at all. The dashboard's Settings → Data collection should also have browsers, systems, locations, languages, screen sizes and referrers off, with Sessions on (that's what gives unique-visitor counts).
+- **External projects** (cards with `externalUrl`) carry `data-goatcounter-click="outbound/<slug>"` on the hub card and the Index link, so leaving for them is counted as an event.
+- **Footer note:** `SiteFooter.astro` says "Visits counted with GoatCounter, no cookies…". Keep it if the analytics stay; remove it if they go.
+- To exclude your own visits, open any page with `#toggle-goatcounter` once per browser.
+
+---
+
 ## Presets Pattern (HowLongToWatch)
 
 The app ships with 18 hardcoded preset collections (e.g., Harry Potter, MCU, Director filmographies) defined in `presets-data.ts`. Each preset is an array of TMDB IDs + media type. This is a useful pattern for future projects that need curated starter sets.
@@ -300,6 +312,7 @@ Any new eurorack module you add **must** follow this pattern.
 - `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET` — Required for Mixtape Mixup's `/api/music/*` routes (Spotify client-credentials flow; Deezer needs no key). They're for an app owned by someone else, whose Premium keeps it working; if it lapses the API stops, and the fallback is the shelved Deezer plan in `.claude/plans/mixtape-mixup-deezer.md` (local, untracked).
 - `PUBLIC_FIREBASE_API_KEY`, `PUBLIC_FIREBASE_AUTH_DOMAIN`, `PUBLIC_FIREBASE_PROJECT_ID`, `PUBLIC_FIREBASE_STORAGE_BUCKET`, `PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `PUBLIC_FIREBASE_APP_ID` — Client-side Firebase config for CROSSWORLD (public by design).
 - `GITHUB_GAME_REQUEST_TOKEN` — Fine-grained GitHub token for Morning Rounds' "Request a game" form, scoped to only `sduemler/tinywebplayground` with **Contents: read & write** and **Pull requests: read & write**. Server-only (Netlify env var, never `PUBLIC_`). Without it requests return "not switched on yet".
+- `PUBLIC_GOATCOUNTER_CODE` — The GoatCounter site code (the `<code>` in `<code>.goatcounter.com`). Public by design. Without it no analytics script is added (see Analytics above).
 - `PUBLIC_CARTO_BASEMAPS_KEY` — CARTO basemaps key for the Behind the Counter map (free non-commercial key from carto.com/basemaps/apikey; public by design, restrict it to the site's domain in CARTO's dashboard). Without it the map uses plain OSM tiles.
 
 ---
